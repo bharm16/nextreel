@@ -32,7 +32,7 @@ class AdvancedSearchInput:
         self.runtime_from = None
         self.runtime_to = None
         # self.sound_mix = None
-        self.count = None
+        self.count = 1
         self.sort = None
 
     def to_query_string(self):
@@ -91,7 +91,9 @@ class AdvancedSearchInput:
             query += f"&runtime_to={quote(str(self.runtime_to))}"
         # if self.sound_mix is not None:
         #     query += f"&sound_mix={quote(self.sound_mix)}"
-        if self.count is not None:
+        # if self.count is not None:
+        #     query += f"&count={quote(str(self.count))}"
+        if self.count == 1:
             query += f"&count={quote(str(self.count))}"
         if self.sort is not None:
             query += f"&sort={quote(self.sort)}"
