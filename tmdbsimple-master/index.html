@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IMDB Advanced Search</title>
+
+    <!-- Assuming you are using Bootstrap 4 for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Advanced Search</h1>
+
+        <div class="row">
+            <div class="col-3">
+                <input name="release_date-min" maxlength="11" class="form-control" control-id="ControlID-18">
+            </div>
+            &nbsp;to&nbsp;
+            <div class="col-3">
+                <input name="release_date-max" maxlength="11" class="form-control" control-id="ControlID-19">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="clause">
+                    <div class="label">
+                        <h3>
+                            Number of Votes&nbsp;
+                            <i class="far fa-question-circle text-light text-small"
+                                title="To restrict your search by number of votes, enter a minimum value in the first box to get titles with more than that number of votes, and/or a maximum value in the second box to get titles with less than that number of votes. Remember, neither is required, so if you want only titles that have at least 1000 votes, all you have to enter is 1000 in the first box, and you can leave the maximum box blank. We do not include rating counts less than five."></i>
+                        </h3>
+                    </div>
+                    <div class="inputs">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-5">
+                                <input name="num_votes-min" class="form-control" type="number" min="0" control-id="ControlID-22">
+                            </div>
+                            <span>&nbsp;to&nbsp;</span>
+                            <div class="col-lg-3 col-sm-5">
+                                <input name="num_votes-max" class="form-control" type="number" min="0" control-id="ControlID-23">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assuming you are using Font Awesome for the question mark icon -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <!-- Include Bootstrap JS at the end of the body -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
