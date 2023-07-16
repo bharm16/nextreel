@@ -1,5 +1,4 @@
-from tmdbsimple.imdbAPIAdvancedSearch import AdvancedSearchInput
-from createSession import api_key
+from scripts.imdbAPIAdvancedSearch import AdvancedSearchInput
 
 search_input = AdvancedSearchInput()
 search_input.title = "The Matrix"

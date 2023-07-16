@@ -1,7 +1,7 @@
 from flask import Flask, request
 from bs4 import BeautifulSoup
 from urllib.parse import quote
-from tmdbsimple.imdbAPIAdvancedSearch import AdvancedSearchInput
+from scripts.imdbAPIAdvancedSearch import AdvancedSearchInput
 
 app = Flask(__name__)
 
