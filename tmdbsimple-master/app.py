@@ -1,6 +1,8 @@
 import psycopg2
 import random
 import requests
+
+from scripts.getGenres import get_unique_genres, conn
 from tmdbsimple import Movies
 import tmdbsimple as tmdb
 import json
@@ -8,6 +10,7 @@ from flask import render_template, Flask
 
 app = Flask(__name__)
 tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
+
 
 def get_db_connection():
     conn = psycopg2.connect(
@@ -19,6 +22,7 @@ def get_db_connection():
     )
     return conn
 
+
 def execute_sql_query(conn, sql):
     cur = conn.cursor()
     cur.execute(sql)
@@ -26,6 +30,7 @@ def execute_sql_query(conn, sql):
     column_names = [desc[0] for desc in cur.description]
     dict_rows = [dict(zip(column_names, row)) for row in rows]
     return dict_rows
+
 
 def execute_sql_query_with_random_tconst(sql_template):
     conn = get_db_connection()
@@ -42,6 +47,7 @@ def execute_sql_query_with_random_tconst(sql_template):
             dict_rows = []
     conn.close()
     return dict_rows
+
 
 @app.route('/')
 def home():
@@ -76,6 +82,14 @@ def home():
     print(poster_path)
 
     return render_template('home.html', rows=rows, poster_path=poster_path)
+
+
+@app.route('/setFilters')
+def setFilters():
+    conn = get_db_connection()
+    genres = get_unique_genres(conn)
+    return render_template('setFilters.html', genres=genres)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
