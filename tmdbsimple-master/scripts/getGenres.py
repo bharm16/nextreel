@@ -42,8 +42,8 @@ conn = get_db_connection()
 
 # Fetch and print all unique genres
 unique_genres = get_unique_genres(conn)
-for genre in unique_genres:
-    print(genre)
+# for genre in unique_genres:
+#print(genre)
 
 # Close the database connection
 conn.close()

@@ -5,22 +5,25 @@
     </head>
     <body>
         <h1>Movie Genres</h1>
-        <div class="form-group">
-            <label for="mood_category2"><b>Genre</b></label>
-            <div class="form-check mb-3">
-                <input class="form-check-input genre-checkbox" type="checkbox" id="checkAllGenres" control-id="ControlID-7">
-                <label class="form-check-label" for="mood_category2">
-                    Select / Unselect All (If no genre is selected, movies from all genres will be shown.)
-                </label>
-            </div>
-            {% for genre in genres %}
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input genre-checkbox" type="checkbox" value="{{ genre }}" name="mood_category2[]" control-id="ControlID-{{ loop.index+7 }}">
+        <form method="POST" action="{{ url_for('setFilters') }}">
+            <div class="form-group">
+                <label for="mood_category2"><b>Genre</b></label>
+                <div class="form-check mb-3">
+                    <input class="form-check-input genre-checkbox" type="checkbox" id="checkAllGenres" control-id="ControlID-7">
                     <label class="form-check-label" for="mood_category2">
-                        {{ genre.title() }}
+                        Select / Unselect All (If no genre is selected, movies from all genres will be shown.)
                     </label>
                 </div>
-            {% endfor %}
-        </div>
+                {% for genre in genres %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input genre-checkbox" type="checkbox" value="{{ genre }}" name="mood_category2[]" control-id="ControlID-{{ loop.index+7 }}">
+                        <label class="form-check-label" for="mood_category2">
+                            {{ genre.title() }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Apply Filters</button>
+        </form>
     </body>
 </html>

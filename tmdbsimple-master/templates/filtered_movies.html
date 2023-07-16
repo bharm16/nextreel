@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filtered Movies</title>
+</head>
+<body>
+    <h1>Filtered Movies</h1>
+    <ul>
+        {% for row in rows %}
+            <li>
+                {% for key, value in row.items() %}
+                    <p>{{ key }}: {{ value }}</p>
+                {% endfor %}
+                <h2>Movie Poster</h2>
+                <img src="https://image.tmdb.org/t/p/w500{{ row.poster_path }}" alt="Movie poster" style="width:300px;height:200px;">
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/setFilters" class="btn btn-primary">Set Filters</a>
+</body>
+</html>
