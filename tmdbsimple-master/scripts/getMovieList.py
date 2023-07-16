@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 
-# API_KEY = '89b32847c0525854de030aea3a8c5d9d'  # Replace 'your_api_key' with your actual TMDB API key
+API_KEY = '1ce9398920594a5521f0d53e9b33c52f'  # Replace 'your_api_key' with your actual TMDB API key
 # API_KEY = 'k_0vtefojw'
 tmdb.API_KEY = API_KEY
 

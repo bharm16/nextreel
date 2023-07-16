@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>Movie Data</h1>
+        <ul>
+            {% for row in rows %}
+                <li>{{ row }}</li>
+            {% endfor %}
+        </ul>
+        <form method="GET">
+            <button type="submit">Random Movie</button>
+        </form>
+        <h2>Movie Poster</h2>
+        <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" style="width:300px;height:200px;">
+    </body>
+</html>

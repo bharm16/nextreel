@@ -14,8 +14,9 @@ See:
 
 import os
 
-# API_KEY = os.environ.get('TMDB_API_KEY') or '89b32847c0525854de030aea3a8c5d9d'
-API_KEY = os.environ.get('TMDB_API_KEY') or 'k_0vtefojw'
-USERNAME = os.environ.get('TMDB_USERNAME') or 'bharm16'
-PASSWORD = os.environ.get('TMDB_PASSWORD') or '&NuTfDKGh0v3>'
-SESSION_ID = os.environ.get('TMDB_SESSION_ID') or '9dda1966677ccd739156442ffba09047db32a541'
+import requests
+
+API_KEY = os.environ.get('TMDB_API_KEY') or '1ce9398920594a5521f0d53e9b33c52f'
+USERNAME = os.environ.get('TMDB_USERNAME') or 'bharm01'
+PASSWORD = os.environ.get('TMDB_PASSWORD') or 'dogtej-xapqeB-gyqvo7'
+SESSION_ID = os.environ.get('TMDB_SESSION_ID') or 'f33501a3e1de5d559f16e1baa98bcd839cc143c2'

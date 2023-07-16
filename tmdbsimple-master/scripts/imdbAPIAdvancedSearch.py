@@ -1,7 +1,7 @@
 from urllib.parse import quote
 
 
-api_key = "k_0vtefojw"
+api_key = "1ce9398920594a5521f0d53e9b33c52f"
 
 class AdvancedSearchInput:
     def __init__(self):

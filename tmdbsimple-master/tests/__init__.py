@@ -16,8 +16,8 @@ Use the following command to run all the tests:
 """
 Either place your API_KEY in the following constant:
 """
-# API_KEY = '89b32847c0525854de030aea3a8c5d9d'
-API_KEY = 'k_0vtefojw'
+API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
+#API_KEY = 'k_0vtefojw'
 
 """
 or include it in a keys.py file.

@@ -40,6 +40,8 @@ def execute_sql_query_with_random_tconst(sql_template):
 
         # Execute the SQL query
         rows = execute_sql_query(conn, sql)
+        if rows is None:  # Add this check
+            rows = []
 
     # Print the result
     for row in rows:
@@ -68,9 +70,6 @@ sql_template = """
     WHERE
         tb.tconst = '{tconst}' AND tb.titleType = 'movie';
 """
-
-
-
 
 
 execute_sql_query_with_random_tconst(sql_template)
