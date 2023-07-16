@@ -74,7 +74,8 @@ def home():
             INNER JOIN
             imdb_info.public.tmdb_info AS ti ON tb.primaryTitle = ti.original_title
             WHERE
-            tb.tconst = '{tconst}' AND tb.titleType = 'movie';
+            tb.tconst = '{tconst}' AND tb.titleType = 'movie'
+            LIMIT 1;
         """
 
     rows = execute_sql_query_with_random_tconst(sql_template)
