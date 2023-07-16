@@ -1,20 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Home</title>
-    </head>
-    <body>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
         <h1>Movie Data</h1>
-        <ul>
+        <ul class="list-group">
             {% for row in rows %}
-                <li>{{ row }}</li>
+            <li class="list-group-item">{{ row }}</li>
             {% endfor %}
         </ul>
-        <form method="GET">
-            <button type="submit">Random Movie</button>
-        </form>
         <h2>Movie Poster</h2>
-        <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" style="width:300px;height:200px;">
-        <a href="/setFilters" class="btn btn-primary">Set Filters</a>
-    </body>
+        <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" class="img-fluid" style="max-width: 300px;">
+
+        <div class="d-flex justify-content-center">
+            <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
+            <form method="GET">
+                <button type="submit" class="btn btn-primary mx-2">Random Movie</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
 </html>
