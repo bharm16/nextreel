@@ -32,6 +32,17 @@
         .card {
             border-radius: 20px;
         }
+
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .info-content {
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
@@ -45,30 +56,34 @@
         {% endfor %}
         <div class="row">
             <div class="col-md-6">
-                <div class="card p-4">
-                    <ul class="list-group">
-                        {% for row in rows %}
-                            <li class="list-group-item">
-                                <p>IMDB ID: {{ row.tconst }}</p>
-                                <p>Year: {{ row.startyear }}</p>
-                                <p>Runtime: {{ row.runtimeminutes }} mins</p>
-                                <p>Genres: {{ row.genres|join(', ') }}</p>
-                                <p>IMDB Rating: {{ row.averagerating }}</p>
-                                <p>Num Votes: {{ row.numvotes }}</p>
-                                <p>TMDB ID: {{ row.id }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="d-flex justify-content-center">
-                        <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
-                        <form method="GET">
-                            <button type="submit" class="btn btn-primary mx-2">Random Movie</button>
-                        </form>
+                <div class="card p-4 h-100">
+                    <div class="info-box">
+                        <div class="info-content">
+                            <ul class="list-group">
+                                {% for row in rows %}
+                                    <li class="list-group-item">
+                                        <p>IMDB ID: {{ row.tconst }}</p>
+                                        <p>Year: {{ row.startyear }}</p>
+                                        <p>Runtime: {{ row.runtimeminutes }} mins</p>
+                                        <p>Genres: {{ row.genres|join(', ') }}</p>
+                                        <p>IMDB Rating: {{ row.averagerating }}</p>
+                                        <p>Num Votes: {{ row.numvotes }}</p>
+                                        <p>TMDB ID: {{ row.id }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
+                            <form method="GET">
+                                <button type="submit" class="btn btn-primary mx-2">Random Movie</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 poster-col">
-                <div class="card p-4">
+                <div class="card p-4 h-100">
                     <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" class="img-fluid rounded poster-image">
                 </div>
             </div>

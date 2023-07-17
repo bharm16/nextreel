@@ -1,6 +1,8 @@
 import requests
 import json
 
+from tmdbsimple.createSession import request_token
+
 API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
 
 
@@ -39,6 +41,7 @@ def create_session_id(api_key, request_token):
 
 
 REQUEST_TOKEN = generate_request_token(API_KEY)
+print(request_token)
 VALID_LOGIN = validate_with_login(API_KEY, REQUEST_TOKEN, "bharm01", "dogtej-xapqeB-gyqvo7")
 
 if VALID_LOGIN:

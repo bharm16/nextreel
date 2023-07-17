@@ -6,6 +6,48 @@
     <body>
         <h1>Movie Genres</h1>
         <form method="POST" action="{{ url_for('setFilters') }}">
+
+            <!-- Year filter -->
+            <div class="form-group">
+                <label for="mood_year1"><b>Year</b> (eg. 2013-2023)</label>
+                <div class="input-group">
+                    <input type="number" name="mood_year1" id="mood_year1" class="form-control" value="1900" min="1900" max="2023" required="" control-id="ControlID-1">
+                    <input type="number" name="mood_year2" id="mood_year2" class="form-control" value="2023" min="1900" max="2023" required="" control-id="ControlID-2">
+                </div>
+            </div>
+
+            <!-- IMDb Score filter -->
+            <div class="form-group">
+                <label for="mood_imdb_rating"><b>IMDb Score</b></label>
+                <select class="form-control" name="mood_imdb_rating" id="mood_imdb_rating" control-id="ControlID-5">
+                    <option value="90">rated over 9</option>
+                    <option value="85">rated over 8.5</option>
+                    <option value="80">rated over 8</option>
+                    <option value="75">rated over 7.5</option>
+                    <option value="70" selected="">rated over 7</option>
+                    <option value="65">rated over 6.5</option>
+                    <option value="60">rated over 6</option>
+                    <option value="3">ignore this filter</option>
+                </select>
+            </div>
+
+            <!-- Votes filter -->
+            <div class="form-group">
+                <label for="mood_imdb_users"><b>Votes</b></label>
+                <select class="form-control" name="mood_imdb_users" id="mood_imdb_users" control-id="ControlID-6">
+                    <option value="1000000">more than 1,000,000</option>
+                    <option value="500000">more than 500,000</option>
+                    <option value="250000">more than 250,000</option>
+                    <option value="100000">more than 100,000</option>
+                    <option value="50000">more than 50,000</option>
+                    <option value="25000">more than 25,000</option>
+                    <option value="10000" selected="">more than 10,000</option>
+                    <option value="5000">more than 5,000</option>
+                    <option value="1000">more than 1,000</option>
+                    <option value="3">ignore this filter</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="mood_category2"><b>Genre</b></label>
                 <div class="form-check mb-3">
