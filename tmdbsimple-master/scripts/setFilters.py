@@ -43,7 +43,7 @@ def get_rating_by_tconst(db_config, tconst):
         return rating_info
 
 
-def get_filtered_random_row(db_config, min_year, max_year, min_rating, max_rating, title_type='movie'):
+def get_filtered_random_row(db_config, min_year, max_year, min_rating, max_rating, min_votes, title_type='movie'):
     with get_db_connection(db_config) as connection:
         with connection.cursor() as cursor:
             # Construct the query to fetch a random row that meets all the criteria
@@ -53,14 +53,14 @@ def get_filtered_random_row(db_config, min_year, max_year, min_rating, max_ratin
             JOIN `title.ratings` tr ON tb.tconst = tr.tconst
             WHERE tb.startYear >= %s AND tb.startYear <= %s 
             AND tr.averagerating >= %s AND tr.averagerating <= %s 
+            AND tr.numVotes >= %s
             AND tb.titleType = %s
             ORDER BY RAND() LIMIT 1
             """
-            cursor.execute(query, (min_year, max_year, min_rating, max_rating, title_type))
+            cursor.execute(query, (min_year, max_year, min_rating, max_rating, min_votes, title_type))
             random_row = cursor.fetchone()
             column_names = [desc[0] for desc in cursor.description]
 
         return dict(zip(column_names, random_row))
-
 
 # You can include any other utility functions or code as needed.

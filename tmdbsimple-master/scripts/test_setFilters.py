@@ -29,11 +29,13 @@ def test_filtered_random_row():
     max_year = 2020
     min_rating = 7.5
     max_rating = 10
+    min_votes = 100000
     title_type = 'movie'  # This is optional, as the function defaults to 'movie'
-    row = get_filtered_random_row(db_config, min_year, max_year, min_rating, max_rating, title_type)
+    row = get_filtered_random_row(db_config, min_year, max_year, min_rating, max_rating, min_votes, title_type)
     print(f"Random Row Value meeting all criteria:")
     print(row)
     print("-" * 50)
+
 
 
 if __name__ == "__main__":
