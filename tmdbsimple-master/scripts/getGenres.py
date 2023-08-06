@@ -1,49 +1,33 @@
-import psycopg2
+import pymysql
 
 
-def get_db_connection():
-    conn = psycopg2.connect(
-        database="imdb_info",
-        user="bryceharmon",
-        password="bears2017",
-        host="localhost",
-        port="5432"
+def get_genres(db_config):
+    connection = pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
     )
-    return conn
+
+    try:
+        with connection.cursor() as cursor:
+            # Query the title.basics table to get the genre field
+            cursor.execute("SELECT genres FROM `title.basics`")
+            genres = cursor.fetchall()
+
+        return genres
+    finally:
+        connection.close()
 
 
-def execute_sql_query(conn, sql):
-    cur = conn.cursor()
-    cur.execute(sql)
-    rows = cur.fetchall()
-    return rows
+# Example usage
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'imdb'
+}
 
-
-def get_unique_genres(conn):
-    # Execute a SQL query to fetch all genres
-    rows = execute_sql_query(conn, "SELECT genres FROM title_basics WHERE titleType = 'movie'")
-
-    # Create a set to store unique genres
-    genres = set()
-
-    # Iterate through each row
-    for row in rows:
-        # Genres are a list in this case, so we can directly iterate over them
-        genres_in_row = row[0]
-        # Add each genre to the set of unique genres
-        for genre in genres_in_row:
-            genres.add(genre)
-
-    return genres
-
-
-# Connect to the database
-conn = get_db_connection()
-
-# Fetch and print all unique genres
-unique_genres = get_unique_genres(conn)
-# for genre in unique_genres:
-#print(genre)
-
-# Close the database connection
-conn.close()
+genres = get_genres(db_config)
+for genre in genres:
+    print(genre[0])  # Print each genre

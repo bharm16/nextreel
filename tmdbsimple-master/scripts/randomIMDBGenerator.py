@@ -1,75 +1,79 @@
-import psycopg2
+import pymysql
 import random
 
 
+def get_random_row_value(db_config, table_name, column_name):
+    connection = pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
+    )
+
+    try:
+        with connection.cursor() as cursor:
+            # Find the total number of rows in the table
+            cursor.execute(f"SELECT COUNT(*) FROM `{table_name}`")
+            total_rows = cursor.fetchone()[0]
+
+            # Select a random row number
+            random_row_num = random.randint(1, total_rows)
+
+            # Fetch the value from the random row
+            cursor.execute(f"SELECT {column_name} FROM `{table_name}` LIMIT {random_row_num - 1}, 1")
+            random_value = cursor.fetchone()[0]
+
+            # Fetch the entire row based on the random value
+            cursor.execute(f"SELECT * FROM `{table_name}` WHERE {column_name} = %s", (random_value,))
+            random_row = cursor.fetchone()
+            column_names = [desc[0] for desc in cursor.description]
+
+        return dict(zip(column_names, random_row))
+    finally:
+        connection.close()
+
+
+def get_rating_by_tconst(db_config, tconst):
+    connection = pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
+    )
+
+    try:
+        with connection.cursor() as cursor:
+            # Fetch the rating information based on the tconst
+            cursor.execute("SELECT * FROM `title.ratings` WHERE tconst = %s", (tconst,))
+            rating_info = cursor.fetchone()
+
+        return rating_info
+    finally:
+        connection.close()
+
+
+# Example usage
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'imdb'
+}
+random_row = get_random_row_value(db_config, 'title.basics', 'tconst')
+print(random_row)
+
+tconst = random_row['tconst']
+rating_info = get_rating_by_tconst(db_config, tconst)
+print(f"Rating information for tconst {tconst}:")
+print(rating_info)
+
+
 def get_db_connection():
-    conn = psycopg2.connect(
-        database="imdb_info",
-        user="bryceharmon",
-        password="bears2017",
-        host="localhost",  # or the IP address of your database server
-        port="5432"  # or the port number your database server is listening on
+    conn = pymysql.connect(
+        database="imdb",
+        user="root",
+        password="caching_sha2_password",
+        host="localhost",
+        port=3306
     )
     return conn
-
-
-def execute_sql_query(conn, sql):
-    cur = conn.cursor()
-    cur.execute(sql)
-    rows = cur.fetchall()
-    return rows
-
-
-def execute_sql_query_with_random_tconst(sql_template):
-    # Connect to the database
-    conn = get_db_connection()
-
-    rows = []
-
-    # Keep generating tconst values and executing the SQL query until we get some rows
-    while not rows:
-        # Generate a random tconst
-        start = 1
-        end = 9916880
-        random_number = random.randint(start, end)
-        random_number_str = str(random_number).zfill(7)
-        random_tconst = 'tt' + random_number_str
-
-        # Format the SQL query with the random tconst
-        sql = sql_template.format(tconst=random_tconst)
-
-        # Execute the SQL query
-        rows = execute_sql_query(conn, sql)
-        if rows is None:  # Add this check
-            rows = []
-
-    # Print the result
-    for row in rows:
-        print(row)
-
-    # Close the database connection
-    conn.close()
-
-
-sql_template = """
-    SELECT
-        tb.tconst,
-        tb.titleType,
-        tb.primaryTitle,
-        tb.originalTitle,
-        tb.isAdult,
-        tb.startYear,
-        tb.runtimeMinutes,
-        tb.genres,
-        tr.averageRating,
-        tr.numVotes
-    FROM
-        imdb_info.public.title_basics AS tb
-    INNER JOIN
-        imdb_info.public.title_ratings AS tr ON tb.tconst = tr.tconst
-    WHERE
-        tb.tconst = '{tconst}' AND tb.titleType = 'movie';
-"""
-
-
-execute_sql_query_with_random_tconst(sql_template)

@@ -1,154 +1,76 @@
-import psycopg2
 import random
+import pymysql
 import requests
-from flask import request, redirect, url_for  # add these imports at the beginning of your file
-
-from scripts.getGenres import get_unique_genres, conn
-from tmdbsimple import Movies
+from flask import request, redirect, url_for
 import tmdbsimple as tmdb
 import json
 from flask import render_template, Flask
+from flask import render_template
+from scripts.randomIMDBGenerator import get_random_row_value, get_rating_by_tconst
 
 app = Flask(__name__)
-tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
+
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'imdb'
+}
+
+
+def get_random_movie(db_config):
+    connection = pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
+    )
+
+    try:
+        with connection.cursor() as cursor:
+            # Find the total number of movie rows in the table
+            cursor.execute("SELECT COUNT(*) FROM `title.basics` WHERE titleType = 'movie'")
+            total_rows = cursor.fetchone()[0]
+
+            # Select a random row number
+            random_row_num = random.randint(1, total_rows)
+
+            # Fetch a random movie row
+            cursor.execute("SELECT * FROM `title.basics` WHERE titleType = 'movie' LIMIT %s, 1", (random_row_num - 1,))
+            random_movie = cursor.fetchone()
+
+        return random_movie
+    finally:
+        connection.close()
+
+
+print(get_random_movie(db_config))
 
 
 def get_db_connection():
-    conn = psycopg2.connect(
-        database="imdb_info",
-        user="bryceharmon",
-        password="bears2017",
+    conn = pymysql.connect(
+        database="imdb",
+        user="root",
+        password="caching_sha2_password",
         host="localhost",
-        port="5432"
+        port=3306
     )
     return conn
 
 
-def execute_sql_query(conn, sql):
-    cur = conn.cursor()
-    cur.execute(sql)
-    rows = cur.fetchall()
-    column_names = [desc[0] for desc in cur.description]
-    dict_rows = [dict(zip(column_names, row)) for row in rows]
-    return dict_rows
-
-
-def execute_sql_query_with_random_tconst(sql_template, limit=None):
-    conn = get_db_connection()
-    dict_rows = []
-    while not dict_rows:
-        start = 1
-        end = 9916880
-        random_number = random.randint(start, end)
-        random_number_str = str(random_number).zfill(7)
-        random_tconst = 'tt' + random_number_str
-        if limit is not None:
-            sql_template = sql_template.replace(";", " LIMIT {} ;".format(limit))
-        sql = sql_template.format(tconst=random_tconst)
-        dict_rows = execute_sql_query(conn, sql)
-        if dict_rows is None:
-            dict_rows = []
-    conn.close()
-    return dict_rows
-
-
 @app.route('/')
 def home():
-    sql_template = """
-            SELECT
-                tb.tconst,
-                tb.titleType,
-                tb.primaryTitle,
-                tb.originalTitle,
-                tb.isAdult,
-                tb.startYear,
-                tb.runtimeMinutes,
-                tb.genres,
-                tr.averageRating,
-                tr.numVotes,
-                ti.id
-            FROM
-            imdb_info.public.title_basics AS tb
-            INNER JOIN
-            imdb_info.public.title_ratings AS tr ON tb.tconst = tr.tconst
-            INNER JOIN
-            imdb_info.public.tmdb_info AS ti ON tb.primaryTitle = ti.original_title
-            WHERE
-            tb.tconst = '{tconst}' AND tb.titleType = 'movie'
-            LIMIT 1;
-        """
+    # Fetch data from randomIMDBgenerator
+    random_row = get_random_row_value(db_config, 'title.basics', 'tconst')
+    rating_info = get_rating_by_tconst(db_config, random_row['tconst'])
 
-    rows = execute_sql_query_with_random_tconst(sql_template)
-    movie_id = rows[0]['id']
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={tmdb.API_KEY}"
-    response = requests.get(url)
-    response_data = json.loads(response.text)
-    poster_path = response_data['poster_path']
-    print(poster_path)
+    # Merge the data
+    row_data = {**random_row, **{
+        'averagerating': rating_info[1],
+        'numvotes': rating_info[2]
+    }}
 
-    return render_template('home.html', rows=rows, poster_path=poster_path)
-
-
-@app.route('/setFilters', methods=['GET', 'POST'])  # allow both GET and POST requests
-def setFilters():
-    conn = get_db_connection()
-    genres = get_unique_genres(conn)
-    if request.method == 'POST':  # this block is entered when the form is submitted
-        selected_genres = request.form.getlist('mood_category2[]')  # get list of selected genres
-        selected_genres = [genre.replace("_", " ").title() for genre in selected_genres]  # format genres
-
-        # Redirect to the filteredMovies route with the selected genres as arguments
-        return redirect(url_for('filtered_movies', genres=selected_genres))
-
-    return render_template('setFilters.html', genres=genres)
-
-
-@app.route('/filtered_movies')
-def filtered_movies():
-    # Get the genres from the URL
-    selected_genres = request.args.getlist('genres')
-
-    # Convert list to string to use in SQL query
-    genres_str = ", ".join("'{}'".format(genre) for genre in selected_genres)
-
-    conn = get_db_connection()
-
-    # Query all movies that have any of the selected genres
-    sql_template = """
-            SELECT
-                tb.tconst,
-                tb.titleType,
-                tb.primaryTitle,
-                tb.originalTitle,
-                tb.isAdult,
-                tb.startYear,
-                tb.runtimeMinutes,
-                tb.genres,
-                tr.averageRating,
-                tr.numVotes,
-                ti.id
-            FROM
-                imdb_info.public.title_basics AS tb
-            INNER JOIN
-                imdb_info.public.title_ratings AS tr ON tb.tconst = tr.tconst
-            INNER JOIN
-                imdb_info.public.tmdb_info AS ti ON tb.primaryTitle = ti.original_title
-            WHERE
-                tb.titleType = 'movie' AND 
-                tb.genres && ARRAY[{}]::varchar[];
-        """.format(genres_str)
-
-    rows = execute_sql_query_with_random_tconst(sql_template, limit=1)
-    conn.close()
-
-    movie_id = rows[0]['id']
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={tmdb.API_KEY}"
-    response = requests.get(url)
-    response_data = json.loads(response.text)
-    poster_path = response_data['poster_path']
-    print(poster_path)
-
-    return render_template('filtered_movies.html', rows=rows, poster_path=poster_path)
+    return render_template('home.html', row=row_data, poster_path="your_tmdb_poster_path")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 from urllib.parse import quote
 
-
 api_key = "1ce9398920594a5521f0d53e9b33c52f"
+
 
 class AdvancedSearchInput:
     def __init__(self):
@@ -100,4 +100,5 @@ class AdvancedSearchInput:
 
         if len(query) > 0:
             return f"https://imdb-api.com/API/AdvancedSearch/{api_key}/?{query[1:]}"  # remove leading "&" and prepend base_url
-        else: return -1
+        else:
+            return -1
