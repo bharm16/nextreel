@@ -50,30 +50,35 @@
         <a class="navbar-brand" href="#">Home</a>
     </nav>
 
-    <div class="container text-center" style="margin-top: 70px;">
-        {% for row in rows %}
-        <h1 class="mb-4">{{ row.primarytitle }}</h1>
-        {% endfor %}
+    <!-- ... other parts of your HTML ... -->
+
 <div class="container text-center" style="margin-top: 70px;">
-    <h1 class="mb-4">{{ row.primaryTitle }}</h1>
+    <h1 class="mb-4">{{ movie.title }}</h1>
     <div class="row">
         <div class="col-md-6">
             <div class="card p-4 h-100">
                 <div class="info-box">
                     <div class="info-content">
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>IMDB ID: {{ row.tconst }}</p>
-                                <p>Year: {{ row.startYear }}</p>
-                                <p>Runtime: {{ row.runtimeMinutes }} mins</p>
-                                <p>Genres: {{ row.genres }}</p>
-                                <p>IMDB Rating: {{ row.averagerating }}</p>
-                                <p>Num Votes: {{ row.numvotes }}</p>
-                                <!-- Assuming you'll add TMDB ID later -->
-                                <p>TMDB ID: {{ row.id }}</p>
-                            </li>
+                            <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
+                            <li class="list-group-item">Genres: {{ movie.genres }}</li>
+                            <li class="list-group-item">Directors: {{ movie.directors }}</li>
+                            <li class="list-group-item">Writers: {{ movie.writers }}</li>
+                            <li class="list-group-item">Cast: {{ movie.cast }}</li>
+                            <li class="list-group-item">Runtimes: {{ movie.runtimes }}</li>
+                            <li class="list-group-item">Countries: {{ movie.countries }}</li>
+                            <li class="list-group-item">Languages: {{ movie.languages }}</li>
+                            <li class="list-group-item">Rating: {{ movie.rating }}</li>
+                            <li class="list-group-item">Votes: {{ movie.votes }}</li>
+                            <li class="list-group-item">Plot: {{ movie.plot }}</li>
+
+                            <!-- somewhere in your home.html -->
+<img src="{{ movie.poster_url }}" alt="Movie Poster">
+
                         </ul>
                     </div>
+
+<!-- ... other parts of your HTML ... -->
                         <div class="d-flex justify-content-center">
                             <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
                             <form method="GET">
@@ -83,16 +88,4 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 poster-col">
-                <div class="card p-4 h-100">
-                    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" class="img-fluid rounded poster-image">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+            <div class="col-md-6 poster
