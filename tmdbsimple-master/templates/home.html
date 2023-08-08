@@ -50,42 +50,46 @@
         <a class="navbar-brand" href="#">Home</a>
     </nav>
 
-    <!-- ... other parts of your HTML ... -->
-
-<div class="container text-center" style="margin-top: 70px;">
-    <h1 class="mb-4">{{ movie.title }}</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card p-4 h-100">
-                <div class="info-box">
-                    <div class="info-content">
-                        <ul class="list-group">
-                            <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
-                            <li class="list-group-item">Genres: {{ movie.genres }}</li>
-                            <li class="list-group-item">Directors: {{ movie.directors }}</li>
-                            <li class="list-group-item">Writers: {{ movie.writers }}</li>
-                            <li class="list-group-item">Cast: {{ movie.cast }}</li>
-                            <li class="list-group-item">Runtimes: {{ movie.runtimes }}</li>
-                            <li class="list-group-item">Countries: {{ movie.countries }}</li>
-                            <li class="list-group-item">Languages: {{ movie.languages }}</li>
-                            <li class="list-group-item">Rating: {{ movie.rating }}</li>
-                            <li class="list-group-item">Votes: {{ movie.votes }}</li>
-                            <li class="list-group-item">Plot: {{ movie.plot }}</li>
-
-                            <!-- somewhere in your home.html -->
-<img src="{{ movie.poster_url }}" alt="Movie Poster">
-
-                        </ul>
-                    </div>
-
-<!-- ... other parts of your HTML ... -->
-                        <div class="d-flex justify-content-center">
-                            <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
-                            <form method="GET">
-                                <button type="submit" class="btn btn-primary mx-2">Random Movie</button>
-                            </form>
+    <div class="container text-center" style="margin-top: 70px;">
+        <h1 class="mb-4">{{ movie.title }}</h1>
+        <div class="row">
+            <!-- Textual movie details column -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <div class="info-box">
+                        <div class="info-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
+                                <li class="list-group-item">Genres: {{ movie.genres }}</li>
+                                <li class="list-group-item">Directors: {{ movie.directors }}</li>
+                                <li class="list-group-item">Writers: {{ movie.writers }}</li>
+                                <li class="list-group-item">Cast: {{ movie.cast }}</li>
+                                <li class="list-group-item">Runtimes: {{ movie.runtimes }}</li>
+                                <li class="list-group-item">Countries: {{ movie.countries }}</li>
+                                <li class="list-group-item">Languages: {{ movie.languages }}</li>
+                                <li class="list-group-item">Rating: {{ movie.rating }}</li>
+                                <li class="list-group-item">Votes: {{ movie.votes }}</li>
+                                <li class="list-group-item">Plot: {{ movie.plot }}</li>
+                            </ul>
+                            <div class="d-flex justify-content-center">
+                                <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
+                                <form method="GET">
+                                    <button type="submit" class="btn btn-primary mx-2">Random Movie</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 poster
+
+            <!-- Movie poster column -->
+            <div class="col-md-6 poster-col">
+                <img class="poster-image" src="{{ movie.poster_url }}" alt="Movie Poster">
+            </div>
+        </div> <!-- End of row -->
+    </div>
+
+    <!-- (If you have any additional HTML content, add it below) -->
+
+</body>
+</html>
