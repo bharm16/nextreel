@@ -2,7 +2,7 @@ import random
 
 import imdb
 import pymysql
-from flask import render_template, Flask
+from flask import render_template, Flask, redirect, url_for
 from scripts.getMovieFromIMDB import get_movie_tconst
 from scripts.setFilters import get_random_row_value
 from scripts.setFilters import get_filtered_random_row
@@ -103,6 +103,12 @@ def home():
 @app.route('/setFilters')
 def set_filters():
     return render_template('setFilters.html')
+
+
+@app.route('/random_movie', methods=['POST'])
+def random_movie():
+    # Simply redirect back to the home function to load a new movie
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":
