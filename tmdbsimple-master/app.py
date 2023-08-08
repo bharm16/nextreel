@@ -86,13 +86,15 @@ def home():
         "genres": ', '.join(movie.get('genres', ['N/A'])),
         "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
         "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
-        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])]),
+        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:5]),
         "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
         "countries": ', '.join(movie.get('countries', ['N/A'])),
         "languages": ', '.join(movie.get('languages', ['N/A'])),
         "rating": movie.get('rating', 'N/A'),
         "votes": movie.get('votes', 'N/A'),
-        "plot": movie.get('plot', ['N/A'])[0]
+        "plot": movie.get('plot', ['N/A'])[0],
+        "poster_url": movie.get_fullsizeURL()  # Add this line
+
     }
     print(movie_data)
 
@@ -101,3 +103,5 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

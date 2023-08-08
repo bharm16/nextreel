@@ -71,6 +71,10 @@
                             <li class="list-group-item">Rating: {{ movie.rating }}</li>
                             <li class="list-group-item">Votes: {{ movie.votes }}</li>
                             <li class="list-group-item">Plot: {{ movie.plot }}</li>
+
+                            <!-- somewhere in your home.html -->
+<img src="{{ movie.poster_url }}" alt="Movie Poster">
+
                         </ul>
                     </div>
 

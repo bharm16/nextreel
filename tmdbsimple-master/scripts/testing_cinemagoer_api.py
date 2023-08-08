@@ -10,6 +10,9 @@ print(movie)
 plot = movie.summary()
 print(plot)
 
+poster = movie.get_fullsizeURL()
+print(poster)
+
 
 # print the names of the directors of the movie
 print('Directors:')
