@@ -10,7 +10,6 @@ from scripts.setFilters import get_random_row_value, get_rating_by_tconst, get_f
 
 import os
 
-
 app = Flask(__name__)
 
 print("Current working directory:", os.getcwd())
@@ -101,7 +100,10 @@ def home():
     return render_template('home.html', movie=movie_data)
 
 
+@app.route('/setFilters')
+def set_filters():
+    return render_template('setFilters.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-
-
