@@ -3,7 +3,7 @@ import os
 import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for
-from scripts.getMovieFromIMDB import get_filtered_random_row
+from scripts.getMovieFromIMDB import get_filtered_random_row, main
 
 app = Flask(__name__)
 
@@ -60,44 +60,49 @@ def random_movie():
 
 
 @app.route('/filtered_movie', methods=['POST'])
-def filtered_movie():
-    print(request.form)
-    genres = request.form.getlist('genres')
+@app.route('/filtered_movie', methods=['POST'])
+def filtered_movie_endpoint():
+    filters = request.form
 
+    # Create a criteria dictionary with default values
     criteria = {
-        'min_year': int(request.form.get('min_year', 2000)),
-        'max_year': int(request.form.get('max_year', 2020)),
-        'min_rating': float(request.form.get('min_rating', 7.5)),
-        'max_rating': float(request.form.get('max_rating', 10)),
-        'min_votes': int(request.form.get('min_votes', 100000)),
-        'title_type': request.form.get('title_type', 'movie'),
-        'genres': genres
+        "min_year": 2000,
+        "max_year": 2020,
+        "min_rating": 7.5,
+        "max_rating": 10,
+        "title_type": "movie"
     }
 
-    row = get_filtered_random_row(db_config, criteria)
+    # Update criteria based on filters received
+    if filters.get('year_min'):
+        criteria['min_year'] = int(filters.get('year_min'))
 
-    # Extract the numeric ID from the tconst
-    imdbId = int(row['tconst'][2:])
-    ia = imdb.IMDb()
-    movie = ia.get_movie(imdbId)
+    if filters.get('year_max'):
+        criteria['max_year'] = int(filters.get('year_max'))
 
-    movie_data = {
-        "title": movie.get('title', 'N/A'),
-        "imdb_id": movie.getID(),
-        "genres": ', '.join(movie.get('genres', ['N/A'])),
-        "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-        "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
-        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:5]),
-        "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-        "countries": ', '.join(movie.get('countries', ['N/A'])),
-        "languages": ', '.join(movie.get('languages', ['N/A'])),
-        "rating": movie.get('rating', 'N/A'),
-        "votes": movie.get('votes', 'N/A'),
-        "plot": movie.get('plot', ['N/A'])[0],
-        "poster_url": movie.get_fullsizeURL()
-    }
+    if filters.get('imdb_score_min'):
+        criteria['min_rating'] = float(filters.get('imdb_score_min'))
 
-    return render_template('filtered_movies.html', movie=movie_data)
+    if filters.get('imdb_score_max'):
+        criteria['max_rating'] = float(filters.get('imdb_score_max'))
+
+    if filters.get('num_votes_min'):
+        criteria['min_votes'] = int(filters.get('num_votes_min'))
+
+
+
+
+    # Call the main function with updated criteria
+    main(criteria)
+
+    return render_template('filtered_movies.html', movie=main(criteria))
+
+
+
+    # # This will just return a success message for now. Adjust as necessary.
+    # return "Filtered movie info printed."
+
+
 
 
 if __name__ == "__main__":

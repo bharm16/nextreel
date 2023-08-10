@@ -71,6 +71,9 @@ def get_filtered_random_row(db_config, criteria):
 
             query += " ORDER BY RAND() LIMIT 1"
 
+            print("Generated SQL Query:", query)
+            print("Query Parameters:", parameters)
+
             cursor.execute(query, parameters)
             random_row = cursor.fetchone()
 
