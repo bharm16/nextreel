@@ -1,36 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Filtered Movies</title>
+    <title>Filtered Movie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .movie-info {
+            font-size: 18px;
+        }
+
+        .poster-col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .poster-image {
+            max-width: 300px;
+            max-height: 400px;
+        }
+
+        .card {
+            border-radius: 20px;
+        }
+
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .info-content {
+            flex-grow: 1;
+        }
+    </style>
 </head>
 <body>
-    <h1>Filtered Movies</h1>
-    <ul>
-        {% for row in rows %}
-            <li>
-                {% for key, value in row.items() %}
-                    <p>{{ key }}: {{ value }}</p>
-                {% endfor %}
-                <h2>Movie Poster</h2>
-                <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="Movie poster" style="width:300px;height:200px;">
-            </li>
-        {% endfor %}
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+        <a class="navbar-brand" href="#">Filtered Movie</a>
+    </nav>
 
-    <h2>Set Filters</h2>
-    <form action="/setFilters" method="POST">
-        <label for="min_votes">Minimum Votes:</label><br>
-        <input type="number" id="min_votes" name="min_votes"><br>
-        <label for="min_score">Minimum IMDb Score:</label><br>
-        <input type="number" id="min_score" name="min_score" step="0.1"><br>
-        <label for="min_year">Minimum Year:</label><br>
-        <input type="number" id="min_year" name="min_year"><br>
-        <label for="max_year">Maximum Year:</label><br>
-        <input type="number" id="max_year" name="max_year"><br>
-        <input type="submit" value="Set Filters">
-    </form>
+    <div class="container text-center" style="margin-top: 70px;">
+        <h1 class="mb-4">{{ movie.title }}</h1>
+        <div class="row">
+            <!-- Textual movie details column -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <div class="info-box">
+                        <div class="info-content">
+                            <ul class="list-group">
+                                <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
+                                <li class="list-group-item">Genres: {{ movie.genres }}</li>
+                                <li class="list-group-item">Directors: {{ movie.directors }}</li>
+                                <li class="list-group-item">Writers: {{ movie.writers }}</li>
+                                <li class="list-group-item">Cast: {{ movie.cast }}</li>
+                                <li class="list-group-item">Runtimes: {{ movie.runtimes }}</li>
+                                <li class="list-group-item">Countries: {{ movie.countries }}</li>
+                                <li class="list-group-item">Languages: {{ movie.languages }}</li>
+                                <li class="list-group-item">Rating: {{ movie.rating }}</li>
+                                <li class="list-group-item">Votes: {{ movie.votes }}</li>
+                                <li class="list-group-item">Plot: {{ movie.plot }}</li>
+                            </ul>
+                            <div class="d-flex justify-content-center">
+                                <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
+                                <form method="POST" action="/random_movie">
+                                    <button type="submit" class="btn btn-primary mx-2">Next Movie</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <a href="/setFilters" class="btn btn-primary">Go to Filter Setting Page</a>
+            <!-- Movie poster column -->
+            <div class="col-md-6 poster-col">
+                <img class="poster-image" src="{{ movie.poster_url }}" alt="Movie Poster">
+            </div>
+        </div> <!-- End of row -->
+    </div>
+
 </body>
 </html>

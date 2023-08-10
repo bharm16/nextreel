@@ -1,14 +1,9 @@
 import random
-
-import imdb
-import pymysql
-from flask import render_template, Flask, redirect, url_for
-from scripts.getMovieFromIMDB import get_movie_tconst
-from scripts.setFilters import get_random_row_value
-from scripts.setFilters import get_filtered_random_row
-from scripts.setFilters import get_random_row_value, get_rating_by_tconst, get_filtered_random_row
-
 import os
+import pymysql
+import imdb
+from flask import Flask, render_template, request, redirect, url_for
+from scripts.getMovieFromIMDB import get_filtered_random_row
 
 app = Flask(__name__)
 
@@ -22,58 +17,13 @@ db_config = {
 }
 
 
-def get_random_movie(db_config):
-    connection = pymysql.connect(
-        host=db_config['host'],
-        user=db_config['user'],
-        password=db_config['password'],
-        database=db_config['database']
-    )
-
-    try:
-        with connection.cursor(pymysql.cursors.DictCursor) as cursor:  # Use DictCursor
-            # Find the total number of movie rows in the table
-            cursor.execute("SELECT COUNT(*) FROM `title.basics` WHERE titleType = 'movie'")
-            total_rows = cursor.fetchone()['COUNT(*)']
-
-            # Select a random row number
-            random_row_num = random.randint(1, total_rows)
-
-            # Fetch a random movie row
-            cursor.execute("SELECT * FROM `title.basics` WHERE titleType = 'movie' LIMIT %s, 1", (random_row_num - 1,))
-            random_movie = cursor.fetchone()
-
-        return random_movie
-    finally:
-        connection.close()
-
-
-def get_rating_by_tconst(db_config, tconst):
-    connection = pymysql.connect(
-        host=db_config['host'],
-        user=db_config['user'],
-        password=db_config['password'],
-        database=db_config['database']
-    )
-
-    try:
-        with connection.cursor() as cursor:
-            # Fetch the rating information based on the tconst
-            cursor.execute("SELECT * FROM `title.ratings` WHERE tconst = %s", (tconst,))
-            rating_info = cursor.fetchone()
-
-        return rating_info
-    finally:
-        connection.close()
-
-
 @app.route('/')
 def home():
-    # Get tconst for the movie
-    tconst = get_movie_tconst()
+    # Get a random movie from the filtered function
+    row = get_filtered_random_row(db_config, {})
 
     # Extract the numeric ID from the tconst
-    imdbId = int(tconst[2:])
+    imdbId = int(row['tconst'][2:])
 
     # Fetch the movie details using imdbpy
     ia = imdb.IMDb()
@@ -92,8 +42,7 @@ def home():
         "rating": movie.get('rating', 'N/A'),
         "votes": movie.get('votes', 'N/A'),
         "plot": movie.get('plot', ['N/A'])[0],
-        "poster_url": movie.get_fullsizeURL()  # Add this line
-
+        "poster_url": movie.get_fullsizeURL()
     }
     print(movie_data)
 
@@ -107,8 +56,48 @@ def set_filters():
 
 @app.route('/random_movie', methods=['POST'])
 def random_movie():
-    # Simply redirect back to the home function to load a new movie
     return redirect(url_for('home'))
+
+
+@app.route('/filtered_movie', methods=['POST'])
+def filtered_movie():
+    print(request.form)
+    genres = request.form.getlist('genres')
+
+    criteria = {
+        'min_year': int(request.form.get('min_year', 2000)),
+        'max_year': int(request.form.get('max_year', 2020)),
+        'min_rating': float(request.form.get('min_rating', 7.5)),
+        'max_rating': float(request.form.get('max_rating', 10)),
+        'min_votes': int(request.form.get('min_votes', 100000)),
+        'title_type': request.form.get('title_type', 'movie'),
+        'genres': genres
+    }
+
+    row = get_filtered_random_row(db_config, criteria)
+
+    # Extract the numeric ID from the tconst
+    imdbId = int(row['tconst'][2:])
+    ia = imdb.IMDb()
+    movie = ia.get_movie(imdbId)
+
+    movie_data = {
+        "title": movie.get('title', 'N/A'),
+        "imdb_id": movie.getID(),
+        "genres": ', '.join(movie.get('genres', ['N/A'])),
+        "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+        "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
+        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:5]),
+        "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+        "countries": ', '.join(movie.get('countries', ['N/A'])),
+        "languages": ', '.join(movie.get('languages', ['N/A'])),
+        "rating": movie.get('rating', 'N/A'),
+        "votes": movie.get('votes', 'N/A'),
+        "plot": movie.get('plot', ['N/A'])[0],
+        "poster_url": movie.get_fullsizeURL()
+    }
+
+    return render_template('filtered_movies.html', movie=movie_data)
 
 
 if __name__ == "__main__":

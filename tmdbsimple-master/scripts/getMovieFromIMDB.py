@@ -1,5 +1,6 @@
-from .setFilters import get_filtered_random_row
-import imdb  # make sure you have imported the imdb module
+import random
+import pymysql
+import imdb
 
 # Sample database configuration
 db_config = {
@@ -9,65 +10,121 @@ db_config = {
     'database': 'imdb'
 }
 
+def get_db_connection(db_config):
+    """Establish a connection to the database."""
+    return pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
+    )
 
-def get_movie_tconst():
-    min_year = 2000
-    max_year = 2020
-    min_rating = 7.5
-    max_rating = 10
-    min_votes = 100000
-    title_type = 'movie'  # This is optional, as the function defaults to 'movie'
 
-    # Retrieve the row using the setFilters functions
-    row = get_filtered_random_row(db_config, min_year, max_year, min_rating, max_rating, min_votes, title_type)
+def get_random_row_value(db_config, table_name, column_name):
+    """Fetch a random row value based on column name."""
+    with get_db_connection(db_config) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT COUNT(*) FROM `{table_name}`")
+            total_rows = cursor.fetchone()[0]
 
-    return row['tconst']
+            random_row_num = random.randint(1, total_rows)
+            cursor.execute(f"SELECT {column_name} FROM `{table_name}` LIMIT {random_row_num - 1}, 1")
+            random_value = cursor.fetchone()[0]
+
+            cursor.execute("SELECT * FROM `{}` WHERE {} = %s".format(table_name, column_name), (random_value,))
+            random_row = cursor.fetchone()
+            column_names = [desc[0] for desc in cursor.description]
+
+        return dict(zip(column_names, random_row))
+
+
+def get_filtered_random_row(db_config, criteria):
+    """Fetch a random row based on filter criteria."""
+    min_year = criteria.get('min_year', 2000)
+    max_year = criteria.get('max_year', 2020)
+    min_rating = criteria.get('min_rating', 7.5)
+    max_rating = criteria.get('max_rating', 10)
+    min_votes = criteria.get('min_votes', 100000)
+    title_type = criteria.get('title_type', 'movie')
+    genres = criteria.get('genres')
+
+    parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type]
+
+    with get_db_connection(db_config) as connection:
+        with connection.cursor() as cursor:
+            # Base query
+            query = """
+            SELECT tb.* 
+            FROM `title.basics` tb
+            JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+            WHERE tb.startYear >= %s AND tb.startYear <= %s 
+            AND tr.averagerating >= %s AND tr.averagerating <= %s 
+            AND tr.numVotes >= %s
+            AND tb.titleType = %s
+            """
+
+            # Add genres filter if provided
+            if genres:
+                genre_conditions = ["tb.genres LIKE %s" for _ in genres]
+                query += " AND (" + " OR ".join(genre_conditions) + ")"
+                parameters.extend(["%" + genre + "%" for genre in genres])
+
+            query += " ORDER BY RAND() LIMIT 1"
+
+            cursor.execute(query, parameters)
+            random_row = cursor.fetchone()
+
+            if not random_row:
+                return None
+
+            column_names = [desc[0] for desc in cursor.description]
+        return dict(zip(column_names, random_row))
+
+
+def fetch_movie_info_from_imdb(tconst):
+    """Fetch movie information from IMDb using IMDbPY."""
+    imdbId = int(tconst[2:])
+    ia = imdb.IMDb()
+    return ia.get_movie(imdbId)
+
+
+def main(criteria):
+    """Main function to test fetching random movies based on criteria."""
+    row = get_filtered_random_row(db_config, criteria)
+    if not row:
+        print("No movies found based on the given criteria.")
+        return
+
+    movie_info = fetch_movie_info_from_imdb(row['tconst'])
+
+    # Print the movie details
+    print("Movie Title:", movie_info['title'])
+    print("Year:", movie_info['year'])
+    print("Rating:", movie_info['rating'])
+    print("Genres:", ", ".join(movie_info['genres']))
+    print("Plot:", movie_info.get('plot outline', 'No plot outline available.'))
+    print("Cast:", ", ".join([str(actor) for actor in movie_info['cast'][:5]]))  # Displaying top 5 actors
+    print("Runtime(s):", ', '.join(movie_info.get('runtimes', ['N/A'])))
+    print("Country(s):", ', '.join(movie_info.get('countries', ['N/A'])))
+    print("Language(s):", ', '.join(movie_info.get('languages', ['N/A'])))
+    print("Rating:", movie_info.get('rating', 'N/A'))
+    print("Number of Votes:", movie_info.get('votes', 'N/A'))
+    print("Plot:", movie_info.get('plot', ['N/A'])[0])
+
+    # You can add more fields as needed.
+    print("=" * 50)
+
+    # Add any other movie details you'd like to display here.
 
 
 if __name__ == "__main__":
-    tconst = get_movie_tconst()
-
-    # Extract the numeric ID from the tconst
-    imdbId = int(tconst[2:])
-
-    # Fetch the movie details using imdbpy
-    ia = imdb.IMDb()
-    movie = ia.get_movie(imdbId)
-    print(f"Movie details for TCONST {tconst}:")
-    print(movie)
-
-
-    def display_movie_info(movie_obj):
-        """
-        Print all information related to a movie using the Movie class.
-        :param movie_obj: Instance of the Movie class from IMDbPY.
-        """
-        # Check if the movie object is valid
-        if not movie_obj:
-            print("Invalid movie object!")
-            return
-
-        # Print movie details
-        print("=" * 50)
-        print(f"Title: {movie_obj.get('title', 'N/A')}")
-        print(f"IMDb ID: {movie_obj.getID()}")
-        print(f"Genres: {', '.join(movie_obj.get('genres', ['N/A']))}")
-        print(f"Director(s): {', '.join([director['name'] for director in movie_obj.get('director', [])])}")
-        print(f"Writer(s): {', '.join([writer['name'] for writer in movie_obj.get('writer', []) if 'name' in writer])}")
-        print(f"Cast: {', '.join([actor['name'] for actor in movie_obj.get('cast', [])])}")
-        print(f"Runtime(s): {', '.join(movie_obj.get('runtimes', ['N/A']))}")
-        print(f"Country(s): {', '.join(movie_obj.get('countries', ['N/A']))}")
-        print(f"Language(s): {', '.join(movie_obj.get('languages', ['N/A']))}")
-        print(f"Rating: {movie_obj.get('rating', 'N/A')}")
-        print(f"Number of Votes: {movie_obj.get('votes', 'N/A')}")
-        print(f"Plot: {movie_obj.get('plot', ['N/A'])[0]}")
-
-        # You can add more fields as needed.
-        print("=" * 50)
-
-    # Example usage:
-    # Assuming 'movie' is an instance of the Movie class
-    # display_movie_info(movie)
-    print(display_movie_info(movie))
-
+    criteria = {
+        "min_year": 2000,
+        "max_year": 2020,
+        "min_rating": 7.5,
+        "max_rating": 10,
+        "title_type": "movie",
+        "genres": ["Action", "Drama"]
+    }
+    main(criteria)
 
