@@ -89,13 +89,31 @@ def filtered_movie_endpoint():
     if filters.get('num_votes_min'):
         criteria['min_votes'] = int(filters.get('num_votes_min'))
 
+    movie_info = main(criteria)
 
+    if not movie_info:
+        # Handle cases where no movie is found based on criteria.
+        return "No movies found based on the given criteria."
 
+    movie_data = {
+        "title": movie_info.get('title', 'N/A'),
+        "imdb_id": movie_info.getID(),
+        "genres": ', '.join(movie_info.get('genres', ['N/A'])),
+        "directors": ', '.join([director['name'] for director in movie_info.get('director', [])]),
+        "writers": ', '.join([writer['name'] for writer in movie_info.get('writer', []) if 'name' in writer]),
+        "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:5]),
+        "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
+        "countries": ', '.join(movie_info.get('countries', ['N/A'])),
+        "languages": ', '.join(movie_info.get('languages', ['N/A'])),
+        "rating": movie_info.get('rating', 'N/A'),
+        "votes": movie_info.get('votes', 'N/A'),
+        "plot": movie_info.get('plot', ['N/A'])[0],
+        "poster_url": movie_info.get_fullsizeURL()
+    }
+    print(movie_data)
 
-    # Call the main function with updated criteria
-    main(criteria)
-
-    return render_template('filtered_movies.html', movie=main(criteria))
+    return render_template('filtered_movies.html',movie=movie_data)
+    # You can also have a different template for filtered movies if you want.
 
 
 

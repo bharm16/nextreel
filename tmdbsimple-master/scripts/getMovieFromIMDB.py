@@ -96,9 +96,11 @@ def main(criteria):
     row = get_filtered_random_row(db_config, criteria)
     if not row:
         print("No movies found based on the given criteria.")
-        return
+        return None
 
     movie_info = fetch_movie_info_from_imdb(row['tconst'])
+    return movie_info
+
 
     # Print the movie details
     print("Movie Title:", movie_info['title'])
