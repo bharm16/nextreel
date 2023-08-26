@@ -2,15 +2,37 @@ import random
 import os
 import pymysql
 import imdb
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from scripts.getMovieFromIMDB import get_filtered_random_row, main
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 
 app = Flask(__name__)
+app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+class User(UserMixin):
+    def __init__(self, id, username):
+        self.id = id
+        self.username = username
+
+
+# User loader function
+@login_manager.user_loader
+def load_user(user_id):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
+    user_data = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if user_data:
+        return User(id=user_data['id'], username=user_data['username'])
+    return None
 
 
 print("Current working directory:", os.getcwd())
@@ -25,16 +47,10 @@ db_config = {
 
 @app.route('/')
 def home():
-    # Get a random movie from the filtered function
     row = get_filtered_random_row(db_config, {})
-
-    # Extract the numeric ID from the tconst
     imdbId = int(row['tconst'][2:])
-
-    # Fetch the movie details using imdbpy
     ia = imdb.IMDb()
     movie = ia.get_movie(imdbId)
-
     movie_data = {
         "title": movie.get('title', 'N/A'),
         "imdb_id": movie.getID(),
@@ -51,8 +67,58 @@ def home():
         "poster_url": movie.get_fullsizeURL()
     }
     print(movie_data)
-
     return render_template('home.html', movie=movie_data)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
+        user_data = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if user_data and check_password_hash(user_data['password'], password):
+            user = User(id=user_data['id'], username=user_data['username'])
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            flash("Invalid username or password")
+    return render_template('userLogin.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = generate_password_hash(request.form['password'])
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        flash("Registration successful! Please login.")
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
 
 
 @app.route('/setFilters')
@@ -66,11 +132,8 @@ def random_movie():
 
 
 @app.route('/filtered_movie', methods=['POST'])
-@app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
     filters = request.form
-
-    # Create a criteria dictionary with default values
     criteria = {
         "min_year": 2000,
         "max_year": 2020,
@@ -78,27 +141,19 @@ def filtered_movie_endpoint():
         "max_rating": 10,
         "title_type": "movie"
     }
-
-    # Update criteria based on filters received
     if filters.get('year_min'):
         criteria['min_year'] = int(filters.get('year_min'))
-
     if filters.get('year_max'):
         criteria['max_year'] = int(filters.get('year_max'))
-
     if filters.get('imdb_score_min'):
         criteria['min_rating'] = float(filters.get('imdb_score_min'))
-
     if filters.get('imdb_score_max'):
         criteria['max_rating'] = float(filters.get('imdb_score_max'))
-
     if filters.get('num_votes_min'):
         criteria['min_votes'] = int(filters.get('num_votes_min'))
 
     movie_info = main(criteria)
-
     if not movie_info:
-        # Handle cases where no movie is found based on criteria.
         return "No movies found based on the given criteria."
 
     movie_data = {
@@ -118,15 +173,7 @@ def filtered_movie_endpoint():
     }
     print(movie_data)
 
-    return render_template('filtered_movies.html',movie=movie_data)
-    # You can also have a different template for filtered movies if you want.
-
-
-
-    # # This will just return a success message for now. Adjust as necessary.
-    # return "Filtered movie info printed."
-
-
+    return render_template('filtered_movies.html', movie=movie_data)
 
 
 if __name__ == "__main__":
