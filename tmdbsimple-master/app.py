@@ -6,6 +6,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from scripts.getMovieFromIMDB import get_filtered_random_row, main
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
+from flask import jsonify
+from scripts.logMovieToAccount import log_movie_to_account
 
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
@@ -221,6 +223,17 @@ def filtered_movie_endpoint():
     print(movie_data)
 
     return render_template('filtered_movies.html', movie=movie_data)
+
+
+@app.route('/seen_it', methods=['POST'])
+@login_required
+def seen_it():
+    tconst = request.json.get('tconst')
+    if tconst:
+        log_movie_to_account(current_user.id, tconst, user_db_config)  # Log the movie to watched_movies table
+        return jsonify({'status': 'success'})
+    else:
+        return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
 
 
 if __name__ == "__main__":
