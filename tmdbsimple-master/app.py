@@ -157,17 +157,19 @@ def register():
 
     if request.method == 'POST':
         username = request.form['username']
-        password = generate_password_hash(request.form['password'])
+        password = request.form['password']
+        email = request.form['email']
         conn = pymysql.connect(**user_db_config)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+
         conn.commit()
         cursor.close()
         conn.close()
         flash("Registration successful! Please login.")
         return redirect(url_for('login'))
 
-    return render_template('register.html')
+    return render_template('createAccountForm.html')
 
 
 @app.route('/setFilters')
