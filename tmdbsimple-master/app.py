@@ -4,8 +4,14 @@ import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for
 from scripts.getMovieFromIMDB import get_filtered_random_row, main
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+
 
 app = Flask(__name__)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 print("Current working directory:", os.getcwd())
 
