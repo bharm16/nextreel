@@ -22,23 +22,23 @@
         }
 
         .container {
-            background-color: rgba(51, 51, 51, 0.9); /* Made darker and slightly transparent */
+            background-color: rgba(51, 51, 51, 0.9);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .header-area, .main-area {
             padding: 20px;
-            background-color: rgba(51, 51, 51, 0.9); /* Made darker and slightly transparent */
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+            background-color: rgba(51, 51, 51, 0.9);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-custom {
             background-color: orange;
             color: #fff;
             border: none;
-            margin-right: 15px; /* Uniform spacing between buttons */
+            margin-right: 15px;
         }
 
         .btn-custom:hover {
@@ -48,6 +48,10 @@
         .movie-poster {
             width: 100%;
             max-width: 400px;
+        }
+
+        .info-container {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -88,14 +92,33 @@
                 <!-- Movie Details -->
                 <div class="col-lg-8">
                     <h2>{{ movie.title }}</h2>
-                    <p>IMDb Score: {{ movie.rating }}</p>
-                    <p>Votes: {{ movie.votes }}</p>
-                    <p>{{ movie.plot }}</p>
-                    <div>Genres: {{ movie.genres }}</div>
-                    <div>Director: {{ movie.directors }}</div>
-                    <div>Writer: {{ movie.writers }}</div>
-                    <div>Cast: {{ movie.cast }}</div>
-                    <div>Runtime: {{ movie.runtimes.split(',')[0] if movie.runtimes }}</div>
+                    <!-- IMDb and Votes Container -->
+                    <div class="info-container">
+                        <strong>IMDb Score:</strong> {{ movie.rating }} | <strong>Votes:</strong> {{ movie.votes }}
+                    </div>
+
+                    <!-- Plot Container -->
+                    <div class="info-container">
+                        <strong>Plot:</strong> <p>{{ movie.plot }}</p>
+                    </div>
+
+                    <!-- Genres Container -->
+                    <div class="info-container">
+                        <strong>Genres:</strong> {{ movie.genres }}
+                    </div>
+
+                    <!-- Director, Writer, and Runtime Container -->
+                    <div class="info-container">
+                        <strong>Director:</strong> {{ movie.directors }} <br>
+                        <strong>Writer:</strong> {{ movie.writers }} <br>
+                        <strong>Runtime:</strong> {{ movie.runtimes.split(',')[0] if movie.runtimes }}
+                    </div>
+
+                    <!-- Cast Container -->
+                    <div class="info-container">
+                        <strong>Cast:</strong> {{ movie.cast }}
+                    </div>
+
                     {% if current_user.is_authenticated %}
                         <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
                     {% endif %}
