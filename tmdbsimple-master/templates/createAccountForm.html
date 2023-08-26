@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+    <title>Create Account</title>
 
     <!-- Bootstrap 5 and Font Awesome CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
@@ -14,60 +13,41 @@
     <!-- Google Fonts - Poppins for modern look -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
+    <!-- reCAPTCHA Script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <style>
-        /* Same style as in home.html */
         body {
             font-family: 'Poppins', sans-serif;
             margin-top: 80px;
         }
-        /* Additional styles for UserLogin */
-        .login-form {
+        .account-form {
             max-width: 400px;
             margin: 0 auto;
             padding: 15px;
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .login-form h1 {
+        .account-form h1 {
             font-size: 24px;
             margin-bottom: 20px;
         }
-
         .btn {
             border-radius: 50px;
             padding: 8px 20px;
             font-size: 16px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
         .btn-primary {
             background-color: #1f8efd;
             border: none;
         }
-
         .btn-primary:hover {
             background-color: #0f7add;
         }
-
-        .button-container {
-            text-align: center;
-        }
     </style>
 </head>
-
 <body>
-
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
@@ -75,12 +55,18 @@
     </nav>
 
     <div class="container">
-        <div class="login-form">
-            <h1>Login</h1>
-            <form action="/login" method="post">
+        <div class="account-form">
+            <h1>Create Account</h1>
+            <form action="/register" method="post">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <br>
 
@@ -90,10 +76,15 @@
                 </div>
                 <br>
 
-                <div class="button-container">
-                    <input type="submit" class="btn btn-primary" value="Login">
-                    <input type="button" class="btn btn-secondary" value="Sign Up" onclick="location.href='/register'">
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
                 </div>
+                <br>
+
+
+
+                <input type="submit" class="btn btn-primary" value="Sign Up">
             </form>
         </div>
     </div>

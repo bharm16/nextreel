@@ -52,6 +52,34 @@ def get_all_users():
         connection.close()
 
 
+# Add this function to getUserAccount.py
+# Existing code ...
+
+def insert_new_user(username, email, password):
+    connection = connect_to_db()
+    try:
+        with connection.cursor() as cursor:
+            # Check if the username already exists
+            sql = "SELECT * FROM users WHERE username=%s"
+            cursor.execute(sql, (username,))
+            result = cursor.fetchone()
+            if result:
+                return "Username already exists."
+
+            # Insert new user. The id will be auto-incremented.
+            sql = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (username, email, password))
+
+            new_user_id = cursor.lastrowid
+            connection.commit()
+
+            return {"message": f"User created successfully with ID {new_user_id}.", "id": new_user_id}
+
+    finally:
+        connection.close()
+
+
+
 
 
 # Example usage

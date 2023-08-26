@@ -8,8 +8,8 @@
       <ServerVersion>8.0.23</ServerVersion>
     </root>
     <schema id="2" parent="1" name="UserAccounts">
-      <IntrospectionTimestamp>2023-08-26.02:34:05</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-08-26.12:34:05</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-08-26.03:38:06</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-08-26.13:38:05</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="3" parent="1" name="imdb">
@@ -69,7 +69,9 @@
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="18" parent="9" name="id">
-      <DasType>varchar(255)|0s</DasType>
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
     <column id="19" parent="9" name="username">
@@ -98,206 +100,232 @@
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
       <Position>6</Position>
     </column>
-    <column id="24" parent="10" name="user_id">
-      <DasType>text|0s</DasType>
-      <Position>1</Position>
-    </column>
-    <column id="25" parent="10" name="tconst">
-      <DasType>text|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="26" parent="10" name="watched_at">
-      <DasType>datetime|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <column id="27" parent="11" name="nconst">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="28" parent="11" name="primaryName">
-      <DasType>text|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="29" parent="11" name="birthYear">
-      <DasType>text|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <column id="30" parent="11" name="deathYear">
-      <DasType>text|0s</DasType>
-      <Position>4</Position>
-    </column>
-    <column id="31" parent="11" name="primaryProfession">
-      <DasType>text|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <column id="32" parent="11" name="knownForTitles">
-      <DasType>text|0s</DasType>
-      <Position>6</Position>
-    </column>
-    <index id="33" parent="11" name="PRIMARY">
-      <ColNames>nconst</ColNames>
+    <index id="24" parent="9" name="PRIMARY">
+      <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="34" parent="11" name="PRIMARY">
+    <key id="25" parent="9" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="35" parent="12" name="titleId">
+    <column id="26" parent="10" name="user_id">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="27" parent="10" name="tconst">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="28" parent="10" name="watched_at">
+      <DasType>datetime|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="29" parent="10" name="fk_user_id">
+      <ColNames>user_id</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>users</RefTableName>
+      <RefTableParentName>useraccounts</RefTableParentName>
+    </foreign-key>
+    <index id="30" parent="10" name="unique_user_movie">
+      <ColNames>user_id
+tconst</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="31" parent="10" name="unique_user_movie">
+      <UnderlyingIndexName>unique_user_movie</UnderlyingIndexName>
+    </key>
+    <column id="32" parent="11" name="nconst">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="36" parent="12" name="ordering">
+    <column id="33" parent="11" name="primaryName">
       <DasType>text|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="37" parent="12" name="title">
+    <column id="34" parent="11" name="birthYear">
       <DasType>text|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="38" parent="12" name="region">
+    <column id="35" parent="11" name="deathYear">
       <DasType>text|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="39" parent="12" name="language">
+    <column id="36" parent="11" name="primaryProfession">
       <DasType>text|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="40" parent="12" name="types">
+    <column id="37" parent="11" name="knownForTitles">
       <DasType>text|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="41" parent="12" name="attributes">
+    <index id="38" parent="11" name="PRIMARY">
+      <ColNames>nconst</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="39" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="40" parent="12" name="titleId">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="41" parent="12" name="ordering">
+      <DasType>text|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="42" parent="12" name="title">
+      <DasType>text|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="43" parent="12" name="region">
+      <DasType>text|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="44" parent="12" name="language">
+      <DasType>text|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="45" parent="12" name="types">
+      <DasType>text|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="46" parent="12" name="attributes">
       <DasType>text|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="42" parent="12" name="isOriginalTitle">
+    <column id="47" parent="12" name="isOriginalTitle">
       <DasType>text|0s</DasType>
       <Position>8</Position>
     </column>
-    <index id="43" parent="12" name="idx_title_akas_titleId">
+    <index id="48" parent="12" name="idx_title_akas_titleId">
       <ColNames>titleId</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="44" parent="13" name="tconst">
+    <column id="49" parent="13" name="tconst">
       <DasType>text|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="45" parent="13" name="titleType">
+    <column id="50" parent="13" name="titleType">
       <DasType>text|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="46" parent="13" name="primaryTitle">
+    <column id="51" parent="13" name="primaryTitle">
       <DasType>text|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="47" parent="13" name="originalTitle">
+    <column id="52" parent="13" name="originalTitle">
       <DasType>text|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="48" parent="13" name="isAdult">
+    <column id="53" parent="13" name="isAdult">
       <DasType>text|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="49" parent="13" name="startYear">
+    <column id="54" parent="13" name="startYear">
       <DasType>text|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="50" parent="13" name="endYear">
+    <column id="55" parent="13" name="endYear">
       <DasType>text|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="51" parent="13" name="runtimeMinutes">
+    <column id="56" parent="13" name="runtimeMinutes">
       <DasType>text|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="52" parent="13" name="genres">
+    <column id="57" parent="13" name="genres">
       <DasType>text|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="53" parent="14" name="tconst">
+    <column id="58" parent="14" name="tconst">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="54" parent="14" name="directors">
+    <column id="59" parent="14" name="directors">
       <DasType>text|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="55" parent="14" name="writers">
+    <column id="60" parent="14" name="writers">
       <DasType>text|0s</DasType>
       <Position>3</Position>
     </column>
-    <index id="56" parent="14" name="idx_title_crew_tconst">
+    <index id="61" parent="14" name="idx_title_crew_tconst">
       <ColNames>tconst</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="57" parent="15" name="tconst">
+    <column id="62" parent="15" name="tconst">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="58" parent="15" name="parentTconst">
+    <column id="63" parent="15" name="parentTconst">
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="59" parent="15" name="seasonNumber">
+    <column id="64" parent="15" name="seasonNumber">
       <DasType>text|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="60" parent="15" name="episodeNumber">
+    <column id="65" parent="15" name="episodeNumber">
       <DasType>text|0s</DasType>
       <Position>4</Position>
     </column>
-    <index id="61" parent="15" name="idx_title_episode_tconst">
+    <index id="66" parent="15" name="idx_title_episode_tconst">
       <ColNames>tconst</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="62" parent="15" name="idx_title_episode_parentTconst">
+    <index id="67" parent="15" name="idx_title_episode_parentTconst">
       <ColNames>parentTconst</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="63" parent="16" name="tconst">
+    <column id="68" parent="16" name="tconst">
       <DasType>text|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="64" parent="16" name="ordering">
+    <column id="69" parent="16" name="ordering">
       <DasType>int|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="65" parent="16" name="nconst">
+    <column id="70" parent="16" name="nconst">
       <DasType>text|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="66" parent="16" name="category">
+    <column id="71" parent="16" name="category">
       <DasType>text|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="67" parent="16" name="job">
+    <column id="72" parent="16" name="job">
       <DasType>text|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="68" parent="16" name="characters">
+    <column id="73" parent="16" name="characters">
       <DasType>text|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="69" parent="17" name="tconst">
+    <column id="74" parent="17" name="tconst">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="70" parent="17" name="averageRating">
+    <column id="75" parent="17" name="averageRating">
       <DasType>double|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="71" parent="17" name="numVotes">
+    <column id="76" parent="17" name="numVotes">
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <index id="72" parent="17" name="idx_title_ratings_tconst">
+    <index id="77" parent="17" name="idx_title_ratings_tconst">
       <ColNames>tconst</ColNames>
       <Type>btree</Type>
     </index>
