@@ -85,28 +85,25 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
-
-       <!-- Add this part inside the <nav> tag to create the dropdown -->
-<div class="ml-auto">
-    {% if current_user.is_authenticated %}
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ current_user.username }}
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="/logout">Logout</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
+            <div class="ml-auto">
+                {% if current_user.is_authenticated %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ current_user.username }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="/login" class="btn btn-primary">Login</a>
+                {% endif %}
             </div>
         </div>
-    {% else %}
-        <a href="/login" class="btn btn-primary">Login</a>
-    {% endif %}
-</div>
-
-    </div>
-</nav>
+    </nav>
 
     <div class="container text-center">
         <h1 class="mb-4">{{ movie.title }}</h1>
@@ -128,17 +125,23 @@
                                 <li class="list-group-item">Rating: {{ movie.rating }}</li>
                                 <li class="list-group-item">Votes: {{ movie.votes }}</li>
                                 <li class="list-group-item">Plot: {{ movie.plot }}</li>
-                            </ul>
-                            <div class="d-flex justify-content-center mt-4">
-                                <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
-                                <form method="POST" action="/random_movie">
-                                    <button type="submit" class="btn btn-primary mx-2">Next Movie</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                   </ul>
+              <div class="d-flex justify-content-center mt-4">
+                <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
+                <form method="POST" action="/random_movie" style="display: inline;">
+                  <button type="submit" class="btn btn-primary mx-2">Next Movie</button>
+                </form>
+                  <!-- Conditionally display the "Seen It" button if user is authenticated -->
+                    {% if current_user.is_authenticated %}
+                        <form method="POST" action="/mark_seen" style="display: inline;">
+                            <button type="submit" class="btn btn-primary mx-2">Seen It</button>
+                        </form>
+                    {% endif %}
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
 
             <!-- Movie poster column -->
             <div class="col-md-6 poster-col">
