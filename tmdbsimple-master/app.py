@@ -22,9 +22,10 @@ class User(UserMixin):
 
 
 # User loader function
+# User loader function
 @login_manager.user_loader
 def load_user(user_id):
-    conn = pymysql.connect(**db_config)
+    conn = pymysql.connect(**user_db_config)
     cursor = conn.cursor(pymysql.cursors.DictCursor)
     cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
     user_data = cursor.fetchone()
@@ -43,6 +44,16 @@ db_config = {
     'password': 'caching_sha2_password',
     'database': 'imdb'
 }
+
+# Configuration for User Accounts database
+user_db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'UserAccounts'
+}
+
+
 
 
 @app.route('/')
@@ -72,26 +83,57 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("Entered login function")  # Debugging line
     if current_user.is_authenticated:
         return redirect(url_for('home'))
 
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        conn = pymysql.connect(**db_config)
+        print(f"Attempting to authenticate {username}")  # Debugging line
+
+        conn = pymysql.connect(**user_db_config)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
         user_data = cursor.fetchone()
         cursor.close()
         conn.close()
+        print(f"User data fetched: {user_data}")  # Debugging line
 
-        if user_data and check_password_hash(user_data['password'], password):
+        if user_data and user_data['password'] == password:
+            print("Successfully authenticated!")  # Debugging line
             user = User(id=user_data['id'], username=user_data['username'])
             login_user(user)
             return redirect(url_for('home'))
         else:
+            print("Failed to authenticate!")  # Debugging line
             flash("Invalid username or password")
     return render_template('userLogin.html')
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('home'))
+#
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         conn = pymysql.connect(**user_db_config)
+#         cursor = conn.cursor(pymysql.cursors.DictCursor)
+#         cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
+#         user_data = cursor.fetchone()
+#         cursor.close()
+#         conn.close()
+#
+#         if user_data and check_password_hash(user_data['password'], password):
+#             print(f"Test output: Username and password match found for user {username}")  # Test output
+#             user = User(id=user_data['id'], username=user_data['username'])
+#             login_user(user)
+#             return redirect(url_for('home'))
+#         else:
+#             flash("Invalid username or password")
+#     return render_template('userLogin.html')
 
 
 @app.route('/logout')
@@ -109,7 +151,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = generate_password_hash(request.form['password'])
-        conn = pymysql.connect(**db_config)
+        conn = pymysql.connect(**user_db_config)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
         conn.commit()

@@ -52,16 +52,6 @@ def get_all_users():
         connection.close()
 
 
-def check_user_credentials(username, password):
-    connection = connect_to_db()
-    try:
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM users WHERE username=%s AND password=%s"
-            cursor.execute(sql, (username, password))
-            result = cursor.fetchone()
-            return result is not None
-    finally:
-        connection.close()
 
 
 # Example usage
