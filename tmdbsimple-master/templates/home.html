@@ -85,16 +85,28 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
 
-             <div class="ml-auto">
-                <a href="/login" class="btn btn-primary">Login</a>
+       <!-- Add this part inside the <nav> tag to create the dropdown -->
+<div class="ml-auto">
+    {% if current_user.is_authenticated %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ current_user.username }}
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/logout">Logout</a>
             </div>
-
         </div>
-    </nav>
+    {% else %}
+        <a href="/login" class="btn btn-primary">Login</a>
+    {% endif %}
+</div>
+
+    </div>
+</nav>
 
     <div class="container text-center">
         <h1 class="mb-4">{{ movie.title }}</h1>
@@ -138,5 +150,8 @@
     <!-- Additional HTML content if any -->
 
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
 </html>

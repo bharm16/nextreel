@@ -14,6 +14,8 @@ app.secret_key = 'some_random_secret_key'  # Make sure to change this in product
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+should_logout_on_home_load = True
+
 
 class User(UserMixin):
     def __init__(self, id, username):
@@ -54,10 +56,13 @@ user_db_config = {
 }
 
 
-
-
 @app.route('/')
 def home():
+    global should_logout_on_home_load
+    if should_logout_on_home_load:
+        logout_user()
+        should_logout_on_home_load = False
+
     row = get_filtered_random_row(db_config, {})
     imdbId = int(row['tconst'][2:])
     ia = imdb.IMDb()
@@ -78,7 +83,7 @@ def home():
         "poster_url": movie.get_fullsizeURL()
     }
     print(movie_data)
-    return render_template('home.html', movie=movie_data)
+    return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])

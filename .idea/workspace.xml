@@ -7,8 +7,7 @@
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tmdbsimple-master/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmdbsimple-master/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmdbsimple-master/scripts/getUserAccount.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmdbsimple-master/scripts/getUserAccount.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmdbsimple-master/templates/userLogin.html" beforeDir="false" afterPath="$PROJECT_DIR$/tmdbsimple-master/templates/userLogin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmdbsimple-master/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/tmdbsimple-master/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,9 +147,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
+        <item itemvalue="JavaScript Debug.home.html" />
         <item itemvalue="Python.getUserAccount" />
         <item itemvalue="JavaScript Debug.userLogin.html" />
-        <item itemvalue="JavaScript Debug.home.html" />
         <item itemvalue="Python.getMovieFromIMDB" />
       </list>
     </recent_temporary>
@@ -166,7 +165,7 @@
       <workItem from="1691502126558" duration="23198000" />
       <workItem from="1691723922656" duration="217000" />
       <workItem from="1691724157977" duration="4271000" />
-      <workItem from="1693009147952" duration="5460000" />
+      <workItem from="1693009147952" duration="6954000" />
     </task>
     <servers />
   </component>
@@ -179,9 +178,9 @@
     <SUITE FILE_PATH="coverage/tmdb_proj_python$randomIMDBGenerator.coverage" NAME="randomIMDBGenerator Coverage Results" MODIFIED="1691625481046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$app__1_.coverage" NAME="app (1) Coverage Results" MODIFIED="1691461353787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_for_test_setFilters_test_random_row_value.coverage" NAME="pytest for test_setFilters.test_random_row_value Coverage Results" MODIFIED="1691450221188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
-    <SUITE FILE_PATH="coverage/tmdb_proj_python$app.coverage" NAME="app Coverage Results" MODIFIED="1693015005870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
+    <SUITE FILE_PATH="coverage/tmdb_proj_python$app.coverage" NAME="app Coverage Results" MODIFIED="1693016869327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters_test.coverage" NAME="setFilters_test Coverage Results" MODIFIED="1691512566190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
-    <SUITE FILE_PATH="coverage/tmdb_proj_python$getUserAccount.coverage" NAME="getUserAccount Coverage Results" MODIFIED="1693014827952" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
+    <SUITE FILE_PATH="coverage/tmdb_proj_python$getUserAccount.coverage" NAME="getUserAccount Coverage Results" MODIFIED="1693015262186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_test_setFilters_py.coverage" NAME="pytest in test_setFilters.py Coverage Results" MODIFIED="1691450280310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters.coverage" NAME="setFilters Coverage Results" MODIFIED="1691624935758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$getMovieFromIMDB.coverage" NAME="getMovieFromIMDB Coverage Results" MODIFIED="1691776953644" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
