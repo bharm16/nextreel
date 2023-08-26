@@ -75,7 +75,7 @@ def home():
         "genres": ', '.join(movie.get('genres', ['N/A'])),
         "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
         "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
-        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:5]),
+        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
         "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
         "countries": ', '.join(movie.get('countries', ['N/A'])),
         "languages": ', '.join(movie.get('languages', ['N/A'])),
