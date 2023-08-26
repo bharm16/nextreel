@@ -106,26 +106,29 @@
     </nav>
 
     <div class="container text-center">
-        <h1 class="mb-4">{{ movie.title }}</h1>
+
         <div class="row">
             <!-- Textual movie details column -->
             <div class="col-md-6 mb-4">
                 <div class="card p-4 h-100">
                     <div class="info-box">
                         <div class="info-content">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
-                                <li class="list-group-item">Genres: {{ movie.genres }}</li>
-                                <li class="list-group-item">Directors: {{ movie.directors }}</li>
-                                <li class="list-group-item">Writers: {{ movie.writers }}</li>
-                                <li class="list-group-item">Cast: {{ movie.cast }}</li>
-                                <li class="list-group-item">Runtimes: {{ movie.runtimes }}</li>
-                                <li class="list-group-item">Countries: {{ movie.countries }}</li>
-                                <li class="list-group-item">Languages: {{ movie.languages }}</li>
-                                <li class="list-group-item">Rating: {{ movie.rating }}</li>
-                                <li class="list-group-item">Votes: {{ movie.votes }}</li>
-                                <li class="list-group-item">Plot: {{ movie.plot }}</li>
-                            </ul>
+       <ul class="list-group list-group-flush">
+           <li class="list-group-item"><strong>{{ movie.title }}</strong></li>
+           <li class="list-group-item">{{ movie.plot }}</li>
+    <li class="list-group-item">IMDb ID: {{ movie.imdb_id }}</li>
+
+           <li class="list-group-item">IMDb Score: {{ movie.rating }}</li>
+    <li class="list-group-item">Votes: {{ movie.votes }}</li>
+           <li class="list-group-item">Genres: {{ movie.genres }}</li>
+    <li class="list-group-item">Director: {{ movie.directors }}</li>
+    <li class="list-group-item">Writers: {{ movie.writers }}</li>
+    <li class="list-group-item">Cast: {{ movie.cast }}</li>
+    <li class="list-group-item">Runtime: {{ movie.runtimes.split(',')[0] if movie.runtimes }}</li>
+    <li class="list-group-item">Language: {{ movie.languages.split(',')[0] if movie.languages }}</li>
+
+
+</ul>
               <div class="d-flex justify-content-center mt-4">
                 <a href="/setFilters" class="btn btn-primary mx-2">Set Filters</a>
                 <form method="POST" action="/random_movie" style="display: inline;">
