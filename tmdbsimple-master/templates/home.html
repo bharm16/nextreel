@@ -7,11 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
-    <!-- Bootstrap 5 and Font Awesome CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Google Fonts - Poppins for modern look -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
     <style>
@@ -20,48 +17,40 @@
             background-color: #2a2a2a;
             color: #fff;
         }
-
         .container {
             background-color: rgba(51, 51, 51, 0.9);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         }
-
         .header-area, .main-area {
             padding: 20px;
             background-color: rgba(51, 51, 51, 0.9);
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
-
         .btn-custom {
             background-color: orange;
             color: #fff;
             border: none;
             margin-right: 15px;
         }
-
         .btn-custom:hover {
             background-color: #ff9900;
         }
-
         .movie-poster {
             width: 100%;
             max-width: 400px;
         }
-
         .info-box {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.2);
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
         }
-
         .info-title {
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-
         .info-content {
             font-size: 1em;
         }
@@ -70,14 +59,12 @@
 
 <body>
     <div class="container my-5">
-        <!-- Header Area -->
         <div class="header-area d-flex justify-content-between align-items-center">
-            <h1>MovieInfo</h1>
+            <h1>Nextreel</h1>
             <div class="auth-buttons">
                 {% if current_user.is_authenticated %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ current_user.username }}
                     </button>
                     <div class="dropdown-menu">
@@ -94,14 +81,11 @@
             </div>
         </div>
 
-        <!-- Main Area -->
         <div class="main-area mt-4">
             <div class="row">
-                <!-- Movie Poster -->
                 <div class="col-lg-4 col-md-6 text-center">
                     <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
                 </div>
-                <!-- Movie Details -->
                 <div class="col-lg-8 col-md-6">
                     <div class="info-box">
                         <div class="info-title">{{ movie.title }}</div>
@@ -109,15 +93,14 @@
                     </div>
                     <div class="info-box">
                         <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
-                        <div class="info-content">Votes: {{ movie.votes }}</div>
+                        <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
                     </div>
                     <div class="info-box">
                         <div class="info-title">Genres</div>
                         <div class="info-content">{{ movie.genres }}</div>
                     </div>
                     <div class="info-box">
-                        <div class="info-content">Director: {{ movie.directors }} <br> Writer: {{ movie.writers }}
-                            </div>
+                        <div class="info-content">Directed by {{ movie.directors }} <br> Writer: {{ movie.writers }}</div>
                     </div>
                     <div class="info-box">
                         <div class="info-title">Cast</div>
@@ -131,11 +114,24 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+
     <script>
+        function formatVotes() {
+            const voteElement = document.getElementById("votes");
+            console.log("Original text: " + voteElement.textContent); // debug line
+
+            let votesText = voteElement.textContent.split(": ")[1];
+            votesText = parseInt(votesText).toLocaleString();
+            console.log("Formatted text: " + votesText); // debug line
+
+            voteElement.textContent = "Votes: " + votesText;
+        }
+         console.log("Document loaded"); // debug line
+            formatVotes();
+
         document.addEventListener("DOMContentLoaded", function () {
             const seenItButton = document.getElementById("seen-it-button");
             seenItButton.addEventListener("click", function () {
@@ -149,16 +145,16 @@
                         tconst: tconst
                     })
                 }).then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            alert("Movie marked as seen!");
-                        } else {
-                            alert("Failed to mark movie as seen!");
-                        }
-                    });
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert("Movie marked as seen!");
+                    } else {
+                        alert("Failed to mark movie as seen!");
+                    }
+                });
             });
+
         });
     </script>
 </body>
-
 </html>
