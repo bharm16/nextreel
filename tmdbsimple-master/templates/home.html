@@ -11,42 +11,52 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
-    <style>
+        <style>
+        /* Modern background color */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #2a2a2a;
-            color: #fff;
+            background-color: #f1f5f9;
+            color: #333;
         }
+        /* Light container for contrast */
         .container {
-            background-color: rgba(51, 51, 51, 0.9);
+            background-color: #ffffff;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         }
+        /* Minimalistic headers */
         .header-area, .main-area {
             padding: 20px;
-            background-color: rgba(51, 51, 51, 0.9);
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
         }
+        /* Snappy button colors */
         .btn-custom {
-            background-color: orange;
+            background-color: #1f8efa;
             color: #fff;
             border: none;
             margin-right: 15px;
         }
+        /* Hover effect */
         .btn-custom:hover {
-            background-color: #ff9900;
+            background-color: #156ebf;
         }
+        /* Improved image styling */
         .movie-poster {
             width: 100%;
             max-width: 400px;
+            border-radius: 12px;
         }
+        /* Info boxes */
         .info-box {
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: #f9f9f9;
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
         }
+        /* Font sizes */
         .info-title {
             font-size: 1.2em;
             margin-bottom: 10px;
@@ -58,6 +68,42 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
+                Nextreel
+                <ul class="navbar-nav ml-auto">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ current_user.username }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/login" class="btn btn-custom">Login</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="/setFilters" class="btn btn-custom">Set Filters</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="/random_movie" style="display: inline;">
+                            <button type="submit" class="btn btn-custom">Next Movie</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
     <div class="container my-5">
         <div class="header-area d-flex justify-content-between align-items-center">
             <h1>Nextreel</h1>
@@ -100,7 +146,8 @@
                         <div class="info-content">{{ movie.genres }}</div>
                     </div>
                     <div class="info-box">
-                        <div class="info-content">Directed by {{ movie.directors }} <br> Writer: {{ movie.writers }}</div>
+                        <div class="info-content">Directed by {{ movie.directors }}</div>
+                        <div class="info-content">Written by {{ movie.writers }}</div>
                     </div>
                     <div class="info-box">
                         <div class="info-title">Cast</div>
