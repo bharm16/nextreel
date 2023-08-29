@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
-        <style>
+    <style>
         /* Modern background color */
         body {
             font-family: 'Poppins', sans-serif;
@@ -70,13 +70,13 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container-fluid">
-            <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
-            <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
+        <div class="collapse navbar-collapse" id="navbarNav">
             <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
-                Nextreel
-                <ul class="navbar-nav ml-auto">
-                    {% if current_user.is_authenticated %}
+            Nextreel
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ current_user.username }}
@@ -85,25 +85,25 @@
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>
-                    {% else %}
+                {% else %}
                     <li class="nav-item">
                         <a href="/login" class="btn btn-custom">Login</a>
                     </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="POST" action="/random_movie" style="display: inline;">
-                            <button type="submit" class="btn btn-custom">Next Movie</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="/random_movie" style="display: inline;">
+                        <button type="submit" class="btn btn-custom">Next Movie</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-
+<!--
     <div class="container my-5">
         <div class="header-area d-flex justify-content-between align-items-center">
             <h1>Nextreel</h1>
@@ -126,7 +126,10 @@
                 </form>
             </div>
         </div>
+        -->
 
+<div class="container my-5">
+    <div class="header-area d-flex justify-content-between align-items-center">
         <div class="main-area mt-4">
             <div class="row">
                 <div class="col-lg-4 col-md-6 text-center">
@@ -154,7 +157,7 @@
                         <div class="info-content">{{ movie.cast }}</div>
                     </div>
                     {% if current_user.is_authenticated %}
-                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
+                        <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
                     {% endif %}
                 </div>
             </div>
@@ -176,8 +179,8 @@
 
             voteElement.textContent = "Votes: " + votesText;
         }
-         console.log("Document loaded"); // debug line
-            formatVotes();
+        console.log("Document loaded"); // debug line
+        formatVotes();
 
         document.addEventListener("DOMContentLoaded", function () {
             const seenItButton = document.getElementById("seen-it-button");
@@ -192,13 +195,13 @@
                         tconst: tconst
                     })
                 }).then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert("Movie marked as seen!");
-                    } else {
-                        alert("Failed to mark movie as seen!");
-                    }
-                });
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert("Movie marked as seen!");
+                        } else {
+                            alert("Failed to mark movie as seen!");
+                        }
+                    });
             });
 
         });

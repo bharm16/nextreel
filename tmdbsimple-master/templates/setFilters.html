@@ -30,11 +30,13 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Nextreel</a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    {% if current_user.is_authenticated %}
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
+            Nextreel
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ current_user.username }}
@@ -43,168 +45,170 @@
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>
-                    {% else %}
+                {% else %}
                     <li class="nav-item">
                         <a href="/login" class="btn btn-custom">Login</a>
                     </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="POST" action="/random_movie" style="display: inline;">
-                            <button type="submit" class="btn btn-custom">Next Movie</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    <div class="container">
-        <div class="text-center w-100">
-            <h1 class="mt-4 mb-4"></h1>
-            <form action="/filtered_movie" method="post">
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-3">
-                        <label for="user_rating_min">User Rating (Min):</label>
-                        <input type="number" class="form-control" id="user_rating_min" name="user_rating_min" min="1" max="10" step="0.1">
-                    </div>
-                    <div class="col-3">
-                        <label for="user_rating_max">User Rating (Max):</label>
-                        <input type="number" class="form-control" id="user_rating_max" name="user_rating_max" min="1" max="10" step="0.1">
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-3">
-                        <label for="num_votes_min">Number of Votes (Min):</label>
-                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
-                    </div>
-                    <div class="col-3">
-                        <label for="num_votes_max">Number of Votes (Max):</label>
-                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-3">
-                        <label for="year_min">Year (Min):</label>
-                        <input type="number" class="form-control" id="year_min" name="year_min">
-                    </div>
-                    <div class="col-3">
-                        <label for="year_max">Year (Max):</label>
-                        <input type="number" class="form-control" id="year_max" name="year_max">
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-3">
-                        <label for="imdb_score_min">IMDb Score (Min):</label>
-                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
-                    </div>
-                    <div class="col-3">
-                        <label for="imdb_score_max">IMDb Score (Max):</label>
-                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-12">
-                        <label>Genres:</label>
-                        <div class="form-check">
-                            <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
-                            <label for="selectAll">Select All</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
-                            <label class="form-check-label" for="Action">Action</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
-                            <label class="form-check-label" for="Adventure">Adventure</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
-                            <label class="form-check-label" for="Animation">Animation</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
-                            <label class="form-check-label" for="Biography">Biography</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
-                            <label class="form-check-label" for="Comedy">Comedy</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
-                            <label class="form-check-label" for="Crime">Crime</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
-                            <label class="form-check-label" for="Documentary">Documentary</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
-                            <label class="form-check-label" for="Drama">Drama</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
-                            <label class="form-check-label" for="Fantasy">Fantasy</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
-                            <label class="form-check-label" for="Horror">Horror</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
-                            <label class="form-check-label" for="Musical">Musical</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
-                            <label class="form-check-label" for="Sci-Fi">Sci-Fi</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
-                            <label class="form-check-label" for="Sport">Sport</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
-                            <label class="form-check-label" for="Thriller">Thriller</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
-                            <label class="form-check-label" for="War">War</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
-                            <label class="form-check-label" for="Western">Western</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4 justify-content-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">Apply Filters</button>
-                    </div>
-                </div>
-            </form>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="/random_movie" style="display: inline;">
+                        <button type="submit" class="btn btn-custom">Next Movie</button>
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--<div class="container"> -->
+
+
+<div class="container-fluid">
+
+
+
+    <div class="text-center w-100">
+        <h1 class="mt-4 mb-4"></h1>
+
+
+        <form action="/filtered_movie" method="post">
+
+
+
+             <div class="row mt-4 justify-content-center">
+                <div class="col-3">
+                    <label for="imdb_score_min">IMDb Score (Min):</label>
+                    <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
+                </div>
+                <div class="col-3">
+                    <label for="imdb_score_max">IMDb Score (Max):</label>
+                    <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
+                </div>
+            </div>
+
+            <div class="row mt-4 justify-content-center">
+                <div class="col-3">
+                    <label for="num_votes_min">Vote Count (Min):</label>
+                    <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
+                </div>
+                <div class="col-3">
+                    <label for="num_votes_max">Vote Count (Max):</label>
+                    <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
+                </div>
+            </div>
+
+           <label class="mt-4">Year</label>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-3">
+                    <label for="year_min">Year (Min):</label>
+                    <input type="number" class="form-control" id="year_min" name="year_min">
+                </div>
+                <div class="col-3">
+                    <label for="year_max">Year (Max):</label>
+                    <input type="number" class="form-control" id="year_max" name="year_max">
+                </div>
+            </div>
+
+
+
+            <div class="row mt-4 justify-content-center">
+                <div class="col-12">
+                    <label>Genres:</label>
+                    <div class="form-check">
+                        <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
+                        <label for="selectAll">Select All</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
+                        <label class="form-check-label" for="Action">Action</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
+                        <label class="form-check-label" for="Adventure">Adventure</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
+                        <label class="form-check-label" for="Animation">Animation</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
+                        <label class="form-check-label" for="Biography">Biography</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
+                        <label class="form-check-label" for="Comedy">Comedy</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
+                        <label class="form-check-label" for="Crime">Crime</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
+                        <label class="form-check-label" for="Documentary">Documentary</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
+                        <label class="form-check-label" for="Drama">Drama</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
+                        <label class="form-check-label" for="Fantasy">Fantasy</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
+                        <label class="form-check-label" for="Horror">Horror</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
+                        <label class="form-check-label" for="Musical">Musical</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
+                        <label class="form-check-label" for="Sci-Fi">Sci-Fi</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
+                        <label class="form-check-label" for="Sport">Sport</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
+                        <label class="form-check-label" for="Thriller">Thriller</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
+                        <label class="form-check-label" for="War">War</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
+                        <label class="form-check-label" for="Western">Western</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4 justify-content-center">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
