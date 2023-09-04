@@ -1,5 +1,8 @@
 import pymysql
 
+from ..db_config import db_config, user_db_config
+
+
 
 def connect_to_db():
     # Replace the parameters below with your MySQL credentials

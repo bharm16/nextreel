@@ -2,7 +2,11 @@ import random
 import pymysql
 import imdb
 
-# Sample database configuration
+
+
+
+
+
 db_config = {
     'host': 'localhost',
     'user': 'root',
@@ -101,7 +105,6 @@ def main(criteria):
     movie_info = fetch_movie_info_from_imdb(row['tconst'])
     return movie_info
 
-
     # Print the movie details
     print("Movie Title:", movie_info['title'])
     print("Year:", movie_info['year'])
@@ -132,4 +135,3 @@ if __name__ == "__main__":
         "genres": ["Action", "Drama"]
     }
     main(criteria)
-

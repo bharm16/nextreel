@@ -1,5 +1,6 @@
 import pymysql
 import random
+from db_config_scripts import  db_config, user_db_config
 
 
 def get_random_row_value(db_config, table_name, column_name):

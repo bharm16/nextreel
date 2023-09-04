@@ -8,6 +8,7 @@ from scripts.getMovieFromIMDB import get_filtered_random_row, main
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask import jsonify
 from scripts.logMovieToAccount import log_movie_to_account
+from db_config import db_config, user_db_config
 
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
@@ -41,21 +42,6 @@ def load_user(user_id):
 
 
 print("Current working directory:", os.getcwd())
-
-db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'caching_sha2_password',
-    'database': 'imdb'
-}
-
-# Configuration for User Accounts database
-user_db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'caching_sha2_password',
-    'database': 'UserAccounts'
-}
 
 
 @app.route('/')
