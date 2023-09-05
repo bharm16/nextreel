@@ -9,6 +9,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from flask import jsonify
 from scripts.logMovieToAccount import log_movie_to_account
 from db_config import db_config, user_db_config
+from scripts.mysql_query_builder import execute_query
 
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
@@ -30,12 +31,15 @@ class User(UserMixin):
 # User loader function
 @login_manager.user_loader
 def load_user(user_id):
-    conn = pymysql.connect(**user_db_config)
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
-    cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
-    user_data = cursor.fetchone()
-    cursor.close()
-    conn.close()
+    # conn = pymysql.connect(**user_db_config)
+    # cursor = conn.cursor(pymysql.cursors.DictCursor)
+    # cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
+    # user_data = cursor.fetchone()
+    # cursor.close()
+    # conn.close()
+
+    user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+
     if user_data:
         return User(id=user_data['id'], username=user_data['username'])
     return None
