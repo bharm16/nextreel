@@ -1,6 +1,6 @@
 import pymysql
 
-from ..db_config import db_config, user_db_config
+from db_config_scripts import db_config, user_db_config
 
 
 
@@ -11,10 +11,7 @@ def connect_to_db():
     password = 'caching_sha2_password'
     database = 'UserAccounts'
 
-    connection = pymysql.connect(host=host,
-                                 user=user,
-                                 password=password,
-                                 db=database,
+    connection = pymysql.connect(host=host, user=user, password=password, db=database,
                                  cursorclass=pymysql.cursors.DictCursor)
     return connection
 
