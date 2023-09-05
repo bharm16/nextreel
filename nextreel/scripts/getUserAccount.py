@@ -1,86 +1,27 @@
-import pymysql
-
+from mysql_query_builder import execute_query
 from db_config_scripts import db_config, user_db_config
 
-
-
-def connect_to_db():
-    # Replace the parameters below with your MySQL credentials
-    host = 'localhost'
-    user = 'root'
-    password = 'caching_sha2_password'
-    database = 'UserAccounts'
-
-    connection = pymysql.connect(host=host, user=user, password=password, db=database,
-                                 cursorclass=pymysql.cursors.DictCursor)
-    return connection
-
-
 def get_user_by_id(user_id):
-    connection = connect_to_db()
-    try:
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM users WHERE id=%s"
-            cursor.execute(sql, (user_id,))
-            result = cursor.fetchone()
-            return result
-    finally:
-        connection.close()
-
+    return execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
 
 def get_user_by_username(username):
-    connection = connect_to_db()
-    try:
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM users WHERE username=%s"
-            cursor.execute(sql, (username,))
-            result = cursor.fetchone()
-            return result
-    finally:
-        connection.close()
-
+    return execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
 
 def get_all_users():
-    connection = connect_to_db()
-    try:
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM users"
-            cursor.execute(sql)
-            result = cursor.fetchall()
-            return result
-    finally:
-        connection.close()
-
-
-# Add this function to getUserAccount.py
-# Existing code ...
+    return execute_query(user_db_config, "SELECT * FROM users", fetch='all')
 
 def insert_new_user(username, email, password):
-    connection = connect_to_db()
-    try:
-        with connection.cursor() as cursor:
-            # Check if the username already exists
-            sql = "SELECT * FROM users WHERE username=%s"
-            cursor.execute(sql, (username,))
-            result = cursor.fetchone()
-            if result:
-                return "Username already exists."
+    existing_user = execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
+    if existing_user:
+        return "Username already exists."
 
-            # Insert new user. The id will be auto-incremented.
-            sql = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (username, email, password))
+    query = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
+    execute_query(user_db_config, query, (username, email, password), fetch='none')
 
-            new_user_id = cursor.lastrowid
-            connection.commit()
+    # If you need the newly created user ID, you'd need to execute another query to fetch it.
+    new_user = execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
 
-            return {"message": f"User created successfully with ID {new_user_id}.", "id": new_user_id}
-
-    finally:
-        connection.close()
-
-
-
-
+    return {"message": f"User created successfully with ID {new_user['id']}.", "id": new_user['id']}
 
 # Example usage
 if __name__ == "__main__":

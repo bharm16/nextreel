@@ -1,34 +1,21 @@
-import pymysql
 from datetime import datetime
+from mysql_query_builder import execute_query
 
 def log_movie_to_account(user_id, tconst, db_config):
     print(f"Logging movie {tconst} for user {user_id}")  # Debugging line
 
-    conn = pymysql.connect(**db_config)
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    watched_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    query = "INSERT INTO watched_movies (user_id, tconst, watched_at) VALUES (%s, %s, %s)"
+
     try:
-        watched_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO watched_movies (user_id, tconst, watched_at) VALUES (%s, %s, %s)"
-        cursor.execute(query, (user_id, tconst, watched_at))
-        conn.commit()
+        execute_query(db_config, query, (user_id, tconst, watched_at), fetch='none')
         print(f"Successfully logged movie {tconst} for user {user_id}.")
-    except pymysql.MySQLError as e:
+    except Exception as e:
         print(f"Error: {e}")
-    finally:
-        cursor.close()
-        conn.close()
 
 def query_watched_movie(user_id, tconst, db_config):
-    conn = pymysql.connect(**db_config)
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
-    try:
-        query = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
-        cursor.execute(query, (user_id, tconst))
-        result = cursor.fetchone()
-        return result
-    finally:
-        cursor.close()
-        conn.close()
+    query = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
+    return execute_query(db_config, query, (user_id, tconst))
 
 if __name__ == "__main__":
     db_config = {
