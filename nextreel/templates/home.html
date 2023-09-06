@@ -193,19 +193,16 @@
                     },
                     body: JSON.stringify({
                         tconst: tconst
-                    })
-                }).then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            alert("Movie marked as seen!");
-                            window.location.href = "/";
-                        } else {
-                            alert("Failed to mark movie as seen!");
+                    }),
+                    redirect: 'follow'  // Automatically follow redirects
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = response.url;  // Navigate to the new URL
+                    } else {
+                        alert("Failed to mark movie as seen!");
+                    }
+                }).catch(error => console.error("Error:", error));
 
-
-                        }
-
-                    });
 
             });
 

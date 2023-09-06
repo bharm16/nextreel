@@ -15,6 +15,7 @@ def log_movie_to_account(user_id, tconst, db_config):
         print(f"Successfully logged movie {tconst} for user {user_id}.")
     except Exception as e:
         print(f"Error: {e}")
+        raise e
 
 def query_watched_movie(user_id, tconst, db_config):
     query = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
