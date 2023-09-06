@@ -5,7 +5,6 @@ import random
 import pymysql
 import imdb
 
-
 #
 #
 #
@@ -249,17 +248,11 @@ import imdb
 # #
 
 
-
-
 import sys
 
 from nextreel.scripts.mysql_query_builder import execute_query
 
 print("Python Executable:", sys.executable)
-
-
-
-
 
 db_config = {
     'host': 'localhost',

@@ -111,31 +111,6 @@ def login():
     return render_template('userLogin.html')
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('home'))
-#
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         conn = pymysql.connect(**user_db_config)
-#         cursor = conn.cursor(pymysql.cursors.DictCursor)
-#         cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
-#         user_data = cursor.fetchone()
-#         cursor.close()
-#         conn.close()
-#
-#         if user_data and check_password_hash(user_data['password'], password):
-#             print(f"Test output: Username and password match found for user {username}")  # Test output
-#             user = User(id=user_data['id'], username=user_data['username'])
-#             login_user(user)
-#             return redirect(url_for('home'))
-#         else:
-#             flash("Invalid username or password")
-#     return render_template('userLogin.html')
-
-
 @app.route('/logout')
 @login_required
 def logout():
