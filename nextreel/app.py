@@ -58,12 +58,21 @@ def home():
         logout_user()
         should_logout_on_home_load = False
 
-    start_time = time.time()
 
+
+    # Time the database query
+    start_time_db = time.time()
     row = get_filtered_random_row(db_config, {})
+    end_time_db = time.time()
+    print(f"Time taken for DB query: {end_time_db - start_time_db}")
+
     imdbId = int(row['tconst'][2:])
     ia = imdb.IMDb()
+    start_time_api = time.time()
     movie = ia.get_movie(imdbId)
+    end_time_api = time.time()
+    print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
+
     movie_data = {
         "title": movie.get('title', 'N/A'),
         "imdb_id": movie.getID(),
@@ -83,14 +92,7 @@ def home():
     }
     print(movie_data)
 
-    # Record the end time
-    end_time = time.time()
 
-    # Calculate the elapsed time
-    elapsed_time = end_time - start_time
-
-    # Print or log the elapsed time
-    print(f"Time taken to get movie info and load into HTML: {elapsed_time} seconds")
 
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
