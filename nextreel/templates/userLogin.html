@@ -1,61 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
 
     <!-- Bootstrap 5 and Font Awesome CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Google Fonts - Poppins for modern look -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
     <style>
-        /* Same style as in home.html */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin-top: 80px;
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
         }
-        /* Additional styles for UserLogin */
-        .login-form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        .h-custom {
+            height: calc(100% - 73px);
         }
-
-        .login-form h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            background-color: #1f8efd;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0f7add;
-        }
-
-        .button-container {
-            text-align: center;
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            }
         }
     </style>
 </head>
-
 <body>
 
 {% with messages = get_flashed_messages() %}
@@ -68,34 +39,56 @@
   {% endif %}
 {% endwith %}
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
-        </div>
-    </nav>
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Sample image"> -->
+          <img src="/static/nextreel_logo.JPG" class="img-fluid" alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form action="/login" method="post">
+          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+            <!-- Add your social media button logic here -->
+          </div>
 
-    <div class="container">
-        <div class="login-form">
-            <h1>Login</h1>
-            <form action="/login" method="post">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
-                </div>
-                <br>
+          <div class="divider d-flex align-items-center my-4">
+            <p class="text-center fw-bold mx-3 mb-0">Or</p>
+          </div>
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <br>
+          <!-- Username input -->
+          <div class="form-outline mb-4">
+            <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter your username" required>
+            <label class="form-label" for="username">Username</label>
+          </div>
 
-                <div class="button-container">
-                    <input type="submit" class="btn btn-primary" value="Login">
-                    <input type="button" class="btn btn-secondary" value="Sign Up" onclick="location.href='/register'">
-                </div>
-            </form>
-        </div>
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter password" required>
+            <label class="form-label" for="password">Password</label>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <!-- Checkbox -->
+            <div class="form-check mb-0">
+              <input class="form-check-input me-2" type="checkbox" value="" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <!-- Add forgot password logic -->
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <input type="submit" class="btn btn-primary btn-lg" value="Login">
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register" class="link-danger">Register</a></p>
+          </div>
+
+        </form>
+      </div>
     </div>
+  </div>
+  <!-- Add your footer here -->
+</section>
+
 </body>
 </html>
