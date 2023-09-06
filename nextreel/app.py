@@ -1,5 +1,7 @@
 import random
 import os
+import time
+
 import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -56,6 +58,8 @@ def home():
         logout_user()
         should_logout_on_home_load = False
 
+    start_time = time.time()
+
     row = get_filtered_random_row(db_config, {})
     imdbId = int(row['tconst'][2:])
     ia = imdb.IMDb()
@@ -78,6 +82,16 @@ def home():
         "poster_url": movie.get_fullsizeURL()
     }
     print(movie_data)
+
+    # Record the end time
+    end_time = time.time()
+
+    # Calculate the elapsed time
+    elapsed_time = end_time - start_time
+
+    # Print or log the elapsed time
+    print(f"Time taken to get movie info and load into HTML: {elapsed_time} seconds")
+
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 

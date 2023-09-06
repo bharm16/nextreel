@@ -1,4 +1,6 @@
 import random
+import time
+
 import pymysql
 import imdb
 import random
@@ -332,7 +334,21 @@ def main(criteria):
         print("No movies found based on the given criteria.")
         return None
 
+    # Record the start time
+    start_time = time.time()
+
+    # Call the function
     movie_info = fetch_movie_info_from_imdb(row['tconst'])
+
+    # Record the end time
+    end_time = time.time()
+
+    # Calculate the elapsed time
+    elapsed_time = end_time - start_time
+
+    # Print the elapsed time
+    print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
+
     return movie_info
 
 
