@@ -14,7 +14,7 @@ from db_config import db_config, user_db_config
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 
-from queue import Queue
+from queue import Queue, Empty
 import threading
 
 app = Flask(__name__)
@@ -96,7 +96,6 @@ def load_user(user_id):
 print("Current working directory:", os.getcwd())
 
 
-
 @app.route('/')
 def home():
     global should_logout_on_home_load
@@ -111,9 +110,6 @@ def home():
 
     # Render the movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
-
-
-
 
 
 # @app.route('/')
@@ -277,11 +273,21 @@ def filtered_movie_endpoint():
 @login_required
 def seen_it():
     tconst = request.json.get('tconst')
+    user_id = current_user.id
+
     if tconst:
-        log_movie_to_account(current_user.id, tconst, user_db_config)  # Log the movie to watched_movies table
-        return jsonify({'status': 'success'})
+        # Log the movie to watched_movies table
+        log_movie_to_account(current_user.id, tconst, user_db_config)
+
+        movie_data = movie_queue.get()
+
+        print(movie_data)
+
+        # Render the movie data
+        return render_template('home.html', movie=movie_data, current_user=current_user)
     else:
         return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
+
 
 
 if __name__ == "__main__":

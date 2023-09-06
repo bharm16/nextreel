@@ -45,3 +45,6 @@ if __name__ == "__main__":
         print(f"Watched At: {result['watched_at']}")
     else:
         print("The movie was not logged into the database.")
+
+
+

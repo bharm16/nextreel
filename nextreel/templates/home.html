@@ -198,10 +198,15 @@
                     .then(data => {
                         if (data.status === 'success') {
                             alert("Movie marked as seen!");
+                            window.location.href = "/";
                         } else {
                             alert("Failed to mark movie as seen!");
+
+
                         }
+
                     });
+
             });
 
         });
