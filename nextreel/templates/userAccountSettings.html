@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account Settings</title>
+
+    <!-- Bootstrap 5 and Font Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+
+    <style>
+        /* Sidebar and Main Content */
+        body {
+            background-color: #fbfbfb;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 58px 0 0;
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 991.98px) {
+            main {
+                padding-left: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
+            Nextreel
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ current_user.username }}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="/login" class="btn btn-custom">Login</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="/random_movie" style="display: inline;">
+                        <button type="submit" class="btn btn-custom">Next Movie</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <nav class="sidebar bg-light">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#">Profile</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#">Settings</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container pt-4">
+            <h1>User Account Settings</h1>
+            <!-- Your main content here -->
+        </div>
+    </main>
+
+</body>
+</html>

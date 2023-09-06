@@ -269,26 +269,6 @@ def filtered_movie_endpoint():
     return render_template('filtered_movies.html', movie=movie_data)
 
 
-# @app.route('/seen_it', methods=['POST'])
-# @login_required
-# def seen_it():
-#     tconst = request.json.get('tconst')
-#     user_id = current_user.id
-#
-#     if tconst:
-#         # Log the movie to watched_movies table
-#         log_movie_to_account(current_user.id, tconst, user_db_config)
-#
-#         movie_data = movie_queue.get()
-#
-#         print(movie_data)
-#
-#         # Render the movie data
-#         return render_template('home.html', movie=movie_data, current_user=current_user)
-#     else:
-#         return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
-
-
 @app.route('/seen_it', methods=['POST'])
 @login_required
 def seen_it():
@@ -304,6 +284,11 @@ def seen_it():
     else:
         return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
 
+
+@app.route('/account_settings')
+@login_required
+def account_settings():
+    return render_template('userAccountSettings.html')
 
 
 if __name__ == "__main__":

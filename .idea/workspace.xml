@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/templates/userLogin.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/userLogin.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +15,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -78,6 +77,9 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.app">
+    <configuration name="userAccountSettings.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/userAccountSettings.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="userLogin.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/userLogin.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -118,21 +120,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_logMovieToAccount.TestLogMovieToAccount.test_query_watched_movie" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="tmdb_proj_python" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/nextreel/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_logMovieToAccount.TestLogMovieToAccount.test_query_watched_movie&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests in test_logMovieToAccount.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="tmdb_proj_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,19 +136,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="JavaScript Debug.userAccountSettings.html" />
       <item itemvalue="JavaScript Debug.userLogin.html" />
       <item itemvalue="Python.app" />
       <item itemvalue="Python tests.Python tests for test_logMovieToAccount.TestLogMovieToAccount" />
-      <item itemvalue="Python tests.Python tests for test_logMovieToAccount.TestLogMovieToAccount.test_query_watched_movie" />
       <item itemvalue="Python tests.Python tests in test_logMovieToAccount.py" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
+        <item itemvalue="JavaScript Debug.userAccountSettings.html" />
         <item itemvalue="JavaScript Debug.userLogin.html" />
         <item itemvalue="Python tests.Python tests in test_logMovieToAccount.py" />
         <item itemvalue="Python tests.Python tests for test_logMovieToAccount.TestLogMovieToAccount" />
-        <item itemvalue="Python tests.Python tests for test_logMovieToAccount.TestLogMovieToAccount.test_query_watched_movie" />
       </list>
     </recent_temporary>
   </component>
@@ -203,7 +190,7 @@
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_app_py.coverage" NAME="pytest in app.py Coverage Results" MODIFIED="1693020525889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_setFilters_test_py.coverage" NAME="pytest in setFilters_test.py Coverage Results" MODIFIED="1691450443481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_for_test_setFilters_test_random_row_value.coverage" NAME="pytest for test_setFilters.test_random_row_value Coverage Results" MODIFIED="1691450221188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
-    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1694032414838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
+    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1694034977290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_test_setFilters_py.coverage" NAME="pytest in test_setFilters.py Coverage Results" MODIFIED="1691450280310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters.coverage" NAME="setFilters Coverage Results" MODIFIED="1693846894052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$testing_cinemagoer_api.coverage" NAME="testing_cinemagoer_api Coverage Results" MODIFIED="1691500609256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
