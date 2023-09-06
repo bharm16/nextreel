@@ -14,6 +14,9 @@ from db_config import db_config, user_db_config
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 
+from queue import Queue
+import threading
+
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
 
@@ -30,7 +33,45 @@ class User(UserMixin):
         self.username = username
 
 
-# User loader function
+# Global queue to hold the movies
+movie_queue = Queue(maxsize=5)
+
+
+def populate_movie_queue():
+    while True:
+        if movie_queue.qsize() < 5:
+            row = get_filtered_random_row(db_config, {})
+            imdbId = int(row['tconst'][2:])
+            ia = imdb.IMDb()
+            movie = ia.get_movie(imdbId)
+            movie_data = {
+                "title": movie.get('title', 'N/A'),
+                "imdb_id": movie.getID(),
+                "genres": ', '.join(movie.get('genres', ['N/A'])),
+                "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+                # "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
+                "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+
+                "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+                "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+                "countries": ', '.join(movie.get('countries', ['N/A'])),
+                "languages": ', '.join(movie.get('languages', ['N/A'])),
+                "rating": movie.get('rating', 'N/A'),
+                "votes": movie.get('votes', 'N/A'),
+                "plot": movie.get('plot', ['N/A'])[0],
+                "poster_url": movie.get_fullsizeURL()
+            }
+
+            movie_queue.put(movie_data)
+        time.sleep(1)  # To prevent the while loop from running too fast
+
+
+# Start a thread to populate the movie queue
+populate_thread = threading.Thread(target=populate_movie_queue)
+populate_thread.daemon = True  # Daemonize the thread
+populate_thread.start()
+
+
 # User loader function
 @login_manager.user_loader
 def load_user(user_id):
@@ -51,6 +92,7 @@ def load_user(user_id):
 print("Current working directory:", os.getcwd())
 
 
+
 @app.route('/')
 def home():
     global should_logout_on_home_load
@@ -58,43 +100,58 @@ def home():
         logout_user()
         should_logout_on_home_load = False
 
+    # Get a movie from the queue
+    movie_data = movie_queue.get()
 
-
-    # Time the database query
-    start_time_db = time.time()
-    row = get_filtered_random_row(db_config, {})
-    end_time_db = time.time()
-    print(f"Time taken for DB query: {end_time_db - start_time_db}")
-
-    imdbId = int(row['tconst'][2:])
-    ia = imdb.IMDb()
-    start_time_api = time.time()
-    movie = ia.get_movie(imdbId)
-    end_time_api = time.time()
-    print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
-
-    movie_data = {
-        "title": movie.get('title', 'N/A'),
-        "imdb_id": movie.getID(),
-        "genres": ', '.join(movie.get('genres', ['N/A'])),
-        "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-        # "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
-        "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-
-        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
-        "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-        "countries": ', '.join(movie.get('countries', ['N/A'])),
-        "languages": ', '.join(movie.get('languages', ['N/A'])),
-        "rating": movie.get('rating', 'N/A'),
-        "votes": movie.get('votes', 'N/A'),
-        "plot": movie.get('plot', ['N/A'])[0],
-        "poster_url": movie.get_fullsizeURL()
-    }
     print(movie_data)
 
-
-
+    # Render the movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
+
+
+
+
+
+# @app.route('/')
+# def home():
+#     global should_logout_on_home_load
+#     if should_logout_on_home_load:
+#         logout_user()
+#         should_logout_on_home_load = False
+#
+#     # Time the database query
+#     start_time_db = time.time()
+#     row = get_filtered_random_row(db_config, {})
+#     end_time_db = time.time()
+#     print(f"Time taken for DB query: {end_time_db - start_time_db}")
+#
+#     imdbId = int(row['tconst'][2:])
+#     ia = imdb.IMDb()
+#     start_time_api = time.time()
+#     movie = ia.get_movie(imdbId)
+#     end_time_api = time.time()
+#     print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
+#
+#     movie_data = {
+#         "title": movie.get('title', 'N/A'),
+#         "imdb_id": movie.getID(),
+#         "genres": ', '.join(movie.get('genres', ['N/A'])),
+#         "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+#         # "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
+#         "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+#
+#         "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+#         "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+#         "countries": ', '.join(movie.get('countries', ['N/A'])),
+#         "languages": ', '.join(movie.get('languages', ['N/A'])),
+#         "rating": movie.get('rating', 'N/A'),
+#         "votes": movie.get('votes', 'N/A'),
+#         "plot": movie.get('plot', ['N/A'])[0],
+#         "poster_url": movie.get_fullsizeURL()
+#     }
+#     print(movie_data)
+#
+#     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
