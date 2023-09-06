@@ -4,11 +4,12 @@ import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from scripts.getMovieFromIMDB import get_filtered_random_row, main
+from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask import jsonify
-from scripts.logMovieToAccount import log_movie_to_account
+
 from db_config import db_config, user_db_config
+from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 
 app = Flask(__name__)

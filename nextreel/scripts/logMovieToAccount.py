@@ -1,5 +1,8 @@
 from datetime import datetime
-from mysql_query_builder import execute_query
+
+from nextreel.scripts.mysql_query_builder import execute_query
+
+
 
 def log_movie_to_account(user_id, tconst, db_config):
     print(f"Logging movie {tconst} for user {user_id}")  # Debugging line
