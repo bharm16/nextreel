@@ -43,7 +43,11 @@ def populate_movie_queue():
             row = get_filtered_random_row(db_config, {})
             imdbId = int(row['tconst'][2:])
             ia = imdb.IMDb()
+            start_time_api = time.time()
             movie = ia.get_movie(imdbId)
+            end_time_api = time.time()
+            print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
+
             movie_data = {
                 "title": movie.get('title', 'N/A'),
                 "imdb_id": movie.getID(),
