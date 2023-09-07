@@ -5,8 +5,9 @@ import time
 import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash
+
 from werkzeug.security import generate_password_hash, check_password_hash
-from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main
+from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask import jsonify
 
@@ -39,9 +40,10 @@ movie_queue = Queue(maxsize=5)
 
 def populate_movie_queue():
     while True:
-        if movie_queue.qsize() < 5:
+        if movie_queue.qsize() < 2:
             row = get_filtered_random_row(db_config, {})
             imdbId = int(row['tconst'][2:])
+
             ia = imdb.IMDb()
             start_time_api = time.time()
             movie = ia.get_movie(imdbId)
@@ -76,16 +78,47 @@ populate_thread.daemon = True  # Daemonize the thread
 populate_thread.start()
 
 
+@app.route('/account_settings')
+@login_required
+def account_settings():
+    user_id = current_user.id
+
+    watched_movie_data = []
+    ia = imdb.IMDb()
+
+    watched_movie_tconst = []
+
+    # Query to get the watched movies for the current user
+    watched_movies_query = "SELECT tconst FROM watched_movies WHERE username = %s"
+    print(watched_movies_query)
+    watched_movies = execute_query(user_db_config, watched_movies_query, (current_user.username,), fetch='all')
+
+    print(type(watched_movies))
+    print(watched_movies)
+
+    print("Watched Movies:", watched_movies)
+
+    for row in watched_movies:
+        watched_movie_tconst.append(row['tconst'])
+        print("Watched Movie tconst values:", watched_movie_tconst)
+
+    # for row in watched_movies:
+    # imdbId = int(['tconst'][2:])  # Trimming off the first 2 characters and converting to an integer
+    # imdbId = int(tconst[2:])
+
+    # print(imdbId)
+    # movie = ia.get_movie(imdbId)
+    # print(movie)
+    # movie_poster = movie.get_fullsizeURL()
+    # print(movie_poster)
+    # watched_movie_data.append(movie_poster)
+
+    return render_template('userAccountSettings.html', watched_movie_posters=watched_movie_data)
+
+
 # User loader function
 @login_manager.user_loader
 def load_user(user_id):
-    # conn = pymysql.connect(**user_db_config)
-    # cursor = conn.cursor(pymysql.cursors.DictCursor)
-    # cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
-    # user_data = cursor.fetchone()
-    # cursor.close()
-    # conn.close()
-
     user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
 
     if user_data:
@@ -110,48 +143,6 @@ def home():
 
     # Render the movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
-
-
-# @app.route('/')
-# def home():
-#     global should_logout_on_home_load
-#     if should_logout_on_home_load:
-#         logout_user()
-#         should_logout_on_home_load = False
-#
-#     # Time the database query
-#     start_time_db = time.time()
-#     row = get_filtered_random_row(db_config, {})
-#     end_time_db = time.time()
-#     print(f"Time taken for DB query: {end_time_db - start_time_db}")
-#
-#     imdbId = int(row['tconst'][2:])
-#     ia = imdb.IMDb()
-#     start_time_api = time.time()
-#     movie = ia.get_movie(imdbId)
-#     end_time_api = time.time()
-#     print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
-#
-#     movie_data = {
-#         "title": movie.get('title', 'N/A'),
-#         "imdb_id": movie.getID(),
-#         "genres": ', '.join(movie.get('genres', ['N/A'])),
-#         "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-#         # "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
-#         "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-#
-#         "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
-#         "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-#         "countries": ', '.join(movie.get('countries', ['N/A'])),
-#         "languages": ', '.join(movie.get('languages', ['N/A'])),
-#         "rating": movie.get('rating', 'N/A'),
-#         "votes": movie.get('votes', 'N/A'),
-#         "plot": movie.get('plot', ['N/A'])[0],
-#         "poster_url": movie.get_fullsizeURL()
-#     }
-#     print(movie_data)
-#
-#     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -274,6 +265,7 @@ def filtered_movie_endpoint():
 def seen_it():
     tconst = request.json.get('tconst')
     user_id = current_user.id
+    usernames = current_user.usersname
 
     if tconst:
         # Log the movie to watched_movies table
@@ -285,10 +277,10 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
 
 
-@app.route('/account_settings')
-@login_required
-def account_settings():
-    return render_template('userAccountSettings.html')
+# @app.route('/account_settings')
+# @login_required
+# def account_settings():
+#     return render_template('userAccountSettings.html')
 
 
 if __name__ == "__main__":
