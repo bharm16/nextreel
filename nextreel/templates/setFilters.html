@@ -21,7 +21,7 @@
 
         /* New Styles */
         body {
-            background-color: #8E24AA;
+            background-color: #f4f3f5;
         }
 
         .mt-100 {
@@ -87,18 +87,30 @@
 
         label.check span {
             padding: 7px 14px;
-            border: 2px solid #8f37aa;
+            border: 2px solid #d9d7da;
             display: inline-block;
-            color: #8f37aa;
+            color: #e0dde1;
             border-radius: 3px;
             text-transform: uppercase;
         }
 
         label.check input:checked + span {
-            border-color: #8f37aa;
-            background-color: #8f37aa;
+            border-color: #f0e8f3;
+            background-color: #e6e0e8;
             color: #fff;
         }
+
+        label.no-gap .col-3 {
+            margin-bottom: 0 !important;
+        }
+
+        .no-gap > .col-3 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+
     </style>
     <script>
         function selectAllCheckboxes(source) {
@@ -153,47 +165,47 @@
 
 
 
-    <div class="text-center w-100">
-        <h1 class="mt-4 mb-4"></h1>
+    <form action="/filtered_movie" method="post">
+
+<div class="row justify-content-center no-gap">
+
+    <div class="col-3">
+        <label for="imdb_score_min">IMDb Score (Min):</label>
+        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
+    </div>
+    <div class="col-3">
+        <label for="imdb_score_max">IMDb Score (Max):</label>
+        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
+    </div>
+</div>
 
 
-        <form action="/filtered_movie" method="post">
+
+<div class="row justify-content-center no-gap">
+        <div class="col-3">
+            <label for="num_votes_min">Vote Count (Min):</label>
+            <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
+        </div>
+        <div class="col-3 mt-0">
+            <label for="num_votes_max">Vote Count (Max):</label>
+            <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
+        </div>
+</div>
 
 
 
-            <div class="row mt-4 justify-content-center">
-                <div class="col-3">
-                    <label for="imdb_score_min">IMDb Score (Min):</label>
-                    <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
-                </div>
-                <div class="col-3">
-                    <label for="imdb_score_max">IMDb Score (Max):</label>
-                    <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
-                </div>
-            </div>
+    <label class="mt-4">Year</label>
+    <div class="row justify-content-center no-gap">
+        <div class="col-3">
+            <label for="year_min">Year (Min):</label>
+            <input type="number" class="form-control" id="year_min" name="year_min">
+        </div>
+        <div class="col-3 mt-0">
+            <label for="year_max">Year (Max):</label>
+            <input type="number" class="form-control" id="year_max" name="year_max">
+        </div>
+    </div>
 
-            <div class="row mt-4 justify-content-center">
-                <div class="col-3">
-                    <label for="num_votes_min">Vote Count (Min):</label>
-                    <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
-                </div>
-                <div class="col-3">
-                    <label for="num_votes_max">Vote Count (Max):</label>
-                    <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
-                </div>
-            </div>
-
-            <label class="mt-4">Year</label>
-            <div class="row mt-4 justify-content-center">
-                <div class="col-3">
-                    <label for="year_min">Year (Min):</label>
-                    <input type="number" class="form-control" id="year_min" name="year_min">
-                </div>
-                <div class="col-3">
-                    <label for="year_max">Year (Max):</label>
-                    <input type="number" class="form-control" id="year_max" name="year_max">
-                </div>
-            </div>
 
 
 

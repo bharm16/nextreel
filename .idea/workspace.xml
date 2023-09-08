@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/tmdb_proj_python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tmdb_proj_python.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/templates/setFilters.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/setFilters.html" afterDir="false" />
     </list>
@@ -204,7 +203,7 @@
       <workItem from="1693846072692" duration="2372000" />
       <workItem from="1693925757659" duration="627000" />
       <workItem from="1693928499379" duration="1977000" />
-      <workItem from="1694177903239" duration="2712000" />
+      <workItem from="1694177903239" duration="3707000" />
     </task>
     <servers />
   </component>
