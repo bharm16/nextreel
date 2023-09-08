@@ -1,50 +1,55 @@
+# Import required libraries
 import random
 import os
 import time
-
 import pymysql
 import imdb
-from flask import Flask, render_template, request, redirect, url_for, flash
-
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
-from flask import jsonify
-
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
-
 from queue import Queue, Empty
 import threading
 
+# Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'some_random_secret_key'  # Make sure to change this in production
+app.secret_key = 'some_random_secret_key'  # IMPORTANT: Change this in production
 
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+# Variable to determine whether a user should be logged out when the home page loads
 should_logout_on_home_load = True
 
 
+# User class to handle login sessions
 class User(UserMixin):
     def __init__(self, id, username):
         self.id = id
         self.username = username
 
 
-# Global queue to hold the movies
-movie_queue = Queue(maxsize=5)
+# Initialize a global queue to hold movie data
+movie_queue = Queue(maxsize=3)
 
 
+# Function to populate the movie queue
 def populate_movie_queue():
+    # Infinite loop to keep the queue populated
     while True:
+        # If queue size is less than 2, fetch a new movie
         if movie_queue.qsize() < 2:
+            # Get a random movie that matches the criteria (empty in this case)
             row = get_filtered_random_row(db_config, {})
             tconst = row['tconst']
+            # Fetch detailed movie information from IMDb
             movie = fetch_movie_info_from_imdb(tconst)
+            # Create a dictionary with relevant movie details
 
             movie_data = {
                 "title": movie.get('title', 'N/A'),
@@ -62,142 +67,155 @@ def populate_movie_queue():
                 "poster_url": movie.get_fullsizeURL()
             }
 
+            # Put the fetched movie into the global queue
             movie_queue.put(movie_data)
-        time.sleep(1)  # To prevent the while loop from
-
+            # Pause for 1 second to prevent rapid API calls
+        time.sleep(1)
 
 # Start a thread to populate the movie queue
+# Start a background thread to populate the movie queue
 populate_thread = threading.Thread(target=populate_movie_queue)
-populate_thread.daemon = True  # Daemonize the thread
+populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
 
-
+# Route for account settings
 @app.route('/account_settings')
 @login_required
 def account_settings():
-    print("Entered account_settings function.")  # Debugging line
+    # Fetch the watched movie posters for the current user
     watched_movie_posters = get_watched_movie_posters(current_user.id, user_db_config)
-    print(f"Watched movie posters for user {current_user.id}: {watched_movie_posters}")  # Debugging line
+    # Render the account settings template
     return render_template('userAccountSettings.html', poster_urls=watched_movie_posters)
 
-
-# User loader function
+# Function to load user details during login
 @login_manager.user_loader
 def load_user(user_id):
+    # Query to fetch user details from the database
     user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
-
+    # If user data exists, return a User object
     if user_data:
         return User(id=user_data['id'], username=user_data['username'])
+    # Otherwise, return None
     return None
 
-
+# Print the current working directory (for debugging)
 print("Current working directory:", os.getcwd())
 
-global last_displayed_movie  # Declare the global variable at the top of your script
+# Declare a global variable to store the last displayed movie
+global last_displayed_movie
 
-
+# Home route
 @app.route('/')
 def home():
-    print("Entered home function.")  # Debugging line
-
     global should_logout_on_home_load
+    # Logout the user if the flag is set
     if should_logout_on_home_load:
         logout_user()
         should_logout_on_home_load = False
-
-    # Get a movie from the queue
+    # Fetch a movie from the global queue
     movie_data = movie_queue.get()
-    print(f"Movie data fetched from queue: {movie_data}")  # Debugging line
-
-    # Update last_displayed_movie with the fetched movie data
+    # Update the global variable with the fetched movie data
     global last_displayed_movie
-    last_displayed_movie = movie_data  # Assign the fetched movie data to the global variable
-
-    print(f"Updated last_displayed_movie: {last_displayed_movie}")  # Debugging line
-
-    # Render the movie data
+    last_displayed_movie = movie_data
+    # Render the home page with the fetched movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
-
+# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("Entered login function")  # Debugging line
+    # If user is already authenticated, redirect to home
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-
+    # If request method is POST, handle login
     if request.method == 'POST':
+        # Fetch username and password from the form
         username = request.form['username']
         password = request.form['password']
-        print(f"Attempting to authenticate {username}")  # Debugging line
-
+        # Query to fetch user details
         conn = pymysql.connect(**user_db_config)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
         user_data = cursor.fetchone()
         cursor.close()
         conn.close()
-        print(f"User data fetched: {user_data}")  # Debugging line
-
+        # If user exists and password matches, log in the user
         if user_data and user_data['password'] == password:
-            print("Successfully authenticated!")  # Debugging line
             user = User(id=user_data['id'], username=user_data['username'])
             login_user(user)
             return redirect(url_for('home'))
         else:
-            print("Failed to authenticate!")  # Debugging line
+            # If authentication fails, flash an error message
             flash("Invalid username or password")
+    # Render the login template
     return render_template('userLogin.html')
 
 
+# Route for logout
 @app.route('/logout')
-@login_required
+@login_required  # Require the user to be logged in to access this route
 def logout():
+    # Log the user out
     logout_user()
+    # Redirect to the login page
     return redirect(url_for('login'))
 
 
+# Route for user registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # If the user is already authenticated, redirect to home
     if current_user.is_authenticated:
         return redirect(url_for('home'))
 
+    # If the request method is POST, process the registration form
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
+
+        # Connect to the database
         conn = pymysql.connect(**user_db_config)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
+
+        # Execute the insert query
         cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
 
+        # Commit the transaction
         conn.commit()
         cursor.close()
         conn.close()
+
+        # Flash a success message
         flash("Registration successful! Please login.")
+
+        # Redirect to the login page
         return redirect(url_for('login'))
 
+    # Render the registration form
     return render_template('createAccountForm.html')
 
 
+# Route for setting filters
 @app.route('/setFilters')
 def set_filters():
+    # Render the filter settings template
     return render_template('setFilters.html')
 
 
+# Route to get a random movie
 @app.route('/random_movie', methods=['POST'])
 def random_movie():
+    # Redirect to the home route, where a random movie will be displayed
     return redirect(url_for('home'))
 
 
+# Route to get a movie based on filters
 @app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
+    # Extract filter criteria from the form
     filters = request.form
-    criteria = {
-        "min_year": 2000,
-        "max_year": 2020,
-        "min_rating": 7.5,
-        "max_rating": 10,
-        "title_type": "movie"
-    }
+    criteria = {}
+
     if filters.get('year_min'):
         criteria['min_year'] = int(filters.get('year_min'))
     if filters.get('year_max'):
@@ -209,9 +227,14 @@ def filtered_movie_endpoint():
     if filters.get('num_votes_min'):
         criteria['min_votes'] = int(filters.get('num_votes_min'))
 
+        # Fetch the movie based on the criteria
     movie_info = main(criteria)
+
+    # If no movies are found, return an error message
     if not movie_info:
         return "No movies found based on the given criteria."
+
+    # Create a dictionary to hold movie details
 
     movie_data = {
         "title": movie_info.get('title', 'N/A'),
@@ -231,23 +254,31 @@ def filtered_movie_endpoint():
     }
     print(movie_data)
 
+    # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
 
 
+# Route to mark a movie as seen
 @app.route('/seen_it', methods=['POST'])
-@login_required
+@login_required  # Require the user to be logged in
 def seen_it():
-    global last_displayed_movie  # Declare the global variable
-    if last_displayed_movie:
-        tconst = last_displayed_movie.get("imdb_id")  # Assuming last_displayed_movie has an 'imdb_id' key
-        if not tconst:
-            return jsonify({'status': 'failure', 'message': 'No tconst in movie data'}), 400
+    global last_displayed_movie  # Use the global variable to get the last displayed movie
 
+    # If there is a last displayed movie, log it to the user's account
+    if last_displayed_movie:
+        tconst = last_displayed_movie.get("imdb_id")
+
+        # Log the movie to the user's account
         log_movie_to_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
+
+        # Redirect to the home page
         return redirect(url_for('home'))
     else:
+        # Return an error if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
+# Entry point of the application
 if __name__ == "__main__":
+    # Run the Flask app in debug mode (change this in production)
     app.run(debug=True)
