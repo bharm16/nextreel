@@ -43,22 +43,15 @@ def populate_movie_queue():
     while True:
         if movie_queue.qsize() < 2:
             row = get_filtered_random_row(db_config, {})
-            imdbId = int(row['tconst'][2:])
-
-            ia = imdb.IMDb()
-            start_time_api = time.time()
-            movie = ia.get_movie(imdbId)
-            end_time_api = time.time()
-            print(f"Time taken for IMDb API call: {end_time_api - start_time_api}")
+            tconst = row['tconst']
+            movie = fetch_movie_info_from_imdb(tconst)
 
             movie_data = {
                 "title": movie.get('title', 'N/A'),
                 "imdb_id": movie.getID(),
                 "genres": ', '.join(movie.get('genres', ['N/A'])),
                 "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-                # "writers": ', '.join([writer['name'] for writer in movie.get('writer', []) if 'name' in writer]),
                 "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-
                 "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
                 "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
                 "countries": ', '.join(movie.get('countries', ['N/A'])),
@@ -70,7 +63,7 @@ def populate_movie_queue():
             }
 
             movie_queue.put(movie_data)
-        time.sleep(1)  # To prevent the while loop from running too fast
+        time.sleep(1)  # To prevent the while loop from
 
 
 # Start a thread to populate the movie queue
@@ -82,7 +75,9 @@ populate_thread.start()
 @app.route('/account_settings')
 @login_required
 def account_settings():
-    watched_movie_posters = get_watched_movie_posters(current_user, user_db_config)
+    print("Entered account_settings function.")  # Debugging line
+    watched_movie_posters = get_watched_movie_posters(current_user.id, user_db_config)
+    print(f"Watched movie posters for user {current_user.id}: {watched_movie_posters}")  # Debugging line
     return render_template('userAccountSettings.html', poster_urls=watched_movie_posters)
 
 
@@ -98,9 +93,13 @@ def load_user(user_id):
 
 print("Current working directory:", os.getcwd())
 
+global last_displayed_movie  # Declare the global variable at the top of your script
+
 
 @app.route('/')
 def home():
+    print("Entered home function.")  # Debugging line
+
     global should_logout_on_home_load
     if should_logout_on_home_load:
         logout_user()
@@ -108,8 +107,13 @@ def home():
 
     # Get a movie from the queue
     movie_data = movie_queue.get()
+    print(f"Movie data fetched from queue: {movie_data}")  # Debugging line
 
-    print(movie_data)
+    # Update last_displayed_movie with the fetched movie data
+    global last_displayed_movie
+    last_displayed_movie = movie_data  # Assign the fetched movie data to the global variable
+
+    print(f"Updated last_displayed_movie: {last_displayed_movie}")  # Debugging line
 
     # Render the movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
@@ -233,24 +237,16 @@ def filtered_movie_endpoint():
 @app.route('/seen_it', methods=['POST'])
 @login_required
 def seen_it():
-    tconst = request.json.get('tconst')
-    user_id = current_user.id
-    # usernames = current_user.usersname
+    global last_displayed_movie  # Declare the global variable
+    if last_displayed_movie:
+        tconst = last_displayed_movie.get("imdb_id")  # Assuming last_displayed_movie has an 'imdb_id' key
+        if not tconst:
+            return jsonify({'status': 'failure', 'message': 'No tconst in movie data'}), 400
 
-    if tconst:
-        # Log the movie to watched_movies table
-        log_movie_to_account(current_user.id, tconst, user_db_config)
-
-        # Redirect to the home page
+        log_movie_to_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
         return redirect(url_for('home'))
     else:
-        return jsonify({'status': 'failure', 'message': 'No tconst provided'}), 400
-
-
-# @app.route('/account_settings')
-# @login_required
-# def account_settings():
-#     return render_template('userAccountSettings.html')
+        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
 if __name__ == "__main__":
