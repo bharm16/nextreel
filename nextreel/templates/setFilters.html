@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,7 @@
     <title>Set Filters</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
+        /* Existing Styles */
         body, html {
             height: 100%;
         }
@@ -15,6 +17,87 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* New Styles */
+        body {
+            background-color: #8E24AA;
+        }
+
+        .mt-100 {
+            margin-top: 100px;
+        }
+
+        .mb-30{
+            margin-bottom: 30px;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #d2d2dc;
+            border-radius: 0;
+        }
+
+        .card .card-body {
+            padding: 1.25rem 1.75rem;
+        }
+
+        .card-body {
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+
+        .card .card-title {
+            color: #000000;
+            margin-bottom: 0.625rem;
+            text-transform: capitalize;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .card .card-description {
+            margin-bottom: .875rem;
+            font-weight: 400;
+            color: #76838f;
+        }
+
+        p {
+            font-size: 0.875rem;
+            margin-bottom: .5rem;
+            line-height: 1.5rem;
+        }
+
+        label.check {
+            cursor: pointer;
+        }
+
+        label.check input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        label.check span {
+            padding: 7px 14px;
+            border: 2px solid #8f37aa;
+            display: inline-block;
+            color: #8f37aa;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        label.check input:checked + span {
+            border-color: #8f37aa;
+            background-color: #8f37aa;
+            color: #fff;
         }
     </style>
     <script>
@@ -78,7 +161,7 @@
 
 
 
-             <div class="row mt-4 justify-content-center">
+            <div class="row mt-4 justify-content-center">
                 <div class="col-3">
                     <label for="imdb_score_min">IMDb Score (Min):</label>
                     <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
@@ -100,7 +183,7 @@
                 </div>
             </div>
 
-           <label class="mt-4">Year</label>
+            <label class="mt-4">Year</label>
             <div class="row mt-4 justify-content-center">
                 <div class="col-3">
                     <label for="year_min">Year (Min):</label>
@@ -117,91 +200,140 @@
             <div class="row mt-4 justify-content-center">
                 <div class="col-12">
                     <label>Genres:</label>
+
+
                     <div class="form-check">
-                        <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
-                        <label for="selectAll">Select All</label>
+                        <label class="check">
+                            <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
+                            <span>Select All</span>
+                        </label>
                     </div>
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
-                        <label class="form-check-label" for="Action">Action</label>
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
+                            <span>Action</span>
+                        </label>
                     </div>
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
-                        <label class="form-check-label" for="Adventure">Adventure</label>
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
+                            <span>Adventure</span>
+                        </label>
                     </div>
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
-                        <label class="form-check-label" for="Animation">Animation</label>
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
+                            <span>Animation</span>
+                        </label>
                     </div>
+
+
+
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
-                        <label class="form-check-label" for="Biography">Biography</label>
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
+                            <span>Biography</span>
+                        </label>
                     </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
+                            <span>Comedy</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
+                            <span>Crime</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
+                            <span>Documentary</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
+                            <span>Drama</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
+                            <span>Fantasy</span>
+                        </label>
+                    </div>
+
+
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
+                            <span>Horror</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
+                            <span>Musical</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
+                            <span>Sci-Fi</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
+                            <span>Sport</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
+                            <span>Thriller</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
+                            <span>War</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="check">
+                            <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
+                            <span>Western</span>
+                        </label>
+                    </div>
+
+
+
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
-                        <label class="form-check-label" for="Comedy">Comedy</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
-                        <label class="form-check-label" for="Crime">Crime</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
-                        <label class="form-check-label" for="Documentary">Documentary</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
-                        <label class="form-check-label" for="Drama">Drama</label>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
                     </div>
                 </div>
-
-                <div class="col-md-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
-                        <label class="form-check-label" for="Fantasy">Fantasy</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
-                        <label class="form-check-label" for="Horror">Horror</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
-                        <label class="form-check-label" for="Musical">Musical</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
-                        <label class="form-check-label" for="Sci-Fi">Sci-Fi</label>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
-                        <label class="form-check-label" for="Sport">Sport</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
-                        <label class="form-check-label" for="Thriller">Thriller</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
-                        <label class="form-check-label" for="War">War</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
-                        <label class="form-check-label" for="Western">Western</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4 justify-content-center">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary">Apply Filters</button>
-                </div>
-            </div>
         </form>
     </div>
 </div>
@@ -209,6 +341,13 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 
 </html>
