@@ -27,8 +27,8 @@
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="8" parent="1" name="UserAccounts">
-      <IntrospectionTimestamp>2023-09-07.07:00:24</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-09-07.17:00:24</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-09-07.12:05:15</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-09-07.22:05:14</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <table id="9" parent="2" name="name.basics">
@@ -318,19 +318,24 @@
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="76" parent="17" name="fk_user_id">
+    <column id="76" parent="17" name="poster_url">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <foreign-key id="77" parent="17" name="fk_user_id">
       <ColNames>user_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>users</RefTableName>
       <RefTableParentName>useraccounts</RefTableParentName>
     </foreign-key>
-    <index id="77" parent="17" name="unique_user_movie">
+    <index id="78" parent="17" name="unique_user_movie">
       <ColNames>user_id
 tconst</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="78" parent="17" name="unique_user_movie">
+    <key id="79" parent="17" name="unique_user_movie">
       <UnderlyingIndexName>unique_user_movie</UnderlyingIndexName>
     </key>
   </database-model>

@@ -12,6 +12,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from flask import jsonify
 
 from db_config import db_config, user_db_config
+from nextreel.scripts.getUserAccount import get_watched_movie_posters
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 
@@ -81,39 +82,8 @@ populate_thread.start()
 @app.route('/account_settings')
 @login_required
 def account_settings():
-    user_id = current_user.id
-
-    watched_movie_data = []
-    ia = imdb.IMDb()
-
-    watched_movie_tconst = []
-
-    # Query to get the watched movies for the current user
-    watched_movies_query = "SELECT tconst FROM watched_movies WHERE username = %s"
-    print(watched_movies_query)
-    watched_movies = execute_query(user_db_config, watched_movies_query, (current_user.username,), fetch='all')
-
-    print(type(watched_movies))
-    print(watched_movies)
-
-    print("Watched Movies:", watched_movies)
-
-    for row in watched_movies:
-        watched_movie_tconst.append(row['tconst'])
-        print("Watched Movie tconst values:", watched_movie_tconst)
-
-    # for row in watched_movies:
-    # imdbId = int(['tconst'][2:])  # Trimming off the first 2 characters and converting to an integer
-    # imdbId = int(tconst[2:])
-
-    # print(imdbId)
-    # movie = ia.get_movie(imdbId)
-    # print(movie)
-    # movie_poster = movie.get_fullsizeURL()
-    # print(movie_poster)
-    # watched_movie_data.append(movie_poster)
-
-    return render_template('userAccountSettings.html', watched_movie_posters=watched_movie_data)
+    watched_movie_posters = get_watched_movie_posters(current_user, user_db_config)
+    return render_template('userAccountSettings.html', poster_urls=watched_movie_posters)
 
 
 # User loader function
@@ -265,7 +235,7 @@ def filtered_movie_endpoint():
 def seen_it():
     tconst = request.json.get('tconst')
     user_id = current_user.id
-    usernames = current_user.usersname
+    # usernames = current_user.usersname
 
     if tconst:
         # Log the movie to watched_movies table

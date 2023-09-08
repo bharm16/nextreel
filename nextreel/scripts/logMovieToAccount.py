@@ -1,7 +1,10 @@
 from datetime import datetime
 
-from nextreel.scripts.mysql_query_builder import execute_query
+import imdb
 
+from nextreel.scripts.db_config_scripts import user_db_config
+from nextreel.scripts.getMovieFromIMDB import fetch_movie_info_from_imdb
+from nextreel.scripts.mysql_query_builder import execute_query
 
 
 def log_movie_to_account(user_id, tconst, db_config):
@@ -10,6 +13,19 @@ def log_movie_to_account(user_id, tconst, db_config):
     watched_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     query = "INSERT INTO watched_movies (user_id, tconst, watched_at) VALUES (%s, %s, %s)"
 
+    ia = imdb.IMDb()
+
+    movie = fetch_movie_info_from_imdb(tconst)
+    movie_poster = movie.get_fullsizeURL()
+
+
+
+    # Insert the movie and its poster URL into the watched_movies table
+    insert_query = "INSERT INTO watched_movies (username, tconst, poster_url) VALUES (%s, %s, %s)"
+    execute_query(user_db_config, insert_query, (user_id, tconst, movie_poster))
+
+
+
     try:
         execute_query(db_config, query, (user_id, tconst, watched_at), fetch='none')
         print(f"Successfully logged movie {tconst} for user {user_id}.")
@@ -17,9 +33,11 @@ def log_movie_to_account(user_id, tconst, db_config):
         print(f"Error: {e}")
         raise e
 
+
 def query_watched_movie(user_id, tconst, db_config):
     query = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
     return execute_query(db_config, query, (user_id, tconst))
+
 
 if __name__ == "__main__":
     db_config = {
@@ -46,6 +64,3 @@ if __name__ == "__main__":
         print(f"Watched At: {result['watched_at']}")
     else:
         print("The movie was not logged into the database.")
-
-
-

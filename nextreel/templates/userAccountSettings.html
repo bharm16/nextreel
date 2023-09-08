@@ -99,6 +99,16 @@
             <h1>User Account Settings</h1>
             <!-- Your main content here -->
         </div>
+
+        <div class="row">
+            {% for url in poster_urls %}
+            <div class="col-md-3">
+                <img src="{{ url }}" alt="Poster" class="img-fluid">
+            </div>
+            {% endfor %}
+        </div>
+
+
     </main>
 
 </body>
