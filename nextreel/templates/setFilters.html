@@ -105,13 +105,44 @@
         }
 
         .no-gap > .col-3 {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
 
+
+
+             /* Update the card maximum width to make it smaller */
+        .card {
+            max-width: 500px;  /* Adjust to half of original size */
+            margin: 0 auto;
+        }
+
+
+            /* Add this style to make genre checkboxes fit better */
+
+            .genre-checkbox {
+                display: inline-block;
+                width: 30%; /* Adjust this value as needed */
+                margin-bottom: 10px;
+            }
+
+
+            .genre-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .genre-container .form-check {
+            flex: 0 0 calc(33.333% - 2px);  /* Adjust to reduce space and get more checkboxes per row */
+            margin-right: 2px;  /* Adjust margin */
+            margin-bottom: 2px;  /* Adjust margin */
+        }
 
 
     </style>
+
+
     <script>
         function selectAllCheckboxes(source) {
             const checkboxes = document.getElementsByName('genres[]');
@@ -129,7 +160,7 @@
         <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
-            Nextreel
+
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -161,11 +192,10 @@
 
 <!--<div class="container"> -->
 
-
 <div class="container-fluid">
-
-
-    <form action="/filtered_movie" method="post">
+    <div class="card"> <!-- Start card container -->
+        <div class="card-body"> <!-- Card body starts -->
+            <form action="/filtered_movie" method="post">
 
 <div class="row justify-content-center no-gap">
 
@@ -194,7 +224,7 @@
 
 
 
-    <label class="mt-4">Year</label>
+
     <div class="row justify-content-center no-gap">
         <div class="col-3">
             <label for="year_min">Year (Min):</label>
@@ -213,7 +243,8 @@
 
                 <div class="col-12">
 
-                    <label>Genres:</label>
+
+                     <div class="genre-container">
 
 
                     <div class="form-check">
@@ -339,7 +370,7 @@
                         </label>
                     </div>
 
-
+</div>
 
                 </div>
 
@@ -352,6 +383,8 @@
                 </div>
                 </div>
 </form>
+    </div>
+        </div>
     </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
