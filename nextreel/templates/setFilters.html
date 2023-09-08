@@ -137,6 +137,7 @@
                             {{ current_user.username }}
                         </button>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/account_settings">Settings</a> <!-- Settings button added here -->
                             <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </li>
@@ -162,7 +163,6 @@
 
 
 <div class="container-fluid">
-
 
 
     <form action="/filtered_movie" method="post">
@@ -210,7 +210,9 @@
 
 
             <div class="row mt-4 justify-content-center">
+
                 <div class="col-12">
+
                     <label>Genres:</label>
 
 
@@ -341,14 +343,16 @@
 
                 </div>
 
+
+
                 <div class="row mt-4 justify-content-center">
                     <div class="col">
                         <button type="submit" class="btn btn-primary">Apply Filters</button>
                     </div>
                 </div>
-        </form>
+                </div>
+</form>
     </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
