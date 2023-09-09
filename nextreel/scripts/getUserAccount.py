@@ -1,7 +1,8 @@
 import imdb
+import pymysql
 
 from nextreel.scripts.mysql_query_builder import execute_query
-from nextreel.scripts.db_config_scripts import user_db_config
+from nextreel.scripts.db_config_scripts import user_db_config, db_config  # Import both configs
 
 
 def get_user_by_id(user_id):
@@ -55,11 +56,52 @@ def get_watched_movie_posters(user_id, db_config):
     return poster_urls
 
 
+def get_watched_movie_details(user_id, tconst):
+    # Step 1: Fetch relevant IMDb data using db_config
+    imdb_query = """
+    SELECT 
+        title.basics.primaryTitle AS title,
+        title.basics.genres,
+        title.crew.directors,
+        title.crew.writers,
+        title.basics.runtimeMinutes AS runtimes,
+        title.ratings.averageRating AS rating,
+        title.ratings.numVotes AS votes
+    FROM 
+        imdb.title.basics
+    JOIN
+        imdb.title.ratings ON title.basics.tconst = title.ratings.tconst
+    JOIN
+        imdb.title.crew ON title.basics.tconst = title.crew.tconst
+    WHERE 
+        title.basics.tconst = %s;
+    """
+    imdb_data = execute_query(db_config, imdb_query, (tconst,), fetch='one')
+    return imdb_data
+
+
+def insert_watched_movie_details(user_id, tconst, imdb_data):
+    print("Entered insert_watched_movie_details function.")  # Debugging line
+    insert_query = """
+    INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+    """
+    values = (
+        user_id, tconst, imdb_data['title'], imdb_data['genres'], imdb_data['directors'], imdb_data['writers'],
+        imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes']
+    )
+    execute_query(user_db_config, insert_query, values, fetch='none')
+    print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
+
+
+
+
+
 # Example usage
 if __name__ == "__main__":
     print("Script started.")  # Debugging line
 
-    user_by_id = get_user_by_id(1)
+    user_by_id = get_user_by_id(17)
     print(f"User with ID 1: {user_by_id}")  # Debugging line
 
     user_by_username = get_user_by_username('john_doe')
