@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
-from nextreel.scripts.getUserAccount import get_watched_movie_posters
+from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
@@ -72,11 +72,13 @@ def populate_movie_queue():
             # Pause for 1 second to prevent rapid API calls
         time.sleep(1)
 
+
 # Start a thread to populate the movie queue
 # Start a background thread to populate the movie queue
 populate_thread = threading.Thread(target=populate_movie_queue)
 populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
+
 
 # Route for account settings
 @app.route('/account_settings')
@@ -84,8 +86,19 @@ populate_thread.start()
 def account_settings():
     # Fetch the watched movie posters for the current user
     watched_movie_posters = get_watched_movie_posters(current_user.id, user_db_config)
+
+    # Initialize an empty list to store the details for each watched movie
+    watched_movie_details_list = []
+
+    watched_movies = get_watched_movies(current_user.id, user_db_config)
+    for tconst in watched_movies:
+        details = get_watched_movie_details(current_user.id, tconst)
+        watched_movie_details_list.append(details)
+
     # Render the account settings template
-    return render_template('userAccountSettings.html', poster_urls=watched_movie_posters)
+    return render_template('userAccountSettings.html', poster_urls=watched_movie_posters, watched_movie_details=watched_movie_details_list)
+
+
 
 # Function to load user details during login
 @login_manager.user_loader
@@ -98,11 +111,13 @@ def load_user(user_id):
     # Otherwise, return None
     return None
 
+
 # Print the current working directory (for debugging)
 print("Current working directory:", os.getcwd())
 
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
+
 
 # Home route
 @app.route('/')
@@ -119,6 +134,7 @@ def home():
     last_displayed_movie = movie_data
     # Render the home page with the fetched movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
+
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])

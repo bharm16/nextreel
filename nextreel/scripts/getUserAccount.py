@@ -56,28 +56,50 @@ def get_watched_movie_posters(user_id, db_config):
     return poster_urls
 
 
+def get_watched_movies(user_id, db_config):
+    print("Entered get_watched_movies function.")  # Debugging line
+
+    watched_movies = []
+
+    # SQL query to fetch poster URLs for the specific user
+    sql_query = "SELECT tconst FROM watched_movies WHERE user_id = %s"
+
+    # Execute the query
+    results = execute_query(db_config, sql_query, params=(user_id,), fetch='all')
+
+    # Extract poster URLs from query results
+    for row in results:
+        watched_movies.append(row['tconst'])
+        print(f"Fetched tconst: {row['tconst']}")  # Debugging line
+
+    return watched_movies
+
+
 def get_watched_movie_details(user_id, tconst):
     # Step 1: Fetch relevant IMDb data using db_config
     imdb_query = """
     SELECT 
-        title.basics.primaryTitle AS title,
-        title.basics.genres,
-        title.crew.directors,
-        title.crew.writers,
-        title.basics.runtimeMinutes AS runtimes,
-        title.ratings.averageRating AS rating,
-        title.ratings.numVotes AS votes
-    FROM 
-        imdb.title.basics
-    JOIN
-        imdb.title.ratings ON title.basics.tconst = title.ratings.tconst
-    JOIN
-        imdb.title.crew ON title.basics.tconst = title.crew.tconst
-    WHERE 
-        title.basics.tconst = %s;
+    `title.basics`.primaryTitle AS title,
+    `title.basics`.genres,
+    `title.crew`.directors,
+    `title.crew`.writers,
+    `title.basics`.runtimeMinutes AS runtimes,
+    `title.ratings`.averageRating AS rating,
+    `title.ratings`.numVotes AS votes
+FROM 
+    `title.basics`
+JOIN
+    `title.ratings` ON `title.basics`.tconst = `title.ratings`.tconst
+JOIN
+    `title.crew` ON `title.basics`.tconst = `title.crew`.tconst
+WHERE 
+    `title.basics`.tconst = %s;
     """
-    imdb_data = execute_query(db_config, imdb_query, (tconst,), fetch='one')
+    imdb_data = execute_query(db_config, imdb_query, tconst, fetch='all')
     return imdb_data
+
+
+
 
 
 def insert_watched_movie_details(user_id, tconst, imdb_data):
@@ -92,9 +114,6 @@ def insert_watched_movie_details(user_id, tconst, imdb_data):
     )
     execute_query(user_db_config, insert_query, values, fetch='none')
     print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
-
-
-
 
 
 # Example usage
