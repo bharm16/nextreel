@@ -119,30 +119,28 @@
         </div>
 
 <!-- Poster container -->
-        <div class="container">
-            <div class="cellphone-container">
-                <div class="poster-container">
-                    {% for url in poster_urls %}
-                        <div class="card">
-                            <img src="{{ url }}" alt="Poster" class="img-fluid">
-                            <div class="card-content">
-                                <h2>Card Heading</h2>
-                                <p>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt exercitationem iste, voluptatum, quia explicabo laboriosam rem adipisci voluptates cumque, veritatis atque nostrum corrupti ipsa asperiores harum? Dicta odio aut hic.
-                                </p>
-                                <a href="#" class="button">
-                                    Find out more
-                                    <span class="material-symbols-outlined">
-                                        arrow_right_alt
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    {% endfor %}
+<div class="container">
+    <div class="row">
+        {% for url in poster_urls %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <img src="{{ url }}" alt="Poster" class="img-fluid">
+                    <div class="card-content">
+                        <p>
+                            Test
+                        </p>
+                        <a href="#" class="button">
+                            Find out more
+                            <span class="material-symbols-outlined">
+                                arrow_right_alt
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        {% endfor %}
+    </div>
+</div>
 
 
     </main>

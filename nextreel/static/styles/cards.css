@@ -8,8 +8,8 @@ main {
 }
 
 .card {
-  width: 24rem;
-  height: 36rem;
+  width: 18rem;
+  height: 28rem;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -17,6 +17,7 @@ main {
   color: #f0f0f0;
   box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
 }
+
 .card img {
   position: absolute;
   object-fit: cover;
