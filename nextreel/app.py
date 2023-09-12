@@ -264,7 +264,8 @@ def filtered_movie_endpoint():
         "rating": movie_info.get('rating', 'N/A'),
         "votes": movie_info.get('votes', 'N/A'),
         "plot": movie_info.get('plot', ['N/A'])[0],
-        "poster_url": movie_info.get_fullsizeURL()
+        "poster_url": movie_info.get_fullsizeURL(),
+        
     }
     print(movie_data)
 
