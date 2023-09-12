@@ -22,25 +22,21 @@ def log_movie_to_account(user_id, username, tconst, movie_data, db_config):
 
     watched_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     query = "INSERT INTO watched_movies (user_id, tconst, watched_at, username, poster_url) VALUES (%s, %s, %s, %s, %s)"
-
-    # try:
     execute_query(db_config, query, (user_id, tconst, watched_at, username, poster_url), fetch='none')
     logging.info(f"Successfully logged movie {tconst} for user {user_id}.")
 
     # Insert watched_movie_details logic here
     insert_query = """
-        INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+        INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
     values = (
         user_id, tconst, movie_data['title'], movie_data['genres'], movie_data['directors'], movie_data['writers'],
-        movie_data['runtimes'], movie_data['rating'], movie_data['votes']
+        movie_data['runtimes'], movie_data['rating'], movie_data['votes'], poster_url
     )
-    execute_query(user_db_config, insert_query, (
-        user_id, tconst, movie_data['title'], movie_data['genres'], movie_data['directors'], movie_data['writers'],
-        movie_data['runtimes'], movie_data['rating'], movie_data['votes']
-    ), fetch='none')
+    execute_query(user_db_config, insert_query, values, fetch='none')
     logging.info(f"Data for tconst {tconst} inserted successfully.")
+
 
 
 # except Exception as e:

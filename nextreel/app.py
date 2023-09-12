@@ -84,24 +84,18 @@ populate_thread.start()
 @app.route('/account_settings')
 @login_required
 def account_settings():
-    # Fetch the watched movie posters for the current user
-    watched_movie_posters = get_watched_movie_posters(current_user.id, user_db_config)
-
-    # Initialize an empty list to store the details for each watched movie
-    watched_movie_details_list = []
-
     # Fetch all watched movie details for the current user
     watched_movie_details = get_all_watched_movie_details_by_user(current_user.id)
+    print(watched_movie_details)
 
-    # Append each movie's details to the list
-    for details in watched_movie_details:
-        watched_movie_details_list.append(details)
-        print(watched_movie_details_list)
+    # Sort the list by tconst
+    watched_movie_details.sort(key=lambda x: x['tconst'])
 
     # Render the account settings template
     return render_template('userAccountSettings.html',
-                           poster_urls=watched_movie_posters,
-                           watched_movie_details=watched_movie_details_list)
+                           watched_movie_details=watched_movie_details)
+
+
 
 
 # Function to load user details during login

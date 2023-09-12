@@ -20,6 +20,8 @@ def get_all_users():
     return execute_query(user_db_config, "SELECT * FROM users", fetch='all')
 
 
+
+
 def insert_new_user(username, email, password):
     print("Entered insert_new_user function.")  # Debugging line
 
@@ -40,20 +42,26 @@ def insert_new_user(username, email, password):
 def get_watched_movie_posters(user_id, db_config):
     print("Entered get_watched_movie_posters function.")  # Debugging line
 
-    poster_urls = []
+    poster_data = []
 
-    # SQL query to fetch poster URLs for the specific user
-    sql_query = "SELECT poster_url FROM watched_movies WHERE user_id = %s"
+    # SQL query to fetch poster URLs and tconst for the specific user
+    sql_query = "SELECT poster_url, tconst FROM watched_movies WHERE user_id = %s"
 
     # Execute the query
     results = execute_query(db_config, sql_query, params=(user_id,), fetch='all')
 
-    # Extract poster URLs from query results
+    # Extract poster URLs and tconst from query results
     for row in results:
-        poster_urls.append(row['poster_url'])
-        print(f"Fetched poster URL: {row['poster_url']}")  # Debugging line
+        poster_data.append({
+            'url': row['poster_url'],
+            'tconst': row['tconst']
+        })
+        print(f"Fetched poster URL: {row['poster_url']} for tconst: {row['tconst']}")  # Debugging line
 
-    return poster_urls
+    return poster_data
+
+
+
 
 
 def get_watched_movies(user_id, db_config):
@@ -73,6 +81,8 @@ def get_watched_movies(user_id, db_config):
         print(f"Fetched tconst: {row['tconst']}")  # Debugging line
 
     return watched_movies
+
+
 
 
 def get_all_watched_movie_details_by_user(user_id):
@@ -97,11 +107,14 @@ def get_all_watched_movie_details_by_user(user_id):
             'writers': row['writers'],
             'runtimes': row['runtimes'],
             'rating': row['rating'],
-            'votes': row['votes']
+            'votes': row['votes'],
+            'poster_url': row['poster_url']  # Add this line
         }
         all_movie_details.append(mapped_data)
 
     return all_movie_details
+
+
 
 
 def get_watched_movie_details(user_id, tconst):
@@ -131,18 +144,19 @@ WHERE
 
 
 
-def insert_watched_movie_details(user_id, tconst, imdb_data):
+def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
     print("Entered insert_watched_movie_details function.")  # Debugging line
     insert_query = """
-    INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
+    INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
     """
     values = (
         user_id, tconst, imdb_data['title'], imdb_data['genres'], imdb_data['directors'], imdb_data['writers'],
-        imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes']
+        imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes'], poster_url
     )
     execute_query(user_db_config, insert_query, values, fetch='none')
     print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
+
 
 
 # Example usage
