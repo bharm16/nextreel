@@ -75,6 +75,35 @@ def get_watched_movies(user_id, db_config):
     return watched_movies
 
 
+def get_all_watched_movie_details_by_user(user_id):
+    print("Entered get_all_watched_movie_details_by_user function.")  # Debugging line
+
+    query = """
+    SELECT * FROM watched_movie_detail 
+    WHERE user_id=%s;
+    """
+
+    rows = execute_query(user_db_config, query, (user_id,), fetch='all')
+
+    all_movie_details = []
+
+    for row in rows:
+        # Map each row onto a dictionary
+        mapped_data = {
+            'tconst': row['tconst'],
+            'title': row['title'],
+            'genres': row['genres'],
+            'directors': row['directors'],
+            'writers': row['writers'],
+            'runtimes': row['runtimes'],
+            'rating': row['rating'],
+            'votes': row['votes']
+        }
+        all_movie_details.append(mapped_data)
+
+    return all_movie_details
+
+
 def get_watched_movie_details(user_id, tconst):
     # Step 1: Fetch relevant IMDb data using db_config
     imdb_query = """

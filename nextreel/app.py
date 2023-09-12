@@ -9,7 +9,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
-from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details
+from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+    get_all_watched_movie_details_by_user
 from nextreel.scripts.logMovieToAccount import log_movie_to_account
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
@@ -80,7 +81,6 @@ populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
 
 
-# Route for account settings
 @app.route('/account_settings')
 @login_required
 def account_settings():
@@ -90,14 +90,18 @@ def account_settings():
     # Initialize an empty list to store the details for each watched movie
     watched_movie_details_list = []
 
-    watched_movies = get_watched_movies(current_user.id, user_db_config)
-    for tconst in watched_movies:
-        details = get_watched_movie_details(current_user.id, tconst)
+    # Fetch all watched movie details for the current user
+    watched_movie_details = get_all_watched_movie_details_by_user(current_user.id)
+
+    # Append each movie's details to the list
+    for details in watched_movie_details:
         watched_movie_details_list.append(details)
+        print(watched_movie_details_list)
 
     # Render the account settings template
-    return render_template('userAccountSettings.html', poster_urls=watched_movie_posters, watched_movie_details=watched_movie_details_list)
-
+    return render_template('userAccountSettings.html',
+                           poster_urls=watched_movie_posters,
+                           watched_movie_details=watched_movie_details_list)
 
 
 # Function to load user details during login
