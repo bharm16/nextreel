@@ -96,8 +96,6 @@ def account_settings():
                            watched_movie_details=watched_movie_details)
 
 
-
-
 # Function to load user details during login
 @login_manager.user_loader
 def load_user(user_id):
@@ -215,12 +213,80 @@ def set_filters():
     # Render the filter settings template
     return render_template('setFilters.html')
 
+#
+# # Route to get a random movie
+# @app.route('/random_movie', methods=['POST'])
+# def random_movie():
+#     # Redirect to the home route, where a random movie will be displayed
+#     return redirect(url_for('home'))
+#
+#
+# # Route to get a movie based on filters
+# @app.route('/filtered_movie', methods=['POST'])
+# def filtered_movie_endpoint():
+#     # Extract filter criteria from the form
+#     filters = request.form
+#     genres = request.form.getlist('genres[]')
+#
+#     criteria = {}
+#
+#     if filters.get('year_min'):
+#         criteria['min_year'] = int(filters.get('year_min'))
+#     if filters.get('year_max'):
+#         criteria['max_year'] = int(filters.get('year_max'))
+#     if filters.get('imdb_score_min'):
+#         criteria['min_rating'] = float(filters.get('imdb_score_min'))
+#     if filters.get('imdb_score_max'):
+#         criteria['max_rating'] = float(filters.get('imdb_score_max'))
+#     if filters.get('num_votes_min'):
+#         criteria['min_votes'] = int(filters.get('num_votes_min'))
+#
+#     if genres:
+#         criteria['genres'] = genres.get('genres').split(",")  #
+#
+#     print("Final criteria:", criteria)
+#
+#     if filters.get('genres'):
+#         criteria['genres'] = filters.get('genres').split(",")  # Assuming genres are comma-separated
+#         print("Criteria genres:", criteria['genres'])
+#
+#     print("Received form data:", request.form)
+#     print("Received genres:", request.form.getlist('genres[]'))
+#
+#
+#
+#     print("Final criteria:", criteria)
+#
+#     # Fetch the movie based on the criteria
+#     movie_info = main(criteria)
+#
+#     # If no movies are found, return an error message
+#     if not movie_info:
+#         return "No movies found based on the given criteria."
+#
+#     # Create a dictionary to hold movie details
+#
+#     movie_data = {
+#         "title": movie_info.get('title', 'N/A'),
+#         "imdb_id": movie_info.getID(),
+#         "genres": ', '.join(movie_info.get('genres', ['N/A'])),
+#         # "directors": ', '.join([director['name'] for director in movie_info.get('director', [])]),
+#         "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
+#         "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
+#         "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
+#         "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
+#         "countries": ', '.join(movie_info.get('countries', ['N/A'])),
+#         "languages": ', '.join(movie_info.get('languages', ['N/A'])),
+#         "rating": movie_info.get('rating', 'N/A'),
+#         "votes": movie_info.get('votes', 'N/A'),
+#         "plot": movie_info.get('plot', ['N/A'])[0],
+#         "poster_url": movie_info.get_fullsizeURL(),
+#
+#     }
+#     print(movie_data)
 
-# Route to get a random movie
-@app.route('/random_movie', methods=['POST'])
-def random_movie():
-    # Redirect to the home route, where a random movie will be displayed
-    return redirect(url_for('home'))
+    # # Render the template with the filtered movie
+    # return render_template('filtered_movies.html', movie=movie_data)
 
 
 # Route to get a movie based on filters
@@ -228,6 +294,8 @@ def random_movie():
 def filtered_movie_endpoint():
     # Extract filter criteria from the form
     filters = request.form
+    genres = request.form.getlist('genres[]')
+
     criteria = {}
 
     if filters.get('year_min'):
@@ -241,7 +309,14 @@ def filtered_movie_endpoint():
     if filters.get('num_votes_min'):
         criteria['min_votes'] = int(filters.get('num_votes_min'))
 
-        # Fetch the movie based on the criteria
+    if genres:
+        criteria['genres'] = genres
+
+    print("Received form data:", request.form)
+    print("Received genres:", genres)
+    print("Final criteria:", criteria)
+
+    # Fetch the movie based on the criteria
     movie_info = main(criteria)
 
     # If no movies are found, return an error message
@@ -249,12 +324,10 @@ def filtered_movie_endpoint():
         return "No movies found based on the given criteria."
 
     # Create a dictionary to hold movie details
-
     movie_data = {
         "title": movie_info.get('title', 'N/A'),
         "imdb_id": movie_info.getID(),
         "genres": ', '.join(movie_info.get('genres', ['N/A'])),
-        # "directors": ', '.join([director['name'] for director in movie_info.get('director', [])]),
         "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
         "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
         "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
@@ -265,12 +338,12 @@ def filtered_movie_endpoint():
         "votes": movie_info.get('votes', 'N/A'),
         "plot": movie_info.get('plot', ['N/A'])[0],
         "poster_url": movie_info.get_fullsizeURL(),
-        
     }
     print(movie_data)
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
+
 
 
 # Route to mark a movie as seen

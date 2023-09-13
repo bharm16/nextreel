@@ -104,66 +104,41 @@
     </div>
 </nav>
 
-<!--
-    <div class="container my-5">
-        <div class="header-area d-flex justify-content-between align-items-center">
-            <h1>Nextreel</h1>
-            <div class="auth-buttons">
-                {% if current_user.is_authenticated %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ current_user.username }}
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
-                </div>
-                {% else %}
-                <a href="/login" class="btn btn-custom">Login</a>
-                {% endif %}
-                <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                <form method="POST" action="/random_movie" style="display: inline;">
-                    <button type="submit" class="btn btn-custom">Next Movie</button>
-                </form>
-            </div>
-        </div>
-        -->
+
+
 
 <div class="container my-5">
-    <div class="header-area d-flex justify-content-between align-items-center">
-        <div class="main-area mt-4">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 text-center">
-                    <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
-                </div>
-                <div class="col-lg-8 col-md-6">
-                    <div class="info-box">
-                        <div class="info-title">{{ movie.title }}</div>
-                        <div class="info-content">{{ movie.plot }}</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
-                        <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-title">Genres</div>
-                        <div class="info-content">{{ movie.genres }}</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-content">Directed by {{ movie.directors }}</div>
-                        <div class="info-content">Written by {{ movie.writers }}</div>
-                    </div>
-                    <div class="info-box">
-                        <div class="info-title">Cast</div>
-                        <div class="info-content">{{ movie.cast }}</div>
-                    </div>
-                    {% if current_user.is_authenticated %}
-                        <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
-                    {% endif %}
-                </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 text-center">
+            <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+        </div>
+        <div class="col-lg-8 col-md-6">
+            <div class="info-box">
+                <div class="info-title">{{ movie.title }}</div>
+                <div class="info-content">{{ movie.plot }}</div>
             </div>
+            <div class="info-box">
+                <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
+                <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">Genres</div>
+                <div class="info-content">{{ movie.genres }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-content">Directed by {{ movie.directors }}</div>
+                <div class="info-content">Written by {{ movie.writers }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">Cast</div>
+                <div class="info-content">{{ movie.cast }}</div>
+            </div>
+            {% if current_user.is_authenticated %}
+                <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
+            {% endif %}
         </div>
     </div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

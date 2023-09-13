@@ -110,6 +110,8 @@ def main(criteria):
     # Record the end time for fetching movie info
     end_time = time.time()
 
+    print("Fetched movie genres:", movie_info.get('genres'))
+
     # Calculate and print the time taken to fetch movie info
     elapsed_time = end_time - start_time
     print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
@@ -126,7 +128,7 @@ if __name__ == "__main__":
         "min_rating": 7.0,
         "max_rating": 10,
         "title_type": "movie",
-        # "genres": ["Action", "Drama"]
+        "genres": ["Action", "Drama"]
     }
     # Run the main function
     main(criteria)
