@@ -323,6 +323,7 @@ def filtered_movie_endpoint():
     # Fetch the movie based on the criteria
     movie_info = main(criteria)
 
+
     # If no movies are found, return an error message
     if not movie_info:
         return "No movies found based on the given criteria."
@@ -345,9 +346,30 @@ def filtered_movie_endpoint():
     }
     print(movie_data)
 
+
+
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
 
+
+# Route to load the next movie from the queue
+@app.route('/next_movie', methods=['GET', 'POST'])
+def next_movie():
+    global last_displayed_movie  # Use the global variable to get the last displayed movie
+
+    # If there is a last displayed movie, just replace it with the next one from the queue
+    if last_displayed_movie:
+        # Get the next movie from the queue
+        next_movie_data = movie_queue.get()
+
+        # Update the global variable with the new movie data
+        last_displayed_movie = next_movie_data
+
+        # Redirect to the home page
+        return redirect(url_for('home'))
+    else:
+        # Return an error if no movies are in the queue
+        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
 # Route to mark a movie as seen

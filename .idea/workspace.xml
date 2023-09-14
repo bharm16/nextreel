@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextreel/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +194,7 @@
       <workItem from="1693928499379" duration="1977000" />
       <workItem from="1694177903239" duration="22784000" />
       <workItem from="1694628065263" duration="1369000" />
-      <workItem from="1694721750839" duration="2638000" />
+      <workItem from="1694721750839" duration="3565000" />
     </task>
     <servers />
   </component>
