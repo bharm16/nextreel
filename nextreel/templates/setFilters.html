@@ -197,28 +197,44 @@
         <div class="card-body"> <!-- Card body starts -->
             <form action="/filtered_movie" method="post">
 
-                <div class="row justify-content-center no-gap">
+{#                <div class="row justify-content-center no-gap">#}
+{##}
+{#                    <div class="col-3">#}
+{#                        <label for="imdb_score_min">IMDb Score (Min):</label>#}
+{#                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">#}
+{#                    </div>#}
+{#                    <div class="col-3">#}
+{#                        <label for="imdb_score_max">IMDb Score (Max):</label>#}
+{#                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">#}
+{#                    </div>#}
+{#                </div>#}
 
-                    <div class="col-3">
-                        <label for="imdb_score_min">IMDb Score (Min):</label>
-                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
-                    </div>
-                    <div class="col-3">
-                        <label for="imdb_score_max">IMDb Score (Max):</label>
-                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
-                    </div>
-                </div>
+
+<div class="row justify-content-center no-gap">
+    <div class="col-3">
+        <label for="imdb_score_min">IMDb Score (Min):</label>
+        <div class="input-group">
+            <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+        </div>
+    </div>
+    <div class="col-3">
+        <label for="imdb_score_max">IMDb Score (Max):</label>
+        <div class="input-group">
+            <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1" value="10.0">
+        </div>
+    </div>
+</div>
 
 
 
                 <div class="row justify-content-center no-gap">
                     <div class="col-3">
                         <label for="num_votes_min">Vote Count (Min):</label>
-                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
+                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
                     </div>
                     <div class="col-3 mt-0">
                         <label for="num_votes_max">Vote Count (Max):</label>
-                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
+                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max" min="1" max="2000000" >
                     </div>
                 </div>
 
@@ -228,11 +244,11 @@
                 <div class="row justify-content-center no-gap">
                     <div class="col-3">
                         <label for="year_min">Year (Min):</label>
-                        <input type="number" class="form-control" id="year_min" name="year_min">
+                        <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
                     </div>
                     <div class="col-3 mt-0">
                         <label for="year_max">Year (Max):</label>
-                        <input type="number" class="form-control" id="year_max" name="year_max">
+                        <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
                     </div>
                 </div>
 
@@ -380,9 +396,9 @@
         <label for="language">Language:</label>
         <select class="form-control" id="language" name="language">
             <option value="">Any</option>
-            <option value="English">English</option>
-            <option value="Spanish">Spanish</option>
-            <option value="French">French</option>
+            <option value="English">en</option>
+            <option value="Spanish">es</option>
+            <option value="French">fr</option>
             <!-- Add more languages here -->
         </select>
     </div>
