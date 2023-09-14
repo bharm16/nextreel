@@ -83,6 +83,46 @@ def get_random_row_value(db_config, table_name, column_name):
 #     return random_row if random_row else None
 
 
+# def get_filtered_random_row(db_config, criteria):
+#     min_year = criteria.get('min_year', 1900)
+#     max_year = criteria.get('max_year', 2023)
+#     min_rating = criteria.get('min_rating', 7.0)
+#     max_rating = criteria.get('max_rating', 10)
+#     min_votes = criteria.get('min_votes', 100000)
+#     title_type = criteria.get('title_type', 'movie')
+#     genres = criteria.get('genres')
+#     # language = criteria.get('language')
+#     language = criteria.get('language', 'en')  # Default to 'en' if no language specified
+#
+#     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]
+#
+#
+#     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
+#
+#     query = """
+#     SELECT tb.*
+#     FROM `title.basics` tb
+#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+#     JOIN `title.akas` ta ON tb.tconst = ta.titleId
+#     WHERE tb.startYear >= %s AND tb.startYear <= %s
+#     AND tr.averagerating >= %s AND tr.averagerating <= %s
+#     AND tr.numVotes >= %s
+#     AND tb.titleType = %s
+#     AND ta.language = %s
+#     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
+#
+#     if genres:
+#         parameters.extend(["%" + genre + "%" for genre in genres])
+#
+#     print("Generated SQL Query:", query)
+#     print("Query Parameters:", parameters)
+#
+#     random_row = execute_query(db_config, query, parameters)
+#     print(random_row)
+#
+#     return random_row if random_row else None
+
+
 def get_filtered_random_row(db_config, criteria):
     min_year = criteria.get('min_year', 1900)
     max_year = criteria.get('max_year', 2023)
@@ -91,8 +131,9 @@ def get_filtered_random_row(db_config, criteria):
     min_votes = criteria.get('min_votes', 100000)
     title_type = criteria.get('title_type', 'movie')
     genres = criteria.get('genres')
+    language = criteria.get('language', 'en')  # Add this line
 
-    parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type]
+    parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]  # Add language here
 
     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
 
@@ -105,7 +146,7 @@ def get_filtered_random_row(db_config, criteria):
     AND tr.averagerating >= %s AND tr.averagerating <= %s
     AND tr.numVotes >= %s
     AND tb.titleType = %s
-    AND ta.language = 'en'
+    AND ta.language = %s  -- Add this line
     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
 
     if genres:
@@ -118,6 +159,7 @@ def get_filtered_random_row(db_config, criteria):
     print(random_row)
 
     return random_row if random_row else None
+
 
 
 

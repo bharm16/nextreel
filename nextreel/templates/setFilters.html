@@ -111,29 +111,29 @@
 
 
 
-             /* Update the card maximum width to make it smaller */
+        /* Update the card maximum width to make it smaller */
         .card {
             max-width: 500px;  /* Adjust to half of original size */
             margin: 0 auto;
         }
 
 
-            /* Add this style to make genre checkboxes fit better */
+        /* Add this style to make genre checkboxes fit better */
 
-            .genre-checkbox {
-                display: inline-block;
-                width: 30%; /* Adjust this value as needed */
-                margin-bottom: 10px;
-            }
+        .genre-checkbox {
+            display: inline-block;
+            width: 30%; /* Adjust this value as needed */
+            margin-bottom: 10px;
+        }
 
 
-            .genre-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+        .genre-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .genre-container .form-check {
+        .genre-container .form-check {
             flex: 0 0 calc(33.333% - 2px);  /* Adjust to reduce space and get more checkboxes per row */
             margin-right: 2px;  /* Adjust margin */
             margin-bottom: 2px;  /* Adjust margin */
@@ -197,195 +197,211 @@
         <div class="card-body"> <!-- Card body starts -->
             <form action="/filtered_movie" method="post">
 
-<div class="row justify-content-center no-gap">
+                <div class="row justify-content-center no-gap">
 
-    <div class="col-3">
-        <label for="imdb_score_min">IMDb Score (Min):</label>
-        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
-    </div>
-    <div class="col-3">
-        <label for="imdb_score_max">IMDb Score (Max):</label>
-        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
-    </div>
-</div>
-
-
-
-<div class="row justify-content-center no-gap">
-        <div class="col-3">
-            <label for="num_votes_min">Vote Count (Min):</label>
-            <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
-        </div>
-        <div class="col-3 mt-0">
-            <label for="num_votes_max">Vote Count (Max):</label>
-            <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
-        </div>
-</div>
-
-
-
-
-    <div class="row justify-content-center no-gap">
-        <div class="col-3">
-            <label for="year_min">Year (Min):</label>
-            <input type="number" class="form-control" id="year_min" name="year_min">
-        </div>
-        <div class="col-3 mt-0">
-            <label for="year_max">Year (Max):</label>
-            <input type="number" class="form-control" id="year_max" name="year_max">
-        </div>
-    </div>
-
-
-
-
-            <div class="row mt-4 justify-content-center">
-
-                <div class="col-12">
-
-
-                     <div class="genre-container">
-
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
-                            <span>Select All</span>
-                        </label>
+                    <div class="col-3">
+                        <label for="imdb_score_min">IMDb Score (Min):</label>
+                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">
                     </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
-                            <span>Action</span>
-                        </label>
+                    <div class="col-3">
+                        <label for="imdb_score_max">IMDb Score (Max):</label>
+                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">
                     </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
-                            <span>Adventure</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
-                            <span>Animation</span>
-                        </label>
-                    </div>
-
-
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
-                            <span>Biography</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
-                            <span>Comedy</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
-                            <span>Crime</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
-                            <span>Documentary</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
-                            <span>Drama</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
-                            <span>Fantasy</span>
-                        </label>
-                    </div>
-
-
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
-                            <span>Horror</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
-                            <span>Musical</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
-                            <span>Sci-Fi</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
-                            <span>Sport</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
-                            <span>Thriller</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
-                            <span>War</span>
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="check">
-                            <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
-                            <span>Western</span>
-                        </label>
-                    </div>
-
-</div>
-
                 </div>
+
+
+
+                <div class="row justify-content-center no-gap">
+                    <div class="col-3">
+                        <label for="num_votes_min">Vote Count (Min):</label>
+                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min">
+                    </div>
+                    <div class="col-3 mt-0">
+                        <label for="num_votes_max">Vote Count (Max):</label>
+                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max">
+                    </div>
+                </div>
+
+
+
+
+                <div class="row justify-content-center no-gap">
+                    <div class="col-3">
+                        <label for="year_min">Year (Min):</label>
+                        <input type="number" class="form-control" id="year_min" name="year_min">
+                    </div>
+                    <div class="col-3 mt-0">
+                        <label for="year_max">Year (Max):</label>
+                        <input type="number" class="form-control" id="year_max" name="year_max">
+                    </div>
+                </div>
+
 
 
 
                 <div class="row mt-4 justify-content-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+
+                    <div class="col-12">
+
+
+                        <div class="genre-container">
+
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)">
+                                    <span>Select All</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]">
+                                    <span>Action</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]">
+                                    <span>Adventure</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]">
+                                    <span>Animation</span>
+                                </label>
+                            </div>
+
+
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]">
+                                    <span>Biography</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]">
+                                    <span>Comedy</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]">
+                                    <span>Crime</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]">
+                                    <span>Documentary</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]">
+                                    <span>Drama</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]">
+                                    <span>Fantasy</span>
+                                </label>
+                            </div>
+
+
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]">
+                                    <span>Horror</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]">
+                                    <span>Musical</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]">
+                                    <span>Sci-Fi</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]">
+                                    <span>Sport</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]">
+                                    <span>Thriller</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]">
+                                    <span>War</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="check">
+                                    <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]">
+                                    <span>Western</span>
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Add this to your form in setFilters.html -->
+<div class="row justify-content-center no-gap">
+    <div class="col-3">
+        <label for="language">Language:</label>
+        <select class="form-control" id="language" name="language">
+            <option value="">Any</option>
+            <option value="English">English</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <!-- Add more languages here -->
+        </select>
+    </div>
+</div>
+
+
+
+
+
+                    <div class="row mt-4 justify-content-center">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </div>
                     </div>
                 </div>
-                </div>
-</form>
-    </div>
+            </form>
         </div>
     </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

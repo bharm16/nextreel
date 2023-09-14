@@ -295,6 +295,7 @@ def filtered_movie_endpoint():
     # Extract filter criteria from the form
     filters = request.form
     genres = request.form.getlist('genres[]')
+    languages = request.form.getlist('languages[]')
 
     criteria = {}
 
@@ -311,6 +312,9 @@ def filtered_movie_endpoint():
 
     if genres:
         criteria['genres'] = genres
+
+    if languages:  # Add this block
+        criteria['language'] = languages[0]  # Take the first language
 
     print("Received form data:", request.form)
     print("Received genres:", genres)
