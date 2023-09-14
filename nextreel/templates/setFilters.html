@@ -111,6 +111,8 @@
 
 
 
+
+
         /* Update the card maximum width to make it smaller */
         .card {
             max-width: 500px;  /* Adjust to half of original size */
@@ -138,6 +140,12 @@
             margin-right: 2px;  /* Adjust margin */
             margin-bottom: 2px;  /* Adjust margin */
         }
+
+        .language-dropdown {
+    width: 100%;  /* You can set this to any value that suits your design */
+}
+
+
 
 
     </style>
@@ -390,12 +398,13 @@
 
                     </div>
 
-                    <!-- Add this to your form in setFilters.html -->
-<div class="row justify-content-center no-gap">
-    <div class="col-3">
+<!-- Wider Language Dropdown -->
+<div class="row justify-content-center no-gap d-flex justify-content-center">
+    <div class="col-6"> <!-- Change from col-3 to col-6 or col-12 for a wider dropdown -->
         <label for="language">Language:</label>
-        <select class="form-control" id="language" name="language">
-            <option value="">Any</option>
+        <select class="form-control language-dropdown" id="language" name="language" value="en" style="width: 300px;">
+
+
             <option value="English">en</option>
             <option value="Spanish">es</option>
             <option value="French">fr</option>
@@ -405,16 +414,22 @@
 </div>
 
 
-
-
-
-                    <div class="row mt-4 justify-content-center">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Apply Filters</button>
-                        </div>
-                    </div>
                 </div>
+
+
+                <!-- Moved 'Apply Filters' Button -->
+<div class="row mt-4 justify-content-center">
+    <div class="col">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+</div>
+
             </form>
+
+
+
+
+
         </div>
     </div>
 </div>
