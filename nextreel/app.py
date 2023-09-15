@@ -65,7 +65,8 @@ def populate_movie_queue():
                 "rating": movie.get('rating', 'N/A'),
                 "votes": movie.get('votes', 'N/A'),
                 "plot": movie.get('plot', ['N/A'])[0],
-                "poster_url": movie.get_fullsizeURL()
+                "poster_url": movie.get_fullsizeURL(),
+                "year": movie.get('year')
             }
 
             # Put the fetched movie into the global queue
