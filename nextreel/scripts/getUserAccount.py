@@ -56,7 +56,7 @@ def get_watched_movie_posters(user_id, db_config):
             'url': row['poster_url'],
             'tconst': row['tconst']
         })
-        print(f"Fetched poster URL: {row['poster_url']} for tconst: {row['tconst']}")  # Debugging line
+        # print(f"Fetched poster URL: {row['poster_url']} for tconst: {row['tconst']}")  # Debugging line
 
     return poster_data
 

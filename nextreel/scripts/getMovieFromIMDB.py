@@ -11,7 +11,7 @@ import sys
 
 from nextreel.scripts.mysql_query_builder import execute_query
 
-print("Python Executable:", sys.executable)
+# print("Python Executable:", sys.executable)
 
 db_config = {
     'host': 'localhost',
@@ -152,7 +152,7 @@ def get_filtered_random_row(db_config, criteria):
     if genres:
         parameters.extend(["%" + genre + "%" for genre in genres])
 
-    print("Generated SQL Query:", query)
+    print("GFRR Generated SQL Query:", query)
     print("Query Parameters:", parameters)
 
     random_row = execute_query(db_config, query, parameters)
@@ -182,19 +182,19 @@ def main(criteria):
         return None
 
     # Record the start time for fetching movie info
-    start_time = time.time()
+    # start_time = time.time()
 
     # Fetch movie info from IMDb
     movie_info = fetch_movie_info_from_imdb(row['tconst'])
 
     # Record the end time for fetching movie info
-    end_time = time.time()
+    # end_time = time.time()
 
     print("Fetched movie genres:", movie_info.get('genres'))
 
     # Calculate and print the time taken to fetch movie info
-    elapsed_time = end_time - start_time
-    print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
+    # elapsed_time = end_time - start_time
+    # print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
 
     return movie_info
 

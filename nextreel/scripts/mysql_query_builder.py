@@ -22,7 +22,7 @@ def execute_query(db_config, query, params=None, fetch='one'):
     end_time = time.time()  # Stop the timer
     elapsed_time = end_time - start_time  # Calculate elapsed time
 
-    print(f"Execution time for query: {elapsed_time:.5f} seconds")
+    # print(f"Execution time for query: {elapsed_time:.5f} seconds")
 
     cursor.close()
     conn.close()

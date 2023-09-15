@@ -109,7 +109,7 @@ def load_user(user_id):
 
 
 # Print the current working directory (for debugging)
-print("Current working directory:", os.getcwd())
+# print("Current working directory:", os.getcwd())
 
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
