@@ -1,90 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create Account</title>
 
-    <!-- Bootstrap 5 and Font Awesome CSS -->
+    <!-- Bootstrap and Font Awesome CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <!-- Google Fonts - Poppins for modern look -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
-
-    <!-- reCAPTCHA Script -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin-top: 80px;
-        }
-        .account-form {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .account-form h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .btn {
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background-color: #1f8efd;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #0f7add;
-        }
-    </style>
+    <!-- Add any additional styles here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_form.css') }}">
 </head>
+
+
 <body>
+    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#"><i class="fa fa-film"></i> MovieInfo</a>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="account-form">
-            <h1>Create Account</h1>
-            <form action="/register" method="post">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" value="test_username" required>
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row main-content bg-success text-center">
+            <div class="col-md-4 text-center company__info">
+                <span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
+                <!-- Add your logo image here -->
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2>Create Account</h2>
+                    </div>
+                    <div class="row">
+                        <!-- Create account form -->
+                        <form action="/register" method="post" class="form-group">
+                            <div class="row">
+                                <input type="text" name="username" id="username" class="form__input form-control form-control-lg" placeholder="Username" required>
+                            </div>
+                            <div class="row">
+                                <input type="email" name="email" id="email" class="form__input form-control form-control-lg" placeholder="Email" required>
+                            </div>
+                            <div class="row">
+                                <input type="password" name="password" id="password" class="form__input form-control form-control-lg" placeholder="Password" required>
+                            </div>
+                            <div class="row">
+                                <input type="password" name="confirm-password" id="confirm-password" class="form__input form-control form-control-lg" placeholder="Confirm Password" required>
+                            </div>
+                            <div class="row">
+                                <input type="submit" value="Sign Up" class="btn btn-primary btn-lg">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <p>Already have an account? <a href="/login">Login Here</a></p>
+                    </div>
                 </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="test@email.com" required>
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="password" name="password" value="test_password" required>
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input type="password" class="form-control" id="confirm-password" name="confirm-password" value="test_password" required>
-                </div>
-                <br>
-
-                <input type="submit" class="btn btn-primary" value="Sign Up">
-            </form>
+            </div>
         </div>
     </div>
 </body>
 </html>
+

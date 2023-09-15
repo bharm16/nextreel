@@ -81,9 +81,33 @@ populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
 
 
+# @app.route('/account_settings')
+# @login_required
+# def account_settings():
+#     # Fetch all watched movie details for the current user
+#     watched_movie_details = get_all_watched_movie_details_by_user(current_user.id)
+#     print(watched_movie_details)
+#
+#     # Sort the list by tconst
+#     watched_movie_details.sort(key=lambda x: x['tconst'])
+#
+#     # Render the account settings template
+#     return render_template('userAccountSettings.html',
+#                            watched_movie_details=watched_movie_details)
+
+
 @app.route('/account_settings')
 @login_required
 def account_settings():
+
+    # Render the account settings template
+    return render_template('userAccountSettings.html')
+
+
+
+@app.route('/watched_movies')
+@login_required
+def watched_movies():
     # Fetch all watched movie details for the current user
     watched_movie_details = get_all_watched_movie_details_by_user(current_user.id)
     print(watched_movie_details)
@@ -92,8 +116,9 @@ def account_settings():
     watched_movie_details.sort(key=lambda x: x['tconst'])
 
     # Render the account settings template
-    return render_template('userAccountSettings.html',
+    return render_template('watchedMovies.html',
                            watched_movie_details=watched_movie_details)
+
 
 
 # Function to load user details during login

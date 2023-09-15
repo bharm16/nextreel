@@ -31,7 +31,7 @@
 	.main-content{width: 70%;}
 }
 .row > h2{
-	color:#008080;
+	color: #0e0e0e;
 }
 .login_form{
 	background-color: #fff;
@@ -55,7 +55,7 @@ form{
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #008080;
+	border-bottom-color: #3cd1d7;
 	box-shadow: 0 0 5px rgba(0,80,80,.4);
 	border-radius: 4px;
 }
@@ -63,14 +63,14 @@ form{
 	transition: all .5s ease;
 	width: 70%;
 	border-radius: 30px;
-	color:#008080;
+	color:#3cd1d7;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #008080;
+	border: 1px solid #3cd1d7;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
 .btn:hover, .btn:focus{
-	background-color: #008080;
+	background-color: #2d303e;
 	color:#fff;
 }
