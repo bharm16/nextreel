@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,9 +11,15 @@
 
     <!-- Add any additional styles here -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_form.css') }}">
+
+    <!-- Include the modal-specific CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/account_created_modal.css') }}">
+
+    <!-- jQuery and Bootstrap JS (for Modal) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </head>
-
-
 <body>
     <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -63,6 +67,57 @@
             </div>
         </div>
     </div>
+
+{#    <!-- Add the Modal code here -->#}
+{#    <div class="modal fade" id="myModal" role="dialog">#}
+{#        <div class="modal-dialog">#}
+{#            <div class="card">#}
+{#                <div class="text-right cross"> <i class="fa fa-times"></i> </div>#}
+{#                <div class="card-body text-center">#}
+{#                    <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">#}
+{#                    <h4>CONGRATULATIONS!</h4>#}
+{#                    <p>You have been personally selected to take part in our 2017 annual visitors survey!</p>#}
+{#                    <button class="btn btn-out btn-square continue">CONTINUE</button>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
+    <!-- Add the Modal code here -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="card">
+            <div class="text-right cross"> <i class="fa fa-times" data-dismiss="modal"></i> </div>
+            <div class="card-body text-center">
+                <!-- You can use a 'check' icon to indicate success -->
+                <i class="fa fa-check-circle fa-4x" style="color:green;"></i>
+                <h4>Account Created Successfully</h4>
+                <p>Thank you for registering. You can now log in.</p>
+                <!-- Add a 'Continue' button that also closes the modal -->
+                <button class="btn btn-out btn-square continue" data-dismiss="modal">CONTINUE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- JavaScript to automatically show the modal if "ShowModal" is flashed -->
+    <script>
+        // Check if the specific message "ShowModal" is flashed
+        {% with messages = get_flashed_messages() %}
+          {% if "ShowModal" in messages %}
+            $(document).ready(function() {
+                // Show the modal
+                $('#myModal').modal('show');
+            });
+          {% endif %}
+        {% endwith %}
+    </script>
+
+ <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </body>
 </html>
-

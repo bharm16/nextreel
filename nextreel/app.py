@@ -222,11 +222,21 @@ def register():
         cursor.close()
         conn.close()
 
-        # Flash a success message
-        flash("Registration successful! Please login.")
-
-        # Redirect to the login page
+        flash("ShowModal")  # Flash a specific message to indicate modal should be shown
         return redirect(url_for('login'))
+
+
+
+
+        # # Flash a success message
+        # flash("Registration successful! Please login.")
+        #
+        # flash("ShowModal")  # Flash a specific message to indicate modal should be shown
+        # return redirect(url_for('register'))
+        #
+        #
+        # # Redirect to the login page
+        # return redirect(url_for('login'))
 
     # Render the registration form
     return render_template('createAccountForm.html')

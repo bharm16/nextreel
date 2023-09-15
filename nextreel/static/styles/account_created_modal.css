@@ -1,0 +1,57 @@
+@import url('http://fonts.googleapis.com/css?family=Calibri:400,300,700'); /* Scope the styles to only apply within the modal with ID 'myModal' */
+#myModal {
+    /* Import font */
+
+    /* These styles are now scoped to only apply within the modal */
+    .card {
+        position: relative;
+        display: flex;
+        width: 450px;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #d2d2dc;
+        border-radius: 4px;
+        -webkit-box-shadow: 0px 0px 5px 0px rgb(249, 249, 250);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1);
+        box-shadow: 0px 0px 5px 0px rgb(161, 163, 164);
+    }
+
+    .card .card-body {
+        padding: 1rem 1rem;
+    }
+
+    /*& p {*/
+    /*    font-size: 14px;*/
+    /*}*/
+
+    /*& h4 {*/
+    /*    margin-top: 18px;*/
+    /*}*/
+
+    .cross {
+        padding: 10px;
+        color: #3cd1d7;
+        cursor: pointer;
+    }
+
+    .continue:focus {
+        outline: none;
+    }
+
+    .continue {
+        border-radius: 5px;
+        text-transform: capitalize;
+        font-size: 13px;
+        padding: 8px 19px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #3cd1d7;
+    }
+
+    .continue:hover {
+        background-color: #3cd1d7 !important;
+    }
+}
