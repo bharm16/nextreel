@@ -2,30 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
-
-    <!-- Bootstrap 5 and Font Awesome CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-    <style>
-        .divider:after,
-        .divider:before {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #eee;
-        }
-        .h-custom {
-            height: calc(100% - 73px);
-        }
-        @media (max-width: 450px) {
-            .h-custom {
-                height: 100%;
-            }
-        }
-    </style>
+    <!-- Add any additional styles here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_form.css') }}">
+
 </head>
 <body>
 
@@ -39,57 +23,47 @@
   {% endif %}
 {% endwith %}
 
-<section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-          <a href="{{ url_for('home') }}">
-          <img src="/static/nextreel_logo.JPG" class="img-fluid" alt="Sample image">
-          </a>
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form action="/login" method="post">
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-            <!-- Add your social media button logic here -->
-          </div>
-
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
-          </div>
-
-          <!-- Username input -->
-          <div class="form-outline mb-4">
-            <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter your username" required>
-            <label class="form-label" for="username">Username</label>
-          </div>
-
-          <!-- Password input -->
-          <div class="form-outline mb-3">
-            <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter password" required>
-            <label class="form-label" for="password">Password</label>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-0">
-              <input class="form-check-input me-2" type="checkbox" value="" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">Remember me</label>
+<div class="container-fluid">
+    <div class="row main-content bg-success text-center">
+        <div class="col-md-4 text-center company__info">
+            <span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
+{#            <h4 class="company_title">Your Company Logo</h4>#}
+            <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" alt="Nextreel" height="400" width="300">
+        </div>
+        <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+            <div class="container-fluid">
+                <div class="row">
+                    <h2>Log In</h2>
+                </div>
+                <div class="row">
+                    <form action="/login" method="post" control="" class="form-group">
+                        <div class="row">
+                            <input type="text" name="username" id="username" class="form__input form-control form-control-lg" placeholder="Username" required>
+                        </div>
+                        <div class="row">
+                            <input type="password" name="password" id="password" class="form__input form-control form-control-lg" placeholder="Password" required>
+                        </div>
+                        <div class="row">
+                            <input type="checkbox" name="remember_me" id="rememberMe" class="form-check-input me-2">
+                            <label for="rememberMe">Remember Me!</label>
+                        </div>
+                        <div class="row">
+                            <input type="submit" value="Submit" class="btn btn-primary btn-lg">
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <p>Don't have an account? <a href="/register">Register Here</a></p>
+                </div>
             </div>
-            <!-- Add forgot password logic -->
-          </div>
-
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <input type="submit" class="btn btn-primary btn-lg" value="Login">
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register" class="link-danger">Register</a></p>
-          </div>
-
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <!-- Add your footer here -->
-</section>
+</div>
+
+<!-- Footer -->
+<div class="container-fluid text-center footer">
+
+</div>
 
 </body>
 </html>
