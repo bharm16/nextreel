@@ -94,11 +94,11 @@
                 <li class="nav-item">
                     <a href="/setFilters" class="btn btn-custom">Set Filters</a>
                 </li>
-                <li class="nav-item">
-                    <form method="POST" action="/next_movie" style="display: inline;">
-                        <button type="submit" class="btn btn-custom">Next Movie</button>
-                    </form>
-                </li>
+{#                <li class="nav-item">#}
+{#                    <form method="POST" action="/next_movie" style="display: inline;">#}
+{#                        <button type="submit" class="btn btn-custom">Next Movie</button>#}
+{#                    </form>#}
+{#                </li>#}
             </ul>
         </div>
     </div>
@@ -133,6 +133,13 @@
                 <div class="info-title">Cast</div>
                 <div class="info-content">{{ movie.cast }}</div>
             </div>
+
+            <form method="POST" action="/next_movie" style="display: inline;">
+                <button type="submit" class="btn btn-custom">Next Movie</button>
+            </form>
+
+
+
             {% if current_user.is_authenticated %}
                 <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
             {% endif %}
