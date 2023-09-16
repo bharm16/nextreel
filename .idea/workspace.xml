@@ -99,7 +99,7 @@
       <recent name="$PROJECT_DIR$/tmdbsimple-master/static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.logMovieToAccount">
+  <component name="RunManager" selected="Python.app">
     <configuration name="createAccountForm.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/createAccountForm.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -181,8 +181,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.logMovieToAccount" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python.logMovieToAccount" />
         <item itemvalue="Python.getMovieFromIMDB" />
         <item itemvalue="JavaScript Debug.createAccountForm.html" />
         <item itemvalue="JavaScript Debug.setFilters.html" />

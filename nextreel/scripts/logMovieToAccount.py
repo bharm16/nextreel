@@ -94,7 +94,7 @@ def update_missing_title_info(db_config):
 
 
 # Now you can call this function to update up to 100 missing information
-update_missing_title_info(db_config)
+# update_missing_title_info(db_config)
 
 # if __name__ == "__main__":
 # db_config = {
