@@ -156,8 +156,12 @@
                   <div class="form-group">
                     <label for="fullName">Username</label>
                       <input type="text" class="form-control" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="{{ current_user.username }}">
-                    <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change or remove it at any time.</small>
                   </div>
+                    <!-- New Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email" value="{{ current_user.email }}">
+                    </div>
 
                   <button type="button" class="btn btn-primary">Update Profile</button>
                   <button type="reset" class="btn btn-light">Reset Changes</button>
@@ -201,19 +205,7 @@
                 </form>
                 <hr>
                 <form>
-                  <div class="form-group mb-0">
-                    <label class="d-block">Sessions</label>
-                    <p class="font-size-sm text-secondary">This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</p>
-                    <ul class="list-group list-group-sm">
-                      <li class="list-group-item has-icon">
-                        <div>
-                          <h6 class="mb-0">San Francisco City 190.24.335.55</h6>
-                          <small class="text-muted">Your current session seen in United States</small>
-                        </div>
-                        <button class="btn btn-light btn-sm ml-auto" type="button">More info</button>
-                      </li>
-                    </ul>
-                  </div>
+
                 </form>
               </div>
               <div class="tab-pane" id="notification">
@@ -274,11 +266,7 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane" id="billing">
-                <h6>BILLING SETTINGS</h6>
-                <hr>
 
-              </div>
             </div>
           </div>
         </div>
