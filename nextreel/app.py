@@ -11,7 +11,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
     get_all_watched_movie_details_by_user
-from nextreel.scripts.logMovieToAccount import log_movie_to_account
+from nextreel.scripts.logMovieToAccount import log_movie_to_account, update_title_basics_if_empty
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
 import threading
@@ -71,6 +71,9 @@ def populate_movie_queue():
 
             # Put the fetched movie into the global queue
             movie_queue.put(movie_data)
+
+            update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], db_config)
+
             # Pause for 1 second to prevent rapid API calls
         time.sleep(1)
 

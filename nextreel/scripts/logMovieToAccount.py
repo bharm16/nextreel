@@ -38,7 +38,6 @@ def log_movie_to_account(user_id, username, tconst, movie_data, db_config):
     logging.info(f"Data for tconst {tconst} inserted successfully.")
 
 
-
 # except Exception as e:
 #     logging.error(f"Error: {e}")
 #     raise e
@@ -46,6 +45,21 @@ def log_movie_to_account(user_id, username, tconst, movie_data, db_config):
 def query_watched_movie(user_id, tconst, db_config):
     query = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
     return execute_query(db_config, query, (user_id, tconst))
+
+
+def update_title_basics_if_empty(tconst, plot, poster_url, db_config):
+    # First, check if the plot and poster_url already exist for the given tconst
+    query = "SELECT plot, poster_url FROM `title.basics` WHERE tconst=%s;"
+    result = execute_query(db_config, query, (tconst,), fetch='one')
+
+    # If plot and poster_url are None, then update them
+    if result and (result['plot'] is None or result['poster_url'] is None):
+        update_query = """
+        UPDATE `title.basics`
+        SET plot = %s, poster_url = %s
+        WHERE tconst = %s;
+        """
+        execute_query(db_config, update_query, (plot, poster_url, tconst), fetch='none')
 
 # if __name__ == "__main__":
 # db_config = {
