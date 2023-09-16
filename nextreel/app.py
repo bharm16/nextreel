@@ -6,7 +6,8 @@ import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb
+from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb, \
+    get_nconst_from_actor_name
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
@@ -429,6 +430,26 @@ def seen_it():
     else:
         # Return an error if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
+
+
+from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace 'your_script_name' with the actual
+# script name where your function resides
+
+
+@app.route('/actor/<actor_name>', methods=['GET'])
+def get_movies_by_actor(actor_name):
+    # Fetch the actor's nconst (IMDb identifier) based on their name
+    nconst = get_nconst_from_actor_name(db_config, actor_name)
+
+    if nconst:
+        # Fetch all movies by the actor
+        movies_data = get_all_movies_by_actor(db_config, nconst)
+
+        # Render a template to display the movies
+        return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
+    else:
+        return "Actor not found", 404
+
 
 
 # Entry point of the application

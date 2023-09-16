@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies by {{ actor_name }}</title>
+    <!-- include your usual CSS and JS files here -->
+</head>
+<body>
+    <h1>Movies by {{ actor_name }}</h1>
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <strong>{{ movie.title }}</strong> ({{ movie.genres }}) - {{ movie.rating }} rating
+                <br>
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" height="300">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
