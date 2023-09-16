@@ -50,79 +50,6 @@ def get_random_row_value(db_config, table_name, column_name):
     return random_row
 
 
-# def get_filtered_random_row(db_config, criteria):
-#     min_year = criteria.get('min_year', 1900)
-#     max_year = criteria.get('max_year', 2023)
-#     min_rating = criteria.get('min_rating', 7.0)
-#     max_rating = criteria.get('max_rating', 10)
-#     min_votes = criteria.get('min_votes', 100000)
-#     title_type = criteria.get('title_type', 'movie')
-#     genres = criteria.get('genres')
-#
-#     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type]
-#
-#     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
-#
-#     query = """
-#     SELECT tb.*
-#     FROM `title.basics` tb
-#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-#     WHERE tb.startYear >= %s AND tb.startYear <= %s
-#     AND tr.averagerating >= %s AND tr.averagerating <= %s
-#     AND tr.numVotes >= %s
-#     AND tb.titleType = %s
-#     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
-#
-#     if genres:
-#         parameters.extend(["%" + genre + "%" for genre in genres])
-#
-#     print("Generated SQL Query:", query)
-#     print("Query Parameters:", parameters)
-#
-#     random_row = execute_query(db_config, query, parameters)
-#     return random_row if random_row else None
-
-
-# def get_filtered_random_row(db_config, criteria):
-#     min_year = criteria.get('min_year', 1900)
-#     max_year = criteria.get('max_year', 2023)
-#     min_rating = criteria.get('min_rating', 7.0)
-#     max_rating = criteria.get('max_rating', 10)
-#     min_votes = criteria.get('min_votes', 100000)
-#     title_type = criteria.get('title_type', 'movie')
-#     genres = criteria.get('genres')
-#     # language = criteria.get('language')
-#     language = criteria.get('language', 'en')  # Default to 'en' if no language specified
-#
-#     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]
-#
-#
-#     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
-#
-#     query = """
-#     SELECT tb.*
-#     FROM `title.basics` tb
-#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-#     JOIN `title.akas` ta ON tb.tconst = ta.titleId
-#     WHERE tb.startYear >= %s AND tb.startYear <= %s
-#     AND tr.averagerating >= %s AND tr.averagerating <= %s
-#     AND tr.numVotes >= %s
-#     AND tb.titleType = %s
-#     AND ta.language = %s
-#     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
-#
-#     if genres:
-#         parameters.extend(["%" + genre + "%" for genre in genres])
-#
-#     print("Generated SQL Query:", query)
-#     print("Query Parameters:", parameters)
-#
-#     random_row = execute_query(db_config, query, parameters)
-#     print(random_row)
-#
-#     return random_row if random_row else None
-
-
 def get_filtered_random_row(db_config, criteria):
     min_year = criteria.get('min_year', 1900)
     max_year = criteria.get('max_year', 2023)
@@ -161,8 +88,6 @@ def get_filtered_random_row(db_config, criteria):
     return random_row if random_row else None
 
 
-
-
 def fetch_movie_info_from_imdb(tconst):
     """Fetch movie information from IMDb using IMDbPY."""
     # Convert tconst to IMDb ID (integer)
@@ -171,6 +96,82 @@ def fetch_movie_info_from_imdb(tconst):
     ia = imdb.IMDb()
     # Fetch and return the movie information
     return ia.get_movie(imdbId)
+
+
+
+
+# def get_all_movies_by_actor(db_config, nconst):
+#     """Fetch all movies for a given actor."""
+#     # SQL query to fetch all movies by a given actor
+#     query = """
+#     SELECT tb.*
+#     FROM `title.basics` tb
+#     JOIN `title.principals` tp ON tb.tconst = tp.tconst
+#     WHERE tp.nconst = %s
+#     """
+#
+#     # Query parameters
+#     parameters = [nconst]
+#
+#     # Debug output for the generated SQL query and parameters
+#     print("Generated SQL Query for get_all_movies_by_actor:", query)
+#     print("Query Parameters:", parameters)
+#
+#     # Execute the query
+#     all_movies = execute_query(db_config, query, parameters, fetch='all')
+#     print(all_movies)
+#
+#     # Return the fetched movies
+#     return all_movies if all_movies else None
+
+
+def get_all_movies_by_actor(db_config, nconst):
+    """Fetch all movies for a given actor."""
+    # SQL query to fetch all movies by a given actor
+    query = """
+    SELECT tb.*
+    FROM `title.basics` tb
+    JOIN `title.principals` tp ON tb.tconst = tp.tconst
+    WHERE tp.nconst = %s
+    """
+
+    # Query parameters
+    parameters = [nconst]
+
+    # Debug output for the generated SQL query and parameters
+    print("Generated SQL Query for get_all_movies_by_actor:", query)
+    print("Query Parameters:", parameters)
+
+    # Execute the query
+    all_movies = execute_query(db_config, query, parameters, fetch='all')
+
+    movies_data = []
+
+    if all_movies:
+        for movie in all_movies:
+            movie_info = fetch_movie_info_from_imdb(movie['tconst'])
+
+            # Create a dictionary to hold movie details
+            movie_data = {
+                "title": movie_info.get('title', 'N/A'),
+                "imdb_id": movie_info.getID(),
+                "genres": ', '.join(movie_info.get('genres', ['N/A'])),
+                "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
+                "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
+                "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
+                "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
+                "countries": ', '.join(movie_info.get('countries', ['N/A'])),
+                "languages": ', '.join(movie_info.get('languages', ['N/A'])),
+                "rating": movie_info.get('rating', 'N/A'),
+                "votes": movie_info.get('votes', 'N/A'),
+                "plot": movie_info.get('plot', ['N/A'])[0],
+                "poster_url": movie_info.get_fullsizeURL(),
+            }
+
+            movies_data.append(movie_data)
+            print(movies_data)
+
+    return movies_data if movies_data else None
 
 
 def main(criteria):
@@ -195,6 +196,17 @@ def main(criteria):
     # Calculate and print the time taken to fetch movie info
     # elapsed_time = end_time - start_time
     # print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
+
+    # Fetch all movies by a specific actor
+    nconst = "nm0000093"  # Replace this with the actor's IMDb ID (nconst)
+    actor_movies = get_all_movies_by_actor(db_config, nconst)
+    print(f"Debug actor_movies: {actor_movies}")
+    if actor_movies:
+        print(f"Movies by actor {nconst}:")
+        for movie in actor_movies:
+            print(movie['tconst'], movie['primaryTitle'])
+    else:
+        print(f"No movies found for actor {nconst}.")
 
     return movie_info
 

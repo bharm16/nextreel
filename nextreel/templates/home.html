@@ -133,10 +133,17 @@
                 <div class="info-content">Directed by {{ movie.directors }}</div>
                 <div class="info-content">Written by {{ movie.writers }}</div>
             </div>
-            <div class="info-box">
-                <div class="info-title">Cast</div>
-                <div class="info-content">{{ movie.cast }}</div>
-            </div>
+         <div class="info-box">
+    <div class="info-title">Cast</div>
+    <div class="info-content">
+        {% set cast_list = movie.cast.split(", ") %}
+        {% for cast_member in cast_list %}
+            <a href="/actor/{{ cast_member }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+
 
             <form method="POST" action="/next_movie" style="display: inline;">
                 <button type="submit" class="btn btn-custom">Next Movie</button>
