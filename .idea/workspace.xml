@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/scripts/logMovieToAccount.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/scripts/logMovieToAccount.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,14 +99,11 @@
       <recent name="$PROJECT_DIR$/tmdbsimple-master/static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.app">
+  <component name="RunManager" selected="Python.logMovieToAccount">
     <configuration name="createAccountForm.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/createAccountForm.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="setFilters.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/setFilters.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
-    <configuration name="userLogin.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/userLogin.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -154,20 +150,42 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="logMovieToAccount" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tmdb_proj_python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/nextreel/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/logMovieToAccount.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="JavaScript Debug.createAccountForm.html" />
       <item itemvalue="JavaScript Debug.setFilters.html" />
-      <item itemvalue="JavaScript Debug.userLogin.html" />
+      <item itemvalue="Python.logMovieToAccount" />
       <item itemvalue="Python.getMovieFromIMDB" />
       <item itemvalue="Python.app" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.logMovieToAccount" />
         <item itemvalue="Python.app" />
         <item itemvalue="Python.getMovieFromIMDB" />
         <item itemvalue="JavaScript Debug.createAccountForm.html" />
         <item itemvalue="JavaScript Debug.setFilters.html" />
-        <item itemvalue="JavaScript Debug.userLogin.html" />
       </list>
     </recent_temporary>
   </component>
@@ -218,7 +236,7 @@
     <SUITE FILE_PATH="coverage/nextreel$randomIMDBGenerator.coverage" NAME="randomIMDBGenerator Coverage Results" MODIFIED="1694246656381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/nextreel$getMovieFromIMDB.coverage" NAME="getMovieFromIMDB Coverage Results" MODIFIED="1694849521521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/nextreel$.coverage" NAME=" Coverage Results" MODIFIED="1694030980035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/tests" />
-    <SUITE FILE_PATH="coverage/nextreel$logMovieToAccount.coverage" NAME="logMovieToAccount Coverage Results" MODIFIED="1694405828640" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
+    <SUITE FILE_PATH="coverage/nextreel$logMovieToAccount.coverage" NAME="logMovieToAccount Coverage Results" MODIFIED="1694852635349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/nextreel$mysql_query_builder.coverage" NAME="mysql_query_builder Coverage Results" MODIFIED="1694055590526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_for_app_test_log_movie_to_account_and_query.coverage" NAME="pytest for app.test_log_movie_to_account_and_query Coverage Results" MODIFIED="1693020579230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$.coverage" NAME=" Coverage Results" MODIFIED="1693020236916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
@@ -226,7 +244,7 @@
     <SUITE FILE_PATH="coverage/nextreel$models.coverage" NAME="models Coverage Results" MODIFIED="1694334681173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_setFilters_test_py.coverage" NAME="pytest in setFilters_test.py Coverage Results" MODIFIED="1691450443481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_for_test_setFilters_test_random_row_value.coverage" NAME="pytest for test_setFilters.test_random_row_value Coverage Results" MODIFIED="1691450221188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
-    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1694850922889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
+    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1694851218069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_test_setFilters_py.coverage" NAME="pytest in test_setFilters.py Coverage Results" MODIFIED="1691450280310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters.coverage" NAME="setFilters Coverage Results" MODIFIED="1693846894052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$testing_cinemagoer_api.coverage" NAME="testing_cinemagoer_api Coverage Results" MODIFIED="1691500609256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
