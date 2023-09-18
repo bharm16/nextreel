@@ -432,6 +432,7 @@ from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace
 
 @app.route('/actor/<actor_name>', methods=['GET'])
 def get_movies_by_actor(actor_name):
+    start_time = time.time()  # Record the start time
     # Fetch the actor's nconst (IMDb identifier) based on their name
     nconst = get_nconst_from_actor_name(db_config, actor_name)
 
@@ -440,6 +441,9 @@ def get_movies_by_actor(actor_name):
 
     # Fetch all movies by the actor
     movies_data = get_all_movies_by_actor(db_config, nconst)
+
+    end_time = time.time()  # Record the end time
+    print(f"Time taken for database queries: {end_time - start_time} seconds")
 
     if movies_data is None:
         print("No movies found for actor.")
