@@ -132,7 +132,9 @@ def get_all_movies_by_actor(db_config, nconst):
     SELECT tb.*
     FROM `title.basics` tb
     JOIN `title.principals` tp ON tb.tconst = tp.tconst
-    WHERE tp.nconst = %s AND tb.titleType = 'movie'
+    WHERE tp.nconst = %s 
+    AND tb.titleType = 'movie'
+    AND tp.category = 'actor'
     """
     parameters = [nconst]
     print("Generated SQL Query for get_all_movies_by_actor:", query)
