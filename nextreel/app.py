@@ -104,10 +104,8 @@ populate_thread.start()
 @app.route('/account_settings')
 @login_required
 def account_settings():
-
     # Render the account settings template
     return render_template('userAccountSettings.html')
-
 
 
 @app.route('/watched_movies')
@@ -123,7 +121,6 @@ def watched_movies():
     # Render the account settings template
     return render_template('watchedMovies.html',
                            watched_movie_details=watched_movie_details)
-
 
 
 # Function to load user details during login
@@ -230,9 +227,6 @@ def register():
         flash("ShowModal")  # Flash a specific message to indicate modal should be shown
         return redirect(url_for('login'))
 
-
-
-
         # # Flash a success message
         # flash("Registration successful! Please login.")
         #
@@ -252,6 +246,7 @@ def register():
 def set_filters():
     # Render the filter settings template
     return render_template('setFilters.html')
+
 
 #
 # # Route to get a random movie
@@ -325,8 +320,8 @@ def set_filters():
 #     }
 #     print(movie_data)
 
-    # # Render the template with the filtered movie
-    # return render_template('filtered_movies.html', movie=movie_data)
+# # Render the template with the filtered movie
+# return render_template('filtered_movies.html', movie=movie_data)
 
 
 # Route to get a movie based on filters
@@ -363,7 +358,6 @@ def filtered_movie_endpoint():
     # Fetch the movie based on the criteria
     movie_info = main(criteria)
 
-
     # If no movies are found, return an error message
     if not movie_info:
         return "No movies found based on the given criteria."
@@ -385,8 +379,6 @@ def filtered_movie_endpoint():
         "poster_url": movie_info.get_fullsizeURL(),
     }
     print(movie_data)
-
-
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
@@ -433,6 +425,8 @@ def seen_it():
 
 
 from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace 'your_script_name' with the actual
+
+
 # script name where your function resides
 
 
@@ -441,14 +435,18 @@ def get_movies_by_actor(actor_name):
     # Fetch the actor's nconst (IMDb identifier) based on their name
     nconst = get_nconst_from_actor_name(db_config, actor_name)
 
-    if nconst:
-        # Fetch all movies by the actor
-        movies_data = get_all_movies_by_actor(db_config, nconst)
-
-        # Render a template to display the movies
-        return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
-    else:
+    if not nconst:
         return "Actor not found", 404
+
+    # Fetch all movies by the actor
+    movies_data = get_all_movies_by_actor(db_config, nconst)
+
+    if movies_data is None:
+        print("No movies found for actor.")
+        movies_data = []
+
+    # Render a template to display the movies
+    return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
 
 
 

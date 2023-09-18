@@ -98,78 +98,7 @@ def fetch_movie_info_from_imdb(tconst):
     return ia.get_movie(imdbId)
 
 
-# def get_all_movies_by_actor(db_config, nconst):
-#     """Fetch all movies for a given actor."""
-#     # SQL query to fetch all movies by a given actor
-#     query = """
-#     SELECT tb.*
-#     FROM `title.basics` tb
-#     JOIN `title.principals` tp ON tb.tconst = tp.tconst
-#     WHERE tp.nconst = %s
-#     """
-#
-#     # Query parameters
-#     parameters = [nconst]
-#
-#     # Debug output for the generated SQL query and parameters
-#     print("Generated SQL Query for get_all_movies_by_actor:", query)
-#     print("Query Parameters:", parameters)
-#
-#     # Execute the query
-#     all_movies = execute_query(db_config, query, parameters, fetch='all')
-#     print(all_movies)
-#
-#     # Return the fetched movies
-#     return all_movies if all_movies else None
 
-
-# def get_all_movies_by_actor(db_config, nconst):
-#     """Fetch all movies for a given actor."""
-#     # SQL query to fetch all movies by a given actor
-#     query = """
-#     SELECT tb.*
-#     FROM `title.basics` tb
-#     JOIN `title.principals` tp ON tb.tconst = tp.tconst
-#     WHERE tp.nconst = %s
-#     """
-#
-#     # Query parameters
-#     parameters = [nconst]
-#
-#     # Debug output for the generated SQL query and parameters
-#     print("Generated SQL Query for get_all_movies_by_actor:", query)
-#     print("Query Parameters:", parameters)
-#
-#     # Execute the query
-#     all_movies = execute_query(db_config, query, parameters, fetch='all')
-#
-#     movies_data = []
-#
-#     if all_movies:
-#         for movie in all_movies:
-#             movie_info = fetch_movie_info_from_imdb(movie['tconst'])
-#
-#             # Create a dictionary to hold movie details
-#             movie_data = {
-#                 "title": movie_info.get('title', 'N/A'),
-#                 "imdb_id": movie_info.getID(),
-#                 "genres": ', '.join(movie_info.get('genres', ['N/A'])),
-#                 "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
-#                 "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
-#                 "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
-#                 "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
-#                 "countries": ', '.join(movie_info.get('countries', ['N/A'])),
-#                 "languages": ', '.join(movie_info.get('languages', ['N/A'])),
-#                 "rating": movie_info.get('rating', 'N/A'),
-#                 "votes": movie_info.get('votes', 'N/A'),
-#                 "plot": movie_info.get('plot', ['N/A'])[0],
-#                 "poster_url": movie_info.get_fullsizeURL(),
-#             }
-#
-#             movies_data.append(movie_data)
-#             print(movies_data)
-#
-#     return movies_data if movies_data else None
 
 
 from concurrent.futures import ThreadPoolExecutor
@@ -196,12 +125,14 @@ def fetch_movie_data(movie, movies_data):
     movies_data.append(movie_data)
 
 
+from concurrent.futures import ThreadPoolExecutor
+
 def get_all_movies_by_actor(db_config, nconst):
     query = """
     SELECT tb.*
     FROM `title.basics` tb
     JOIN `title.principals` tp ON tb.tconst = tp.tconst
-    WHERE tp.nconst = %s
+    WHERE tp.nconst = %s AND tb.titleType = 'movie'
     """
     parameters = [nconst]
     print("Generated SQL Query for get_all_movies_by_actor:", query)
@@ -210,10 +141,13 @@ def get_all_movies_by_actor(db_config, nconst):
     movies_data = []
 
     if all_movies:
-        with ThreadPoolExecutor() as executor:
+        # Increase max_workers to a higher value depending on your system's capability
+        with ThreadPoolExecutor(max_workers=20) as executor:
             executor.map(fetch_movie_data, all_movies, [movies_data] * len(all_movies))
 
     return movies_data if movies_data else None
+
+
 
 
 def main(criteria):
@@ -253,31 +187,7 @@ def main(criteria):
     return movie_info
 
 
-# def get_nconst_from_actor_name(db_config, actor_name):
-#     """Fetch the IMDb identifier (nconst) for an actor based on their name."""
-#     # SQL query to fetch the nconst of an actor by name
-#     query = """
-#     SELECT nconst
-#     FROM `title.prinicipals`
-#     WHERE primaryName = %s
-#     LIMIT 1
-#     """
-#
-#     # Query parameters
-#     parameters = [actor_name]
-#
-#     # Debug output for the generated SQL query and parameters
-#     print("Generated SQL Query for get_nconst_from_actor_name:", query)
-#     print("Query Parameters:", parameters)
-#
-#     # Execute the query
-#     result = execute_query(db_config, query, parameters, fetch='one')
-#
-#     # Return the nconst if found
-#     if result:
-#         return result.get('nconst')
-#     else:
-#         return None
+
 
 
 def get_nconst_from_actor_name(db_config, actor_name):
