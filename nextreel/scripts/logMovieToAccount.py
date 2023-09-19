@@ -73,25 +73,55 @@ def fetch_and_update_movie(row, db_config):
             counter += 1
 
 
-def update_missing_title_info(db_config):
+# def update_missing_title_info(db_config):
+#     global counter
+#     counter = 0
+#     query = """
+#     SELECT tconst
+#     FROM `title.basics`
+#     WHERE plot IS NULL
+#     AND poster_url IS NULL
+#     AND titleType = 'movie'
+#     LIMIT 1000;
+#     """
+#     result = execute_query(db_config, query, fetch='all')
+#     if not result:
+#         logging.info("No records need updating.")
+#         return
+#     with ThreadPoolExecutor(max_workers=50) as executor:
+#         executor.map(fetch_and_update_movie, result, [db_config] * len(result))
+#     logging.info(f"Updated {counter} rows.")
+
+
+def update_missing_title_info(db_config, start_tconst=None):
     global counter
     counter = 0
+
     query = """
     SELECT tconst
     FROM `title.basics`
     WHERE plot IS NULL
     AND poster_url IS NULL
     AND titleType = 'movie'
-    LIMIT 1000;
     """
+
+    # If a start_tconst is specified, add a condition for it
+    if start_tconst is not None:
+        query += f" AND tconst > '{start_tconst}'"
+
+    query += " LIMIT 10000;"
+
     result = execute_query(db_config, query, fetch='all')
+
     if not result:
         logging.info("No records need updating.")
         return
-    with ThreadPoolExecutor() as executor:
+
+    with ThreadPoolExecutor(max_workers=50) as executor:
         executor.map(fetch_and_update_movie, result, [db_config] * len(result))
+
     logging.info(f"Updated {counter} rows.")
 
 
 # Execute the function to update missing information
-# update_missing_title_info(db_config)
+update_missing_title_info(db_config, start_tconst='tt0086269')
