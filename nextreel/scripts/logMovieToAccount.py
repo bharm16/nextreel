@@ -64,6 +64,7 @@ def fetch_and_update_movie(row, db_config):
     global counter
     tconst = row['tconst']
     logging.info(f"Fetching information for {tconst}...")
+
     movie = fetch_movie_info_from_imdb(tconst)
     plot = movie.get('plot outline')
     poster_url = movie.get('cover url')
@@ -71,6 +72,7 @@ def fetch_and_update_movie(row, db_config):
     if is_updated:
         with counter_lock:
             counter += 1
+            print(counter)
 
 
 # def update_missing_title_info(db_config):
@@ -117,11 +119,11 @@ def update_missing_title_info(db_config, start_tconst=None):
         logging.info("No records need updating.")
         return
 
-    with ThreadPoolExecutor(max_workers=50) as executor:
+    with ThreadPoolExecutor(max_workers=100) as executor:
         executor.map(fetch_and_update_movie, result, [db_config] * len(result))
 
     logging.info(f"Updated {counter} rows.")
 
 
 # Execute the function to update missing information
-update_missing_title_info(db_config, start_tconst='tt0112416')
+# update_missing_title_info(db_config, start_tconst='tt0156605')
