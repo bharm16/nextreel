@@ -98,9 +98,6 @@ def fetch_movie_info_from_imdb(tconst):
     return ia.get_movie(imdbId)
 
 
-
-
-
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -127,6 +124,7 @@ def fetch_movie_data(movie, movies_data):
 
 from concurrent.futures import ThreadPoolExecutor
 
+
 def get_all_movies_by_actor(db_config, nconst):
     query = """
     SELECT tb.*
@@ -148,8 +146,6 @@ def get_all_movies_by_actor(db_config, nconst):
             executor.map(fetch_movie_data, all_movies, [movies_data] * len(all_movies))
 
     return movies_data if movies_data else None
-
-
 
 
 def main(criteria):
@@ -189,9 +185,6 @@ def main(criteria):
     return movie_info
 
 
-
-
-
 def get_nconst_from_actor_name(db_config, actor_name):
     """Fetch the nconst (IMDb identifier) for an actor based on their name."""
     # SQL query to fetch the nconst by actor_name from the `name.basics` table
@@ -217,9 +210,45 @@ def get_nconst_from_actor_name(db_config, actor_name):
         return None
 
 
+def fetch_actor_from_imdb(db_config, actor_name):
+    """Fetch actor information from IMDb and store it in a Person object.
 
-# Entry point of the script
+    Args:
+        db_config (dict): Database configuration dictionary.
+        actor_name (str): Name of the actor to fetch.
+
+    Returns:
+        Person: A Person object containing actor information.
+    """
+    # Initialize IMDb object
+    ia = imdb.IMDb()
+
+    # Fetch the IMDb identifier (nconst) for the actor
+    actor_nconst = get_nconst_from_actor_name(db_config, actor_name)
+
+    if not actor_nconst:
+        print(f"No actor found with name: {actor_name}")
+        return None
+
+    # Fetch actor information from IMDb
+    actor_info = ia.get_person(actor_nconst[2:])  # Remove the 'nm' prefix
+
+    # Simply return the fetched actor information
+    return actor_info  # This line has been changed
+
+
+
+# Example usage
 if __name__ == "__main__":
+    actor_name_to_fetch = "Brad Pitt"  # Replace with the name of the actor you want to fetch
+    fetched_actor = fetch_actor_from_imdb(db_config, actor_name_to_fetch)
+
+    if fetched_actor:
+        print(f"Fetched actor name: {fetched_actor.get('name')}")
+        print(f"Fetched actor IMDb ID: {fetched_actor.getID()}")
+        print(f"Fetched actor filmography: {fetched_actor.get('filmography')}")
+
+    # Entry point of the script
     # Define search criteria
     criteria = {
         "min_year": 1900,
