@@ -124,4 +124,4 @@ def update_missing_title_info(db_config, start_tconst=None):
 
 
 # Execute the function to update missing information
-update_missing_title_info(db_config, start_tconst='tt0086269')
+update_missing_title_info(db_config, start_tconst='tt0112416')
