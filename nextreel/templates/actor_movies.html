@@ -116,6 +116,46 @@
 
     <!-- Your Navbar here (similar to watchedMovies.html if needed) -->
 
+
+
+<!-- Actor Details Section -->
+<div class="container pt-4">
+    <h1>Details of {{ actor_name }}</h1>
+    {% for key, value in actor_dict.items() %}
+    <div class="info-box">
+        <div class="info-title">{{ key }}</div>
+        <div class="info-content">
+            {% if value is iterable and value is not string %}
+                {% for v in value %}
+                    {{ v }}<br>
+                {% endfor %}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Actor's Filmography Section -->
+<div class="container pt-4">
+    <h1>Filmography of {{ actor_name }}</h1>
+    <ul>
+    {% for role, movies in actor_filmography.items() %}
+        <li><strong>{{ role }}</strong>
+            <ul>
+            {% for movie in movies %}
+                <li>{{ movie }}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+
+
     <main>
         <div class="container pt-4">
             <h1>Movies by {{ actor_name }}</h1>

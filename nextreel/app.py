@@ -7,7 +7,7 @@ import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb, \
-    get_nconst_from_actor_name
+    get_nconst_from_actor_name, fetch_actor_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
@@ -365,31 +365,51 @@ from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace
 # script name where your function resides
 
 
+# @app.route('/actor/<actor_name>', methods=['GET'])
+# def get_movies_by_actor(actor_name):
+#     start_time = time.time()  # Record the start time
+#     # Fetch the actor's nconst (IMDb identifier) based on their name
+#     nconst = get_nconst_from_actor_name(db_config, actor_name)
+#
+#     if not nconst:
+#         return "Actor not found", 404
+#
+#     # Fetch all movies by the actor
+#     movies_data = get_all_movies_by_actor(db_config, nconst)
+#
+#     end_time = time.time()  # Record the end time
+#     print(f"Time taken for database queries: {end_time - start_time} seconds")
+#
+#     if movies_data is None:
+#         print("No movies found for actor.")
+#         movies_data = []
+#
+#     # Render a template to display the movies
+#     return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
+
+
 @app.route('/actor/<actor_name>', methods=['GET'])
 def get_movies_by_actor(actor_name):
     start_time = time.time()  # Record the start time
-    # Fetch the actor's nconst (IMDb identifier) based on their name
-    nconst = get_nconst_from_actor_name(db_config, actor_name)
 
-    if not nconst:
+    # Fetch actor's details from IMDb
+    fetched_actor = fetch_actor_from_imdb(db_config, actor_name)
+    if fetched_actor is None:
         return "Actor not found", 404
 
-    # Fetch all movies by the actor
-    movies_data = get_all_movies_by_actor(db_config, nconst)
+    # Convert the actor information to a dictionary
+    actor_dict = fetched_actor.data
+
+    # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
+    actor_filmography = actor_dict.get('filmography', {})
 
     end_time = time.time()  # Record the end time
     print(f"Time taken for database queries: {end_time - start_time} seconds")
 
-    if movies_data is None:
-        print("No movies found for actor.")
-        movies_data = []
+    # Render a template to display the actor's details and filmography
+    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography, actor_name=actor_name)
 
-    # Render a template to display the movies
-    return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
-
-
-
-# Entry point of the application
+    # Entry point of the application
 if __name__ == "__main__":
     # Run the Flask app in debug mode (change this in production)
     app.run(debug=True)
