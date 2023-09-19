@@ -29,11 +29,19 @@ login_manager.init_app(app)
 should_logout_on_home_load = True
 
 
-# User class to handle login sessions
+# # User class to handle login sessions
+# class User(UserMixin):
+#     def __init__(self, id, username):
+#         self.id = id
+#         self.username = username
+
+
 class User(UserMixin):
-    def __init__(self, id, username):
+    def __init__(self, id, username, email):  # Add email here
         self.id = id
         self.username = username
+        self.email = email  # Add this line
+
 
 
 # Initialize a global queue to hold movie data
@@ -90,6 +98,8 @@ populate_thread.start()
 @app.route('/account_settings')
 @login_required
 def account_settings():
+    print("Current user's email:", current_user.email)
+
     # Render the account settings template
     return render_template('userAccountSettings.html')
 
@@ -109,16 +119,27 @@ def watched_movies():
                            watched_movie_details=watched_movie_details)
 
 
-# Function to load user details during login
+# # Function to load user details during login
+# @login_manager.user_loader
+# def load_user(user_id):
+#     # Query to fetch user details from the database
+#     user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+#     # If user data exists, return a User object
+#     if user_data:
+#         return User(id=user_data['id'], username=user_data['username'])
+#     # Otherwise, return None
+#     return None
+
+
 @login_manager.user_loader
 def load_user(user_id):
     # Query to fetch user details from the database
     user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
     # If user data exists, return a User object
     if user_data:
-        return User(id=user_data['id'], username=user_data['username'])
+        return User(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
     # Otherwise, return None
-    return None
+
 
 
 # Print the current working directory (for debugging)
@@ -163,9 +184,11 @@ def login():
         user_data = cursor.fetchone()
         cursor.close()
         conn.close()
+
+
         # If user exists and password matches, log in the user
         if user_data and user_data['password'] == password:
-            user = User(id=user_data['id'], username=user_data['username'])
+            user = User(id=user_data['id'], username=user_data['username'],email=user_data['email'])
             login_user(user)
             return redirect(url_for('home'))
         else:
