@@ -30,13 +30,6 @@ login_manager.init_app(app)
 should_logout_on_home_load = True
 
 
-# # User class to handle login sessions
-# class User(UserMixin):
-#     def __init__(self, id, username):
-#         self.id = id
-#         self.username = username
-
-
 class User(UserMixin):
     def __init__(self, id, username, email):  # Add email here
         self.id = id
@@ -116,18 +109,6 @@ def watched_movies():
     # Render the account settings template
     return render_template('watchedMovies.html',
                            watched_movie_details=watched_movie_details)
-
-
-# # Function to load user details during login
-# @login_manager.user_loader
-# def load_user(user_id):
-#     # Query to fetch user details from the database
-#     user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
-#     # If user data exists, return a User object
-#     if user_data:
-#         return User(id=user_data['id'], username=user_data['username'])
-#     # Otherwise, return None
-#     return None
 
 
 @login_manager.user_loader
@@ -232,16 +213,6 @@ def register():
 
         flash("ShowModal")  # Flash a specific message to indicate modal should be shown
         return redirect(url_for('login'))
-
-        # # Flash a success message
-        # flash("Registration successful! Please login.")
-        #
-        # flash("ShowModal")  # Flash a specific message to indicate modal should be shown
-        # return redirect(url_for('register'))
-        #
-        #
-        # # Redirect to the login page
-        # return redirect(url_for('login'))
 
     # Render the registration form
     return render_template('createAccountForm.html')
@@ -358,29 +329,6 @@ from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace
 
 
 # script name where your function resides
-
-
-# @app.route('/actor/<actor_name>', methods=['GET'])
-# def get_movies_by_actor(actor_name):
-#     start_time = time.time()  # Record the start time
-#     # Fetch the actor's nconst (IMDb identifier) based on their name
-#     nconst = get_nconst_from_actor_name(db_config, actor_name)
-#
-#     if not nconst:
-#         return "Actor not found", 404
-#
-#     # Fetch all movies by the actor
-#     movies_data = get_all_movies_by_actor(db_config, nconst)
-#
-#     end_time = time.time()  # Record the end time
-#     print(f"Time taken for database queries: {end_time - start_time} seconds")
-#
-#     if movies_data is None:
-#         print("No movies found for actor.")
-#         movies_data = []
-#
-#     # Render a template to display the movies
-#     return render_template('actor_movies.html', actor_name=actor_name, movies=movies_data)
 
 
 @app.route('/actor/<actor_name>', methods=['GET'])

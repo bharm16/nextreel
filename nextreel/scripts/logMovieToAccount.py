@@ -159,5 +159,6 @@ def add_movie_to_watchlist(user_id, username, tconst, movie_data, db_config):
     # Log that the additional details have been successfully inserted
     logging.info(f"Data for tconst {tconst} inserted successfully into user_watchlist_detail.")
 
+
 # Execute the function to update missing information
-# update_missing_title_info(db_config, start_tconst='tt0255055')
+# update_missing_title_info(db_config, start_tconst='tt0302713')
