@@ -103,7 +103,6 @@ def populate_movie_queue():
         time.sleep(1)
 
 
-
 # Start a thread to populate the movie queue
 # Start a background thread to populate the movie queue
 populate_thread = threading.Thread(target=populate_movie_queue)

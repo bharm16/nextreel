@@ -172,15 +172,15 @@ def main(criteria):
     # print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
 
     # Fetch all movies by a specific actor
-    nconst = "nm0000093"  # Replace this with the actor's IMDb ID (nconst)
-    actor_movies = get_all_movies_by_actor(db_config, nconst)
-    print(f"Debug actor_movies: {actor_movies}")
-    if actor_movies:
-        print(f"Movies by actor {nconst}:")
-        for movie in actor_movies:
-            print(movie['tconst'], movie['primaryTitle'])
-    else:
-        print(f"No movies found for actor {nconst}.")
+    # nconst = "nm0000093"  # Replace this with the actor's IMDb ID (nconst)
+    # actor_movies = get_all_movies_by_actor(db_config, nconst)
+    # print(f"Debug actor_movies: {actor_movies}")
+    # if actor_movies:
+    #     print(f"Movies by actor {nconst}:")
+    #     for movie in actor_movies:
+    #         print(movie['tconst'], movie['primaryTitle'])
+    # else:
+    #     print(f"No movies found for actor {nconst}.")
 
     return movie_info
 
@@ -240,13 +240,13 @@ def fetch_actor_from_imdb(db_config, actor_name):
 
 # Example usage
 if __name__ == "__main__":
-    actor_name_to_fetch = "Brad Pitt"  # Replace with the name of the actor you want to fetch
-    fetched_actor = fetch_actor_from_imdb(db_config, actor_name_to_fetch)
-
-    if fetched_actor:
-        print(f"Fetched actor name: {fetched_actor.get('name')}")
-        print(f"Fetched actor IMDb ID: {fetched_actor.getID()}")
-        print(f"Fetched actor filmography: {fetched_actor.get('filmography')}")
+    # actor_name_to_fetch = "Brad Pitt"  # Replace with the name of the actor you want to fetch
+    # fetched_actor = fetch_actor_from_imdb(db_config, actor_name_to_fetch)
+    #
+    # if fetched_actor:
+    #     print(f"Fetched actor name: {fetched_actor.get('name')}")
+    #     print(f"Fetched actor IMDb ID: {fetched_actor.getID()}")
+    #     print(f"Fetched actor filmography: {fetched_actor.get('filmography')}")
 
     # Entry point of the script
     # Define search criteria
