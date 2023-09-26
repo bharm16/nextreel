@@ -20,8 +20,6 @@ def get_all_users():
     return execute_query(user_db_config, "SELECT * FROM users", fetch='all')
 
 
-
-
 def insert_new_user(username, email, password):
     print("Entered insert_new_user function.")  # Debugging line
 
@@ -61,9 +59,6 @@ def get_watched_movie_posters(user_id, db_config):
     return poster_data
 
 
-
-
-
 def get_watched_movies(user_id, db_config):
     print("Entered get_watched_movies function.")  # Debugging line
 
@@ -81,8 +76,6 @@ def get_watched_movies(user_id, db_config):
         print(f"Fetched tconst: {row['tconst']}")  # Debugging line
 
     return watched_movies
-
-
 
 
 def get_all_watched_movie_details_by_user(user_id):
@@ -115,8 +108,6 @@ def get_all_watched_movie_details_by_user(user_id):
     return all_movie_details
 
 
-
-
 def get_watched_movie_details(user_id, tconst):
     # Step 1: Fetch relevant IMDb data using db_config
     imdb_query = """
@@ -141,9 +132,6 @@ WHERE
     return imdb_data
 
 
-
-
-
 def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
     print("Entered insert_watched_movie_details function.")  # Debugging line
     insert_query = """
@@ -157,6 +145,23 @@ def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
     execute_query(user_db_config, insert_query, values, fetch='none')
     print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
 
+
+def get_all_movies_in_watchlist(user_id):
+    # Debugging line to indicate entry into function
+    print("Entered get_all_movies_in_watchlist function.")
+
+    # SQL query to fetch all movies from the user's watchlist
+    query = "SELECT * FROM user_watchlist_detail WHERE user_id=%s"
+
+    # Execute the query
+    watchlist_movies = execute_query(user_db_config, query, params=(user_id,), fetch='all')
+
+    if watchlist_movies:
+        print(f"Fetched {len(watchlist_movies)} movies from watchlist for user {user_id}.")  # Debugging line
+    else:
+        print(f"No movies found in the watchlist for user {user_id}.")  # Debugging line
+
+    return watchlist_movies
 
 
 # Example usage

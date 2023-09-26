@@ -87,6 +87,7 @@
                             <a class="dropdown-item" href="/account_settings">Settings</a> <!-- Settings button added here -->
                             <a class="dropdown-item" href="/logout">Logout</a>
                             <a class="dropdown-item" href="/watched_movies">Watched Movies</a>
+                            <a class="dropdown-item" href="/user_watch_list">Watchlist</a>
                         </div>
                     </li>
                 {% else %}
@@ -97,6 +98,7 @@
                 <li class="nav-item">
                     <a href="/setFilters" class="btn btn-custom">Set Filters</a>
                 </li>
+
 {#                <li class="nav-item">#}
 {#                    <form method="POST" action="/next_movie" style="display: inline;">#}
 {#                        <button type="submit" class="btn btn-custom">Next Movie</button>#}
@@ -156,6 +158,7 @@
 
             {% if current_user.is_authenticated %}
                 <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
+                <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Add to Watchlist</button>
             {% endif %}
         </div>
     </div>
@@ -204,6 +207,34 @@
             });
 
         });
+
+        // Capture the add-to-watchlist button and add a click event listener
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToWatchlistButton = document.getElementById("add-to-watchlist-button");
+        addToWatchlistButton.addEventListener("click", function () {
+            const tconst = this.getAttribute("data-tconst");
+            fetch("/add_to_watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tconst: tconst
+                }),
+                redirect: 'follow'  // Automatically follow redirects
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;  // Navigate to the new URL
+                } else {
+                    alert("Failed to add movie to watchlist!");
+                }
+            }).catch(error => console.error("Error:", error));
+        });
+    });
+
+
     </script>
 </body>
 </html>

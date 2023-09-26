@@ -11,8 +11,9 @@ from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fet
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
-    get_all_watched_movie_details_by_user
-from nextreel.scripts.logMovieToAccount import log_movie_to_account, update_title_basics_if_empty
+    get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
+from nextreel.scripts.logMovieToAccount import log_movie_to_account, update_title_basics_if_empty, \
+    add_movie_to_watchlist
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
 import threading
@@ -41,7 +42,6 @@ class User(UserMixin):
         self.id = id
         self.username = username
         self.email = email  # Add this line
-
 
 
 # Initialize a global queue to hold movie data
@@ -94,7 +94,6 @@ populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
 
 
-
 @app.route('/account_settings')
 @login_required
 def account_settings():
@@ -141,7 +140,6 @@ def load_user(user_id):
     # Otherwise, return None
 
 
-
 # Print the current working directory (for debugging)
 # print("Current working directory:", os.getcwd())
 
@@ -185,10 +183,9 @@ def login():
         cursor.close()
         conn.close()
 
-
         # If user exists and password matches, log in the user
         if user_data and user_data['password'] == password:
-            user = User(id=user_data['id'], username=user_data['username'],email=user_data['email'])
+            user = User(id=user_data['id'], username=user_data['username'], email=user_data['email'])
             login_user(user)
             return redirect(url_for('home'))
         else:
@@ -255,8 +252,6 @@ def register():
 def set_filters():
     # Render the filter settings template
     return render_template('setFilters.html')
-
-
 
 
 # Route to get a movie based on filters
@@ -407,9 +402,38 @@ def get_movies_by_actor(actor_name):
     print(f"Time taken for database queries: {end_time - start_time} seconds")
 
     # Render a template to display the actor's details and filmography
-    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography, actor_name=actor_name)
+    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
+                           actor_name=actor_name)
+
+
+@app.route('/add_to_watchlist', methods=['POST'])
+@login_required  # Require the user to be logged in to access this route
+def add_to_watchlist():
+    global last_displayed_movie  # Use the global variable to get the last displayed movie
+
+    # Check if there is a last displayed movie
+    if last_displayed_movie:
+        tconst = last_displayed_movie.get("imdb_id")  # Get the IMDb ID of the last displayed movie
+
+        # Add the movie to the user's watchlist
+        add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
+
+        # Redirect to the home page
+        return redirect(url_for('home'))
+    else:
+        # Return an error if no movies are in the queue
+        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
+
+
+@app.route('/user_watch_list')
+@login_required
+def user_watch_list():
+    watchlist_movies = get_all_movies_in_watchlist(current_user.id)
+    return render_template('user_watchlist.html', watchlist_movies=watchlist_movies)
 
     # Entry point of the application
+
+
 if __name__ == "__main__":
     # Run the Flask app in debug mode (change this in production)
     app.run(debug=True)

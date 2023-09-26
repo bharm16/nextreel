@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 import logging
 import imdb
@@ -75,26 +76,6 @@ def fetch_and_update_movie(row, db_config):
             print(counter)
 
 
-# def update_missing_title_info(db_config):
-#     global counter
-#     counter = 0
-#     query = """
-#     SELECT tconst
-#     FROM `title.basics`
-#     WHERE plot IS NULL
-#     AND poster_url IS NULL
-#     AND titleType = 'movie'
-#     LIMIT 1000;
-#     """
-#     result = execute_query(db_config, query, fetch='all')
-#     if not result:
-#         logging.info("No records need updating.")
-#         return
-#     with ThreadPoolExecutor(max_workers=50) as executor:
-#         executor.map(fetch_and_update_movie, result, [db_config] * len(result))
-#     logging.info(f"Updated {counter} rows.")
-
-
 def update_missing_title_info(db_config, start_tconst=None):
     global counter
     counter = 0
@@ -125,5 +106,58 @@ def update_missing_title_info(db_config, start_tconst=None):
     logging.info(f"Updated {counter} rows.")
 
 
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+
+
+# Function to add a movie to a user's watchlist
+def add_movie_to_watchlist(user_id, username, tconst, movie_data, db_config):
+    """
+    Adds a movie to a user's watchlist in the database.
+
+    Parameters:
+    user_id (int): The ID of the user.
+    username (str): The username of the user.
+    tconst (str): The IMDb ID of the movie.
+    movie_data (dict): A dictionary containing detailed information about the movie.
+    db_config (dict): Database configuration.
+    """
+    # Log the entry into the function
+    logging.info("Entered add_movie_to_watchlist function.")
+
+    # Extract the poster URL from the movie_data dictionary
+    poster_url = movie_data.get('poster_url', None)
+
+    # Log what movie is being added and for which user
+    logging.info(
+        f"Trying to add tconst: {tconst} with poster URL: {poster_url} to watchlist for user ID: {user_id}, Username: {username}")
+
+    # Handle case where poster_url is not available
+    if not poster_url:
+        logging.warning("Poster URL is NULL. Using a placeholder.")
+        poster_url = "placeholder_url"
+
+    # Get the current timestamp
+    added_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # Insert the main record into the user_watchlist table
+    query = "INSERT INTO user_watchlist (user_id, tconst, added_at, username, poster_url) VALUES (%s, %s, %s, %s, %s)"
+    execute_query(db_config, query, (user_id, tconst, added_at, username, poster_url), fetch='none')
+    logging.info(f"Successfully added movie {tconst} to watchlist for user {user_id}.")
+
+    # Insert additional movie details into the user_watchlist_detail table
+    insert_query = """
+        INSERT INTO user_watchlist_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+    """
+    values = (
+        user_id, tconst, movie_data['title'], movie_data['genres'], movie_data['directors'], movie_data['writers'],
+        movie_data['runtimes'], movie_data['rating'], movie_data['votes'], poster_url
+    )
+    execute_query(db_config, insert_query, values, fetch='none')
+
+    # Log that the additional details have been successfully inserted
+    logging.info(f"Data for tconst {tconst} inserted successfully into user_watchlist_detail.")
+
 # Execute the function to update missing information
-# update_missing_title_info(db_config, start_tconst='tt0235447')
+# update_missing_title_info(db_config, start_tconst='tt0255055')
