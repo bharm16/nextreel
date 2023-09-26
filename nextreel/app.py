@@ -117,7 +117,7 @@ def account_settings():
     print("Current user's email:", current_user.email)
 
     # Render the account settings template
-    return render_template('userAccountSettings.html')
+    return render_template('user_account_settings.html')
 
 
 @app.route('/watched_movies')
@@ -131,7 +131,7 @@ def watched_movies():
     watched_movie_details.sort(key=lambda x: x['tconst'])
 
     # Render the account settings template
-    return render_template('watchedMovies.html',
+    return render_template('watched_movies.html',
                            watched_movie_details=watched_movie_details)
 
 
@@ -217,7 +217,7 @@ def login():
             # If authentication fails, flash an error message
             flash("Invalid username or password")
     # Render the login template
-    return render_template('userLogin.html')
+    return render_template('user_login.html')
 
 
 # Route for logout
@@ -259,14 +259,14 @@ def register():
         return redirect(url_for('login'))
 
     # Render the registration form
-    return render_template('createAccountForm.html')
+    return render_template('create_account_form.html')
 
 
 # Route for setting filters
 @app.route('/setFilters')
 def set_filters():
     # Render the filter settings template
-    return render_template('setFilters.html')
+    return render_template('set_filters.html')
 
 
 # Route to get a movie based on filters
