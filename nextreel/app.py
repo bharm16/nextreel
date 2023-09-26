@@ -6,13 +6,13 @@ import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fetch_movie_info_from_imdb, \
+from nextreel.scripts.get_movie_from_imdb import get_filtered_random_row, main, fetch_movie_info_from_imdb, \
     get_nconst_from_actor_name, fetch_actor_from_imdb
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
-from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
     get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
-from nextreel.scripts.logMovieToAccount import log_movie_to_account, update_title_basics_if_empty, \
+from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
@@ -40,7 +40,7 @@ class User(UserMixin):
 # Initialize a global queue to hold movie data
 movie_queue = Queue(maxsize=3)
 
-from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
     get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
 
 
@@ -369,7 +369,7 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-from nextreel.scripts.getMovieFromIMDB import get_all_movies_by_actor  # replace 'your_script_name' with the actual
+from nextreel.scripts.get_movie_from_imdb import get_all_movies_by_actor  # replace 'your_script_name' with the actual
 
 
 # script name where your function resides

@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 from nextreel.scripts.db_config_scripts import user_db_config, db_config  # Import both configs
-from nextreel.scripts.getMovieFromIMDB import fetch_movie_info_from_imdb
+from nextreel.scripts.get_movie_from_imdb import fetch_movie_info_from_imdb
 from nextreel.scripts.mysql_query_builder import execute_query
 
 # Initialize logging

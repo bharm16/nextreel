@@ -127,7 +127,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="getMovieFromIMDB" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="get_movie_from_imdb" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tmdb_proj_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -140,7 +140,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/getMovieFromIMDB.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/get_movie_from_imdb.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -149,7 +149,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="logMovieToAccount" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="log_movie_to_account" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tmdb_proj_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -162,7 +162,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/logMovieToAccount.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/log_movie_to_account.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -195,17 +195,17 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.home.html" />
+      <item itemvalue="Python.get_movie_from_imdb" />
+      <item itemvalue="Python.log_movie_to_account" />
       <item itemvalue="Python.movie_posters" />
-      <item itemvalue="Python.logMovieToAccount" />
-      <item itemvalue="Python.getMovieFromIMDB" />
       <item itemvalue="Python.app" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
-        <item itemvalue="Python.logMovieToAccount" />
+        <item itemvalue="Python.log_movie_to_account" />
         <item itemvalue="JavaScript Debug.home.html" />
-        <item itemvalue="Python.getMovieFromIMDB" />
+        <item itemvalue="Python.get_movie_from_imdb" />
         <item itemvalue="Python.movie_posters" />
       </list>
     </recent_temporary>
