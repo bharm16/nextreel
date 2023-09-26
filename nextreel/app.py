@@ -11,7 +11,7 @@ from nextreel.scripts.getMovieFromIMDB import get_filtered_random_row, main, fet
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
-    get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
+    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
 from nextreel.scripts.logMovieToAccount import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
 from scripts.mysql_query_builder import execute_query
@@ -40,44 +40,68 @@ class User(UserMixin):
 # Initialize a global queue to hold movie data
 movie_queue = Queue(maxsize=3)
 
+from nextreel.scripts.getUserAccount import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
+
 
 # Function to populate the movie queue
 def populate_movie_queue():
     # Infinite loop to keep the queue populated
+
+    # Initialize sets to store watched movies and watchlist movies if the user is logged in
+    watched_movies = set()
+    watchlist_movies = set()
+
     while True:
-        # If queue size is less than 2, fetch a new movie
+        # Check if current_user is not None and if user is authenticated
+        if current_user and current_user.is_authenticated:
+            # Update the watched_movies and watchlist_movies sets from the DB
+            watched_movies = set([movie['tconst'] for movie in get_all_watched_movie_details_by_user(current_user.id)])
+            watchlist_movies = set([movie['tconst'] for movie in get_all_movies_in_watchlist(current_user.id)])
+
+        # If the queue size is less than 2, fetch a new movie
         if movie_queue.qsize() < 2:
             # Get a random movie that matches the criteria (empty in this case)
             row = get_filtered_random_row(db_config, {})
             tconst = row['tconst']
+
             # Fetch detailed movie information from IMDb
             movie = fetch_movie_info_from_imdb(tconst)
-            # Create a dictionary with relevant movie details
 
-            movie_data = {
-                "title": movie.get('title', 'N/A'),
-                "imdb_id": movie.getID(),
-                "genres": ', '.join(movie.get('genres', ['N/A'])),
-                "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-                "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-                "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
-                "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-                "countries": ', '.join(movie.get('countries', ['N/A'])),
-                "languages": ', '.join(movie.get('languages', ['N/A'])),
-                "rating": movie.get('rating', 'N/A'),
-                "votes": movie.get('votes', 'N/A'),
-                "plot": movie.get('plot', ['N/A'])[0],
-                "poster_url": movie.get_fullsizeURL(),
-                "year": movie.get('year')
-            }
+            # Ensure that the movie is neither in the watched list nor in the watchlist
+            if row['tconst'] not in watched_movies and row['tconst'] not in watchlist_movies:
+                tconst = row['tconst']
 
-            # Put the fetched movie into the global queue
-            movie_queue.put(movie_data)
+                # Fetch detailed movie information from IMDb
+                movie = fetch_movie_info_from_imdb(tconst)
 
-            update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], db_config)
+                # Create a dictionary with relevant movie details
+                movie_data = {
+                    "title": movie.get('title', 'N/A'),
+                    "imdb_id": movie.getID(),
+                    "genres": ', '.join(movie.get('genres', ['N/A'])),
+                    "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+                    "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+                    "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+                    "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+                    "countries": ', '.join(movie.get('countries', ['N/A'])),
+                    "languages": ', '.join(movie.get('languages', ['N/A'])),
+                    "rating": movie.get('rating', 'N/A'),
+                    "votes": movie.get('votes', 'N/A'),
+                    "plot": movie.get('plot', ['N/A'])[0],
+                    "poster_url": movie.get_fullsizeURL(),
+                    "year": movie.get('year')
+                }
+
+                # Put the fetched movie into the global queue
+                movie_queue.put(movie_data)
+
+                # Update the title_basics table if any data is missing
+                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], db_config)
 
             # Pause for 1 second to prevent rapid API calls
         time.sleep(1)
+
 
 
 # Start a thread to populate the movie queue
@@ -128,7 +152,23 @@ def load_user(user_id):
 global last_displayed_movie
 
 
-# Home route
+# # Home route
+# @app.route('/')
+# def home():
+#     global should_logout_on_home_load
+#     # Logout the user if the flag is set
+#     if should_logout_on_home_load:
+#         logout_user()
+#         should_logout_on_home_load = False
+#     # Fetch a movie from the global queue
+#     movie_data = movie_queue.get()
+#     # Update the global variable with the fetched movie data
+#     global last_displayed_movie
+#     last_displayed_movie = movie_data
+#     # Render the home page with the fetched movie data
+#     return render_template('home.html', movie=movie_data, current_user=current_user)
+
+
 @app.route('/')
 def home():
     global should_logout_on_home_load
@@ -136,11 +176,15 @@ def home():
     if should_logout_on_home_load:
         logout_user()
         should_logout_on_home_load = False
+
     # Fetch a movie from the global queue
+    # (consider adding additional logic here to ensure the movie is appropriate for the user)
     movie_data = movie_queue.get()
+
     # Update the global variable with the fetched movie data
     global last_displayed_movie
     last_displayed_movie = movie_data
+
     # Render the home page with the fetched movie data
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
