@@ -77,24 +77,6 @@ def populate_movie_queue():
 
                 movie_data = generate_movie_data(movie)  # <-- Function call here
 
-                # # Create a dictionary with relevant movie details
-                # movie_data = {
-                #     "title": movie.get('title', 'N/A'),
-                #     "imdb_id": movie.getID(),
-                #     "genres": ', '.join(movie.get('genres', ['N/A'])),
-                #     "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-                #     "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-                #     "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
-                #     "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-                #     "countries": ', '.join(movie.get('countries', ['N/A'])),
-                #     "languages": movie.get('languages', ['N/A'])[0] if movie.get('languages') else 'N/A',
-                #     # Only the first language
-                #     "rating": movie.get('rating', 'N/A'),
-                #     "votes": movie.get('votes', 'N/A'),
-                #     "plot": movie.get('plot', ['N/A'])[0],
-                #     "poster_url": movie.get_fullsizeURL(),
-                #     "year": movie.get('year')
-                # }
 
                 # Put the fetched movie into the global queue
                 movie_queue.put(movie_data)
@@ -153,22 +135,6 @@ def load_user(user_id):
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
 
-
-# # Home route
-# @app.route('/')
-# def home():
-#     global should_logout_on_home_load
-#     # Logout the user if the flag is set
-#     if should_logout_on_home_load:
-#         logout_user()
-#         should_logout_on_home_load = False
-#     # Fetch a movie from the global queue
-#     movie_data = movie_queue.get()
-#     # Update the global variable with the fetched movie data
-#     global last_displayed_movie
-#     last_displayed_movie = movie_data
-#     # Render the home page with the fetched movie data
-#     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/')
@@ -317,23 +283,6 @@ def filtered_movie_endpoint():
 
     movie_data = generate_movie_data(movie_info)  # <-- Function call here
 
-    # # Create a dictionary to hold movie details
-    # movie_data = {
-    #     "title": movie_info.get('title', 'N/A'),
-    #     "imdb_id": movie_info.getID(),
-    #     "genres": ', '.join(movie_info.get('genres', ['N/A'])),
-    #     "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
-    #     "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
-    #     "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
-    #     "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
-    #     "countries": ', '.join(movie_info.get('countries', ['N/A'])),
-    #     "languages": movie_info.get('languages', ['N/A'])[0] if movie_info.get('languages') else 'N/A',  # Only the
-    #     # first language
-    #     "rating": movie_info.get('rating', 'N/A'),
-    #     "votes": movie_info.get('votes', 'N/A'),
-    #     "plot": movie_info.get('plot', ['N/A'])[0],
-    #     "poster_url": movie_info.get_fullsizeURL(),
-    # }
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
