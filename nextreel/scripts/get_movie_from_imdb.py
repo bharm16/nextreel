@@ -21,6 +21,9 @@ db_config = {
 }
 
 
+
+
+
 def get_db_connection(db_config):
     """Establish a connection to the database."""
     return pymysql.connect(
@@ -83,7 +86,13 @@ def get_filtered_random_row(db_config, criteria):
     print("Query Parameters:", parameters)
 
     random_row = execute_query(db_config, query, parameters)
-    print(random_row)
+    # print(random_row)
+
+    if not random_row:
+        print(f"No results found for language: {language}")
+        print("Check if this language code exists in your database.")
+    else:
+        print(random_row)
 
     return random_row if random_row else None
 
@@ -104,21 +113,45 @@ from concurrent.futures import ThreadPoolExecutor
 def fetch_movie_data(movie, movies_data):
     """Fetch movie details from IMDb and append to movies_data list."""
     movie_info = fetch_movie_info_from_imdb(movie['tconst'])
-    movie_data = {
-        "title": movie_info.get('title', 'N/A'),
-        "imdb_id": movie_info.getID(),
-        "genres": ', '.join(movie_info.get('genres', ['N/A'])),
-        "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
-        "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
-        "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
-        "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
-        "countries": ', '.join(movie_info.get('countries', ['N/A'])),
-        "languages": ', '.join(movie_info.get('languages', ['N/A'])),
-        "rating": movie_info.get('rating', 'N/A'),
-        "votes": movie_info.get('votes', 'N/A'),
-        "plot": movie_info.get('plot', ['N/A'])[0],
-        "poster_url": movie_info.get_fullsizeURL(),
-    }
+
+    movie_data = generate_movie_data(movie_info)  # <-- Function call here
+
+    # movie_data = {
+    #     "title": movie_info.get('title', 'N/A'),
+    #     "imdb_id": movie_info.getID(),
+    #     "genres": ', '.join(movie_info.get('genres', ['N/A'])),
+    #     "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
+    #     "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
+    #     "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
+    #     "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
+    #     "countries": ', '.join(movie_info.get('countries', ['N/A'])),
+    #     "languages": movie_info.get('languages', ['N/A'])[0] if movie_info.get('languages') else 'N/A',
+    #     # Only the first language
+    #     "rating": movie_info.get('rating', 'N/A'),
+    #     "votes": movie_info.get('votes', 'N/A'),
+    #     # "plot": movie_info.get('plot', ['N/A'])[0],
+    #     "plot": movie_info.get('plot', ['N/A']),
+    #
+    #     "poster_url": movie_info.get_fullsizeURL(),
+    # }
+    #
+    # movie_data = {
+    #     "title": movie.get('title', 'N/A'),
+    #     "imdb_id": movie.getID(),
+    #     "genres": ', '.join(movie.get('genres', ['N/A'])),
+    #     "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+    #     "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+    #     "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+    #     "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+    #     "countries": ', '.join(movie.get('countries', ['N/A'])),
+    #     "languages": movie.get('languages', ['N/A'])[0] if movie.get('languages') else 'N/A',
+    #     # Only the first language
+    #     "rating": movie.get('rating', 'N/A'),
+    #     "votes": movie.get('votes', 'N/A'),
+    #     "plot": movie.get('plot', ['N/A'])[0],
+    #     "poster_url": movie.get_fullsizeURL(),
+    #     "year": movie.get('year')
+    # }
     movies_data.append(movie_data)
 
 
@@ -146,6 +179,36 @@ def get_all_movies_by_actor(db_config, nconst):
             executor.map(fetch_movie_data, all_movies, [movies_data] * len(all_movies))
 
     return movies_data if movies_data else None
+
+
+def generate_movie_data(movie):
+    """
+    Generate a dictionary containing relevant details about a movie.
+
+    Parameters:
+    - movie: IMDbPY movie object
+
+    Returns:
+    - A dictionary containing relevant details about the movie.
+    """
+    movie_data = {
+        "title": movie.get('title', 'N/A'),
+        "imdb_id": movie.getID(),
+        "genres": ', '.join(movie.get('genres', ['N/A'])),
+        "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+        "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+        "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+        "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+        "countries": ', '.join(movie.get('countries', ['N/A'])),
+        "languages": movie.get('languages', ['N/A'])[0] if movie.get('languages') else 'N/A',
+        "rating": movie.get('rating', 'N/A'),
+        "votes": movie.get('votes', 'N/A'),
+        "plot": movie.get('plot', ['N/A'])[0],
+        "poster_url": movie.get_fullsizeURL(),
+        "year": movie.get('year')
+    }
+    return movie_data
+
 
 
 def main(criteria):

@@ -7,7 +7,7 @@ import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from nextreel.scripts.get_movie_from_imdb import get_filtered_random_row, main, fetch_movie_info_from_imdb, \
-    get_nconst_from_actor_name, fetch_actor_from_imdb
+    get_nconst_from_actor_name, fetch_actor_from_imdb, generate_movie_data
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
@@ -75,23 +75,26 @@ def populate_movie_queue():
                 # Fetch detailed movie information from IMDb
                 movie = fetch_movie_info_from_imdb(tconst)
 
-                # Create a dictionary with relevant movie details
-                movie_data = {
-                    "title": movie.get('title', 'N/A'),
-                    "imdb_id": movie.getID(),
-                    "genres": ', '.join(movie.get('genres', ['N/A'])),
-                    "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
-                    "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-                    "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
-                    "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
-                    "countries": ', '.join(movie.get('countries', ['N/A'])),
-                    "languages": ', '.join(movie.get('languages', ['N/A'])),
-                    "rating": movie.get('rating', 'N/A'),
-                    "votes": movie.get('votes', 'N/A'),
-                    "plot": movie.get('plot', ['N/A'])[0],
-                    "poster_url": movie.get_fullsizeURL(),
-                    "year": movie.get('year')
-                }
+                movie_data = generate_movie_data(movie)  # <-- Function call here
+
+                # # Create a dictionary with relevant movie details
+                # movie_data = {
+                #     "title": movie.get('title', 'N/A'),
+                #     "imdb_id": movie.getID(),
+                #     "genres": ', '.join(movie.get('genres', ['N/A'])),
+                #     "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
+                #     "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
+                #     "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
+                #     "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
+                #     "countries": ', '.join(movie.get('countries', ['N/A'])),
+                #     "languages": movie.get('languages', ['N/A'])[0] if movie.get('languages') else 'N/A',
+                #     # Only the first language
+                #     "rating": movie.get('rating', 'N/A'),
+                #     "votes": movie.get('votes', 'N/A'),
+                #     "plot": movie.get('plot', ['N/A'])[0],
+                #     "poster_url": movie.get_fullsizeURL(),
+                #     "year": movie.get('year')
+                # }
 
                 # Put the fetched movie into the global queue
                 movie_queue.put(movie_data)
@@ -272,12 +275,13 @@ def set_filters():
 @app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
     # Extract filter criteria from the form
+    # Extract filter criteria from the form
     filters = request.form
     genres = request.form.getlist('genres[]')
-    languages = request.form.getlist('languages[]')
 
     criteria = {}
 
+    # Handling various other criteria (year, IMDb score, number of votes)
     if filters.get('year_min'):
         criteria['min_year'] = int(filters.get('year_min'))
     if filters.get('year_max'):
@@ -289,40 +293,47 @@ def filtered_movie_endpoint():
     if filters.get('num_votes_min'):
         criteria['min_votes'] = int(filters.get('num_votes_min'))
 
+    # Handling genre criteria
     if genres:
         criteria['genres'] = genres
 
-    if languages:  # Add this block
-        criteria['language'] = languages[0]  # Take the first language
+    # Directly read the language from the form data
+    if filters.get('language'):
+        criteria['language'] = filters.get('language')
 
-    print("Received form data:", request.form)
-    print("Received genres:", genres)
+    # If no language is selected, default to 'English'
+    if 'language' not in criteria:
+        criteria['language'] = 'en'  # Default to English
+
+    # Print the final criteria for debugging
     print("Final criteria:", criteria)
 
-    # Fetch the movie based on the criteria
+    # Fetch the movie based on the criteria (assuming 'main' is your function to do this)
     movie_info = main(criteria)
 
     # If no movies are found, return an error message
     if not movie_info:
         return "No movies found based on the given criteria."
 
-    # Create a dictionary to hold movie details
-    movie_data = {
-        "title": movie_info.get('title', 'N/A'),
-        "imdb_id": movie_info.getID(),
-        "genres": ', '.join(movie_info.get('genres', ['N/A'])),
-        "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
-        "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
-        "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
-        "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
-        "countries": ', '.join(movie_info.get('countries', ['N/A'])),
-        "languages": ', '.join(movie_info.get('languages', ['N/A'])),
-        "rating": movie_info.get('rating', 'N/A'),
-        "votes": movie_info.get('votes', 'N/A'),
-        "plot": movie_info.get('plot', ['N/A'])[0],
-        "poster_url": movie_info.get_fullsizeURL(),
-    }
-    print(movie_data)
+    movie_data = generate_movie_data(movie_info)  # <-- Function call here
+
+    # # Create a dictionary to hold movie details
+    # movie_data = {
+    #     "title": movie_info.get('title', 'N/A'),
+    #     "imdb_id": movie_info.getID(),
+    #     "genres": ', '.join(movie_info.get('genres', ['N/A'])),
+    #     "directors": ', '.join([director['name'] for director in movie_info.get('director', [])][:1]),
+    #     "writer": movie_info.get('writer', [])[0]['name'] if movie_info.get('writer') else None,
+    #     "cast": ', '.join([actor['name'] for actor in movie_info.get('cast', [])][:3]),
+    #     "runtimes": ', '.join(movie_info.get('runtimes', ['N/A'])),
+    #     "countries": ', '.join(movie_info.get('countries', ['N/A'])),
+    #     "languages": movie_info.get('languages', ['N/A'])[0] if movie_info.get('languages') else 'N/A',  # Only the
+    #     # first language
+    #     "rating": movie_info.get('rating', 'N/A'),
+    #     "votes": movie_info.get('votes', 'N/A'),
+    #     "plot": movie_info.get('plot', ['N/A'])[0],
+    #     "poster_url": movie_info.get_fullsizeURL(),
+    # }
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
