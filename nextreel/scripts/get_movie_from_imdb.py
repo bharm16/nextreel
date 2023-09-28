@@ -66,7 +66,7 @@ def get_filtered_random_row(db_config, criteria):
     min_votes = criteria.get('min_votes', 100000)
     title_type = criteria.get('title_type', 'movie')
     genres = criteria.get('genres')
-    language = criteria.get('language', 'en')  # Add this line
+    language = criteria.get('language', 'fr')  # Add this line
 
     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]  # Add language here
 
@@ -76,12 +76,14 @@ def get_filtered_random_row(db_config, criteria):
     SELECT tb.*
     FROM `title.basics` tb
     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-    JOIN `title.akas` ta ON tb.tconst = ta.titleId
+    JOIN `title.akastest` ta ON tb.tconst = ta.titleId
     WHERE tb.startYear >= %s AND tb.startYear <= %s
     AND tr.averagerating >= %s AND tr.averagerating <= %s
     AND tr.numVotes >= %s
     AND tb.titleType = %s
     AND ta.language = %s  -- Add this line
+    AND ta.region = ta.language
+    
     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
 
     if genres:
@@ -286,6 +288,7 @@ if __name__ == "__main__":
         "min_rating": 7.0,
         "max_rating": 10,
         "title_type": "movie",
+        "language": "en",
         "genres": ["Action", "Drama"]
     }
     # Run the main function
