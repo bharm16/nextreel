@@ -1,4 +1,6 @@
 import logging
+import threading
+import time
 
 from langdetect import detect
 import pymysql
@@ -155,67 +157,185 @@ def get_db_connection(db_config):
 
 
 # Establish a connection to the database
+# connection = get_db_connection(db_config)
+#
+#
+# def update_language_chunk(db_config, rows_chunk):
+#     chunk_start_time = time.time()
+#
+#     for row in rows_chunk:
+#         titleId = row['titleId']
+#         title = row['title']
+#
+#         # Assuming you have a function identify_language that takes a title and returns its language
+#         detected_lang = identify_language(title)
+#
+#         if detected_lang:
+#             logging.info(f"Detected language for titleId {titleId}: {detected_lang}")
+#
+#             # SQL query to update language in title.basics table
+#             update_sql = """
+#             UPDATE `title.basics`
+#             SET language = %s
+#             WHERE tconst = %s AND tconst IN (SELECT titleId FROM `title.akastest` WHERE titleId = %s)
+#             """
+#
+#             # Execute the update query
+#             execute_query(db_config, update_sql, params=(detected_lang, titleId, titleId), fetch='none')
+#             logging.info(f"Updated language for titleId {titleId} in title.basics")
+#
+#         else:
+#             logging.info(f"Could not detect language for titleId {titleId}. Skipping update.")
+#         chunk_end_time = time.time()
+#         chunk_time = chunk_end_time - chunk_start_time
+#         logging.info(f"Time taken for processing chunk: {chunk_time:.2f} seconds")
+#
+#
+# # Main function to update language
+# # def update_language_in_title_basics(db_config):
+# #     logging.info("Entered update_language_in_title_basics function.")
+# #
+# #     # SQL query to fetch titleId and title from title.akastest where isOriginalTitle = '1'
+# #     fetch_sql = "SELECT titleId, title FROM `title.akastest` WHERE isOriginalTitle = '1'"
+# #
+# #     # Execute the query and fetch all results
+# #     rows = execute_query(db_config, fetch_sql, fetch='all')
+# #
+# #     # Number of threads
+# #     num_threads = 10
+# #
+# #     # Split rows into chunks
+# #     avg_len = len(rows) // num_threads
+# #     rows_chunks = [rows[i:i + avg_len] for i in range(0, len(rows), avg_len)]
+# #
+# #     # Create threads
+# #     threads = []
+# #     for i in range(num_threads):
+# #         # Create new threads and assign the update_language_chunk function and pass the chunk of rows
+# #         thread = threading.Thread(target=update_language_chunk, args=(db_config, rows_chunks[i]))
+# #         threads.append(thread)
+# #         thread.start()
+# #
+# #     # Wait for all threads to complete
+# #     for t in threads:
+# #         t.join()
+# #
+# #     logging.info("Exiting Main Thread")
+#
+#
+# def update_language_in_title_basics(db_config):
+#     start_time = time.time()
+#
+#     logging.info("Entered update_language_in_title_basics function.")
+#
+#     # Update SQL query to only fetch rows where the 'language' column is NULL or empty
+#     fetch_sql = """
+#     SELECT a.titleId, a.title
+#     FROM `title.akastest` a
+#     JOIN `title.basics` b ON a.titleId = b.tconst
+#     WHERE a.isOriginalTitle = '1' AND (b.language IS NULL OR b.language = '')
+#     """
+#
+#     # Execute the query and fetch all results
+#     rows = execute_query(db_config, fetch_sql, fetch='all')
+#     end_time = time.time()
+#
+#     query_time = end_time - start_time
+#
+#     # Rest of your code (no changes here)
+#     num_threads = 20
+#     avg_len = len(rows) // num_threads
+#     rows_chunks = [rows[i:i + avg_len] for i in range(0, len(rows), avg_len)]
+#
+#     threads = []
+#     for i in range(num_threads):
+#         thread = threading.Thread(target=update_language_chunk, args=(db_config, rows_chunks[i]))
+#         threads.append(thread)
+#         thread.start()
+#
+#     for t in threads:
+#         t.join()
+#
+#     logging.info("Exiting Main Thread")
+#
+#
+# # Example usage
+# if __name__ == "__main__":
+#     print("Script started.")  # Debugging line
+#
+#     # Assuming db_config is defined somewhere
+#     update_language_in_title_basics(db_config)
+
+
+# Establish a connection to the database
 connection = get_db_connection(db_config)
 
-# try:
-#     with connection.cursor() as cursor:
-#         fetch_sql = "SELECT titleId, title FROM `title.akastest` WHERE isOriginalTitle = '1'"
-#         cursor.execute(fetch_sql)
-#
-#         for row in cursor.fetchall():
-#             titleId, title = row
-#             detected_lang = identify_language(title)
-#             if detected_lang is not None:
-#                 logging.info(f"Detected language for titleId {titleId}: {detected_lang}")
-#                 mapped_lang = lang_map.get(detected_lang, None)
-#                 update_sql = """
-#                 UPDATE `title.basics`
-#                 SET language = %s
-#                 WHERE tconst = %s AND tconst IN (SELECT titleId FROM `title.akastest` WHERE titleId = %s);
-#                 """
-#                 execute_query(db_config, update_sql, (mapped_lang, titleId, titleId))
-#                 logging.info(f"Updated language for titleId {titleId} in title.basics")
-#
-#             else:
-#                 logging.warning(f"Could not detect language for titleId {titleId}. Skipping update.")
-#
-# finally:
-#     connection.close()
-#     logging.info("Database connection closed.")
+
+def update_language_chunk(db_config, rows_chunk):
+    chunk_start_time = time.time()
+
+    for row in rows_chunk:
+        titleId = row['titleId']
+        # Use originalTitle from title.basics for language detection
+        originalTitle = row['originalTitle']
+
+        # Detect language using originalTitle
+        detected_lang = identify_language(originalTitle)
+
+        if detected_lang:
+            logging.info(f"Detected language for titleId {titleId}: {detected_lang}")
+
+            # SQL query to update language in title.basics table
+            update_sql = """
+            UPDATE `title.basics`
+            SET language = %s
+            WHERE tconst = %s
+            """
+
+            # Execute the update query
+            execute_query(db_config, update_sql, params=(detected_lang, titleId), fetch='none')
+            logging.info(f"Updated language for titleId {titleId} in title.basics")
+
+        else:
+            logging.info(f"Could not detect language for titleId {titleId}. Skipping update.")
+        chunk_end_time = time.time()
+        chunk_time = chunk_end_time - chunk_start_time
+        logging.info(f"Time taken for processing chunk: {chunk_time:.2f} seconds")
 
 
 def update_language_in_title_basics(db_config):
-        print("Entered update_language_in_title_basics function.")  # Debugging line
+    start_time = time.time()
 
-        # SQL query to fetch titleId and title from title.akastest where isOriginalTitle = '1'
-        fetch_sql = "SELECT titleId, title FROM `title.akastest` WHERE isOriginalTitle = '1'"
+    logging.info("Entered update_language_in_title_basics function.")
 
-        # Execute the query and fetch all results
-        rows = execute_query(db_config, fetch_sql, fetch='all')
+    # Modified SQL query to fetch titleId and originalTitle from title.basics
+    fetch_sql = """
+    SELECT tconst AS titleId, originalTitle
+    FROM `title.basics`
+    WHERE (language IS NULL OR language = '')
+    """
 
-        for row in rows:
-            titleId = row['titleId']
-            title = row['title']
+    # Execute the query and fetch all results
+    rows = execute_query(db_config, fetch_sql, fetch='all')
+    end_time = time.time()
 
-            # Assuming you have a function identify_language that takes a title and returns its language
-            detected_lang = identify_language(title)
+    query_time = end_time - start_time
 
-            if detected_lang:
-                print(f"Detected language for titleId {titleId}: {detected_lang}")  # Debugging line
+    # Rest of your code (no changes here)
+    num_threads = 20
+    avg_len = len(rows) // num_threads
+    rows_chunks = [rows[i:i + avg_len] for i in range(0, len(rows), avg_len)]
 
-                # SQL query to update language in title.basics table
-                update_sql = """
-                UPDATE `title.basics`
-                SET language = %s
-                WHERE tconst = %s AND tconst IN (SELECT titleId FROM `title.akastest` WHERE titleId = %s)
-                """
+    threads = []
+    for i in range(num_threads):
+        thread = threading.Thread(target=update_language_chunk, args=(db_config, rows_chunks[i]))
+        threads.append(thread)
+        thread.start()
 
-                # Execute the update query
-                execute_query(db_config, update_sql, params=(detected_lang, titleId, titleId), fetch='none')
-                print(f"Updated language for titleId {titleId} in title.basics")  # Debugging line
+    for t in threads:
+        t.join()
 
-            else:
-                print(f"Could not detect language for titleId {titleId}. Skipping update.")  # Debugging line
+    logging.info("Exiting Main Thread")
 
 
 # Example usage

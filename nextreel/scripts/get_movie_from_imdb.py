@@ -59,49 +59,88 @@ def get_random_row_value(db_config, table_name, column_name):
 
 
 def get_filtered_random_row(db_config, criteria):
-    min_year = criteria.get('min_year', 1900)
-    max_year = criteria.get('max_year', 2023)
-    min_rating = criteria.get('min_rating', 7.0)
-    max_rating = criteria.get('max_rating', 10)
-    min_votes = criteria.get('min_votes', 100000)
-    title_type = criteria.get('title_type', 'movie')
-    genres = criteria.get('genres')
-    language = criteria.get('language', 'fr')  # Add this line
-
-    parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]  # Add language here
-
-    genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
-
-    query = """
+    base_query = """
     SELECT tb.*
     FROM `title.basics` tb
     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-    JOIN `title.akastest` ta ON tb.tconst = ta.titleId
-    WHERE tb.startYear >= %s AND tb.startYear <= %s
-    AND tr.averagerating >= %s AND tr.averagerating <= %s
+    JOIN `title.akas` ta ON tb.tconst = ta.titleId
+    WHERE tb.startYear BETWEEN %s AND %s
+    AND tr.averagerating BETWEEN %s AND %s
     AND tr.numVotes >= %s
     AND tb.titleType = %s
-    AND ta.language = %s  -- Add this line
-    AND ta.region = ta.language
-    
-    """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
+    AND ta.language = %s
+    """
 
+    parameters = [
+        criteria.get('min_year', 1900),
+        criteria.get('max_year', 2023),
+        criteria.get('min_rating', 7.0),
+        criteria.get('max_rating', 10),
+        criteria.get('min_votes', 100000),
+        criteria.get('title_type', 'movie'),
+        criteria.get('language', 'en')
+    ]
+
+    genre_conditions = []
+    genres = criteria.get('genres')
     if genres:
+        genre_conditions = [" OR ".join(["tb.genres LIKE %s" for _ in genres])]
         parameters.extend(["%" + genre + "%" for genre in genres])
 
-    print("GFRR Generated SQL Query:", query)
+    full_query = base_query + (f" AND ({genre_conditions[0]})" if genre_conditions else "") + " ORDER BY RAND() LIMIT 1"
+
+    print("Generated SQL Query:", full_query)
     print("Query Parameters:", parameters)
 
-    random_row = execute_query(db_config, query, parameters)
-    # print(random_row)
-
-    if not random_row:
-        print(f"No results found for language: {language}")
-        print("Check if this language code exists in your database.")
-    else:
-        print(random_row)
+    random_row = execute_query(db_config, full_query, parameters)
 
     return random_row if random_row else None
+
+
+# def get_filtered_random_row(db_config, criteria):
+#     min_year = criteria.get('min_year', 1900)
+#     max_year = criteria.get('max_year', 2023)
+#     min_rating = criteria.get('min_rating', 7.0)
+#     max_rating = criteria.get('max_rating', 10)
+#     min_votes = criteria.get('min_votes', 100000)
+#     title_type = criteria.get('title_type', 'movie')
+#     genres = criteria.get('genres')
+#     language = criteria.get('language', 'fr')  # Add this line
+#
+#     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]  # Add language here
+#
+#     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
+#
+#     query = """
+#     SELECT tb.*
+#     FROM `title.basics` tb
+#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+#     JOIN `title.akastest` ta ON tb.tconst = ta.titleId
+#     WHERE tb.startYear >= %s AND tb.startYear <= %s
+#     AND tr.averagerating >= %s AND tr.averagerating <= %s
+#     AND tr.numVotes >= %s
+#     AND tb.titleType = %s
+#     AND ta.language = %s  -- Add this line
+#     AND ta.region = ta.language
+#
+#     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
+#
+#     if genres:
+#         parameters.extend(["%" + genre + "%" for genre in genres])
+#
+#     print("GFRR Generated SQL Query:", query)
+#     print("Query Parameters:", parameters)
+#
+#     random_row = execute_query(db_config, query, parameters)
+#     # print(random_row)
+#
+#     if not random_row:
+#         print(f"No results found for language: {language}")
+#         print("Check if this language code exists in your database.")
+#     else:
+#         print(random_row)
+#
+#     return random_row if random_row else None
 
 
 def fetch_movie_info_from_imdb(tconst):

@@ -132,18 +132,18 @@ WHERE
     return imdb_data
 
 
-def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
-    print("Entered insert_watched_movie_details function.")  # Debugging line
-    insert_query = """
-    INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-    """
-    values = (
-        user_id, tconst, imdb_data['title'], imdb_data['genres'], imdb_data['directors'], imdb_data['writers'],
-        imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes'], poster_url
-    )
-    execute_query(user_db_config, insert_query, values, fetch='none')
-    print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
+# def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
+#     print("Entered insert_watched_movie_details function.")  # Debugging line
+#     insert_query = """
+#     INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+#     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+#     """
+#     values = (
+#         user_id, tconst, imdb_data['title'], imdb_data['genres'], imdb_data['directors'], imdb_data['writers'],
+#         imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes'], poster_url
+#     )
+#     execute_query(user_db_config, insert_query, values, fetch='none')
+#     print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
 
 
 def get_all_movies_in_watchlist(user_id):
