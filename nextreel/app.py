@@ -82,7 +82,7 @@ def populate_movie_queue():
                 movie_queue.put(movie_data)
 
                 # Update the title_basics table if any data is missing
-                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], db_config)
+                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], movie_data['languages'], db_config)
 
             # Pause for 1 second to prevent rapid API calls
         time.sleep(1)
