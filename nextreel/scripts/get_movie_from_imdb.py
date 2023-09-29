@@ -12,6 +12,7 @@ import sys
 
 from nextreel.scripts.db_config_scripts import get_db_connection
 from nextreel.scripts.mysql_query_builder import execute_query
+from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
 
 # print("Python Executable:", sys.executable)
 
@@ -53,43 +54,46 @@ def get_random_row_value(db_config, table_name, column_name):
     return random_row
 
 
-def get_filtered_random_row(db_config, criteria):
-    base_query = """
-    SELECT tb.*
-    FROM `title.basics` tb
-    JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-    JOIN `title.akas` ta ON tb.tconst = ta.titleId
-    WHERE tb.startYear BETWEEN %s AND %s
-    AND tr.averagerating BETWEEN %s AND %s
-    AND tr.numVotes >= %s
-    AND tb.titleType = %s
-    AND ta.language = %s
-    """
+# def get_filtered_random_row(db_config, criteria):
+#     base_query = """
+#     SELECT tb.*
+#     FROM `title.basics` tb
+#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+#     JOIN `title.akas` ta ON tb.tconst = ta.titleId
+#     WHERE tb.startYear BETWEEN %s AND %s
+#     AND tr.averagerating BETWEEN %s AND %s
+#     AND tr.numVotes >= %s
+#     AND tb.titleType = %s
+#     AND ta.language = %s
+#     """
+#
+#     parameters = [
+#         criteria.get('min_year', 1900),
+#         criteria.get('max_year', 2023),
+#         criteria.get('min_rating', 7.0),
+#         criteria.get('max_rating', 10),
+#         criteria.get('min_votes', 100000),
+#         criteria.get('title_type', 'movie'),
+#         criteria.get('language', 'en')
+#     ]
+#
+#     genre_conditions = []
+#     genres = criteria.get('genres')
+#     if genres:
+#         genre_conditions = [" OR ".join(["tb.genres LIKE %s" for _ in genres])]
+#         parameters.extend(["%" + genre + "%" for genre in genres])
+#
+#     full_query = base_query + (f" AND ({genre_conditions[0]})" if genre_conditions else "") + " ORDER BY RAND() LIMIT 1"
+#
+#     print("Generated SQL Query:", full_query)
+#     print("Query Parameters:", parameters)
+#
+#     random_row = execute_query(db_config, full_query, parameters)
+#
+#     return random_row if random_row else None
 
-    parameters = [
-        criteria.get('min_year', 1900),
-        criteria.get('max_year', 2023),
-        criteria.get('min_rating', 7.0),
-        criteria.get('max_rating', 10),
-        criteria.get('min_votes', 100000),
-        criteria.get('title_type', 'movie'),
-        criteria.get('language', 'en')
-    ]
 
-    genre_conditions = []
-    genres = criteria.get('genres')
-    if genres:
-        genre_conditions = [" OR ".join(["tb.genres LIKE %s" for _ in genres])]
-        parameters.extend(["%" + genre + "%" for genre in genres])
 
-    full_query = base_query + (f" AND ({genre_conditions[0]})" if genre_conditions else "") + " ORDER BY RAND() LIMIT 1"
-
-    print("Generated SQL Query:", full_query)
-    print("Query Parameters:", parameters)
-
-    random_row = execute_query(db_config, full_query, parameters)
-
-    return random_row if random_row else None
 
 
 def fetch_movie_info_from_imdb(tconst):
@@ -166,37 +170,19 @@ def generate_movie_data(movie):
 
 def main(criteria):
     """Main function to execute the program."""
-    # Fetch a random movie row that matches the criteria
-    row = get_filtered_random_row(db_config, criteria)
+    # Create an instance of ImdbRandomMovieFetcher
+    movie_fetcher = ImdbRandomMovieFetcher(db_config)
+
+    # Fetch a random movie row that matches the criteria using the fetch_random_movie method
+    row = movie_fetcher.fetch_random_movie(criteria)
     if not row:
         print("No movies found based on the given criteria.")
         return None
 
-    # Record the start time for fetching movie info
-    # start_time = time.time()
-
     # Fetch movie info from IMDb
     movie_info = fetch_movie_info_from_imdb(row['tconst'])
 
-    # Record the end time for fetching movie info
-    # end_time = time.time()
-
     print("Fetched movie genres:", movie_info.get('genres'))
-
-    # Calculate and print the time taken to fetch movie info
-    # elapsed_time = end_time - start_time
-    # print(f"Time taken by fetch_movie_info_from_imdb: {elapsed_time} seconds")
-
-    # Fetch all movies by a specific actor
-    # nconst = "nm0000093"  # Replace this with the actor's IMDb ID (nconst)
-    # actor_movies = get_all_movies_by_actor(db_config, nconst)
-    # print(f"Debug actor_movies: {actor_movies}")
-    # if actor_movies:
-    #     print(f"Movies by actor {nconst}:")
-    #     for movie in actor_movies:
-    #         print(movie['tconst'], movie['primaryTitle'])
-    # else:
-    #     print(f"No movies found for actor {nconst}.")
 
     return movie_info
 
