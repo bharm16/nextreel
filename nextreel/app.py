@@ -6,6 +6,8 @@ import pymysql
 import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from nextreel.scripts.account import account, Account
 from nextreel.scripts.get_movie_from_imdb import  main, fetch_movie_info_from_imdb, \
     get_nconst_from_actor_name, fetch_actor_from_imdb, generate_movie_data
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -111,16 +113,9 @@ def account_settings():
 @app.route('/watched_movies')
 @login_required
 def watched_movies():
-    # Fetch all watched movie details for the current user
-    watched_movie_details = get_all_watched_movie_details_by_user(current_user.id)
-    print(watched_movie_details)
+    watched_movie_details = Account.get_watched_movies_by_user(current_user.id)
+    return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
 
-    # Sort the list by tconst
-    watched_movie_details.sort(key=lambda x: x['tconst'])
-
-    # Render the account settings template
-    return render_template('watched_movies.html',
-                           watched_movie_details=watched_movie_details)
 
 
 @login_manager.user_loader
@@ -168,25 +163,20 @@ def login():
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-
         username = request.form['username']
         password = request.form['password']
 
-        # Use the get_user_login function to fetch and verify user details
-        user_data = get_user_login(username, password, user_db_config)
+        user_data = Account.login_user(username, password)
 
-        # If user exists and password matches, log in the user
         if user_data:
             user = User(id=user_data['id'], username=user_data['username'], email=user_data['email'])
             login_user(user)
             return redirect(url_for('home'))
-
         else:
-            # If authentication fails, flash an error message
             flash("Invalid username or password")
 
-    # Render the login template
     return render_template('user_login.html')
+
 
 
 # Route for logout
@@ -202,29 +192,23 @@ def logout():
 # Route for user registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # If the user is already authenticated, redirect to home
     if current_user.is_authenticated:
         return redirect(url_for('home'))
 
-    # If the request method is POST, process the registration form
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
 
-        # Call the insert_new_user function to add the user to the database
-        # The function will handle the database operations and return a result
-        result = insert_new_user(username, email, password)
+        result = Account.register_user(username, email, password)
 
-        # If the username already exists, flash an error message and reload the registration form
         if result == "Username already exists.":
             flash("Username already exists.")
             return render_template('create_account_form.html')
 
-        flash("ShowModal")  # Flash a specific message to indicate modal should be shown
+        flash("ShowModal")
         return redirect(url_for('login'))
 
-    # Render the registration form
     return render_template('create_account_form.html')
 
 
@@ -276,30 +260,19 @@ def next_movie():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-# Route to mark a movie as seen
 @app.route('/seen_it', methods=['POST'])
-@login_required  # Require the user to be logged in
+@login_required
 def seen_it():
-    global last_displayed_movie  # Use the global variable to get the last displayed movie
-
-    # If there is a last displayed movie, log it to the user's account
+    global last_displayed_movie
     if last_displayed_movie:
         tconst = last_displayed_movie.get("imdb_id")
-
-        # Log the movie to the user's account
-        log_movie_to_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
-
-        # Redirect to the home page
+        Account.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie)
         return redirect(url_for('home'))
     else:
-        # Return an error if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-from nextreel.scripts.get_movie_from_imdb import get_all_movies_by_actor  # replace 'your_script_name' with the actual
 
-
-# script name where your function resides
 
 
 @app.route('/actor/<actor_name>', methods=['GET'])
@@ -325,31 +298,19 @@ def get_movies_by_actor(actor_name):
                            actor_name=actor_name)
 
 
+
+
+
 @app.route('/add_to_watchlist', methods=['POST'])
-@login_required  # Require the user to be logged in to access this route
+@login_required
 def add_to_watchlist():
-    global last_displayed_movie  # Use the global variable to get the last displayed movie
-
-    # Check if there is a last displayed movie
+    global last_displayed_movie
     if last_displayed_movie:
-        tconst = last_displayed_movie.get("imdb_id")  # Get the IMDb ID of the last displayed movie
-
-        # Add the movie to the user's watchlist
-        add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
-
-        # Redirect to the home page
+        tconst = last_displayed_movie.get("imdb_id")
+        Account.add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie)
         return redirect(url_for('home'))
     else:
-        # Return an error if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
-
-
-@app.route('/user_watch_list')
-@login_required
-def user_watch_list():
-    watchlist_movies = get_all_movies_in_watchlist(current_user.id)
-    return render_template('user_watchlist.html', watchlist_movies=watchlist_movies)
-
     # Entry point of the application
 
 
