@@ -15,7 +15,7 @@ from nextreel.scripts.get_user_account import get_watched_movie_posters, get_wat
     get_user_login, get_user_by_id
 from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
-from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
+from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
 import threading
@@ -235,44 +235,15 @@ def set_filters():
     return render_template('set_filters.html')
 
 
-# Route to get a movie based on filters
 @app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
-    # Extract filter criteria from the form
-    # Extract filter criteria from the form
-    filters = request.form
-    genres = request.form.getlist('genres[]')
-
-    criteria = {}
-
-    # Handling various other criteria (year, IMDb score, number of votes)
-    if filters.get('year_min'):
-        criteria['min_year'] = int(filters.get('year_min'))
-    if filters.get('year_max'):
-        criteria['max_year'] = int(filters.get('year_max'))
-    if filters.get('imdb_score_min'):
-        criteria['min_rating'] = float(filters.get('imdb_score_min'))
-    if filters.get('imdb_score_max'):
-        criteria['max_rating'] = float(filters.get('imdb_score_max'))
-    if filters.get('num_votes_min'):
-        criteria['min_votes'] = int(filters.get('num_votes_min'))
-
-    # Handling genre criteria
-    if genres:
-        criteria['genres'] = genres
-
-    # Directly read the language from the form data
-    if filters.get('language'):
-        criteria['language'] = filters.get('language')
-
-    # If no language is selected, default to 'English'
-    if 'language' not in criteria:
-        criteria['language'] = 'en'  # Default to English
+    # Extract filter criteria from the form using the extract_movie_filter_criteria function
+    criteria = extract_movie_filter_criteria(request.form)
 
     # Print the final criteria for debugging
     print("Final criteria:", criteria)
 
-    # Fetch the movie based on the criteria (assuming 'main' is your function to do this)
+    # Fetch the movie based on the criteria
     movie_info = main(criteria)
 
     # If no movies are found, return an error message

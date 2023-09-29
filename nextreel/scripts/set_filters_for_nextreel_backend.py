@@ -64,6 +64,46 @@ class ImdbRandomMovieFetcher:
         return random_row if random_row else None
 
 
+def extract_movie_filter_criteria(form_data):
+    """
+    Extract filter criteria from the form data.
+
+    Args:
+        form_data (werkzeug.datastructures.ImmutableMultiDict): Form data from the request.
+
+    Returns:
+        dict: Dictionary containing the filter criteria.
+    """
+
+    # Initialize an empty criteria dictionary
+    criteria = {}
+
+    # Handling various other criteria (year, IMDb score, number of votes)
+    if form_data.get('year_min'):
+        criteria['min_year'] = int(form_data.get('year_min'))
+    if form_data.get('year_max'):
+        criteria['max_year'] = int(form_data.get('year_max'))
+    if form_data.get('imdb_score_min'):
+        criteria['min_rating'] = float(form_data.get('imdb_score_min'))
+    if form_data.get('imdb_score_max'):
+        criteria['max_rating'] = float(form_data.get('imdb_score_max'))
+    if form_data.get('num_votes_min'):
+        criteria['min_votes'] = int(form_data.get('num_votes_min'))
+
+    # Handling genre criteria
+    genres = form_data.getlist('genres[]')
+    if genres:
+        criteria['genres'] = genres
+
+    # Handling language criteria
+    if form_data.get('language'):
+        criteria['language'] = form_data.get('language')
+    else:
+        criteria['language'] = 'en'  # Default to English
+
+    return criteria
+
+
 # Example usage
 if __name__ == "__main__":
     db_config = {'host': 'localhost', 'user': 'root', 'password': 'password', 'database': 'imdb'}
