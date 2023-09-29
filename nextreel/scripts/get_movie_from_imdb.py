@@ -39,23 +39,34 @@ def get_db_connection(db_config):
     )
 
 
+# def get_random_row_value(db_config, table_name, column_name):
+#     """Fetch a random row's value from a specific table and column."""
+#     # SQL query to get the total number of rows in the table
+#     count_query = f"SELECT COUNT(*) FROM `{table_name}`"
+#     # Execute the query and get the total number of rows
+#     total_rows = execute_query(db_config, count_query)[0][0]
+#     # Generate a random row number
+#     random_row_num = random.randint(1, total_rows)
+#     # SQL query to get a specific column value from the randomly chosen row
+#     value_query = f"SELECT {column_name} FROM `{table_name}` LIMIT %s, 1"
+#     # Execute the query and get the value
+#     random_value = execute_query(db_config, value_query, (random_row_num - 1,))[0][0]
+#     # SQL query to get the entire row where the column has the random value
+#     row_query = f"SELECT * FROM `{table_name}` WHERE {column_name} = %s"
+#     # Execute the query and get the row
+#     random_row = execute_query(db_config, row_query, (random_value,))
+#     return random_row
+
+
 def get_random_row_value(db_config, table_name, column_name):
     """Fetch a random row's value from a specific table and column."""
-    # SQL query to get the total number of rows in the table
-    count_query = f"SELECT COUNT(*) FROM `{table_name}`"
-    # Execute the query and get the total number of rows
-    total_rows = execute_query(db_config, count_query)[0][0]
-    # Generate a random row number
-    random_row_num = random.randint(1, total_rows)
-    # SQL query to get a specific column value from the randomly chosen row
-    value_query = f"SELECT {column_name} FROM `{table_name}` LIMIT %s, 1"
-    # Execute the query and get the value
-    random_value = execute_query(db_config, value_query, (random_row_num - 1,))[0][0]
-    # SQL query to get the entire row where the column has the random value
-    row_query = f"SELECT * FROM `{table_name}` WHERE {column_name} = %s"
+    # SQL query to get a random row directly
+    row_query = f"SELECT * FROM `{table_name}` ORDER BY RAND() LIMIT 1"
     # Execute the query and get the row
-    random_row = execute_query(db_config, row_query, (random_value,))
+    random_row = execute_query(db_config, row_query)
     return random_row
+
+
 
 
 def get_filtered_random_row(db_config, criteria):
@@ -97,50 +108,7 @@ def get_filtered_random_row(db_config, criteria):
     return random_row if random_row else None
 
 
-# def get_filtered_random_row(db_config, criteria):
-#     min_year = criteria.get('min_year', 1900)
-#     max_year = criteria.get('max_year', 2023)
-#     min_rating = criteria.get('min_rating', 7.0)
-#     max_rating = criteria.get('max_rating', 10)
-#     min_votes = criteria.get('min_votes', 100000)
-#     title_type = criteria.get('title_type', 'movie')
-#     genres = criteria.get('genres')
-#     language = criteria.get('language', 'fr')  # Add this line
-#
-#     parameters = [min_year, max_year, min_rating, max_rating, min_votes, title_type, language]  # Add language here
-#
-#     genre_conditions = ["tb.genres LIKE %s" for _ in genres] if genres else []
-#
-#     query = """
-#     SELECT tb.*
-#     FROM `title.basics` tb
-#     JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-#     JOIN `title.akastest` ta ON tb.tconst = ta.titleId
-#     WHERE tb.startYear >= %s AND tb.startYear <= %s
-#     AND tr.averagerating >= %s AND tr.averagerating <= %s
-#     AND tr.numVotes >= %s
-#     AND tb.titleType = %s
-#     AND ta.language = %s  -- Add this line
-#     AND ta.region = ta.language
-#
-#     """ + (" AND (" + " OR ".join(genre_conditions) + ")" if genres else "") + " ORDER BY RAND() LIMIT 1"
-#
-#     if genres:
-#         parameters.extend(["%" + genre + "%" for genre in genres])
-#
-#     print("GFRR Generated SQL Query:", query)
-#     print("Query Parameters:", parameters)
-#
-#     random_row = execute_query(db_config, query, parameters)
-#     # print(random_row)
-#
-#     if not random_row:
-#         print(f"No results found for language: {language}")
-#         print("Check if this language code exists in your database.")
-#     else:
-#         print(random_row)
-#
-#     return random_row if random_row else None
+
 
 
 def fetch_movie_info_from_imdb(tconst):
