@@ -2,22 +2,16 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-
-
 import pymysql
 import imdb
 import random
 import pymysql
 import imdb
 
-
-
 import sys
 
+from nextreel.scripts.db_config_scripts import get_db_connection
 from nextreel.scripts.mysql_query_builder import execute_query
-
-
-
 
 # print("Python Executable:", sys.executable)
 
@@ -28,15 +22,7 @@ db_config = {
     'database': 'imdb'
 }
 
-
-def get_db_connection(db_config):
-    """Establish a connection to the database."""
-    return pymysql.connect(
-        host=db_config['host'],
-        user=db_config['user'],
-        password=db_config['password'],
-        database=db_config['database']
-    )
+get_db_connection(db_config)
 
 
 # def get_random_row_value(db_config, table_name, column_name):
@@ -65,8 +51,6 @@ def get_random_row_value(db_config, table_name, column_name):
     # Execute the query and get the row
     random_row = execute_query(db_config, row_query)
     return random_row
-
-
 
 
 def get_filtered_random_row(db_config, criteria):
@@ -108,9 +92,6 @@ def get_filtered_random_row(db_config, criteria):
     return random_row if random_row else None
 
 
-
-
-
 def fetch_movie_info_from_imdb(tconst):
     """Fetch movie information from IMDb using IMDbPY."""
     # Convert tconst to IMDb ID (integer)
@@ -121,9 +102,6 @@ def fetch_movie_info_from_imdb(tconst):
     return ia.get_movie(imdbId)
 
 
-
-
-
 def fetch_movie_data(movie, movies_data):
     """Fetch movie details from IMDb and append to movies_data list."""
     movie_info = fetch_movie_info_from_imdb(movie['tconst'])
@@ -131,9 +109,6 @@ def fetch_movie_data(movie, movies_data):
     movie_data = generate_movie_data(movie_info)  # <-- Function call here
 
     movies_data.append(movie_data)
-
-
-
 
 
 def get_all_movies_by_actor(db_config, nconst):
