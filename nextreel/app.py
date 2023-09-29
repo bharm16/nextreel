@@ -11,7 +11,8 @@ from nextreel.scripts.get_movie_from_imdb import get_filtered_random_row, main, 
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
-    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
+    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist, insert_new_user, \
+    get_user_login, get_user_by_id
 from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
 from scripts.mysql_query_builder import execute_query
@@ -77,12 +78,12 @@ def populate_movie_queue():
 
                 movie_data = generate_movie_data(movie)  # <-- Function call here
 
-
                 # Put the fetched movie into the global queue
                 movie_queue.put(movie_data)
 
                 # Update the title_basics table if any data is missing
-                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'], movie_data['languages'], db_config)
+                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'],
+                                             movie_data['languages'], db_config)
 
             # Pause for 1 second to prevent rapid API calls
         time.sleep(1)
@@ -122,7 +123,8 @@ def watched_movies():
 @login_manager.user_loader
 def load_user(user_id):
     # Query to fetch user details from the database
-    user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+    # user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+    user_data = get_user_by_id(user_id)
     # If user data exists, return a User object
     if user_data:
         return User(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
@@ -134,7 +136,6 @@ def load_user(user_id):
 
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
-
 
 
 @app.route('/')
@@ -157,33 +158,30 @@ def home():
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
-# Login route
+# Updated login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # If user is already authenticated, redirect to home
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    # If request method is POST, handle login
+
     if request.method == 'POST':
-        # Fetch username and password from the form
+
         username = request.form['username']
         password = request.form['password']
-        # Query to fetch user details
-        conn = pymysql.connect(**user_db_config)
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
-        user_data = cursor.fetchone()
-        cursor.close()
-        conn.close()
+
+        # Use the get_user_login function to fetch and verify user details
+        user_data = get_user_login(username, password, user_db_config)
 
         # If user exists and password matches, log in the user
-        if user_data and user_data['password'] == password:
+        if user_data:
             user = User(id=user_data['id'], username=user_data['username'], email=user_data['email'])
             login_user(user)
             return redirect(url_for('home'))
+
         else:
             # If authentication fails, flash an error message
             flash("Invalid username or password")
+
     # Render the login template
     return render_template('user_login.html')
 
@@ -211,17 +209,14 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        # Connect to the database
-        conn = pymysql.connect(**user_db_config)
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        # Call the insert_new_user function to add the user to the database
+        # The function will handle the database operations and return a result
+        result = insert_new_user(username, email, password)
 
-        # Execute the insert query
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-
-        # Commit the transaction
-        conn.commit()
-        cursor.close()
-        conn.close()
+        # If the username already exists, flash an error message and reload the registration form
+        if result == "Username already exists.":
+            flash("Username already exists.")
+            return render_template('create_account_form.html')
 
         flash("ShowModal")  # Flash a specific message to indicate modal should be shown
         return redirect(url_for('login'))
@@ -282,7 +277,6 @@ def filtered_movie_endpoint():
         return "No movies found based on the given criteria."
 
     movie_data = generate_movie_data(movie_info)  # <-- Function call here
-
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)

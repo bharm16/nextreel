@@ -4,6 +4,22 @@ import pymysql
 from nextreel.scripts.mysql_query_builder import execute_query
 from nextreel.scripts.db_config_scripts import user_db_config, db_config  # Import both configs
 
+from werkzeug.security import check_password_hash
+
+
+def get_user_login(username, password, db_config):
+    print("Entered get_user_login function.")
+
+    # Use execute_query to fetch user details based on the username
+    user_data = execute_query(db_config, "SELECT * FROM users WHERE username=%s", (username,))
+
+    # Verify if the user exists and the password is correct
+    # Note: Assuming that passwords are stored as hashed values in the database
+    if user_data and user_data['password'] == password:
+        return user_data
+    else:
+        return None
+
 
 def get_user_by_id(user_id):
     print("Entered get_user_by_id function.")  # Debugging line
