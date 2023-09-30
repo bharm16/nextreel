@@ -56,6 +56,46 @@ WHERE user_id=%s;
 """
 
 
+# sql_queries.py
+
+# Queries for log_movie_to_account function
+LOG_MOVIE_TO_ACCOUNT = "INSERT INTO watched_movies (user_id, tconst, watched_at, username, poster_url) VALUES (%s, %s, %s, %s, %s)"
+INSERT_WATCHED_MOVIE_DETAIL = """
+    INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+"""
+
+# Query for query_watched_movie function
+QUERY_WATCHED_MOVIE = "SELECT * FROM watched_movies WHERE user_id=%s AND tconst=%s"
+
+# Queries for update_title_basics_if_empty function
+CHECK_TITLE_BASICS = "SELECT plot, poster_url, language FROM `title.basics` WHERE tconst=%s;"
+UPDATE_TITLE_BASICS = """
+    UPDATE `title.basics`
+    SET plot = %s, poster_url = %s, language = %s
+    WHERE tconst = %s;
+"""
+
+# Query for update_missing_title_info function
+SELECT_MISSING_TITLE_INFO = """
+    SELECT tconst
+    FROM `title.basics`
+    WHERE (plot IS NULL OR poster_url IS NULL OR language IS NULL)
+    AND titleType = 'movie'
+"""
+
+# Queries for add_movie_to_watchlist function
+ADD_MOVIE_TO_WATCHLIST = "INSERT INTO user_watchlist (user_id, tconst, added_at, username, poster_url) VALUES (%s, %s, %s, %s, %s)"
+INSERT_USER_WATCHLIST_DETAIL = """
+    INSERT INTO user_watchlist_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+"""
+
+
+
+
+
+
 def execute_query(db_config, query, params=None, fetch='one'):
     start_time = time.time()  # Start the timer
 
