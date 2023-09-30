@@ -1,20 +1,16 @@
 import imdb
 import pymysql
 
-from nextreel.scripts.mysql_query_builder import execute_query
+from nextreel.scripts.mysql_query_builder import execute_query, GET_USER_BY_USERNAME, GET_USER_BY_ID, \
+    GET_WATCHED_MOVIE_DETAILS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, INSERT_NEW_USER, GET_ALL_USERS, \
+    GET_WATCHED_MOVIE_POSTERS, GET_WATCHED_MOVIES, GET_ALL_MOVIES_IN_WATCHLIST
 from nextreel.scripts.db_config_scripts import user_db_config, db_config  # Import both configs
 
 from werkzeug.security import check_password_hash
 
 
 def get_user_login(username, password, db_config):
-    print("Entered get_user_login function.")
-
-    # Use execute_query to fetch user details based on the username
-    user_data = execute_query(db_config, "SELECT * FROM users WHERE username=%s", (username,))
-
-    # Verify if the user exists and the password is correct
-    # Note: Assuming that passwords are stored as hashed values in the database
+    user_data = execute_query(db_config, GET_USER_BY_USERNAME, (username,))
     if user_data and user_data['password'] == password:
         return user_data
     else:
@@ -22,162 +18,84 @@ def get_user_login(username, password, db_config):
 
 
 def get_user_by_id(user_id):
-    print("Entered get_user_by_id function.")  # Debugging line
-    return execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+    return execute_query(user_db_config, GET_USER_BY_ID, (user_id,))
 
 
 def get_user_by_username(username):
-    print("Entered get_user_by_username function.")  # Debugging line
-    return execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
+    return execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
 
 
 def get_all_users():
-    print("Entered get_all_users function.")  # Debugging line
-    return execute_query(user_db_config, "SELECT * FROM users", fetch='all')
+    return execute_query(user_db_config, GET_ALL_USERS, fetch='all')
 
 
 def insert_new_user(username, email, password):
-    print("Entered insert_new_user function.")  # Debugging line
-
-    existing_user = execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
+    existing_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
     if existing_user:
-        print("Username already exists.")  # Debugging line
         return "Username already exists."
-
-    query = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
-    execute_query(user_db_config, query, (username, email, password), fetch='none')
-
-    new_user = execute_query(user_db_config, "SELECT * FROM users WHERE username=%s", (username,))
-    print(f"User created successfully with ID {new_user['id']}.")  # Debugging line
-
+    execute_query(user_db_config, INSERT_NEW_USER, (username, email, password), fetch='none')
+    new_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
     return {"message": f"User created successfully with ID {new_user['id']}.", "id": new_user['id']}
 
 
+def transform_poster_data(row):
+    return {'url': row['poster_url'], 'tconst': row['tconst']}
+
+
+# Helper function to transform watched movies data
+def transform_watched_movies(row):
+    return row['tconst']
+
+
 def get_watched_movie_posters(user_id, db_config):
-    print("Entered get_watched_movie_posters function.")  # Debugging line
-
-    poster_data = []
-
-    # SQL query to fetch poster URLs and tconst for the specific user
-    sql_query = "SELECT poster_url, tconst FROM watched_movies WHERE user_id = %s"
-
-    # Execute the query
-    results = execute_query(db_config, sql_query, params=(user_id,), fetch='all')
-
-    # Extract poster URLs and tconst from query results
-    for row in results:
-        poster_data.append({
-            'url': row['poster_url'],
-            'tconst': row['tconst']
-        })
-        # print(f"Fetched poster URL: {row['poster_url']} for tconst: {row['tconst']}")  # Debugging line
-
-    return poster_data
+    print("Entered get_watched_movie_posters function.")
+    rows = execute_query(db_config, GET_WATCHED_MOVIE_POSTERS, params=(user_id,), fetch='all')
+    return [transform_poster_data(row) for row in rows]
 
 
 def get_watched_movies(user_id, db_config):
-    print("Entered get_watched_movies function.")  # Debugging line
+    print("Entered get_watched_movies function.")
+    rows = execute_query(db_config, GET_WATCHED_MOVIES, params=(user_id,), fetch='all')
+    return [transform_watched_movies(row) for row in rows]
 
-    watched_movies = []
 
-    # SQL query to fetch poster URLs for the specific user
-    sql_query = "SELECT tconst FROM watched_movies WHERE user_id = %s"
-
-    # Execute the query
-    results = execute_query(db_config, sql_query, params=(user_id,), fetch='all')
-
-    # Extract poster URLs from query results
-    for row in results:
-        watched_movies.append(row['tconst'])
-        print(f"Fetched tconst: {row['tconst']}")  # Debugging line
-
-    return watched_movies
+def transform_movie_details(row):
+    """
+    Helper function to transform a SQL row into a dictionary
+    """
+    return {
+        'tconst': row['tconst'],
+        'title': row['title'],
+        'genres': row['genres'],
+        'directors': row['directors'],
+        'writers': row['writers'],
+        'runtimes': row['runtimes'],
+        'rating': row['rating'],
+        'votes': row['votes'],
+        'poster_url': row['poster_url']
+    }
 
 
 def get_all_watched_movie_details_by_user(user_id):
-    print("Entered get_all_watched_movie_details_by_user function.")  # Debugging line
-
-    query = """
-    SELECT * FROM watched_movie_detail 
-    WHERE user_id=%s;
-    """
-
-    rows = execute_query(user_db_config, query, (user_id,), fetch='all')
-
     all_movie_details = []
-
+    rows = execute_query(user_db_config, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, (user_id,), fetch='all')
     for row in rows:
-        # Map each row onto a dictionary
-        mapped_data = {
-            'tconst': row['tconst'],
-            'title': row['title'],
-            'genres': row['genres'],
-            'directors': row['directors'],
-            'writers': row['writers'],
-            'runtimes': row['runtimes'],
-            'rating': row['rating'],
-            'votes': row['votes'],
-            'poster_url': row['poster_url']  # Add this line
-        }
-        all_movie_details.append(mapped_data)
-
-    return all_movie_details
+        all_movie_details.append(transform_movie_details(row))
 
 
-def get_watched_movie_details(user_id, tconst):
-    # Step 1: Fetch relevant IMDb data using db_config
-    imdb_query = """
-    SELECT 
-    `title.basics`.primaryTitle AS title,
-    `title.basics`.genres,
-    `title.crew`.directors,
-    `title.crew`.writers,
-    `title.basics`.runtimeMinutes AS runtimes,
-    `title.ratings`.averageRating AS rating,
-    `title.ratings`.numVotes AS votes
-FROM 
-    `title.basics`
-JOIN
-    `title.ratings` ON `title.basics`.tconst = `title.ratings`.tconst
-JOIN
-    `title.crew` ON `title.basics`.tconst = `title.crew`.tconst
-WHERE 
-    `title.basics`.tconst = %s;
-    """
-    imdb_data = execute_query(db_config, imdb_query, tconst, fetch='all')
-    return imdb_data
-
-
-# def insert_watched_movie_details(user_id, tconst, imdb_data, poster_url):
-#     print("Entered insert_watched_movie_details function.")  # Debugging line
-#     insert_query = """
-#     INSERT INTO watched_movie_detail (user_id, tconst, title, genres, directors, writers, runtimes, rating, votes, poster_url)
-#     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-#     """
-#     values = (
-#         user_id, tconst, imdb_data['title'], imdb_data['genres'], imdb_data['directors'], imdb_data['writers'],
-#         imdb_data['runtimes'], imdb_data['rating'], imdb_data['votes'], poster_url
-#     )
-#     execute_query(user_db_config, insert_query, values, fetch='none')
-#     print(f"Data for tconst {tconst} inserted successfully.")  # Debugging line
+def get_watched_movie_details(tconst):
+    imdb_data = execute_query(db_config, GET_WATCHED_MOVIE_DETAILS, (tconst,), fetch='all')
+    return imdb_data  # Consider further transformation if necessary
 
 
 def get_all_movies_in_watchlist(user_id):
-    # Debugging line to indicate entry into function
-    print("Entered get_all_movies_in_watchlist function.")
-
-    # SQL query to fetch all movies from the user's watchlist
-    query = "SELECT * FROM user_watchlist_detail WHERE user_id=%s"
+    print("Entered get_all_movies_in_watchlist function.")  # Debugging line
 
     # Execute the query
-    watchlist_movies = execute_query(user_db_config, query, params=(user_id,), fetch='all')
+    rows = execute_query(user_db_config, GET_ALL_MOVIES_IN_WATCHLIST, params=(user_id,), fetch='all')
 
-    if watchlist_movies:
-        print(f"Fetched {len(watchlist_movies)} movies from watchlist for user {user_id}.")  # Debugging line
-    else:
-        print(f"No movies found in the watchlist for user {user_id}.")  # Debugging line
-
-    return watchlist_movies
+    # Transform the fetched rows using the helper function
+    return [transform_movie_details(row) for row in rows]
 
 
 # Example usage
