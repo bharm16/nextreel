@@ -10,8 +10,8 @@ import imdb
 
 import sys
 
-from nextreel.scripts.db_config_scripts import get_db_connection
-from nextreel.scripts.mysql_query_builder import execute_query
+
+from nextreel.scripts.mysql_query_builder import execute_query, get_db_connection
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
 
 # print("Python Executable:", sys.executable)

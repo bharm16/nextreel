@@ -6,8 +6,6 @@ from nextreel.scripts.mysql_query_builder import execute_query, GET_USER_BY_USER
     GET_WATCHED_MOVIE_POSTERS, GET_WATCHED_MOVIES, GET_ALL_MOVIES_IN_WATCHLIST
 from nextreel.scripts.db_config_scripts import user_db_config, db_config  # Import both configs
 
-from werkzeug.security import check_password_hash
-
 
 def get_user_login(username, password, db_config):
     user_data = execute_query(db_config, GET_USER_BY_USERNAME, (username,))

@@ -80,3 +80,13 @@ def execute_query(db_config, query, params=None, fetch='one'):
     cursor.close()
     conn.close()
     return result
+
+
+def get_db_connection(db_config):
+    """Establish a connection to the database."""
+    return pymysql.connect(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['database']
+    )

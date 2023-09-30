@@ -15,11 +15,3 @@ user_db_config = {
 }
 
 
-def get_db_connection(db_config):
-    """Establish a connection to the database."""
-    return pymysql.connect(
-        host=db_config['host'],
-        user=db_config['user'],
-        password=db_config['password'],
-        database=db_config['database']
-    )

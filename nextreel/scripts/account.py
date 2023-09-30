@@ -24,7 +24,7 @@ class Account:
     def log_movie_to_user_account(self, user_id, username, tconst, movie_data):
         return log_movie_to_account(user_id, username, tconst, movie_data, self.user_db_config)
 
-    # Add more methods as needed...
+
 
     def register_user(self, username, email, password):
         # Insert the new user into the database
