@@ -55,7 +55,6 @@ SELECT * FROM watched_movie_detail
 WHERE user_id=%s;
 """
 
-
 # sql_queries.py
 
 # Queries for log_movie_to_account function
@@ -91,9 +90,21 @@ INSERT_USER_WATCHLIST_DETAIL = """
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
 """
 
+# Query to get all movies by an actor
+GET_ALL_MOVIES_BY_ACTOR_QUERY = """
+    SELECT tb.*
+    FROM `title.basics` tb
+    JOIN `title.principals` tp ON tb.tconst = tp.tconst
+    WHERE tp.nconst = %s 
+    AND tb.titleType = 'movie'
+    AND tp.category = 'actor'
+"""
 
-
-
+GET_NCONST_FROM_ACTOR_NAME_QUERY = """
+SELECT nconst FROM `name.basics`
+WHERE primaryName = %s
+LIMIT 1
+"""
 
 
 def execute_query(db_config, query, params=None, fetch='one'):

@@ -8,8 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from nextreel.scripts.account import account, Account
-from nextreel.scripts.get_movie_from_imdb import  main, fetch_movie_info_from_imdb, \
-    get_nconst_from_actor_name, fetch_actor_from_imdb, generate_movie_data
+
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
 from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
@@ -17,11 +16,11 @@ from nextreel.scripts.get_user_account import get_watched_movie_posters, get_wat
     get_user_login, get_user_by_id
 from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
+from nextreel.scripts.movie import Movie
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
 import threading
-
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -48,11 +47,19 @@ movie_queue = Queue(maxsize=3)
 from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
     get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
 
-
 # Assuming ImdbRandomMovieFetcher is imported or defined above
 
 
-# Function to populate the movie queue
+import time
+from queue import Queue  # Assuming you are using Python's standard Queue
+
+# Assume movie_queue is a global queue for storing movie data
+movie_queue = Queue()
+
+
+# Your other import statements and db_config can go here
+# ...
+
 def populate_movie_queue():
     # Initialize sets to store watched movies and watchlist movies if the user is logged in
     watched_movies = set()
@@ -76,22 +83,25 @@ def populate_movie_queue():
 
             # Ensure that the movie is neither in the watched list nor in the watchlist
             if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
-                # Fetch detailed movie information from IMDb
-                movie = fetch_movie_info_from_imdb(tconst)
-                movie_data = generate_movie_data(movie)  # <-- Function call here
+                # Create a Movie instance and fetch the movie data
+                movie = Movie(tconst, db_config)
+
+                # Fetch and generate detailed movie information
+                movie_data = movie.get_movie_data()
 
                 # Put the fetched movie into the global queue
                 movie_queue.put(movie_data)
 
                 # Update the title_basics table if any data is missing
+                # Assuming update_title_basics_if_empty() is defined elsewhere in your code
                 update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'],
                                              movie_data['languages'], db_config)
 
             # Pause for 1 second to prevent rapid API calls
             time.sleep(1)
 
-# Don't forget to import other required modules and functions
 
+# Don't forget to import other required modules and functions
 
 
 # Start a thread to populate the movie queue
@@ -115,7 +125,6 @@ def account_settings():
 def watched_movies():
     watched_movie_details = Account.get_watched_movies_by_user(current_user.id)
     return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
-
 
 
 @login_manager.user_loader
@@ -178,7 +187,6 @@ def login():
     return render_template('user_login.html')
 
 
-
 # Route for logout
 @app.route('/logout')
 @login_required  # Require the user to be logged in to access this route
@@ -227,14 +235,21 @@ def filtered_movie_endpoint():
     # Print the final criteria for debugging
     print("Final criteria:", criteria)
 
-    # Fetch the movie based on the criteria
-    movie_info = main(criteria)
+    # Create an instance of ImdbRandomMovieFetcher
+    movie_fetcher = ImdbRandomMovieFetcher(db_config)
+
+    # Fetch a random movie row that matches the criteria using the fetch_random_movie method
+    row = movie_fetcher.fetch_random_movie(criteria)
 
     # If no movies are found, return an error message
-    if not movie_info:
+    if not row:
         return "No movies found based on the given criteria."
 
-    movie_data = generate_movie_data(movie_info)  # <-- Function call here
+    # Create a Movie instance and fetch the movie data
+    movie = Movie(row['tconst'], db_config)
+
+    # Fetch and generate detailed movie information using the get_movie_data method
+    movie_data = movie.get_movie_data()
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
@@ -272,33 +287,27 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-
-
-
-@app.route('/actor/<actor_name>', methods=['GET'])
-def get_movies_by_actor(actor_name):
-    start_time = time.time()  # Record the start time
-
-    # Fetch actor's details from IMDb
-    fetched_actor = fetch_actor_from_imdb(db_config, actor_name)
-    if fetched_actor is None:
-        return "Actor not found", 404
-
-    # Convert the actor information to a dictionary
-    actor_dict = fetched_actor.data
-
-    # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
-    actor_filmography = actor_dict.get('filmography', {})
-
-    end_time = time.time()  # Record the end time
-    print(f"Time taken for database queries: {end_time - start_time} seconds")
-
-    # Render a template to display the actor's details and filmography
-    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
-                           actor_name=actor_name)
-
-
-
+# @app.route('/actor/<actor_name>', methods=['GET'])
+# def get_movies_by_actor(actor_name):
+#     start_time = time.time()  # Record the start time
+#
+#     # Fetch actor's details from IMDb
+#     fetched_actor = Person.fetch_actor_from_imdb(actor_name)
+#     if fetched_actor is None:
+#         return "Actor not found", 404
+#
+#     # Convert the actor information to a dictionary
+#     actor_dict = fetched_actor.data
+#
+#     # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
+#     actor_filmography = actor_dict.get('filmography', {})
+#
+#     end_time = time.time()  # Record the end time
+#     print(f"Time taken for database queries: {end_time - start_time} seconds")
+#
+#     # Render a template to display the actor's details and filmography
+#     return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
+#                            actor_name=actor_name)
 
 
 @app.route('/add_to_watchlist', methods=['POST'])

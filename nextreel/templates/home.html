@@ -139,12 +139,24 @@
             </div>
 
 
-<div class="info-box">
+{#<div class="info-box">#}
+{#    <div class="info-title">Cast</div>#}
+{#    <div class="info-content">#}
+{#        {% set cast_list = movie.cast.split(", ") %}#}
+{#        {% for cast_member in cast_list %}#}
+{#            <a href="{{ url_for('get_movies_by_actor', actor_name=cast_member) }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</div>#}
+
+
+
+        <div class="info-box">
     <div class="info-title">Cast</div>
     <div class="info-content">
         {% set cast_list = movie.cast.split(", ") %}
         {% for cast_member in cast_list %}
-            <a href="{{ url_for('get_movies_by_actor', actor_name=cast_member) }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
+            <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
         {% endfor %}
     </div>
 </div>
