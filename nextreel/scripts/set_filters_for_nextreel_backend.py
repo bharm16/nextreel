@@ -107,9 +107,16 @@ def extract_movie_filter_criteria(form_data):
 # Example usage
 if __name__ == "__main__":
     db_config = {'host': 'localhost', 'user': 'root', 'password': 'password', 'database': 'imdb'}
-    criteria = {'min_year': 2000, 'max_year': 2020, 'min_rating': 7, 'max_rating': 10, 'min_votes': 10000,
-                'title_type': 'movie', 'language': 'en', 'genres': ['Action', 'Drama']}
 
-    fetcher = ImdbRandomMovieFetcher(db_config)
-    random_row = fetcher.fetch_random_movie(criteria)
-    print("Random Movie Row:", random_row)
+    # criteria = {'min_year': 2000,
+    #             'max_year': 2020,
+    #             'min_rating': 7,
+    #             'max_rating': 10,
+    #             'min_votes': 10000,
+    #             'title_type': 'movie',
+    #             'language': 'en',
+    #             'genres': ['Action', 'Drama']}
+    #
+    # fetcher = ImdbRandomMovieFetcher(db_config)
+    # random_row = fetcher.fetch_random_movie(criteria)
+    # print("Random Movie Row:", random_row)

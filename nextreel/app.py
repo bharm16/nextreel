@@ -17,6 +17,7 @@ from nextreel.scripts.get_user_account import get_watched_movie_posters, get_wat
 from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
     add_movie_to_watchlist
 from nextreel.scripts.movie import Movie
+from nextreel.scripts.person import Person
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
 from scripts.mysql_query_builder import execute_query
 from queue import Queue, Empty
@@ -51,14 +52,7 @@ from nextreel.scripts.get_user_account import get_watched_movie_posters, get_wat
 
 
 import time
-from queue import Queue  # Assuming you are using Python's standard Queue
 
-# Assume movie_queue is a global queue for storing movie data
-movie_queue = Queue()
-
-
-# Your other import statements and db_config can go here
-# ...
 
 def populate_movie_queue():
     # Initialize sets to store watched movies and watchlist movies if the user is logged in
@@ -137,9 +131,6 @@ def load_user(user_id):
         return User(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
     # Otherwise, return None
 
-
-# Print the current working directory (for debugging)
-# print("Current working directory:", os.getcwd())
 
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
@@ -287,27 +278,31 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-# @app.route('/actor/<actor_name>', methods=['GET'])
-# def get_movies_by_actor(actor_name):
-#     start_time = time.time()  # Record the start time
-#
-#     # Fetch actor's details from IMDb
-#     fetched_actor = Person.fetch_actor_from_imdb(actor_name)
-#     if fetched_actor is None:
-#         return "Actor not found", 404
-#
-#     # Convert the actor information to a dictionary
-#     actor_dict = fetched_actor.data
-#
-#     # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
-#     actor_filmography = actor_dict.get('filmography', {})
-#
-#     end_time = time.time()  # Record the end time
-#     print(f"Time taken for database queries: {end_time - start_time} seconds")
-#
-#     # Render a template to display the actor's details and filmography
-#     return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
-#                            actor_name=actor_name)
+@app.route('/actor/<actor_name>', methods=['GET'])
+def get_movies_by_actor(actor_name):
+    start_time = time.time()  # Record the start time
+
+    # Create a Person object
+    actor = Person(db_config, actor_name)
+
+    # Use the Person object to fetch actor's details
+    fetched_actor = actor.actor_info
+
+    if fetched_actor is None:
+        return "Actor not found", 404
+
+    # Convert the actor information to a dictionary
+    actor_dict = fetched_actor.data
+
+    # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
+    actor_filmography = actor_dict.get('filmography', {})
+
+    end_time = time.time()  # Record the end time
+    print(f"Time taken for database queries: {end_time - start_time} seconds")
+
+    # Render a template to display the actor's details and filmography
+    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
+                           actor_name=actor_name)
 
 
 @app.route('/add_to_watchlist', methods=['POST'])
