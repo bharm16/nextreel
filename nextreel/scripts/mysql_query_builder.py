@@ -3,6 +3,10 @@ import time
 
 import pymysql
 
+from nextreel.scripts.db_config_scripts import db_config
+
+
+
 # Query to fetch user details based on the username
 GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username=%s"
 
@@ -141,3 +145,7 @@ def get_db_connection(db_config):
         password=db_config['password'],
         database=db_config['database']
     )
+
+
+
+

@@ -316,6 +316,8 @@ def add_to_watchlist():
     # Entry point of the application
 
 
+
+
 if __name__ == "__main__":
     # Run the Flask app in debug mode (change this in production)
     app.run(debug=True)
