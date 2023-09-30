@@ -46,22 +46,22 @@ class Movie:
         return self.movie_data
 
 
-# Main function to run the program
-def main(criteria):
-    movie_fetcher = ImdbRandomMovieFetcher(db_config)
-    row = movie_fetcher.fetch_random_movie(criteria)
-
-    if not row:
-        print("No movies found based on the given criteria.")
-        return None
-
-    movie = Movie(row['tconst'], db_config)
-    movie_data = movie.get_movie_data()
-
-    print("Fetched movie genres:", movie_data.get('genres'))
-
-
-# # Example usage
+# # Main function to run the program
+# def main(criteria):
+#     movie_fetcher = ImdbRandomMovieFetcher(db_config)
+#     row = movie_fetcher.fetch_random_movie(criteria)
+#
+#     if not row:
+#         print("No movies found based on the given criteria.")
+#         return None
+#
+#     movie = Movie(row['tconst'], db_config)
+#     movie_data = movie.get_movie_data()
+#
+#     print("Fetched movie genres:", movie_data.get('genres'))
+#
+#
+# # # Example usage
 # if __name__ == "__main__":
 #     criteria = {
 #         "min_year": 1900,

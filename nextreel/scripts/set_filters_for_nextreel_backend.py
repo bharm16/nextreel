@@ -50,6 +50,10 @@ class ImdbRandomMovieFetcher:
         parameters = self.build_parameters(criteria)
         genre_conditions = self.build_genre_conditions(criteria, parameters)
 
+        # Debugging: Print the criteria and parameters
+        print("Criteria passed to fetch_random_movie:", criteria)
+        print("Parameters built for SQL query:", parameters)
+
         # Complete the query by appending the genre conditions, if any
         full_query = base_query + (
             f" AND ({genre_conditions[0]})" if genre_conditions else "") + " ORDER BY RAND() LIMIT 1"
@@ -99,6 +103,7 @@ def extract_movie_filter_criteria(form_data):
     if form_data.get('language'):
         criteria['language'] = form_data.get('language')
     else:
+        print("defaulting to english")
         criteria['language'] = 'en'  # Default to English
 
     return criteria
@@ -106,7 +111,10 @@ def extract_movie_filter_criteria(form_data):
 
 # Example usage
 if __name__ == "__main__":
-    db_config = {'host': 'localhost', 'user': 'root', 'password': 'password', 'database': 'imdb'}
+    db_config = {'host': 'localhost',
+                 'user': 'root',
+                 'password': 'password',
+                 'database': 'imdb'}
 
     # criteria = {'min_year': 2000,
     #             'max_year': 2020,

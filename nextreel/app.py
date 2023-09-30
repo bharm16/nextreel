@@ -223,10 +223,8 @@ def filtered_movie_endpoint():
     # Extract filter criteria from the form using the extract_movie_filter_criteria function
     criteria = extract_movie_filter_criteria(request.form)
 
-    # Print the final criteria for debugging
-    print("Final criteria:", criteria)
+    print("Extracted criteria:", criteria)
 
-    # Create an instance of ImdbRandomMovieFetcher
     movie_fetcher = ImdbRandomMovieFetcher(db_config)
 
     # Fetch a random movie row that matches the criteria using the fetch_random_movie method
