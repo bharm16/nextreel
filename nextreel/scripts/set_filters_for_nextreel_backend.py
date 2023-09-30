@@ -12,12 +12,11 @@ class ImdbRandomMovieFetcher:
         SELECT tb.*
         FROM `title.basics` tb
         JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-        JOIN `title.akas` ta ON tb.tconst = ta.titleId
         WHERE tb.startYear BETWEEN %s AND %s
         AND tr.averagerating BETWEEN %s AND %s
         AND tr.numVotes >= %s
         AND tb.titleType = %s
-        AND ta.language = %s
+        AND tb.language = %s
         """
 
     def build_parameters(self, criteria):
