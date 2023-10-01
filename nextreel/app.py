@@ -276,13 +276,14 @@ def next_movie():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
+# Assuming current_user is an instance of Account
 @app.route('/seen_it', methods=['POST'])
 @login_required
 def seen_it():
     global last_displayed_movie
     if last_displayed_movie:
         tconst = last_displayed_movie.get("imdb_id")
-        Account.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie)
+        current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
         return redirect(url_for('home'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
@@ -318,16 +319,17 @@ def get_movies_by_actor(actor_name):
 @app.route('/add_to_watchlist', methods=['POST'])
 @login_required
 def add_to_watchlist():
-    global last_displayed_movie
+    global last_displayed_movie  # Consider using a different state management approach
     if last_displayed_movie:
         tconst = last_displayed_movie.get("imdb_id")
-        Account.add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie)
+
+        # Assuming current_user is an instance of Account
+        current_user.add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie,
+                                            user_db_config)
+
         return redirect(url_for('home'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
-    # Entry point of the application
-
-
 
 
 if __name__ == "__main__":
