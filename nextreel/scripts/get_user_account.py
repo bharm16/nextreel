@@ -79,6 +79,9 @@ def get_all_watched_movie_details_by_user(user_id):
     rows = execute_query(user_db_config, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, (user_id,), fetch='all')
     for row in rows:
         all_movie_details.append(transform_movie_details(row))
+    return all_movie_details  # Make sure to return the list
+
+
 
 
 def get_watched_movie_details(tconst):

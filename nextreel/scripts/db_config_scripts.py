@@ -50,7 +50,7 @@ def show_create_statements_for_all_tables(db_config):
 
 
 # Show CREATE TABLE statements
-show_create_statements_for_all_tables(db_config)
+# show_create_statements_for_all_tables(db_config)
 
 
 

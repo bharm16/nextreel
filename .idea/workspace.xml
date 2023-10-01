@@ -7,8 +7,8 @@
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextreel/scripts/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/scripts/account.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/scripts/db_config_scripts.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/scripts/db_config_scripts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/scripts/mysql_query_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/scripts/mysql_query_builder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,29 +71,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "testing",
-    "last_opened_file_path": "/Users/bryceharmon/Desktop/nextreel",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "liveEdit",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;testing&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bryceharmon/Desktop/nextreel&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;liveEdit&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
-      "MySQL"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MySQL&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/nextreel/static/styles" />
@@ -101,7 +101,7 @@
       <recent name="$PROJECT_DIR$/tmdbsimple-master/static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.db_config_scripts">
+  <component name="RunManager" selected="Python.app">
     <configuration name="account" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tmdb_proj_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -168,6 +168,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="get_user_account" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tmdb_proj_python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/nextreel/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/get_user_account.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="mysql_query_builder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tmdb_proj_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -190,42 +212,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="set_filters_for_nextreel_backend" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tmdb_proj_python" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/nextreel/scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/set_filters_for_nextreel_backend.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Python.get_user_account" />
       <item itemvalue="Python.account" />
       <item itemvalue="Python.db_config_scripts" />
       <item itemvalue="Python.mysql_query_builder" />
-      <item itemvalue="Python.set_filters_for_nextreel_backend" />
       <item itemvalue="Python.app" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.db_config_scripts" />
         <item itemvalue="Python.app" />
+        <item itemvalue="Python.get_user_account" />
+        <item itemvalue="Python.db_config_scripts" />
         <item itemvalue="Python.mysql_query_builder" />
         <item itemvalue="Python.account" />
-        <item itemvalue="Python.set_filters_for_nextreel_backend" />
       </list>
     </recent_temporary>
   </component>
@@ -290,7 +290,7 @@
     <SUITE FILE_PATH="coverage/nextreel$log_movie_to_account.coverage" NAME="log_movie_to_account Coverage Results" MODIFIED="1695905797446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/nextreel$revert_lang.coverage" NAME="revert_lang Coverage Results" MODIFIED="1695924813033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_for_test_setFilters_test_random_row_value.coverage" NAME="pytest for test_setFilters.test_random_row_value Coverage Results" MODIFIED="1691450221188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
-    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1696087106097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
+    <SUITE FILE_PATH="coverage/nextreel$app.coverage" NAME="app Coverage Results" MODIFIED="1696155418224" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$pytest_in_test_setFilters_py.coverage" NAME="pytest in test_setFilters.py Coverage Results" MODIFIED="1691450280310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters.coverage" NAME="setFilters Coverage Results" MODIFIED="1693846894052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/nextreel$movie_posters.coverage" NAME="movie_posters Coverage Results" MODIFIED="1695136844575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
@@ -299,7 +299,9 @@
     <SUITE FILE_PATH="coverage/nextreel$db_config_scripts.coverage" NAME="db_config_scripts Coverage Results" MODIFIED="1696087700634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$randomIMDBGenerator.coverage" NAME="randomIMDBGenerator Coverage Results" MODIFIED="1691625481046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$app__1_.coverage" NAME="app (1) Coverage Results" MODIFIED="1693861415930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
+    <SUITE FILE_PATH="coverage/nextreel$get_user_account.coverage" NAME="get_user_account Coverage Results" MODIFIED="1696154423760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$app.coverage" NAME="app Coverage Results" MODIFIED="1693868734393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master" />
+    <SUITE FILE_PATH="coverage/nextreel$db_pool.coverage" NAME="db_pool Coverage Results" MODIFIED="1696088971615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nextreel/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$setFilters_test.coverage" NAME="setFilters_test Coverage Results" MODIFIED="1691512566190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$getUserAccount.coverage" NAME="getUserAccount Coverage Results" MODIFIED="1693078965354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />
     <SUITE FILE_PATH="coverage/tmdb_proj_python$getMovieFromIMDB.coverage" NAME="getMovieFromIMDB Coverage Results" MODIFIED="1693868612535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tmdbsimple-master/scripts" />

@@ -7,7 +7,7 @@ import imdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from nextreel.scripts.account import account, Account
+from nextreel.scripts.account import Account
 
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from db_config import db_config, user_db_config
@@ -35,11 +35,7 @@ login_manager.init_app(app)
 should_logout_on_home_load = True
 
 
-class User(UserMixin):
-    def __init__(self, id, username, email):  # Add email here
-        self.id = id
-        self.username = username
-        self.email = email  # Add this line
+
 
 
 # Initialize a global queue to hold movie data
@@ -114,10 +110,25 @@ def account_settings():
     return render_template('user_account_settings.html')
 
 
+
+
+
 @app.route('/watched_movies')
 @login_required
 def watched_movies():
-    watched_movie_details = Account.get_watched_movies_by_user(current_user.id)
+    # Initialize Account object with current user's details
+    current_account = Account(id=current_user.id, username=current_user.username, email=current_user.email)
+
+    # Fetch all watched movie details for the current user
+    watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
+
+    # Sort the list by tconst
+    if watched_movie_details:  # Check if the list is not None or empty
+        watched_movie_details.sort(key=lambda x: x['tconst'])
+
+    if watched_movie_details is None:
+        flash("No watched movies found for this user.")
+
     return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
 
 
@@ -128,7 +139,7 @@ def load_user(user_id):
     user_data = get_user_by_id(user_id)
     # If user data exists, return a User object
     if user_data:
-        return User(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
+        return Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
     # Otherwise, return None
 
 
@@ -156,7 +167,6 @@ def home():
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
-# Updated login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -166,10 +176,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user_data = Account.login_user(username, password)
+        # Call the class method, passing in db_config explicitly
+        user_data = Account.login_user(username, password, user_db_config)
 
         if user_data:
-            user = User(id=user_data['id'], username=user_data['username'], email=user_data['email'])
+            # Create an Account instance for this user
+            user = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
             login_user(user)
             return redirect(url_for('home'))
         else:
