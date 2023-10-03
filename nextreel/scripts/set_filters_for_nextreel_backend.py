@@ -1,4 +1,4 @@
-from nextreel.scripts.mysql_query_builder import execute_query
+from scripts.mysql_query_builder import execute_query
 
 
 class ImdbRandomMovieFetcher:
@@ -71,8 +71,7 @@ def extract_movie_filter_criteria(form_data):
     """
     Extract filter criteria from the form data.
 
-    Args:
-        form_data (werkzeug.datastructures.ImmutableMultiDict): Form data from the request.
+
 
     Returns:
         dict: Dictionary containing the filter criteria.
@@ -115,15 +114,15 @@ if __name__ == "__main__":
                  'password': 'password',
                  'database': 'imdb'}
 
-    # criteria = {'min_year': 2000,
-    #             'max_year': 2020,
-    #             'min_rating': 7,
-    #             'max_rating': 10,
-    #             'min_votes': 10000,
-    #             'title_type': 'movie',
-    #             'language': 'en',
-    #             'genres': ['Action', 'Drama']}
-    #
-    # fetcher = ImdbRandomMovieFetcher(db_config)
-    # random_row = fetcher.fetch_random_movie(criteria)
-    # print("Random Movie Row:", random_row)
+    criteria = {'min_year': 2000,
+                'max_year': 2020,
+                'min_rating': 7,
+                'max_rating': 10,
+                'min_votes': 10000,
+                'title_type': 'movie',
+                'language': 'en',
+                'genres': ['Action', 'Drama']}
+
+    fetcher = ImdbRandomMovieFetcher(db_config)
+    random_row = fetcher.fetch_random_movie(criteria)
+    print("Random Movie Row:", random_row)

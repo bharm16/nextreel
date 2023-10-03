@@ -1,10 +1,8 @@
-import random
-from concurrent.futures import ThreadPoolExecutor
 import imdb
 
-from nextreel.scripts.db_config_scripts import db_config
-from nextreel.scripts.mysql_query_builder import execute_query, get_db_connection
-from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
+from scripts.db_config_scripts import db_config
+from scripts.mysql_query_builder import get_db_connection
+from scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
 
 get_db_connection(db_config)
 
@@ -46,31 +44,31 @@ class Movie:
         return self.movie_data
 
 
-# # Main function to run the program
-# def main(criteria):
-#     movie_fetcher = ImdbRandomMovieFetcher(db_config)
-#     row = movie_fetcher.fetch_random_movie(criteria)
-#
-#     if not row:
-#         print("No movies found based on the given criteria.")
-#         return None
-#
-#     movie = Movie(row['tconst'], db_config)
-#     movie_data = movie.get_movie_data()
-#
-#     print("Fetched movie genres:", movie_data.get('genres'))
-#
-#
-# # # Example usage
-# if __name__ == "__main__":
-#     criteria = {
-#         "min_year": 1900,
-#         "max_year": 2023,
-#         "min_rating": 7.0,
-#         "max_rating": 10,
-#         "title_type": "movie",
-#         "language": "en",
-#         "genres": ["Action", "Drama"]
-#     }
-#
-#     main(criteria)
+# Main function to run the program
+def main(criteria):
+    movie_fetcher = ImdbRandomMovieFetcher(db_config)
+    row = movie_fetcher.fetch_random_movie(criteria)
+
+    if not row:
+        print("No movies found based on the given criteria.")
+        return None
+
+    movie = Movie(row['tconst'], db_config)
+    movie_data = movie.get_movie_data()
+
+    print("Fetched movie genres:", movie_data.get('genres'))
+
+
+# # Example usage
+if __name__ == "__main__":
+    criteria = {
+        "min_year": 1900,
+        "max_year": 2023,
+        "min_rating": 7.0,
+        "max_rating": 10,
+        "title_type": "movie",
+        "language": "en",
+        "genres": ["Action", "Drama"]
+    }
+
+    main(criteria)

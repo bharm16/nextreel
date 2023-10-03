@@ -1,7 +1,9 @@
 from flask_login import UserMixin
 
-from nextreel.scripts.get_user_account import get_all_watched_movie_details_by_user, get_user_login, insert_new_user, get_all_movies_in_watchlist
-from nextreel.scripts.log_movie_to_account import add_movie_to_watchlist, log_movie_to_account
+from scripts.get_user_account import get_all_watched_movie_details_by_user, get_user_login, insert_new_user, \
+    get_all_movies_in_watchlist
+from scripts.log_movie_to_account import add_movie_to_watchlist, log_movie_to_account
+
 
 class Account(UserMixin):
 

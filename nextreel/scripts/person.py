@@ -3,8 +3,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import imdb
 
-from nextreel.scripts.movie import Movie
-from nextreel.scripts.mysql_query_builder import execute_query, \
+from scripts.movie import Movie
+from scripts.mysql_query_builder import execute_query, \
     GET_NCONST_FROM_ACTOR_NAME_QUERY, GET_ALL_MOVIES_BY_ACTOR_QUERY  # Import your query execution function
 
 

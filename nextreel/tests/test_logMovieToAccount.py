@@ -1,7 +1,7 @@
 import unittest
 from mock import patch
 from datetime import datetime
-from nextreel.scripts.log_movie_to_account import log_movie_to_account, query_watched_movie
+from scripts.log_movie_to_account import log_movie_to_account, query_watched_movie
 
 
 class TestLogMovieToAccount(unittest.TestCase):

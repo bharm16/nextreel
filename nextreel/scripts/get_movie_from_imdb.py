@@ -1,7 +1,6 @@
-from nextreel.scripts.db_config_scripts import db_config
-from nextreel.scripts.movie import Movie
-from nextreel.scripts.mysql_query_builder import execute_query, get_db_connection, GET_ALL_MOVIES_BY_ACTOR_QUERY
-from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
+from scripts.db_config_scripts import db_config
+
+from scripts.mysql_query_builder import execute_query, get_db_connection
 
 # print("Python Executable:", sys.executable)
 
