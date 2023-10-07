@@ -1,4 +1,4 @@
-from scripts.mysql_query_builder import execute_query
+from nextreel.scripts.mysql_query_builder import execute_query
 
 
 class ImdbRandomMovieFetcher:

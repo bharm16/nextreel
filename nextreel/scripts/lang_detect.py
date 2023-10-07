@@ -5,7 +5,7 @@ import time
 from langdetect import detect
 import pymysql
 
-from scripts.mysql_query_builder import execute_query
+from nextreel.scripts.mysql_query_builder import execute_query
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

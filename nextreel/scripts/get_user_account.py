@@ -1,10 +1,10 @@
 import imdb
 import pymysql
 
-from scripts.mysql_query_builder import execute_query, GET_USER_BY_USERNAME, GET_USER_BY_ID, \
-    GET_WATCHED_MOVIE_DETAILS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, INSERT_NEW_USER, GET_ALL_USERS, \
-    GET_WATCHED_MOVIE_POSTERS, GET_WATCHED_MOVIES, GET_ALL_MOVIES_IN_WATCHLIST
-from scripts.db_config_scripts import user_db_config, db_config  # Import both configs
+from nextreel.scripts.db_config_scripts import user_db_config, db_config
+from nextreel.scripts.mysql_query_builder import execute_query, GET_USER_BY_USERNAME, GET_USER_BY_ID, GET_ALL_USERS, \
+    INSERT_NEW_USER, GET_WATCHED_MOVIES, GET_WATCHED_MOVIE_POSTERS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, \
+    GET_ALL_MOVIES_IN_WATCHLIST, GET_WATCHED_MOVIE_DETAILS
 
 
 def get_user_login(username, password, db_config):

@@ -1,16 +1,16 @@
 import json
+from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime
 import logging
-import imdb
-from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
-from scripts.db_config_scripts import user_db_config, db_config  # Import both configs
-from scripts.movie import Movie
+import imdb
 
-from scripts.mysql_query_builder import execute_query, LOG_MOVIE_TO_ACCOUNT, INSERT_WATCHED_MOVIE_DETAIL, \
-    QUERY_WATCHED_MOVIE, CHECK_TITLE_BASICS, SELECT_MISSING_TITLE_INFO, ADD_MOVIE_TO_WATCHLIST, \
-    INSERT_USER_WATCHLIST_DETAIL
+from nextreel.scripts.db_config_scripts import user_db_config
+from nextreel.scripts.movie import Movie
+from nextreel.scripts.mysql_query_builder import execute_query, QUERY_WATCHED_MOVIE, SELECT_MISSING_TITLE_INFO, \
+    ADD_MOVIE_TO_WATCHLIST, INSERT_WATCHED_MOVIE_DETAIL, INSERT_USER_WATCHLIST_DETAIL, LOG_MOVIE_TO_ACCOUNT, \
+    CHECK_TITLE_BASICS
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)

@@ -1,8 +1,8 @@
 import imdb
 
-from scripts.db_config_scripts import db_config
-from scripts.mysql_query_builder import get_db_connection
-from scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
+from nextreel.scripts.db_config_scripts import db_config
+from nextreel.scripts.mysql_query_builder import get_db_connection
+from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
 
 get_db_connection(db_config)
 

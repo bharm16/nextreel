@@ -3,7 +3,6 @@ import time
 
 import pymysql
 
-from scripts.db_config_scripts import db_config
 
 # Query to fetch user details based on the username
 GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username=%s"

@@ -1,18 +1,27 @@
 # Import required libraries
-import threading
+import random
+import os
 import time
-from queue import Queue
+import pymysql
+import imdb
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
-from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
+from nextreel.scripts.account import Account
 
-from db_config import db_config, user_db_config
-from scripts.account import Account
-from scripts.get_user_account import get_user_by_id
-from scripts.log_movie_to_account import update_title_basics_if_empty
-from scripts.movie import Movie
-from scripts.person import Person
-from scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
+
+from nextreel.scripts.db_config_scripts import db_config, user_db_config
+from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist, insert_new_user, \
+    get_user_login, get_user_by_id
+from nextreel.scripts.log_movie_to_account import log_movie_to_account, update_title_basics_if_empty, \
+    add_movie_to_watchlist
+from nextreel.scripts.movie import Movie
+from nextreel.scripts.person import Person
+from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
+from queue import Queue, Empty
+import threading
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -25,12 +34,20 @@ login_manager.init_app(app)
 # Variable to determine whether a user should be logged out when the home page loads
 should_logout_on_home_load = True
 
+
+
+
+
 # Initialize a global queue to hold movie data
 movie_queue = Queue(maxsize=3)
 
-from scripts.get_user_account import get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
+from nextreel.scripts.get_user_account import get_watched_movie_posters, get_watched_movies, get_watched_movie_details, \
+    get_all_movies_in_watchlist, get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
 
 # Assuming ImdbRandomMovieFetcher is imported or defined above
+
+
+import time
 
 
 def populate_movie_queue():
@@ -42,14 +59,11 @@ def populate_movie_queue():
     movie_fetcher = ImdbRandomMovieFetcher(db_config)
 
     while True:
-        # Check if session contains 'user_id' and if the user is authenticated
-        if 'user_id' in session and 'is_authenticated' in session and session['is_authenticated']:
-            user_id = session['user_id']
-
+        # Check if current_user is not None and if the user is authenticated
+        if current_user and current_user.is_authenticated:
             # Update the watched_movies and watchlist_movies sets from the DB
-            # I'm assuming get_all_watched_movie_details_by_user and get_all_movies_in_watchlist are global functions
-            watched_movies = set([movie['tconst'] for movie in get_all_watched_movie_details_by_user(user_id)])
-            watchlist_movies = set([movie['tconst'] for movie in get_all_movies_in_watchlist(user_id)])
+            watched_movies = set([movie['tconst'] for movie in get_all_watched_movie_details_by_user(current_user.id)])
+            watchlist_movies = set([movie['tconst'] for movie in get_all_movies_in_watchlist(current_user.id)])
 
         # If the queue size is less than 2, fetch a new movie
         if movie_queue.qsize() < 2:
@@ -77,9 +91,6 @@ def populate_movie_queue():
             time.sleep(1)
 
 
-
-
-
 # Don't forget to import other required modules and functions
 
 
@@ -99,32 +110,26 @@ def account_settings():
     return render_template('user_account_settings.html')
 
 
-@app.route('/watched_movies')
-def watched_movies():
-    # Check if the user is logged in by looking for 'user_id' in session
-    if 'user_id' not in session:
-        flash("Please log in to view this page.")
-        return redirect(url_for('login'))
 
-    # Initialize Account object with session details
-    user_id = session.get('user_id')
-    username = session.get('username')
-    email = session.get('email')
-    current_account = Account(id=user_id, username=username, email=email)
+
+
+@app.route('/watched_movies')
+@login_required
+def watched_movies():
+    # Initialize Account object with current user's details
+    current_account = Account(id=current_user.id, username=current_user.username, email=current_user.email)
 
     # Fetch all watched movie details for the current user
-    watched_movie_details = current_account.get_watched_movies_by_user(user_id)
+    watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
 
     # Sort the list by tconst
     if watched_movie_details:  # Check if the list is not None or empty
         watched_movie_details.sort(key=lambda x: x['tconst'])
 
-    # Show flash message if no watched movies found
     if watched_movie_details is None:
         flash("No watched movies found for this user.")
 
     return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
-
 
 
 @login_manager.user_loader
@@ -164,7 +169,7 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user_id' in session:
+    if current_user.is_authenticated:
         return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -195,27 +200,22 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Route for user registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # Check if 'user_id' exists in session to see if the user is already logged in
-    if 'user_id' in session:
+    if current_user.is_authenticated:
         return redirect(url_for('home'))
 
-    # Process POST request for registration
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
 
-        # Call the register_user method from the Account class to register a new user
         result = Account.register_user(username, email, password)
 
         if result == "Username already exists.":
             flash("Username already exists.")
             return render_template('create_account_form.html')
-
-        # Assume register_user method sets a session after successful registration
-        # (Alternatively, you can set the session here as well)
 
         flash("ShowModal")
         return redirect(url_for('login'))
@@ -278,23 +278,12 @@ def next_movie():
 
 # Assuming current_user is an instance of Account
 @app.route('/seen_it', methods=['POST'])
+@login_required
 def seen_it():
     global last_displayed_movie
     if last_displayed_movie:
         tconst = last_displayed_movie.get("imdb_id")
-
-        # Check if 'user' exists in session
-        if 'user' in session:
-            # Extract user data from session
-            user_data = session['user']
-
-            # Create Account object
-            current_account = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
-
-            # Log movie to user account
-            current_account.log_movie_to_user_account(current_account.id, current_account.username, tconst,
-                                                      last_displayed_movie, user_db_config)
-
+        current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
         return redirect(url_for('home'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
@@ -335,21 +324,19 @@ def add_to_watchlist():
         tconst = last_displayed_movie.get("imdb_id")
 
         # Assuming current_user is an instance of Account
-        # Check if 'user' exists in session
-        if 'user' in session:
-            # Extract user data from session
-            user_data = session['user']
-
-            # Create Account object
-            current_account = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
-
-            # Add movie to watchlist
-            current_account.add_movie_to_watchlist(current_account.id, current_account.username, tconst,
-                                                   last_displayed_movie, user_db_config)
+        current_user.add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie,
+                                            user_db_config)
 
         return redirect(url_for('home'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
+
+
+@app.route('/user_watch_list')
+@login_required
+def user_watch_list():
+    watchlist_movies = get_all_movies_in_watchlist(current_user.id)
+    return render_template('user_watchlist.html', watchlist_movies=watchlist_movies)
 
 
 if __name__ == "__main__":
