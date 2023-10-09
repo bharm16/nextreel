@@ -34,10 +34,6 @@ login_manager.init_app(app)
 # Variable to determine whether a user should be logged out when the home page loads
 should_logout_on_home_load = True
 
-
-
-
-
 # Initialize a global queue to hold movie data
 movie_queue = Queue(maxsize=3)
 
@@ -69,6 +65,7 @@ def populate_movie_queue():
         if movie_queue.qsize() < 2:
             # Use the fetch_random_movie method from ImdbRandomMovieFetcher
             row = movie_fetcher.fetch_random_movie({})
+            # row = movie_fetcher.fetch_random_movie({'language': 'en'})
             tconst = row['tconst'] if row else None
 
             # Ensure that the movie is neither in the watched list nor in the watchlist
@@ -108,9 +105,6 @@ def account_settings():
 
     # Render the account settings template
     return render_template('user_account_settings.html')
-
-
-
 
 
 @app.route('/watched_movies')
@@ -283,7 +277,8 @@ def seen_it():
     global last_displayed_movie
     if last_displayed_movie:
         tconst = last_displayed_movie.get("imdb_id")
-        current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie, user_db_config)
+        current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie,
+                                               user_db_config)
         return redirect(url_for('home'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400

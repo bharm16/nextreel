@@ -8,18 +8,20 @@ class ImdbRandomMovieFetcher:
 
     def build_base_query(self):
         return """
-        SELECT tb.*
+      SELECT tb.*
         FROM `title.basics` tb
         JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-        JOIN `title.akas` ta ON tb.tconst = ta.titleId
         WHERE tb.startYear BETWEEN %s AND %s
         AND tr.averagerating BETWEEN %s AND %s
         AND tr.numVotes >= %s
         AND tb.titleType = %s
-        AND ta.language = %s
+        AND tb.language LIKE %s  -- Changed this line
         """
+
     def build_parameters(self, criteria):
         """Construct the list of parameters for the SQL query based on given criteria."""
+        # Note: Added "LIKE" clause for the language
+        language = "%" + criteria.get('language', 'en') + "%"
         parameters = [
             criteria.get('min_year', 1900),
             criteria.get('max_year', 2023),
@@ -27,7 +29,7 @@ class ImdbRandomMovieFetcher:
             criteria.get('max_rating', 10),
             criteria.get('min_votes', 100000),
             criteria.get('title_type', 'movie'),
-            criteria.get('language', 'en')
+            language  # added this line
         ]
         return parameters
 
