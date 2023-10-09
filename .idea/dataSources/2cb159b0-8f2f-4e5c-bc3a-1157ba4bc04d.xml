@@ -939,8 +939,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Charset>utf8mb4</Charset>
     </collation>
     <schema id="274" parent="1" name="imdb">
-      <IntrospectionTimestamp>2023-10-02.13:11:57</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-10-02.23:11:57</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-10-09.06:31:11</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-10-09.16:31:11</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="275" parent="1" name="imdb_data">
@@ -959,8 +959,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="280" parent="1" name="UserAccounts">
-      <IntrospectionTimestamp>2023-10-02.13:11:56</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-10-02.23:11:56</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-10-09.06:31:11</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-10-09.16:31:11</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="281" parent="1" name="mysql.infoschema">
@@ -1367,7 +1367,7 @@ tconst</ColNames>
       <UnderlyingIndexName>unique_user_movie</UnderlyingIndexName>
     </key>
     <column id="376" parent="294" name="id">
-      <AutoIncrement>16</AutoIncrement>
+      <AutoIncrement>15</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1468,7 +1468,7 @@ tconst</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="397" parent="296" name="id">
-      <AutoIncrement>82</AutoIncrement>
+      <AutoIncrement>81</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>

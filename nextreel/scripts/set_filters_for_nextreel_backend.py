@@ -7,18 +7,17 @@ class ImdbRandomMovieFetcher:
         self.db_config = db_config
 
     def build_base_query(self):
-        """Construct the base SQL query for fetching a random row."""
         return """
         SELECT tb.*
         FROM `title.basics` tb
         JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+        JOIN `title.akas` ta ON tb.tconst = ta.titleId
         WHERE tb.startYear BETWEEN %s AND %s
         AND tr.averagerating BETWEEN %s AND %s
         AND tr.numVotes >= %s
         AND tb.titleType = %s
-        AND tb.language = %s
+        AND ta.language = %s
         """
-
     def build_parameters(self, criteria):
         """Construct the list of parameters for the SQL query based on given criteria."""
         parameters = [
