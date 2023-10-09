@@ -34,6 +34,10 @@ login_manager.init_app(app)
 # Variable to determine whether a user should be logged out when the home page loads
 should_logout_on_home_load = True
 
+# Define global variables to hold the movie fetcher and criteria
+global_movie_fetcher = ImdbRandomMovieFetcher(db_config)
+global_criteria = {}  # Start with empty criteria; can be updated dynamically
+
 # Initialize a global queue to hold movie data
 movie_queue = Queue(maxsize=3)
 
@@ -47,44 +51,26 @@ import time
 
 
 def populate_movie_queue():
-    # Initialize sets to store watched movies and watchlist movies if the user is logged in
+    global global_movie_fetcher, global_criteria  # Use global variables
     watched_movies = set()
     watchlist_movies = set()
 
-    # Create an instance of ImdbRandomMovieFetcher
-    movie_fetcher = ImdbRandomMovieFetcher(db_config)
-
     while True:
-        # Check if current_user is not None and if the user is authenticated
         if current_user and current_user.is_authenticated:
-            # Update the watched_movies and watchlist_movies sets from the DB
             watched_movies = set([movie['tconst'] for movie in get_all_watched_movie_details_by_user(current_user.id)])
             watchlist_movies = set([movie['tconst'] for movie in get_all_movies_in_watchlist(current_user.id)])
 
-        # If the queue size is less than 2, fetch a new movie
         if movie_queue.qsize() < 2:
-            # Use the fetch_random_movie method from ImdbRandomMovieFetcher
-            row = movie_fetcher.fetch_random_movie({})
-            # row = movie_fetcher.fetch_random_movie({'language': 'en'})
+            row = global_movie_fetcher.fetch_random_movie(global_criteria)  # Use global criteria
             tconst = row['tconst'] if row else None
 
-            # Ensure that the movie is neither in the watched list nor in the watchlist
             if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
-                # Create a Movie instance and fetch the movie data
                 movie = Movie(tconst, db_config)
-
-                # Fetch and generate detailed movie information
                 movie_data = movie.get_movie_data()
-
-                # Put the fetched movie into the global queue
                 movie_queue.put(movie_data)
-
-                # Update the title_basics table if any data is missing
-                # Assuming update_title_basics_if_empty() is defined elsewhere in your code
                 update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'],
                                              movie_data['languages'], db_config)
 
-            # Pause for 1 second to prevent rapid API calls
             time.sleep(1)
 
 
@@ -226,24 +212,34 @@ def set_filters():
 
 @app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
-    # Extract filter criteria from the form using the extract_movie_filter_criteria function
-    criteria = extract_movie_filter_criteria(request.form)
+    global global_movie_fetcher, global_criteria  # Declare global variables
 
-    print("Extracted criteria:", criteria)
+    # Extract new filter criteria from the form
+    new_criteria = extract_movie_filter_criteria(request.form)
 
-    movie_fetcher = ImdbRandomMovieFetcher(db_config)
+    print("Extracted criteria:", new_criteria)
 
-    # Fetch a random movie row that matches the criteria using the fetch_random_movie method
-    row = movie_fetcher.fetch_random_movie(criteria)
+    # Update global criteria
+    global_criteria = new_criteria
 
-    # If no movies are found, return an error message
+    # Empty the existing movie queue to remove movies that don't match new criteria
+    while not movie_queue.empty():
+        try:
+            movie_queue.get_nowait()
+        except Empty:
+            break
+
+    # Fetch a random movie based on the updated global criteria
+    row = global_movie_fetcher.fetch_random_movie(global_criteria)
+
+    # If no movies found, return an error message
     if not row:
         return "No movies found based on the given criteria."
 
     # Create a Movie instance and fetch the movie data
     movie = Movie(row['tconst'], db_config)
 
-    # Fetch and generate detailed movie information using the get_movie_data method
+    # Fetch and generate detailed movie information
     movie_data = movie.get_movie_data()
 
     # Render the template with the filtered movie
