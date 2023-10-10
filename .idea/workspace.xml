@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextreel/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/navbar.html" afterDir="false" />
-    </list>
+    <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
