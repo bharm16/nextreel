@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
 {#    <title>Title</title>#}
+
+
+
+        <style>
+        .btn-custom {
+            background-color: #19c20c;
+            color: #ffffff;
+            border: none;
+            margin-right: 15px;
+        }
+        /* Hover effect */
+        .btn-custom:hover {
+            background-color: #19c20c;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,9 +32,9 @@
         <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
         <div class="collapse navbar-collapse" id="navbarNav">
            <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" alt="Nextreel" height="120">
+            <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
          </a>
-            Nextreel
+
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
