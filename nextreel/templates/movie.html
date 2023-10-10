@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+
+    <style>
+        /* Modern background color */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: #333;
+        }
+        /* Light container for contrast */
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            {#border-radius: 12px;#}
+            border-radius: 0;  /* Changed this line */
+
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Snappy button colors */
+        .btn-custom {
+            background-color: #1f8efa;
+            color: #fff;
+            border: none;
+            margin-right: 15px;
+        }
+        /* Hover effect */
+        .btn-custom:hover {
+            background-color: #156ebf;
+        }
+        /* Improved image styling */
+        .movie-poster {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+        }
+        /* Info boxes */
+        .info-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        /* Font sizes */
+        .info-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .info-content {
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+
+
+{#<div class="container my-5">#}
+
+<div class="container mt-0">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 text-center">
+            <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+        </div>
+        <div class="col-lg-8 col-md-6">
+            <div class="info-box">
+                <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
+                <div class="info-content">{{ movie.plot }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
+                <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
+                 <div class="info-content" id="language">Language: {{ movie.languages }}</div> <!-- Added line -->
+            </div>
+            <div class="info-box">
+                <div class="info-title">Genres</div>
+                <div class="info-content">{{ movie.genres }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-content">Directed by {{ movie.directors }}</div>
+                <div class="info-content">Written by {{ movie.writers }}</div>
+            </div>
+
+
+{#<div class="info-box">#}
+{#    <div class="info-title">Cast</div>#}
+{#    <div class="info-content">#}
+{#        {% set cast_list = movie.cast.split(", ") %}#}
+{#        {% for cast_member in cast_list %}#}
+{#            <a href="{{ url_for('get_movies_by_actor', actor_name=cast_member) }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</div>#}
+
+
+
+        <div class="info-box">
+    <div class="info-title">Cast</div>
+    <div class="info-content">
+        {% set cast_list = movie.cast.split(", ") %}
+        {% for cast_member in cast_list %}
+            <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+            <form method="POST" action="/next_movie" style="display: inline;">
+                <button type="submit" class="btn btn-custom">Next Movie</button>
+            </form>
+
+
+
+            {% if current_user.is_authenticated %}
+                <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
+                <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Add to Watchlist</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+
+    <script>
+        function formatVotes() {
+            const voteElement = document.getElementById("votes");
+            console.log("Original text: " + voteElement.textContent); // debug line
+
+            let votesText = voteElement.textContent.split(": ")[1];
+            votesText = parseInt(votesText).toLocaleString();
+            console.log("Formatted text: " + votesText); // debug line
+
+            voteElement.textContent = "Votes: " + votesText;
+        }
+        console.log("Document loaded"); // debug line
+        formatVotes();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const seenItButton = document.getElementById("seen-it-button");
+            seenItButton.addEventListener("click", function () {
+                const tconst = this.getAttribute("data-tconst");
+                fetch("/seen_it", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        tconst: tconst
+                    }),
+                    redirect: 'follow'  // Automatically follow redirects
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = response.url;  // Navigate to the new URL
+                    } else {
+                        alert("Failed to mark movie as seen!");
+                    }
+                }).catch(error => console.error("Error:", error));
+
+
+            });
+
+        });
+
+        // Capture the add-to-watchlist button and add a click event listener
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToWatchlistButton = document.getElementById("add-to-watchlist-button");
+        addToWatchlistButton.addEventListener("click", function () {
+            const tconst = this.getAttribute("data-tconst");
+            fetch("/add_to_watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tconst: tconst
+                }),
+                redirect: 'follow'  // Automatically follow redirects
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;  // Navigate to the new URL
+                } else {
+                    alert("Failed to add movie to watchlist!");
+                }
+            }).catch(error => console.error("Error:", error));
+        });
+    });
+
+
+    </script>
+</body>
+</html>
