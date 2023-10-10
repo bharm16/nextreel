@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-{#    <title>Title</title>#}
-
-
-
-        <style>
+    <!-- Style for the navbar buttons -->
+    <style>
+        /* Custom button styles */
         .btn-custom {
             background-color: #19c20c;
             color: #ffffff;
@@ -17,63 +15,46 @@
         .btn-custom:hover {
             background-color: #19c20c;
         }
+
+        /* Making the navbar sticky at the top */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;  /* Ensure navbar is above the content */
+        }
     </style>
 </head>
 <body>
-
-
-
-
-
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-           <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
-         </a>
-
-            <ul class="navbar-nav ml-auto">
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ current_user.username }}
-                        </button>
-                        <div class="dropdown-menu">
-
-                            <a class="dropdown-item" href="/watched_movies">Watched Movies</a>
-                            <a class="dropdown-item" href="/user_watch_list">Watchlist</a>
-                            <a class="dropdown-item" href="/account_settings">Settings</a> <!-- Settings button added here -->
-                            <a class="dropdown-item" href="/logout">Logout</a>
-
-                        </div>
-                    </li>
-                {% else %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
+                </a>
+                <ul class="navbar-nav ml-auto">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ current_user.username }}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/watched_movies">Watched Movies</a>
+                                <a class="dropdown-item" href="/user_watch_list">Watchlist</a>
+                                <a class="dropdown-item" href="/account_settings">Settings</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="/login" class="btn btn-custom">Login</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a href="/login" class="btn btn-custom">Login</a>
+                        <a href="/setFilters" class="btn btn-custom">Set Filters</a>
                     </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                </li>
-
-{#                <li class="nav-item">#}
-{#                    <form method="POST" action="/next_movie" style="display: inline;">#}
-{#                        <button type="submit" class="btn btn-custom">Next Movie</button>#}
-{#                    </form>#}
-{#                </li>#}
-            </ul>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-
-
-
-
-
-
-
+    </nav>
 </body>
 </html>
