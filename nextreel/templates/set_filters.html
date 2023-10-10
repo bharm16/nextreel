@@ -8,7 +8,7 @@
     <title>Set Filters</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-{#    <link rel="stylesheet" href='../styles/footer.css'> <!-- Add this line -->#}
+    {#    <link rel="stylesheet" href='../styles/footer.css'> <!-- Add this line -->#}
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/footer.css') }}">
 
 
@@ -17,21 +17,13 @@
         body, html {
             height: 100%;
         }
-        .container {
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
         /* New Styles */
         body {
             background-color: #f4f3f5;
         }
 
-        .mt-100 {
-            margin-top: 100px;
-        }
+
 
         .mb-30{
             margin-bottom: 30px;
@@ -55,28 +47,12 @@
 
         .card-body {
             flex: 1 1 auto;
-            padding: 1.25rem;
+            {#padding: 1.25rem;#}
         }
 
-        .card .card-title {
-            color: #000000;
-            margin-bottom: 0.625rem;
-            text-transform: capitalize;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
 
-        .card .card-description {
-            margin-bottom: .875rem;
-            font-weight: 400;
-            color: #76838f;
-        }
 
-        p {
-            font-size: 0.875rem;
-            margin-bottom: .5rem;
-            line-height: 1.5rem;
-        }
+
 
         label.check {
             cursor: pointer;
@@ -84,8 +60,8 @@
 
         label.check input {
             position: absolute;
-            top: 0;
-            left: 0;
+            {#top: 0;#}
+            {#left: 0;#}
             visibility: hidden;
             pointer-events: none;
         }
@@ -96,7 +72,7 @@
             display: inline-block;
             color: #e0dde1;
             border-radius: 3px;
-            text-transform: uppercase;
+        {#text-transform: uppercase;#}
         }
 
         label.check input:checked + span {
@@ -120,35 +96,53 @@
 
         /* Update the card maximum width to make it smaller */
         .card {
-            max-width: 500px;  /* Adjust to half of original size */
-            margin: 0 auto;
+            max-width: 800px;  /* Adjust to half of original size */
+            /* Add this line to move the card slightly to the left */
+            margin: 0 auto 0 30%;
+
         }
 
 
-        /* Add this style to make genre checkboxes fit better */
-
-        .genre-checkbox {
-            display: inline-block;
-            width: 30%; /* Adjust this value as needed */
-            margin-bottom: 10px;
-        }
 
 
-        .genre-container {
-            display: flex;
-            flex-wrap: wrap;
+
+        .language-dropdown {
+            width: 100%;  /* You can set this to any value that suits your design */
+            align-items: center;  /* Center text vertically */
             justify-content: center;
         }
 
-        .genre-container .form-check {
-            flex: 0 0 calc(33.333% - 2px);  /* Adjust to reduce space and get more checkboxes per row */
-            margin-right: 2px;  /* Adjust margin */
-            margin-bottom: 2px;  /* Adjust margin */
+        /* Add these styles to make the checkboxes the same size */
+        .check span {
+            /* ... existing styles ... */
+            width: 100px;  /* Fixed width */
+            height: 40px;  /* Fixed height */
+            display: flex;
+            align-items: center;  /* Center text vertically */
+            justify-content: center;  /* Center text horizontally */
+            white-space: nowrap;  /* Prevents the text from wrapping */
+            overflow: hidden;  /* Hide overflow */
+            text-overflow: ellipsis;  /* Add ellipsis for overflow text */
         }
 
-        .language-dropdown {
-    width: 100%;  /* You can set this to any value that suits your design */
-}
+
+
+
+        .container-fluid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Add this new style to center the content inside .form-check */
+        .form-check {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+
 
 
 
@@ -172,9 +166,9 @@
     <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Nextreel</a> -->
         <div class="collapse navbar-collapse" id="navbarNav">
-          <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" alt="Nextreel" height="120">
-         </a>
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" alt="Nextreel" height="120">
+            </a>
 
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
@@ -205,261 +199,266 @@
     </div>
 </nav>
 
-<!--<div class="container"> -->
+<!-- Main Content Container -->
+<!-- This is the main content container. It is using Bootstrap's container-fluid class for a full-width container. -->
+<div class="container-fluid"> <!-- .container-fluid style applied here -->
 
-<div class="container-fluid">
-    <div class="card"> <!-- Start card container -->
-        <div class="card-body"> <!-- Card body starts -->
+    <!-- Card Container -->
+    <!-- This is a Bootstrap card component. It's a flexible and extensible content container with multiple variants and options. -->
+    <div class="card mx-auto"> <!-- .card and max-width style applied here -->
+        <!-- Card Body -->
+        <!-- This is where the content of the card resides. It is using Bootstrap's card-body class for padding and formatting. -->
+        <div class="card-body"> <!-- .card-body style applied here -->
+            <!-- Form Starts -->
+            <!-- This is the main form where users can set filters for movies. -->
             <form action="/filtered_movie" method="post">
 
-{#                <div class="row justify-content-center no-gap">#}
-{##}
-{#                    <div class="col-3">#}
-{#                        <label for="imdb_score_min">IMDb Score (Min):</label>#}
-{#                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1">#}
-{#                    </div>#}
-{#                    <div class="col-3">#}
-{#                        <label for="imdb_score_max">IMDb Score (Max):</label>#}
-{#                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1">#}
-{#                    </div>#}
-{#                </div>#}
 
-<!-- IMDb Score Section -->
-<div class="row justify-content-center no-gap mb-30">
-    <label class="col-12 text-center">IMDb Score</label>
-    <div class="col-3">
-        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
-    </div>
-    <div class="col-3">
-        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1" value="10.0">
-    </div>
-</div>
-
-<!-- Vote Count Section -->
-<div class="row justify-content-center no-gap mb-30">
-    <label class="col-12 text-center">Votes</label>
-    <div class="col-3">
-        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
-    </div>
-    <div class="col-3">
-        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max" min="1" max="2000000">
-    </div>
-</div>
-
-<!-- Year Section -->
-<div class="row justify-content-center no-gap mb-30">
-    <label class="col-12 text-center">Year</label>
-    <div class="col-3">
-        <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
-    </div>
-    <div class="col-3">
-        <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
-    </div>
-</div>
-
-
-
-
-                <div class="row mt-4 justify-content-center">
-
-                    <div class="col-12">
-
-
-                        <div class="genre-container">
-
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)" checked> <!-- Add checked here -->
-                                    <span>Select All</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
-                                    <span>Action</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
-                                    <span>Adventure</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
-                                    <span>Animation</span>
-                                </label>
-                            </div>
-
-
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
-                                    <span>Biography</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
-                                    <span>Comedy</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
-                                    <span>Crime</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
-                                    <span>Documentary</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
-                                    <span>Drama</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
-                                    <span>Fantasy</span>
-                                </label>
-                            </div>
-
-
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
-                                    <span>Horror</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
-                                    <span>Musical</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
-                                    <span>Sci-Fi</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
-                                    <span>Sport</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]"checked>
-                                    <span>Thriller</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
-                                    <span>War</span>
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <label class="check">
-                                    <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
-                                    <span>Western</span>
-                                </label>
-                            </div>
-
-                        </div>
-
+                <!-- IMDb Score Section -->
+                <div class="row justify-content-center no-gap mb-30"> <!-- .row, .justify-content-center, .no-gap and .mb-30 styles applied here -->
+                    <label class="col-12 text-center">IMDb Score</label>
+                    <div class="col-3 text-center">
+                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
                     </div>
+                    <div class="col-3 text-center">
+                        <input type="number" class="form-control" id="imdb_score_max" name="imdb_score_max" min="1" max="10" step="0.1" value="10.0">
+                    </div>
+                </div>
 
-<!-- Wider Language Dropdown -->
-<div class="row justify-content-center no-gap d-flex justify-content-center">
-    <div class="col-6"> <!-- Change from col-3 to col-6 or col-12 for a wider dropdown -->
-        <label for="language">Language:</label>
-{#        <select class="form-control language-dropdown" id="language" name="language" value="en" style="width: 300px;">#}
-{##}
-{##}
-{#            <option value="English">en</option>#}
-{#            <option value="Spanish">es</option>#}
-{#            <option value="French">fr</option>#}
-{#            #}
+                <!-- Vote Count Section -->
+                <div class="row justify-content-center no-gap mb-30"> <!-- .row, .justify-content-center, .no-gap and .mb-30 styles applied here -->
+                    <label class="col-12 text-center">Votes</label>
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
+                    </div>
+                    <div class="col-3 text-center">
+                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max" min="1" max="2000000">
+                    </div>
+                </div>
 
-        <select class="form-control language-dropdown" id="language" name="language" style="width: 300px;">
-    <option value="en">en</option>
-    <option value="es">es</option>
-    <option value="fr">fr</option>
-
-
-
-
-
-
-            <!-- Add more languages here -->
-        </select>
-    </div>
-</div>
-
-
+                <!-- Year Section -->
+                <div class="row justify-content-center no-gap mb-30"> <!-- .row, .justify-content-center, .no-gap and .mb-30 styles applied here -->
+                    <label class="col-12 text-center">Year</label>
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+                        <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+                    </div>
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+                        <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
+                    </div>
                 </div>
 
 
+                <div class="row justify-content-center no-gap mb-30"> <!-- .row, .justify-content-center, .no-gap and .mb-30 styles applied here -->
+                    <div class="col-12 text-center">
+                        <!-- Place "Select All" checkbox here, above the 4 columns -->
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)" checked>
+                                <span>Select All</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
+                                <span>Action</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
+                                <span>Adventure</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
+                                <span>Animation</span>
+                            </label>
+                        </div>
+
+
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
+                                <span>Biography</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
+                                <span>Comedy</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
+                                <span>Crime</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
+                                <span>Documentary</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
+                                <span>Drama</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
+                                <span>Fantasy</span>
+                            </label>
+                        </div>
+
+
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
+                                <span>Horror</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
+                                <span>Musical</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
+                                <span>Sci-Fi</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-3 text-center">
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
+                                <span>Sport</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
+                                <span>Thriller</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
+                                <span>War</span>
+                            </label>
+                        </div>
+
+                        <div class="form-check"> <!-- .form-check style applied here -->
+                            <label class="check"> <!-- .check style applied here -->
+                                <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
+                                <span>Western</span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="row justify-content-center no-gap mb-30">
+                    <div class="col-12 text-center">
+                        <label for="language">Language:</label>
+
+                        <select class="form-control language-dropdown" id="language" name="language">
+                            <option value="en">en</option>
+                            <option value="es">es</option>
+                            <option value="fr">fr</option>
+
+                            <!-- Add more languages here -->
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+
+
                 <!-- Moved 'Apply Filters' Button -->
-<div class="row mt-4 justify-content-center">
-    <div class="col">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-    </div>
-</div>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </div>
+                </div>
 
             </form>
-
-
-
-
-
-            </div> <!-- End of Card Body -->
-        </div> <!-- End of Card Container -->
-    </div> <!-- End of Main Container -->
-
-
- <!-- Footer -->
- <div class="footer-basic">
-        <footer>
-            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Home</a></li>
-                <li class="list-inline-item"><a href="#">Services</a></li>
-                <li class="list-inline-item"><a href="#">About</a></li>
-                <li class="list-inline-item"><a href="#">Terms</a></li>
-                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-            </ul>
-            <p class="copyright">Company Name © 2018</p>
-        </footer>
+            <!-- Form Ends -->
+        </div>
+        <!-- End of Card Body -->
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- End of Card Container -->
+</div>
+<!-- End of Main Content Container -->
+
+
+<!-- Footer -->
+<div class="footer-basic">
+    <footer>
+        <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><a href="#">Services</a></li>
+            <li class="list-inline-item"><a href="#">About</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p class="copyright">Nextreel © 2023</p>
+    </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
