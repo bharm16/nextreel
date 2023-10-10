@@ -19,37 +19,7 @@
 </head>
 
 
-   <!-- Sticky Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <div class="container-fluid">
-            <img src="{{ url_for('static', filename='nextreel_logo.JPG') }}" alt="Nextreel" height="120">
-            Nextreel
-            <ul class="navbar-nav ml-auto">
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ current_user.username }}
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/logout">Logout</a>
-                        </div>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a href="/login" class="btn btn-custom">Login</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                </li>
-                <li class="nav-item">
-                    <form method="POST" action="/next_movie" style="display: inline;">
-                        <button type="submit" class="btn btn-custom">Next Movie</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% include 'navbar.html' %}
 
 
 
