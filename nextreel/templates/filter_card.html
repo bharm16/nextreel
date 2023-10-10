@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        /* Custom Variables */
+        :root {
+            --scrollerGrey: 219,219,219;
+            --lightGrey: 227,227,227;
+            --darkerGrey: 200,200,200;
+            --tmdbDarkBlue: 3,37,65;
+            --tmdbLightBlue: 1,180,228;
+            --tmdbLighterGreen: 192,254,207;
+            --tmdbLightGreen: 30,213,169;
+            --tmdbLogoGreen: 144,206,161;
+            --tmdbLogoOrange: 253,193,112;
+            --tmdbLogoRed: 217,59,99;
+            --accountSilver: 149,149,149;
+            --accountPink: 234,20,140;
+            --accountPurple: 128,91,231;
+            --accountGreen: 1,210,119;
+            --accountTeal: 1,198,172;
+            --accountLightBlue: 1,180,228;
+            --accountBlue: 1,119,210;
+            --accountOrange: 210,119,1;
+            --accountYellow: 210,144,1;
+            --accountRed: 212,2,66;
+            --imageBorderRadius: 8px;
+            --maxPrimaryPageWidth: 1400px;
+            --numberOfDiscoverColumns: 5;
+        }
+
+        /* Styling for Filter Card */
+        .filter_panel.card {
+            color: #000;
+            font-family: "Source Sans Pro", Arial, sans-serif;
+            font-size: 1em;
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            background-color: #fff;
+            min-width: 260px;
+            width: 260px;
+            border: 1px solid #e3e3e3;
+            border-radius: var(--imageBorderRadius);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            overflow: hidden;
+            margin-top: 12px;
+
+            /* Add or modify this line */
+            flex-direction: column;  /* Stack children vertically */
+        }
+
+
+         /* Styling for form field */
+        .k-form-field {
+            display: flex;
+            align-items: center;  /* Vertically align radio and label */
+        }
+
+        /* Styling for radio button */
+        .k-radio {
+            margin-right: 8px;  /* Add some space between radio and label */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- filter_card.html -->
+    <div class="filter_panel card">
+        <!-- Name Section -->
+        <div class="name" data-callback="filterCallback()">
+            <h2>Filters</h2>
+            <span class="glyphicons_v2 chevron-right"></span>
+        </div>
+
+        <!-- Show Me Filters -->
+        <div class="filter">
+            <h3>Show Me
+                <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
+            </h3>
+            <label class="k-form-field">
+                <input id="show_me_everything" class="k-radio" type="radio" name="show_me" value="0" checked="checked">
+                <label for="show_me_everything" class="k-radio-label">Everything</label>
+            </label>
+            <label class="k-form-field">
+                <input id="show_me_not_seen" class="k-radio" type="radio" value="1" name="show_me" disabled="">
+                <label for="show_me_not_seen" class="k-radio-label">Movies I Haven't Seen</label>
+            </label>
+            <label class="k-form-field">
+                <input id="show_me_seen" class="k-radio" type="radio" value="2" name="show_me" disabled="">
+                <label for="show_me_seen" class="k-radio-label">Movies I Have Seen</label>
+            </label>
+        </div>
+    </div>
+</body>
+</html>
