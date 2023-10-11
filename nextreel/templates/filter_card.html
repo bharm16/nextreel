@@ -183,15 +183,13 @@
 
         /* Add these styles to make the checkboxes the same size */
         .check span {
-            /* ... existing styles ... */
-            width: 100px;  /* Fixed width */
-            height: 40px;  /* Fixed height */
-            display: flex;
-            align-items: center;  /* Center text vertically */
-            justify-content: center;  /* Center text horizontally */
-            white-space: nowrap;  /* Prevents the text from wrapping */
-            overflow: hidden;  /* Hide overflow */
-            text-overflow: ellipsis;  /* Add ellipsis for overflow text */
+              min-width: 60px;  /* Minimum width */
+    /* remove the fixed width */
+    height: 40px;  /* Fixed height */
+    display: flex;
+    align-items: center;  /* Center text vertically */
+    justify-content: center;  /* Center text horizontally */
+    white-space: nowrap;  /* Prevents the text from wrapping */
         }
 
 
@@ -240,18 +238,19 @@
             pointer-events: none;
         }
 
-        label.check span {
-            padding: 7px 14px;
-            border: 2px solid #d9d7da;
-            width: 100px;  /* Fixed width */
-            height: 40px;  /* Fixed height */
-            display: flex;
-            align-items: center;  /* Center text vertically */
-            justify-content: center;  /* Center text horizontally */
-            white-space: nowrap;  /* Prevents the text from wrapping */
-            {#overflow: hidden;  /* Hide overflow */#}
-            text-overflow: ellipsis;  /* Add ellipsis for overflow text */
-        }
+/* Updated CSS for the genre buttons */
+label.check span {
+    /* ... existing styles ... */
+    min-width: 60px;  /* Minimum width */
+    /* remove the fixed width */
+    height: 40px;  /* Fixed height */
+    display: flex;
+    align-items: center;  /* Center text vertically */
+    justify-content: center;  /* Center text horizontally */
+    white-space: nowrap;  /* Prevents the text from wrapping */
+    padding: 7px 14px; /* Add padding so that it will look good even when the text is small */
+    /* ... */
+}
 
 
         label.check input:checked + span {
@@ -277,28 +276,34 @@
 
 /* Styling for Genre Container */
 .genre-container {
-    display: flex;  /* Layout children in a line */
-    flex-wrap: wrap;  /* Wrap onto next line if needed */
+    /* Existing Styles */
+    flex-wrap: wrap;
 
-    /* Additional Styles */
-    box-sizing: border-box;  /* Include padding and border in total width and height */
-    padding: 0;  /* Set padding to zero */
-    margin: 0;  /* Set margin to zero */
+    /* New Styles */
+    direction: ltr;  /* Left-to-Right text direction */
+    display: inline-flex;  /* Make the container inline-flex */
+    align-items: center;  /* Vertically align items in the container */
+    width: 100%;  /* Take up the full width of the parent element */
+    box-sizing: border-box;  /* Include padding and border in width and height */
+    padding: 0;
+    margin: 0;
 }
 
 /* Styling for Genre Buttons */
 .genre-button {
-    /* Overriding default .form-check styles */
+    /* Existing Styles */
     width: auto;
     flex: none;
-    margin: 6px;  /* Add some margin for spacing */
+    margin: 6px;
 
-    /* Additional Styles */
-    box-sizing: border-box;  /* Include padding and border in total width and height */
-    padding: 0;  /* Set padding to zero */
-    list-style-type: none;  /* Remove bullet points if any */
-    margin-top: -8px;  /* Adjust top margin */
+    /* New Styles */
+    display: inline-flex;  /* Make the button inline-flex */
+    align-items: center;  /* Vertically align content in the button */
+    box-sizing: border-box;  /* Include padding and border in width and height */
+    padding: 0;
+    margin-top: -8px;
 }
+
 
     </style>
 
