@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/templates/filter_card.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/filter_card.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,26 +118,7 @@
     <configuration name="set_filters.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/set_filters.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="get_user_account" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tmdb_proj_python" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/nextreel/scripts" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nextreel/scripts/get_user_account.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+    <configuration name="user_watchlist.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/user_watchlist.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="login_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -178,18 +160,18 @@
     </configuration>
     <list>
       <item itemvalue="Flask server.Flask (nextreel/app.py)" />
+      <item itemvalue="JavaScript Debug.user_watchlist.html" />
       <item itemvalue="JavaScript Debug.filter_card.html" />
       <item itemvalue="JavaScript Debug.set_filters.html" />
       <item itemvalue="Python.login_manager" />
-      <item itemvalue="Python.get_user_account" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JavaScript Debug.filter_card.html" />
+        <item itemvalue="JavaScript Debug.user_watchlist.html" />
         <item itemvalue="JavaScript Debug.set_filters.html" />
         <item itemvalue="Flask server.Flask (nextreel/app.py)" />
         <item itemvalue="Python.login_manager" />
-        <item itemvalue="Python.get_user_account" />
       </list>
     </recent_temporary>
   </component>

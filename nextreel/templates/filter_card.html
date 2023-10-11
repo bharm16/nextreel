@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 
+
     <style>
         /* Custom Variables */
         :root {
@@ -53,11 +54,17 @@
             justify-content: space-between;
             overflow: hidden;
             margin-top: 12px;
+            margin-left: 6px;
 
             /* Add or modify this line */
             flex-direction: column;  /* Stack children vertically */
 
             min-height: 1000px;
+
+
+            /* Add padding to the left side */
+            padding-left: 20px;  /* Adjust this value as needed */
+
         }
 
 
@@ -238,26 +245,26 @@
             pointer-events: none;
         }
 
-/* Updated CSS for the genre buttons */
-label.check span {
-    /* ... existing styles ... */
-    min-width: 60px;  /* Minimum width */
-    /* remove the fixed width */
-    height: 40px;  /* Fixed height */
-    display: flex;
-    align-items: center;  /* Center text vertically */
-    justify-content: center;  /* Center text horizontally */
-    white-space: nowrap;  /* Prevents the text from wrapping */
-    padding: 7px 14px; /* Add padding so that it will look good even when the text is small */
-    border-radius: 20px;  /* New: Add rounded corners */
-    border: 1px solid #2a2929; /* New: Add a border when not selected */
-}
+        /* Updated CSS for the genre buttons */
+        label.check span {
+            /* ... existing styles ... */
+            min-width: 60px;  /* Minimum width */
+            /* remove the fixed width */
+            height: 40px;  /* Fixed height */
+            display: flex;
+            align-items: center;  /* Center text vertically */
+            justify-content: center;  /* Center text horizontally */
+            white-space: nowrap;  /* Prevents the text from wrapping */
+            padding: 7px 14px; /* Add padding so that it will look good even when the text is small */
+            border-radius: 20px;  /* New: Add rounded corners */
+            border: 1px solid #2a2929; /* New: Add a border when not selected */
+        }
 
-label.check input:checked + span {
-    border-color: #19c20c;
-    background-color: #19c20c;
-    color: #fff;
-}
+        label.check input:checked + span {
+            border-color: #19c20c;
+            background-color: #19c20c;
+            color: #fff;
+        }
 
         label.no-gap .col-3 {
             margin-bottom: 0 !important;
@@ -318,6 +325,121 @@ label.check input:checked + span {
         }
 
 
+
+
+
+
+
+
+
+
+
+        .slider-ui {
+            position: relative;
+            width: 500px;
+            height: 50px;
+            margin: 70px 0;
+        }
+        .slider-ui input {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            cursor: pointer;
+            opacity: 0;
+        }
+        .slider-ui .bar {
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #000;
+            border-radius: 50px;
+            box-shadow: 0 5px 0 rgba(0,0,0,.1);
+        }
+        .slider-ui .min,
+        .slider-ui .max {
+            position: absolute;
+            z-index: 2;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .slider-ui .min {
+            left: 2%;
+        }
+        .slider-ui .max {
+            right: 2%;
+        }
+        .slider-ui .track {
+            position: absolute;
+            z-index: 3;
+            left: 25px;
+            right: 25px;
+            top: 0;
+            bottom: 0;
+        }
+        .slider-ui .value {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            background-color: #fff;
+            border: 4px solid #000;
+            border-radius: 100%;
+            box-sizing: border-box;
+            transform: translateX(-50%);
+            transition: top .3s ease-in-out, color .3s ease-in-out;
+        }
+        .slider-ui .value.up {
+            top: -110%;
+            color: #000;
+        }
+        .slider-ui.color1 .bar {
+            background-color: #00b894;
+        }
+        .slider-ui.color1 .value {
+            border-color: #00b894;
+        }
+        .slider-ui.color2 .bar {
+            background-color: #00cec9;
+        }
+        .slider-ui.color2 .value {
+            border-color: #00cec9;
+        }
+        .slider-ui.color3 .bar {
+            background-color: #0984e3;
+        }
+        .slider-ui.color3 .value {
+            border-color: #0984e3;
+        }
+
+
+
+        /* CSS */
+        .slider-ui-container .slider-ui {
+            position: relative;
+            width: 500px;
+            height: 50px;
+            margin: 70px 0;
+        }
+
+
+
+
+
     </style>
 
 </head>
@@ -366,25 +488,28 @@ label.check input:checked + span {
 
 
 
-<div class="filter section-padding">
+            <div class="filter section-padding">
 
-            <!-- IMDb Score Section -->
-            <div class="filter">  <!-- New section for IMDb Score -->
-                <h3>Min IMDb Score</h3>
+                <!-- IMDb Score Section -->
+                <div class="filter">  <!-- New section for IMDb Score -->
+                    <h3>Min IMDb Score</h3>
 
 
 
-                <!-- Min-Max Number Inputs -->
+                    <!-- Min-Max Number Inputs -->
                     <div class="k-form-field">
-                    <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+                    </div>
+
+                    <!-- Range Slider -->
+                    <div class="slider-ui-container">
+                        <input type="range" class="custom-slider" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
+                    </div>
+
+
                 </div>
 
-                <!-- Range Slider -->
-                <div class="col-12 text-center">
-                    <input type="range" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
-                </div>
             </div>
-                </div>
 
 
 
@@ -617,6 +742,8 @@ label.check input:checked + span {
     </div>
 
 
+
+
 </div>
 </div>
 
@@ -706,6 +833,42 @@ label.check input:checked + span {
         }
     }
 </script>
+
+
+
+<script>
+
+    const sliders = document.querySelectorAll(".slider-ui");
+
+    sliders.forEach(slider => {
+        let input = slider.querySelector("input[type=range]");
+        let min = input.getAttribute("min");
+        let max = input.getAttribute("max");
+        let valueElem = slider.querySelector(".value");
+
+        slider.querySelector(".min").innerText = min;
+        slider.querySelector(".max").innerText = max;
+
+        function setValueElem() {
+            valueElem.innerText = input.value;
+            let percent = (input.value - min) / (max - min) * 100;
+            valueElem.style.left = percent + "%";
+        }
+        setValueElem();
+
+        input.addEventListener("input", setValueElem);
+        input.addEventListener("mousedown", () => {
+            valueElem.classList.add("up");
+        });
+        input.addEventListener("mouseup", () => {
+            valueElem.classList.remove("up");
+        });
+    });
+
+
+</script>
+
+
 
 
 
