@@ -41,8 +41,8 @@
             box-sizing: border-box;
             box-shadow: 0 2px 8px rgba(0,0,0,.1);
             background-color: #fff;
-            min-width: 260px;
-            width: 260px;
+            min-width: 300px;
+            width: 300px;
             border: 1px solid #e3e3e3;
             border-radius: var(--imageBorderRadius);
             display: flex;
@@ -80,55 +80,87 @@
 
 
         /* Styling for IMDb Score Section */
-.form-control {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid var(--lightGrey);
-    border-radius: var(--imageBorderRadius);
-}
-
-/* Styling for IMDb Score Range Slider */
-input[type=range] {
-    width: 80%;
-    height: 8px;
-    background: var(--lightGrey);
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-    border-radius: var(--imageBorderRadius);
-}
-
-
-
-/* Styling for Dual-Ended Range Slider */
-        .slider-container {
-            position: relative;
-            width: 80%;
-            height: 30px;
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid var(--lightGrey);
+            border-radius: var(--imageBorderRadius);
         }
-        .slider-track {
-            position: absolute;
+
+        /* Styling for IMDb Score Range Slider */
+        input[type=range] {
             width: 80%;
             height: 8px;
             background: var(--lightGrey);
-            top: 50%;
-            transform: translateY(-50%);
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
             border-radius: var(--imageBorderRadius);
         }
-        .slider-thumb {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: var(--tmdbLightBlue);
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            border-radius: 50%;
+
+
+
+
+
+/* Existing classes and styles are kept as is */
+
+/* New class to make the elements inline-block */
+.col-3-inline.text-center {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+    margin-right: 10px;  /* Added some margin for spacing */
+}
+
+/* Ensure the row is block level to contain its inline-block children */
+.row.no-gap.mb-30 {
+    display: block;
+}
+
+
+
+
+        .mb-30{
+            margin-bottom: 15px;
         }
 
 
+        .card .card-body {
+            padding: 1.25rem 1.75rem;
+        }
+
+
+        label.no-gap .col-3 {
+            margin-bottom: 0 !important;
+        }
+
+        .no-gap > .col-3 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+
+
+
+
+
+
+        /* Add this new style to center the content inside .form-check */
+        .form-check {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    /* New class to make the elements inline-block with a width of 1.5 columns */
+    .col-1-5-inline.text-center {
+        display: inline-block;
+        width: calc(100% / 12 * 1.5);  /* Calculate the width for 1.5 columns */
+        text-align: center;
+        margin-right: 10px;  /* Added some margin for spacing */
+    }
 
 
 
@@ -185,79 +217,24 @@ input[type=range] {
 
 
 
-<div class="form-check"> <!-- .form-check style applied here -->
-    <label class="check"> <!-- .check style applied here -->
-        <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
-        <span>Action</span>
-    </label>
-</div>
-
-<div class="form-check"> <!-- .form-check style applied here -->
-    <label class="check"> <!-- .check style applied here -->
-        <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
-        <span>Adventure</span>
-    </label>
-</div>
-
-<div class="form-check"> <!-- .form-check style applied here -->
-    <label class="check"> <!-- .check style applied here -->
-        <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
-        <span>Animation</span>
-    </label>
-</div>
-
-
-
-<div class="form-check"> <!-- .form-check style applied here -->
-    <label class="check"> <!-- .check style applied here -->
-        <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
-        <span>Biography</span>
-    </label>
-</div>
-
-
-
-
-
-
-<div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
-
     <div class="form-check"> <!-- .form-check style applied here -->
         <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
-            <span>Comedy</span>
+            <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
+            <span>Action</span>
         </label>
     </div>
 
     <div class="form-check"> <!-- .form-check style applied here -->
         <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
-            <span>Crime</span>
+            <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
+            <span>Adventure</span>
         </label>
     </div>
 
     <div class="form-check"> <!-- .form-check style applied here -->
         <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
-            <span>Documentary</span>
-        </label>
-    </div>
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
-            <span>Drama</span>
-        </label>
-    </div>
-</div>
-
-
-
-<div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
-            <span>Fantasy</span>
+            <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
+            <span>Animation</span>
         </label>
     </div>
 
@@ -265,80 +242,168 @@ input[type=range] {
 
     <div class="form-check"> <!-- .form-check style applied here -->
         <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
-            <span>Horror</span>
+            <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
+            <span>Biography</span>
         </label>
     </div>
 
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
-            <span>Musical</span>
-        </label>
-    </div>
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
-            <span>Sci-Fi</span>
-        </label>
-    </div>
-    </div>
-
-
-<div class="col-3 text-center">
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
-            <span>Sport</span>
-        </label>
-    </div>
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
-            <span>Thriller</span>
-        </label>
-    </div>
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
-            <span>War</span>
-        </label>
-    </div>
-
-    <div class="form-check"> <!-- .form-check style applied here -->
-        <label class="check"> <!-- .check style applied here -->
-            <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
-            <span>Western</span>
-        </label>
-    </div>
-    </div>
 
 
 
 
 
+    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
 
-
-
-
-<!-- IMDb Score Section -->
-<div class="filter">  <!-- New section for IMDb Score -->
-    <h3>Min IMDb Score</h3>
-    <div class="row justify-content-center no-gap mb-30"> <!-- Existing classes applied -->
-
-
-        <!-- Min-Max Number Inputs -->
-        <div class="col-3 text-center">
-            <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
+                <span>Comedy</span>
+            </label>
         </div>
 
-        <!-- Range Slider -->
-        <div class="col-12 text-center">
-            <input type="range" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1">
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
+                <span>Crime</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
+                <span>Documentary</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
+                <span>Drama</span>
+            </label>
+        </div>
+    </div>
+
+
+
+    <div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
+                <span>Fantasy</span>
+            </label>
+        </div>
+
+
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
+                <span>Horror</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
+                <span>Musical</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
+                <span>Sci-Fi</span>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="col-3 text-center">
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
+                <span>Sport</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
+                <span>Thriller</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
+                <span>War</span>
+            </label>
+        </div>
+
+        <div class="form-check"> <!-- .form-check style applied here -->
+            <label class="check"> <!-- .check style applied here -->
+                <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
+                <span>Western</span>
+            </label>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- IMDb Score Section -->
+    <div class="filter">  <!-- New section for IMDb Score -->
+        <h3>Min IMDb Score</h3>
+
+        <div class="row justify-content-center no-gap mb-30"> <!-- Existing classes applied -->
+
+
+            <!-- Min-Max Number Inputs -->
+            <div class="col-3 text-center">
+                <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+            </div>
+
+            <!-- Range Slider -->
+            <div class="col-12 text-center">
+                <input type="range" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<div class="filter">  <!-- New section for Vote Count -->
+    <h3>Vote Count</h3>
+    <div class="k-form-field">
+        <select id="vote_count" name="vote_count" class="k-dropdown">
+            <!-- Populate options via JavaScript -->
+        </select>
+    </div>
+</div>
+
+<!-- Year Section -->
+<!-- Year Section -->
+<div class="filter">  <!-- New section for Year -->
+    <h3>Year</h3>
+                            <div class="col-3 text-center">
+
+
+
+
+<div class="col-1-5-inline text-center">  <!-- Modified class name -->
+            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+        </div>
+<div class="col-1-5-inline text-center">  <!-- Modified class name -->
+            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
         </div>
     </div>
 </div>
@@ -351,24 +416,71 @@ input[type=range] {
 <script>
 
 
-// JavaScript to sync IMDb score range slider with min-max number inputs
-document.addEventListener("DOMContentLoaded", function() {
-    const minInput = document.getElementById("imdb_score_min");
-    const maxInput = document.getElementById("imdb_score_max");
-    const rangeInput = document.getElementById("imdb_score_range");
 
-    // Update number inputs when the range slider changes
-    rangeInput.addEventListener("input", function() {
-        minInput.value = rangeInput.value;
+
+
+
+    // JavaScript to sync IMDb score range slider with min-max number inputs
+    document.addEventListener("DOMContentLoaded", function() {
+        const minInput = document.getElementById("imdb_score_min");
+        const maxInput = document.getElementById("imdb_score_max");
+        const rangeInput = document.getElementById("imdb_score_range");
+
+        // Update number inputs when the range slider changes
+        rangeInput.addEventListener("input", function() {
+            minInput.value = rangeInput.value;
+
+        });
+
+        // Update range slider when number inputs change
+        minInput.addEventListener("input", function() {
+            rangeInput.value = minInput.value;
+        });
+
+
+
+        // Get the dropdown element by its ID
+        const voteCountDropdown = document.getElementById("vote_count");
+
+        // Add the default option with a value of 0
+        let defaultOption = document.createElement("option");
+        defaultOption.value = 0;
+        defaultOption.innerHTML = "0";
+        voteCountDropdown.appendChild(defaultOption);
+
+        // Loop to populate the dropdown
+        // Starts from 25000 and goes up to 500000, incrementing by 25000 each time
+        for (let i = 25000; i <= 500000; i += 25000) {
+            // Create a new <option> element
+            let option = document.createElement("option");
+
+            // Set the value of the option to the current increment
+            option.value = i;
+
+            // Set the display text of the option
+            // Use toLocaleString() to add commas as thousands separators
+            option.innerHTML = i.toLocaleString();
+
+            // Append the option to the dropdown
+            voteCountDropdown.appendChild(option);
+        }
+
+
+
+
 
     });
 
-    // Update range slider when number inputs change
-    minInput.addEventListener("input", function() {
-        rangeInput.value = minInput.value;
-    });
 
-});
+
+
+
+
+
+
+
+
+
 
 </script>
 
