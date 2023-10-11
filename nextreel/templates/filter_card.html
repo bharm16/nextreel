@@ -56,7 +56,7 @@
         }
 
 
-         /* Styling for form field */
+        /* Styling for form field */
         .k-form-field {
             display: flex;
             align-items: center;  /* Vertically align radio and label */
@@ -67,35 +67,311 @@
             margin-right: 8px;  /* Add some space between radio and label */
         }
 
+
+        /* Styling for dropdown */
+        .k-dropdown {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: var(--imageBorderRadius);
+            width: 100%;  /* Make it full width within its container */
+            box-sizing: border-box;  /* Include padding and border in total width */
+        }
+
+
+
+        /* Styling for IMDb Score Section */
+.form-control {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid var(--lightGrey);
+    border-radius: var(--imageBorderRadius);
+}
+
+/* Styling for IMDb Score Range Slider */
+input[type=range] {
+    width: 80%;
+    height: 8px;
+    background: var(--lightGrey);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: var(--imageBorderRadius);
+}
+
+
+
+/* Styling for Dual-Ended Range Slider */
+        .slider-container {
+            position: relative;
+            width: 80%;
+            height: 30px;
+        }
+        .slider-track {
+            position: absolute;
+            width: 80%;
+            height: 8px;
+            background: var(--lightGrey);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: var(--imageBorderRadius);
+        }
+        .slider-thumb {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--tmdbLightBlue);
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+
+
+
+
     </style>
+
 </head>
+
+
 <body>
-    <!-- filter_card.html -->
-    <div class="filter_panel card">
-        <!-- Name Section -->
-        <div class="name" data-callback="filterCallback()">
-            <h2>Filters</h2>
-            <span class="glyphicons_v2 chevron-right"></span>
+
+
+<!-- filter_card.html -->
+<div class="filter_panel card">
+    <!-- Name Section -->
+    <div class="name" data-callback="filterCallback()">
+        <h2>Filters</h2>
+        <span class="glyphicons_v2 chevron-right"></span>
+    </div>
+
+    <!-- Show Me Filters -->
+    <div class="filter">
+        <h3>Show Me
+            <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
+        </h3>
+        <label class="k-form-field">
+            <input id="show_me_everything" class="k-radio" type="radio" name="show_me" value="0" checked="checked">
+            <label for="show_me_everything" class="k-radio-label">Everything</label>
+        </label>
+        <label class="k-form-field">
+            <input id="show_me_not_seen" class="k-radio" type="radio" value="1" name="show_me" disabled="">
+            <label for="show_me_not_seen" class="k-radio-label">Movies I Haven't Seen</label>
+        </label>
+        <label class="k-form-field">
+            <input id="show_me_seen" class="k-radio" type="radio" value="2" name="show_me" disabled="">
+            <label for="show_me_seen" class="k-radio-label">Movies I Have Seen</label>
+        </label>
+    </div>
+
+
+
+    <!-- Language Dropdown Added -->
+    <div class="k-form-field">
+        <label for="language">Language:</label>
+        <select id="language" name="language" class="k-dropdown">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <!-- Add more languages as needed -->
+        </select>
+    </div>
+
+
+
+
+
+
+<div class="form-check"> <!-- .form-check style applied here -->
+    <label class="check"> <!-- .check style applied here -->
+        <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
+        <span>Action</span>
+    </label>
+</div>
+
+<div class="form-check"> <!-- .form-check style applied here -->
+    <label class="check"> <!-- .check style applied here -->
+        <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
+        <span>Adventure</span>
+    </label>
+</div>
+
+<div class="form-check"> <!-- .form-check style applied here -->
+    <label class="check"> <!-- .check style applied here -->
+        <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
+        <span>Animation</span>
+    </label>
+</div>
+
+
+
+<div class="form-check"> <!-- .form-check style applied here -->
+    <label class="check"> <!-- .check style applied here -->
+        <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
+        <span>Biography</span>
+    </label>
+</div>
+
+
+
+
+
+
+<div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
+            <span>Comedy</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
+            <span>Crime</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
+            <span>Documentary</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
+            <span>Drama</span>
+        </label>
+    </div>
+</div>
+
+
+
+<div class="col-3 text-center"> <!-- .col-3 and .text-center styles applied here -->
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
+            <span>Fantasy</span>
+        </label>
+    </div>
+
+
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
+            <span>Horror</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
+            <span>Musical</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
+            <span>Sci-Fi</span>
+        </label>
+    </div>
+    </div>
+
+
+<div class="col-3 text-center">
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
+            <span>Sport</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
+            <span>Thriller</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
+            <span>War</span>
+        </label>
+    </div>
+
+    <div class="form-check"> <!-- .form-check style applied here -->
+        <label class="check"> <!-- .check style applied here -->
+            <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
+            <span>Western</span>
+        </label>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+<!-- IMDb Score Section -->
+<div class="filter">  <!-- New section for IMDb Score -->
+    <h3>Min IMDb Score</h3>
+    <div class="row justify-content-center no-gap mb-30"> <!-- Existing classes applied -->
+
+
+        <!-- Min-Max Number Inputs -->
+        <div class="col-3 text-center">
+            <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
         </div>
 
-        <!-- Show Me Filters -->
-        <div class="filter">
-            <h3>Show Me
-                <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
-            </h3>
-            <label class="k-form-field">
-                <input id="show_me_everything" class="k-radio" type="radio" name="show_me" value="0" checked="checked">
-                <label for="show_me_everything" class="k-radio-label">Everything</label>
-            </label>
-            <label class="k-form-field">
-                <input id="show_me_not_seen" class="k-radio" type="radio" value="1" name="show_me" disabled="">
-                <label for="show_me_not_seen" class="k-radio-label">Movies I Haven't Seen</label>
-            </label>
-            <label class="k-form-field">
-                <input id="show_me_seen" class="k-radio" type="radio" value="2" name="show_me" disabled="">
-                <label for="show_me_seen" class="k-radio-label">Movies I Have Seen</label>
-            </label>
+        <!-- Range Slider -->
+        <div class="col-12 text-center">
+            <input type="range" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1">
         </div>
     </div>
+</div>
+
+
+
+</div>
+
+
+<script>
+
+
+// JavaScript to sync IMDb score range slider with min-max number inputs
+document.addEventListener("DOMContentLoaded", function() {
+    const minInput = document.getElementById("imdb_score_min");
+    const maxInput = document.getElementById("imdb_score_max");
+    const rangeInput = document.getElementById("imdb_score_range");
+
+    // Update number inputs when the range slider changes
+    rangeInput.addEventListener("input", function() {
+        minInput.value = rangeInput.value;
+
+    });
+
+    // Update range slider when number inputs change
+    minInput.addEventListener("input", function() {
+        rangeInput.value = minInput.value;
+    });
+
+});
+
+</script>
+
+
 </body>
 </html>
