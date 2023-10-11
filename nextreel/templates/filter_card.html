@@ -334,98 +334,6 @@
 
 
 
-        .slider-ui {
-            position: relative;
-            width: 200px;
-            height: 50px;
-            margin: 20px 0;
-        }
-        .slider-ui input {
-            position: absolute;
-            z-index: 10;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-            cursor: pointer;
-            opacity: 0;
-        }
-        .slider-ui .bar {
-            position: absolute;
-            z-index: 1;
-            left: 0;
-            right: 0;
-            top: 15px;
-            bottom: 15px;
-            background-color: #000;
-            border-radius: 50px;
-            box-shadow: 0 5px 0 rgba(0,0,0,.1);
-        }
-        .slider-ui .min,
-        .slider-ui .max {
-            position: relative;
-            z-index: 2;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-        }
-        .slider-ui .min {
-            left: 2%;
-        }
-        .slider-ui .max {
-            right: 2%;
-        }
-        .slider-ui .track {
-            position: absolute;
-            z-index: 3;
-            left: 25px;
-            right: 25px;
-            top: 0;
-            bottom: 0;
-        }
-        .slider-ui .value {
-            position: relative;
-            left: 50%;
-            top: 0;
-            width: 40px;  /* Reduce the size of the handle */
-            height: 40px;  /* Reduce the size of the handle */
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-            background-color: #fff;
-            border: 4px solid #000;
-            border-radius: 100%;
-            box-sizing: border-box;
-            transform: translateX(-50%);
-            transition: top .3s ease-in-out, color .3s ease-in-out;
-        }
-        .slider-ui .value.up {
-            top: -110%;
-            color: #000;
-        }
-        .slider-ui.color1 .bar {
-            background-color: #00b894;
-        }
-        .slider-ui.color1 .value {
-            border-color: #00b894;
-        }
-        .slider-ui.color2 .bar {
-            background-color: #00cec9;
-        }
-        .slider-ui.color2 .value {
-            border-color: #00cec9;
-        }
-        .slider-ui.color3 .bar {
-            background-color: #0984e3;
-        }
-        .slider-ui.color3 .value {
-            border-color: #0984e3;
-        }
 
 
 
@@ -451,6 +359,15 @@
             margin-bottom: 0.5em;  /* Add a little bottom margin for spacing */
             text-align: left;  /* Align text to the left */
         }
+
+        /* New class to add a border line between sections */
+.section-border {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
+    margin-bottom: 20px; /* Add some bottom margin to give space below the border */
+    padding-bottom: 20px; /* Add some bottom padding to give space above the border */
+border-color: #101111;
+}
+
 
 
 
@@ -495,9 +412,7 @@
         <form action="/filtered_movie" method="post">
 
 
-
-
-            <div class="filter section-padding">
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
                 <!-- IMDb Score Section -->
                 <div class="filter">  <!-- New section for IMDb Score -->
                     <h3>Min IMDb Score</h3>
@@ -513,12 +428,7 @@
             </div>
 
 
-
-            <div class="filter section-padding">  <!-- IMDb Score Section -->
-
-
-
-
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
                 <div class="filter">  <!-- New section for Vote Count -->
                     <h3>Vote Count</h3>
                     <div class="k-form-field">
@@ -531,16 +441,11 @@
             </div>
 
 
-
-
-            <div class="filter section-padding">  <!-- IMDb Score Section -->
-
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
                 <!-- Year Section -->
                 <div class="filter">
                     <h3>Release Year</h3>
-
-
                     <div style="display: flex; flex-direction: row; justify-content: space-between;"> <!-- Inline style -->
                         <div style="width: 48%; text-align: center;"> <!-- Inline style -->
                             <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
@@ -554,7 +459,7 @@
 
 
 
-            <div class="filter section-padding">  <!-- IMDb Score Section -->
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
                 <div class="filter">  <!-- New section for Vote Count -->
                     <div class="genre-container">  <!-- New container for genre buttons -->
@@ -698,8 +603,7 @@
             </div>
 
 
-
-            <div class="filter section-padding">  <!-- IMDb Score Section -->
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
 
                 <div class="filter">
@@ -722,9 +626,7 @@
 
 
 
-
-
-            <div class="filter section-padding">  <!-- IMDb Score Section -->
+<div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
 
                 <!-- Moved 'Apply Filters' Button -->
@@ -735,12 +637,7 @@
                 </div>
             </div>
 
-
         </form>
-
-
-
-
 
 
     </div>
@@ -839,9 +736,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-
-
 
 
 
