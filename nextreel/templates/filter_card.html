@@ -235,7 +235,7 @@
         }
 
         /* New class to add a border line between sections */
-        .section-border {
+        .reset-margin-padding-left {
             border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
             margin-bottom: 20px; /* Add some bottom margin to give space below the border */
             padding-bottom: 20px; /* Add some bottom padding to give space above the border */
@@ -351,16 +351,16 @@ h2, h3 {
     height: 20px;
 }
 
-.custom-line {
+.no-padding-left {
     padding-left: 0 !important;  /* Use !important to ensure the style is applied */
 }
 
-.section-border, .section-border * {
+.reset-margin-padding-left, .reset-margin-padding-left * {
     padding-left: 0;
     margin-left: 0;
 }
 
-.movie-filter.card .section-border {
+.movie-filter.card .reset-margin-padding-left {
     padding-left: 0;
     margin-left: 0;
 }
@@ -408,7 +408,7 @@ h2, h3 {
         <form action="/filtered_movie" method="post">
 
 
-            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
+            <div class="filter section-padding reset-margin-padding-left">  <!-- Added the reset-margin-padding-left class -->
                 <!-- IMDb Score Section -->
                 <div class="filter">  <!-- New section for IMDb Score -->
                     <h3>Minimum IMDb Score</h3>
@@ -425,7 +425,7 @@ h2, h3 {
 
 
             <!-- Existing HTML for Vote Count -->
-<div class="filter section-padding section-border custom-line">
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <h3>Minimum User Votes</h3>
                 <div class="k-form-field">
                     <!-- Added HTML for Votes -->
@@ -437,7 +437,7 @@ h2, h3 {
 
 
             <!-- Release Year Section -->
-<div class="filter section-padding section-border custom-line">
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <h3>Release Year</h3>
                 <div class="year-row"> <!-- Removed inline style -->
 
@@ -460,7 +460,7 @@ h2, h3 {
 
 
 
-<div class="filter section-padding section-border custom-line">
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
 
                 <div class="filter">  <!-- New section for Vote Count -->
                     <div class="genre-container">  <!-- New container for genre buttons -->
@@ -604,7 +604,7 @@ h2, h3 {
             </div>
 
             <!-- Language Section -->
-<div class="filter section-padding section-border custom-line">
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <h3>Language</h3>
 
                     <!-- Here I replaced the previous <select> tag with the Bootstrap dropdown structure -->
@@ -627,7 +627,7 @@ h2, h3 {
 
 
 
-<div class="filter section-padding section-border custom-line">
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
 
 
                 <!-- Moved 'Apply Filters' Button -->
