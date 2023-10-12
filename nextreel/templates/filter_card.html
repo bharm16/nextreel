@@ -38,7 +38,7 @@
         }
 
         /* Styling for Filter Card */
-        .filter_panel.card {
+        .movie-filter.card {
             color: #000;
             font-family: "Source Sans Pro", Arial, sans-serif;
             font-size: 1em;
@@ -76,7 +76,7 @@
         }
 
         /* Styling for radio button */
-        .k-radio {
+        .radio-button {
             margin-right: 8px;  /* Add some space between radio and label */
         }
 
@@ -124,7 +124,7 @@
         }
 
 
-        .filter_panel.card .form-control {
+        .movie-filter.card .form-control {
             width: 95%; /* reduced from 100% to fit better */
         }
 
@@ -226,8 +226,8 @@
         }
 
         /* Custom styles for headers within the filter panel */
-        .filter_panel.card h2,
-        .filter_panel.card h3 {
+        .movie-filter.card h2,
+        .movie-filter.card h3 {
             font-size: 1.0em;  /* Adjust the font size */
             margin-top: 0;  /* Remove top margin */
     margin-bottom: 0.2em;  /* Reduced bottom margin for less space below the header */
@@ -285,7 +285,7 @@
             color: #ffffff;
         }
 
-        .dropdown-menu{
+        .language-menu{
             width: 200px;
             border: 2px solid #ffffff;
             color: #ffffff;
@@ -293,13 +293,13 @@
             transform: translate3d(0px, 50px, 0px) !important;
         }
 
-        .dropdown-item:focus, .dropdown-item:hover {
+        .language-item:focus, .language-item:hover {
             color: #101111;
             background-color: #ffffff;
             padding: 12px;
         }
 
-        .dropdown-item {
+        .language-item {
             display: block;
             width: 100%;
             padding: 12px;
@@ -360,7 +360,7 @@ h2, h3 {
     margin-left: 0;
 }
 
-.filter_panel.card .section-border {
+.movie-filter.card .section-border {
     padding-left: 0;
     margin-left: 0;
 }
@@ -377,7 +377,7 @@ h2, h3 {
 
 
 <!-- filter_card.html -->
-<div class="filter_panel card">
+<div class="movie-filter card">
     <!-- Name Section -->
     <div class="name" data-callback="filterCallback()">
         <h2>Filters</h2>
@@ -392,16 +392,16 @@ h2, h3 {
             <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
         </h3>
         <label class="k-form-field">
-            <input id="show_me_everything" class="k-radio" type="radio" name="show_me" value="0" checked="checked">
-            <label for="show_me_everything" class="k-radio-label">Everything</label>
+            <input id="show_me_everything" class="radio-button" type="radio" name="show_me" value="0" checked="checked">
+            <label for="show_me_everything" class="radio-button-label">Everything</label>
         </label>
         <label class="k-form-field">
-            <input id="show_me_not_seen" class="k-radio" type="radio" value="1" name="show_me" disabled="">
-            <label for="show_me_not_seen" class="k-radio-label">Movies I Haven't Seen</label>
+            <input id="show_me_not_seen" class="radio-button" type="radio" value="1" name="show_me" disabled="">
+            <label for="show_me_not_seen" class="radio-button-label">Movies I Haven't Seen</label>
         </label>
         <label class="k-form-field">
-            <input id="show_me_seen" class="k-radio" type="radio" value="2" name="show_me" disabled="">
-            <label for="show_me_seen" class="k-radio-label">Movies I Have Seen</label>
+            <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
+            <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
         </label>
 
         <!-- This is the main form where users can set filters for movies. -->
@@ -614,10 +614,10 @@ h2, h3 {
 
                             <i class="fa fa-caret-down"></i>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">English</a></li>
-                            <li><a class="dropdown-item" href="#">Spanish</a></li>
-                            <li><a class="dropdown-item" href="#">French</a></li>
+                        <ul class="language-menu" aria-labelledby="languageDropdownMenuButton">
+                            <li><a class="language-item" href="#">English</a></li>
+                            <li><a class="language-item" href="#">Spanish</a></li>
+                            <li><a class="language-item" href="#">French</a></li>
                             <!-- Add more languages here -->
                         </ul>
                     </div>
@@ -776,7 +776,7 @@ window.onload = function() {
   setDefaultLanguage();
 
   // Get all dropdown items
-  const dropdownItems = document.querySelectorAll('.dropdown-item');
+  const dropdownItems = document.querySelectorAll('.language-item');
 
   // Add click event listener to each item
   dropdownItems.forEach((item) => {

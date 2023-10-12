@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nextreel/templates/filter_card.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/filter_card.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
