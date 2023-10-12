@@ -263,7 +263,7 @@
 
 
         /* Styles for Bootstrap dropdown */
-        .dropdown-toggle{
+        .language-dropdown-toggle{
             width: 200px;
             display: flex;
             justify-content: space-between;
@@ -275,12 +275,12 @@
             background-color: white;
         }
 
-        .dropdown-toggle:focus{
+        .language-dropdown-toggle:focus{
             box-shadow: none !important;
             color: #ffffff;
         }
 
-        .dropdown-toggle::after {
+        .language-dropdown-toggle::after {
             display: none;
             color: #ffffff;
         }
@@ -332,7 +332,7 @@ h2, h3 {
 }
 
 /* Make the font size of the Language label the same as the Genre label */
-.dropdown-toggle span {
+.language-dropdown-toggle span {
     font-size: 1.0em; /* Match this with the font size of your genre labels */
 }
 
@@ -609,7 +609,7 @@ h2, h3 {
 
                     <!-- Here I replaced the previous <select> tag with the Bootstrap dropdown structure -->
                     <div class="dropdown">
-                        <button class="btn btn-outline-danger dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-danger language-dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                              <span id="selectedLanguage">Language</span> <!-- Add an ID here -->
 
                             <i class="fa fa-caret-down"></i>
