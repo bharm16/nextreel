@@ -54,8 +54,8 @@
             flex-wrap: wrap;
             justify-content: space-between;
             overflow: hidden;
-            margin-top: 12px;
-            margin-left: 6px;
+            margin-top: 30px;
+            margin-left: 50px;
 
             /* Add or modify this line */
             flex-direction: column;  /* Stack children vertically */
@@ -245,8 +245,8 @@
         }
 
         label.check input:checked + span {
-            border-color: #19c20c;
-            background-color: #19c20c;
+            border-color: #ffffff;
+            background-color: #1f8efa;
             color: #fff;
         }
 
@@ -298,8 +298,8 @@
 
         /* Add some padding to top and bottom of each section */
         .section-padding {
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         /* Alternatively, use margin to add space between sections */
@@ -359,7 +359,7 @@
         .filter_panel.card h3 {
             font-size: 1.0em;  /* Adjust the font size */
             margin-top: 0;  /* Remove top margin */
-            margin-bottom: 0.5em;  /* Add a little bottom margin for spacing */
+    margin-bottom: 0.2em;  /* Reduced bottom margin for less space below the header */
             text-align: left;  /* Align text to the left */
         }
 
@@ -369,6 +369,9 @@
             margin-bottom: 20px; /* Add some bottom margin to give space below the border */
             padding-bottom: 20px; /* Add some bottom padding to give space above the border */
             border-color: #101111;
+
+
+
         }
 
 
@@ -395,7 +398,7 @@
             justify-content: space-between;
             align-items: center;
             height: 50px;
-            border: 2px solid #19c20c;
+            border: 2px solid #ffffff;
             font-weight: 600;
             color: rgb(16, 17, 17);
             background-color: white;
@@ -413,7 +416,7 @@
 
         .dropdown-menu{
             width: 200px;
-            border: 2px solid #19c20c;
+            border: 2px solid #ffffff;
             color: #ffffff;
             padding: 0rem 0;
             transform: translate3d(0px, 50px, 0px) !important;
@@ -441,8 +444,8 @@ body {
 
 /* Consistent Spacing */
 .section-padding {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* Consistent Font for Headers */
@@ -475,6 +478,20 @@ h2, h3 {
     padding: 10px 30px; /* Bigger size: 15px padding top-bottom, 30px padding left-right */
     font-size: 16px; /* Font size */
     height: 20px;
+}
+
+.custom-line {
+    padding-left: 0 !important;  /* Use !important to ensure the style is applied */
+}
+
+.section-border, .section-border * {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.filter_panel.card .section-border {
+    padding-left: 0;
+    margin-left: 0;
 }
 
 
@@ -537,7 +554,7 @@ h2, h3 {
 
 
             <!-- Existing HTML for Vote Count -->
-            <div class="filter section-padding section-border">
+<div class="filter section-padding section-border custom-line">
                 <h3>Minimum User Votes</h3>
                 <div class="k-form-field">
                     <!-- Added HTML for Votes -->
@@ -549,7 +566,7 @@ h2, h3 {
 
 
             <!-- Release Year Section -->
-            <div class="filter section-padding section-border">
+<div class="filter section-padding section-border custom-line">
                 <h3>Release Year</h3>
                 <div class="year-row"> <!-- Removed inline style -->
 
@@ -572,7 +589,7 @@ h2, h3 {
 
 
 
-            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
+<div class="filter section-padding section-border custom-line">
 
                 <div class="filter">  <!-- New section for Vote Count -->
                     <div class="genre-container">  <!-- New container for genre buttons -->
@@ -716,7 +733,7 @@ h2, h3 {
             </div>
 
             <!-- Language Section -->
-            <div class="filter section-padding section-border">
+<div class="filter section-padding section-border custom-line">
                 <h3>Language</h3>
 
                     <!-- Here I replaced the previous <select> tag with the Bootstrap dropdown structure -->
@@ -739,7 +756,7 @@ h2, h3 {
 
 
 
-            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
+<div class="filter section-padding section-border custom-line">
 
 
                 <!-- Moved 'Apply Filters' Button -->
