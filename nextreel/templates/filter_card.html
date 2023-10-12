@@ -262,50 +262,6 @@
 
 
 
-        /* Styles for Bootstrap dropdown */
-        .language-dropdown-toggle{
-            width: 200px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-            border: 2px solid #ffffff;
-            font-weight: 600;
-            color: rgb(16, 17, 17);
-            background-color: white;
-        }
-
-        .language-dropdown-toggle:focus{
-            box-shadow: none !important;
-            color: #ffffff;
-        }
-
-        .language-dropdown-toggle::after {
-            display: none;
-            color: #ffffff;
-        }
-
-        .language-menu{
-            width: 200px;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            padding: 0rem 0;
-            transform: translate3d(0px, 50px, 0px) !important;
-        }
-
-        .language-item:focus, .language-item:hover {
-            color: #101111;
-            background-color: #ffffff;
-            padding: 12px;
-        }
-
-        .language-item {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            color: #ffffff;
-        }
-
 
         /* Default Font */
 body {
@@ -604,24 +560,28 @@ h2, h3 {
             </div>
 
             <!-- Language Section -->
+<!-- Filter container with padding adjustments -->
 <div class="filter section-padding reset-margin-padding-left no-padding-left">
-                <h3>Language</h3>
+    <h3>Language</h3>
 
-                    <!-- Here I replaced the previous <select> tag with the Bootstrap dropdown structure -->
-                    <div class="dropdown">
-                        <button class="btn btn-outline-danger language-dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                             <span id="selectedLanguage">Language</span> <!-- Add an ID here -->
-
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <ul class="language-menu" aria-labelledby="languageDropdownMenuButton">
-                            <li><a class="language-item" href="#">English</a></li>
-                            <li><a class="language-item" href="#">Spanish</a></li>
-                            <li><a class="language-item" href="#">French</a></li>
-                            <!-- Add more languages here -->
-                        </ul>
-                    </div>
-                </div>
+    <!-- Bootstrap dropdown structure -->
+    <div class="dropdown">
+        <!-- Improved button styling and accessibility features -->
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!-- ID added to dynamically change this text -->
+            <span id="selectedLanguage">Language</span>
+            <!-- Font Awesome down caret icon -->
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <!-- Menu list -->
+        <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+            <li><a class="dropdown-item language-item" href="#">English</a></li>
+            <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
+            <li><a class="dropdown-item language-item" href="#">French</a></li>
+            <!-- Add more languages here -->
+        </ul>
+    </div>
+</div>
 
 
 
