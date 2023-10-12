@@ -354,7 +354,7 @@
         /* Custom styles for headers within the filter panel */
         .filter_panel.card h2,
         .filter_panel.card h3 {
-            font-size: 1.2em;  /* Adjust the font size */
+            font-size: 1.0em;  /* Adjust the font size */
             margin-top: 0;  /* Remove top margin */
             margin-bottom: 0.5em;  /* Add a little bottom margin for spacing */
             text-align: left;  /* Align text to the left */
@@ -366,6 +366,20 @@
     margin-bottom: 20px; /* Add some bottom margin to give space below the border */
     padding-bottom: 20px; /* Add some bottom padding to give space above the border */
 border-color: #101111;
+}
+
+
+/* CSS to make the year-row stack its children vertically */
+.year-row {
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+/* CSS to make the year-col take full width and add some margin */
+.year-col {
+    width: 100% !important;
+    margin-bottom: 15px !important;
 }
 
 
@@ -440,22 +454,27 @@ border-color: #101111;
                 </div>
             </div>
 
+<!-- Release Year Section -->
+<div class="filter section-padding section-border">
+    <h3>Release Year</h3>
+    <div class="year-row"> <!-- Removed inline style -->
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
+        <!-- Minimum Year -->
+        <div class="year-col"> <!-- Removed inline style -->
+            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+            <!-- Min Year Slider -->
+            <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
+        </div>
 
-                <!-- Year Section -->
-                <div class="filter">
-                    <h3>Release Year</h3>
-                    <div style="display: flex; flex-direction: row; justify-content: space-between;"> <!-- Inline style -->
-                        <div style="width: 48%; text-align: center;"> <!-- Inline style -->
-                            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
-                        </div>
-                        <div style="width: 48%; text-align: center;"> <!-- Inline style -->
-                            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Maximum Year -->
+        <div class="year-col"> <!-- Removed inline style -->
+            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
+            <!-- Max Year Slider -->
+            <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -728,6 +747,43 @@ border-color: #101111;
             checkboxes[i].checked = source.checked;
         }
     }
+
+
+    // Function to link year input fields with their sliders
+function linkYearInputAndSlider() {
+    // Link Min Year
+    const minYearInput = document.getElementById("year_min");
+    const minYearSlider = document.getElementById("year_min_range");
+
+    // Link Max Year
+    const maxYearInput = document.getElementById("year_max");
+    const maxYearSlider = document.getElementById("year_max_range");
+
+    // Update Min Year input when the Min Year slider changes
+    minYearSlider.addEventListener("input", function() {
+        minYearInput.value = minYearSlider.value;
+    });
+
+    // Update Min Year slider when Min Year input changes
+    minYearInput.addEventListener("input", function() {
+        minYearSlider.value = minYearInput.value;
+    });
+
+    // Update Max Year input when the Max Year slider changes
+    maxYearSlider.addEventListener("input", function() {
+        maxYearInput.value = maxYearSlider.value;
+    });
+
+    // Update Max Year slider when Max Year input changes
+    maxYearInput.addEventListener("input", function() {
+        maxYearSlider.value = maxYearInput.value;
+    });
+}
+
+// Call the function to link year input fields with sliders
+linkYearInputAndSlider();
+
+
 </script>
 
 <!-- Importing required JavaScript libraries -->
