@@ -6,7 +6,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-
+    <!-- Add this line inside your <head> section -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     <style>
         /* Custom Variables */
@@ -89,8 +90,6 @@
             box-sizing: border-box;  /* Include padding and border in total width */
         }
 
-
-
         /* Styling for IMDb Score Section */
         .form-control {
             width: 100%;
@@ -113,9 +112,6 @@
         }
 
 
-
-
-
         /* Existing classes and styles are kept as is */
 
         /* New class to make the elements inline-block */
@@ -130,8 +126,6 @@
         .row.no-gap.mb-30 {
             display: block;
         }
-
-
 
 
         .mb-30{
@@ -153,7 +147,6 @@
             padding-right: 0 !important;
         }
 
-
         /* Override the width of the .col-3 within the .filter_panel.card to be 100% */
         .filter_panel.card .col-3.text-center {
             width: 100%;
@@ -163,8 +156,6 @@
         .col-1-5-inline.text-center {
             width: 50%;
         }
-
-
 
 
         /* Add this new style to center the content inside .form-check */
@@ -199,9 +190,6 @@
             white-space: nowrap;  /* Prevents the text from wrapping */
         }
 
-
-
-
         .container-fluid {
             display: flex;
             justify-content: center;
@@ -216,9 +204,6 @@
         }
 
 
-
-
-
         .filter_panel.card .row.no-gap.mb-30 {
             flex-direction: column;
         }
@@ -230,7 +215,6 @@
         .filter_panel.card .form-control {
             width: 95%; /* reduced from 100% to fit better */
         }
-
 
 
         label.check {
@@ -325,15 +309,34 @@
         }
 
 
+        /* Add this CSS to your existing <style> section */
 
+        /* Styling for vote input */
+        .form__label {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            margin-left: 2rem;
+            margin-top: 0.7rem;
+            display: block;
+            transition: all 0.3s;
+            transform: translateY(0rem);
+        }
 
-
-
-
-
-
-
-
+        .form__input {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            font-size: 1.0rem; /* Reduced font-size */
+            margin: 0 auto;
+            padding: 1.5rem 2rem; /* Padding might need to be adjusted if height is set */
+            border-radius: 0.2rem;
+            background-color: rgb(255, 255, 255);
+            border: none;
+            width: 90%;
+            display: block;
+            border-bottom: 0.3rem solid transparent;
+            transition: all 0.3s;
+            height: 2rem; /* Added height */
+        }
 
 
 
@@ -361,27 +364,118 @@
         }
 
         /* New class to add a border line between sections */
-.section-border {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
-    margin-bottom: 20px; /* Add some bottom margin to give space below the border */
-    padding-bottom: 20px; /* Add some bottom padding to give space above the border */
-border-color: #101111;
+        .section-border {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
+            margin-bottom: 20px; /* Add some bottom margin to give space below the border */
+            padding-bottom: 20px; /* Add some bottom padding to give space above the border */
+            border-color: #101111;
+        }
+
+
+        /* CSS to make the year-row stack its children vertically */
+        .year-row {
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+        }
+
+        /* CSS to make the year-col take full width and add some margin */
+        .year-col {
+            width: 100% !important;
+            margin-bottom: 15px !important;
+        }
+
+
+        /* Your existing styles... */
+
+        /* Styles for Bootstrap dropdown */
+        .dropdown-toggle{
+            width: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            border: 2px solid #19c20c;
+            font-weight: 600;
+            color: rgb(16, 17, 17);
+            background-color: white;
+        }
+
+        .dropdown-toggle:focus{
+            box-shadow: none !important;
+            color: #ffffff;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+            color: #ffffff;
+        }
+
+        .dropdown-menu{
+            width: 200px;
+            border: 2px solid #19c20c;
+            color: #ffffff;
+            padding: 0rem 0;
+            transform: translate3d(0px, 50px, 0px) !important;
+        }
+
+        .dropdown-item:focus, .dropdown-item:hover {
+            color: #101111;
+            background-color: #ffffff;
+            padding: 12px;
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            color: #ffffff;
+        }
+
+
+        /* Default Font */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+/* Consistent Spacing */
+.section-padding {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Consistent Font for Headers */
+h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
 }
 
 
-/* CSS to make the year-row stack its children vertically */
-.year-row {
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: center !important;
+/* Add a border to the User Votes input field */
+.form__input#num_votes_min {
+    border: 2px solid #ccc;
 }
 
-/* CSS to make the year-col take full width and add some margin */
-.year-col {
-    width: 100% !important;
-    margin-bottom: 15px !important;
+/* Make the font size of the Language label the same as the Genre label */
+.dropdown-toggle span {
+    font-size: 1.0em; /* Match this with the font size of your genre labels */
 }
 
+/* Setting the font-family and font-size for the selected language */
+#selectedLanguage {
+    font-family: 'Roboto', sans-serif; /* Same as the rest of your file */
+    font-size: 14px; /* Adjust this value to match the rest of your file */
+    font-weight: normal;  /* Explicitly setting font-weight to normal */
+
+}
+
+.btn.btn-primary {
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 30px; /* Bigger size: 15px padding top-bottom, 30px padding left-right */
+    font-size: 16px; /* Font size */
+    height: 20px;
+}
 
 
 
@@ -426,10 +520,10 @@ border-color: #101111;
         <form action="/filtered_movie" method="post">
 
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
+            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
                 <!-- IMDb Score Section -->
                 <div class="filter">  <!-- New section for IMDb Score -->
-                    <h3>Min IMDb Score</h3>
+                    <h3>Minimum IMDb Score</h3>
                     <!-- Min-Max Number Inputs -->
                     <div class="k-form-field">
                         <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
@@ -442,43 +536,43 @@ border-color: #101111;
             </div>
 
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
-                <div class="filter">  <!-- New section for Vote Count -->
-                    <h3>Vote Count</h3>
-                    <div class="k-form-field">
-                        <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
-                    </div>
-                    <div class="col-3 text-center">
-                        <input type="number" class="form-control" id="num_votes_max" name="num_votes_max" min="1" max="2000000">
+            <!-- Existing HTML for Vote Count -->
+            <div class="filter section-padding section-border">
+                <h3>Minimum User Votes</h3>
+                <div class="k-form-field">
+                    <!-- Added HTML for Votes -->
+                    <div class="form__group">
+                        <input type="number" class="form__input" id="num_votes_min" name="num_votes_min" min="0" value="100000">
                     </div>
                 </div>
             </div>
 
-<!-- Release Year Section -->
-<div class="filter section-padding section-border">
-    <h3>Release Year</h3>
-    <div class="year-row"> <!-- Removed inline style -->
 
-        <!-- Minimum Year -->
-        <div class="year-col"> <!-- Removed inline style -->
-            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
-            <!-- Min Year Slider -->
-            <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
-        </div>
+            <!-- Release Year Section -->
+            <div class="filter section-padding section-border">
+                <h3>Release Year</h3>
+                <div class="year-row"> <!-- Removed inline style -->
 
-        <!-- Maximum Year -->
-        <div class="year-col"> <!-- Removed inline style -->
-            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
-            <!-- Max Year Slider -->
-            <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
-        </div>
-    </div>
-</div>
+                    <!-- Minimum Year -->
+                    <div class="year-col"> <!-- Removed inline style -->
+                        <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+                        <!-- Min Year Slider -->
+                        <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
+                    </div>
+
+                    <!-- Maximum Year -->
+                    <div class="year-col"> <!-- Removed inline style -->
+                        <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
+                        <!-- Max Year Slider -->
+                        <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
+                    </div>
+                </div>
+            </div>
 
 
 
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
+            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
                 <div class="filter">  <!-- New section for Vote Count -->
                     <div class="genre-container">  <!-- New container for genre buttons -->
@@ -621,31 +715,31 @@ border-color: #101111;
                 </div>
             </div>
 
+            <!-- Language Section -->
+            <div class="filter section-padding section-border">
+                <h3>Language</h3>
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
+                    <!-- Here I replaced the previous <select> tag with the Bootstrap dropdown structure -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-danger dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                             <span id="selectedLanguage">Language</span> <!-- Add an ID here -->
 
-
-                <div class="filter">
-                    <h3>Language</h3>
-
-                    <!-- New section for Vote Count -->
-                    <div class="col-12 text-center">
-
-
-                        <select class="form-control language-dropdown" id="language" name="language">
-                            <option value="en">en</option>
-                            <option value="es">es</option>
-                            <option value="fr">fr</option>
-
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">Spanish</a></li>
+                            <li><a class="dropdown-item" href="#">French</a></li>
                             <!-- Add more languages here -->
-                        </select>
+                        </ul>
                     </div>
                 </div>
-            </div>
 
 
 
-<div class="filter section-padding section-border">  <!-- Added the section-border class -->
+
+
+            <div class="filter section-padding section-border">  <!-- Added the section-border class -->
 
 
                 <!-- Moved 'Apply Filters' Button -->
@@ -655,13 +749,9 @@ border-color: #101111;
                     </div>
                 </div>
             </div>
-
         </form>
 
-
     </div>
-
-
 
 
 </div>
@@ -750,38 +840,64 @@ border-color: #101111;
 
 
     // Function to link year input fields with their sliders
-function linkYearInputAndSlider() {
-    // Link Min Year
-    const minYearInput = document.getElementById("year_min");
-    const minYearSlider = document.getElementById("year_min_range");
+    function linkYearInputAndSlider() {
+        // Link Min Year
+        const minYearInput = document.getElementById("year_min");
+        const minYearSlider = document.getElementById("year_min_range");
 
-    // Link Max Year
-    const maxYearInput = document.getElementById("year_max");
-    const maxYearSlider = document.getElementById("year_max_range");
+        // Link Max Year
+        const maxYearInput = document.getElementById("year_max");
+        const maxYearSlider = document.getElementById("year_max_range");
 
-    // Update Min Year input when the Min Year slider changes
-    minYearSlider.addEventListener("input", function() {
-        minYearInput.value = minYearSlider.value;
-    });
+        // Update Min Year input when the Min Year slider changes
+        minYearSlider.addEventListener("input", function() {
+            minYearInput.value = minYearSlider.value;
+        });
 
-    // Update Min Year slider when Min Year input changes
-    minYearInput.addEventListener("input", function() {
-        minYearSlider.value = minYearInput.value;
-    });
+        // Update Min Year slider when Min Year input changes
+        minYearInput.addEventListener("input", function() {
+            minYearSlider.value = minYearInput.value;
+        });
 
-    // Update Max Year input when the Max Year slider changes
-    maxYearSlider.addEventListener("input", function() {
-        maxYearInput.value = maxYearSlider.value;
-    });
+        // Update Max Year input when the Max Year slider changes
+        maxYearSlider.addEventListener("input", function() {
+            maxYearInput.value = maxYearSlider.value;
+        });
 
-    // Update Max Year slider when Max Year input changes
-    maxYearInput.addEventListener("input", function() {
-        maxYearSlider.value = maxYearInput.value;
-    });
+        // Update Max Year slider when Max Year input changes
+        maxYearInput.addEventListener("input", function() {
+            maxYearSlider.value = maxYearInput.value;
+        });
+    }
+
+    // Call the function to link year input fields with sliders
+    linkYearInputAndSlider();
+
+
+    // This function sets the default language to English
+function setDefaultLanguage() {
+  // Get the element where the selected language is displayed
+  const languageSpan = document.getElementById('selectedLanguage');
+
+  // Set the default language to English
+  languageSpan.textContent = 'English';
 }
 
-// Call the function to link year input fields with sliders
-linkYearInputAndSlider();
+// Call the function to set the default language when the page loads
+window.onload = function() {
+  setDefaultLanguage();
+
+  // Get all dropdown items
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+  // Add click event listener to each item
+  dropdownItems.forEach((item) => {
+    item.addEventListener('click', function() {
+      // Update the button label when an item is clicked
+      document.getElementById('selectedLanguage').textContent = this.textContent;
+    });
+  });
+};
 
 
 </script>
@@ -792,7 +908,11 @@ linkYearInputAndSlider();
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 </body>
