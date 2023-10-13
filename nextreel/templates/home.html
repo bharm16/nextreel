@@ -64,14 +64,28 @@
     </style>
 </head>
 
+<<!-- ... (head and other parts) ... -->
+
 <body>
 
-{% include 'navbar.html' %}
+  {% include 'navbar.html' %}
 
+  <!-- Create a flex container to hold both sections -->
+  <div class="d-flex flex-row justify-content-start">
 
-{% include 'movie.html' %}
+    <!-- Separate container for filter_card.html -->
+    <div class="container" style="flex: 1;">
+      {% include 'filter_card.html' %}
+    </div>
 
+    <!-- Separate container for movie.html -->
+    <div class="container" style="flex: 2;">
+      {% include 'movie.html' %}
+    </div>
 
+  </div>
 
 </body>
+
 </html>
+
