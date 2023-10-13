@@ -38,9 +38,11 @@
 
 
             /* Add padding to the left side */
-            padding-left: 20px;  /* Adjust this value as needed */
+            padding-left: 0px;  /* Adjust this value as needed */
 
         }
+
+
 
 
         /* Styling for form field */
@@ -172,12 +174,13 @@
         }
 
 
+        /*  only controls minimum user votes input box   */
         .form__input {
             font-family: 'Roboto', sans-serif;
             color: #333;
             font-size: 1.0rem; /* Reduced font-size */
             margin: 0 auto;
-            padding: 1.5rem 2rem; /* Padding might need to be adjusted if height is set */
+            padding: 2.0rem 2rem; /* Padding might need to be adjusted if height is set */
             border-radius: 0.2rem;
             background-color: rgb(255, 255, 255);
             border: none;
@@ -186,6 +189,7 @@
             border-bottom: 0.3rem solid transparent;
             transition: all 0.3s;
             height: 2rem; /* Added height */
+
         }
 
 
@@ -200,8 +204,9 @@
         .movie-filter.card h3 {
             font-size: 1.0em;  /* Adjust the font size */
             margin-top: 0;  /* Remove top margin */
-    margin-bottom: 0.2em;  /* Reduced bottom margin for less space below the header */
+            margin-bottom: 0.2em;  /* Reduced bottom margin for less space below the header */
             text-align: left;  /* Align text to the left */
+            padding-left: 10px;
         }
 
         /* New class to add a border line between sections */
@@ -210,8 +215,6 @@
             margin-bottom: 20px; /* Add some bottom margin to give space below the border */
             padding-bottom: 20px; /* Add some bottom padding to give space above the border */
             border-color: #101111;
-
-
 
         }
 
@@ -227,6 +230,7 @@
         .year-col {
             width: 100% !important;
             margin-bottom: 15px !important;
+            padding-left: 10px;
         }
 
 
@@ -234,62 +238,52 @@
 
 
         /* Default Font */
-body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
 
-/* Consistent Spacing */
-.section-padding {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+        /* Consistent Spacing */
+        .section-padding {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
 
-/* Consistent Font for Headers */
-h2, h3 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2em;
-}
+        /* Consistent Font for Headers */
+        h2, h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2em;
+        }
 
 
-/* Add a border to the User Votes input field */
-.form__input#num_votes_min {
-    border: 2px solid #ccc;
-}
+        /* Add a border to the User Votes input field */
+        .form__input#num_votes_min {
+            border: 2px solid #ccc;
+        }
 
-/* Make the font size of the Language label the same as the Genre label */
-.language-dropdown-toggle span {
-    font-size: 1.0em; /* Match this with the font size of your genre labels */
-}
+        /* Make the font size of the Language label the same as the Genre label */
+        .language-dropdown-toggle span {
+            font-size: 1.0em; /* Match this with the font size of your genre labels */
+        }
 
-/* Setting the font-family and font-size for the selected language */
-#selectedLanguage {
-    font-family: 'Roboto', sans-serif; /* Same as the rest of your file */
-    font-size: 14px; /* Adjust this value to match the rest of your file */
-    font-weight: normal;  /* Explicitly setting font-weight to normal */
+        /* Setting the font-family and font-size for the selected language */
+        #selectedLanguage {
+            font-family: 'Roboto', sans-serif; /* Same as the rest of your file */
+            font-size: 14px; /* Adjust this value to match the rest of your file */
+            font-weight: normal;  /* Explicitly setting font-weight to normal */
 
-}
+        }
 
-.btn.btn-primary {
-    border-radius: 25px; /* Rounded corners */
-    padding: 10px 30px; /* Bigger size: 15px padding top-bottom, 30px padding left-right */
-    font-size: 16px; /* Font size */
-    height: 20px;
-}
+        .btn.btn-primary {
+            border-radius: 25px; /* Rounded corners */
+            padding: 10px 30px; /* Bigger size: 15px padding top-bottom, 30px padding left-right */
+            font-size: 16px; /* Font size */
+            height: 20px;
+                        display: inline-flex;  /* Make the container inline-flex */
 
-.no-padding-left {
-    padding-left: 0 !important;  /* Use !important to ensure the style is applied */
-}
+        }
 
-.reset-margin-padding-left, .reset-margin-padding-left * {
-    padding-left: 0;
-    margin-left: 0;
-}
 
-.movie-filter.card .reset-margin-padding-left {
-    padding-left: 0;
-    margin-left: 0;
-}
 
 
 
@@ -351,7 +345,7 @@ h2, h3 {
 
 
             <!-- Existing HTML for Vote Count -->
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
+            <div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <h3>Minimum User Votes</h3>
                 <div class="k-form-field">
                     <!-- Added HTML for Votes -->
@@ -363,7 +357,7 @@ h2, h3 {
 
 
             <!-- Release Year Section -->
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
+            <div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <h3>Release Year</h3>
                 <div class="year-row"> <!-- Removed inline style -->
 
@@ -386,7 +380,7 @@ h2, h3 {
 
 
 
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
+            <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
                 <div class="filter">  <!-- New section for Vote Count -->
                     <div class="genre-container">  <!-- New container for genre buttons -->
@@ -530,34 +524,34 @@ h2, h3 {
             </div>
 
             <!-- Language Section -->
-<!-- Filter container with padding adjustments -->
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
-    <h3>Language</h3>
+            <!-- Filter container with padding adjustments -->
+            <div class="filter section-padding reset-margin-padding-left no-padding-left">
+                <h3>Language</h3>
 
-    <!-- Bootstrap dropdown structure -->
-    <div class="dropdown">
-        <!-- Improved button styling and accessibility features -->
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <!-- ID added to dynamically change this text -->
-            <span id="selectedLanguage">Language</span>
-            <!-- Font Awesome down caret icon -->
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <!-- Menu list -->
-        <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
-            <li><a class="dropdown-item language-item" href="#">English</a></li>
-            <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
-            <li><a class="dropdown-item language-item" href="#">French</a></li>
-            <!-- Add more languages here -->
-        </ul>
-    </div>
-</div>
-
-
+                <!-- Bootstrap dropdown structure -->
+                <div class="dropdown">
+                    <!-- Improved button styling and accessibility features -->
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!-- ID added to dynamically change this text -->
+                        <span id="selectedLanguage">Language</span>
+                        <!-- Font Awesome down caret icon -->
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <!-- Menu list -->
+                    <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+                        <li><a class="dropdown-item language-item" href="#">English</a></li>
+                        <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
+                        <li><a class="dropdown-item language-item" href="#">French</a></li>
+                        <!-- Add more languages here -->
+                    </ul>
+                </div>
+            </div>
 
 
 
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+
+            <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
 
                 <!-- Moved 'Apply Filters' Button -->
@@ -573,7 +567,13 @@ h2, h3 {
 
 
 </div>
-</div>
+
+<!-- Include jQuery first if you need AJAX or other jQuery features -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then include Popper.js and Bootstrap JS or Bootstrap Bundle -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 <script>
@@ -693,44 +693,34 @@ h2, h3 {
 
 
     // This function sets the default language to English
-function setDefaultLanguage() {
-  // Get the element where the selected language is displayed
-  const languageSpan = document.getElementById('selectedLanguage');
+    function setDefaultLanguage() {
+        // Get the element where the selected language is displayed
+        const languageSpan = document.getElementById('selectedLanguage');
 
-  // Set the default language to English
-  languageSpan.textContent = 'English';
-}
+        // Set the default language to English
+        languageSpan.textContent = 'English';
+    }
 
-// Call the function to set the default language when the page loads
-window.onload = function() {
-  setDefaultLanguage();
+    // Call the function to set the default language when the page loads
+    window.onload = function() {
+        setDefaultLanguage();
 
-  // Get all dropdown items
-  const dropdownItems = document.querySelectorAll('.language-item');
+        // Get all dropdown items
+        const dropdownItems = document.querySelectorAll('.language-item');
 
-  // Add click event listener to each item
-  dropdownItems.forEach((item) => {
-    item.addEventListener('click', function() {
-      // Update the button label when an item is clicked
-      document.getElementById('selectedLanguage').textContent = this.textContent;
-    });
-  });
-};
+        // Add click event listener to each item
+        dropdownItems.forEach((item) => {
+            item.addEventListener('click', function() {
+                // Update the button label when an item is clicked
+                document.getElementById('selectedLanguage').textContent = this.textContent;
+            });
+        });
+    };
 
 
 </script>
 
 <!-- Importing required JavaScript libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 </body>
