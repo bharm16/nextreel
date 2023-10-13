@@ -63,6 +63,7 @@
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            padding-left: 20px;
         }
 
         /* Styling for IMDb Score Range Slider */
@@ -209,7 +210,10 @@
             padding-left: 10px;
         }
 
-        /* New class to add a border line between sections */
+
+
+
+        /* New class to add a border line between sections  border line   */
         .reset-margin-padding-left {
             border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
             margin-bottom: 20px; /* Add some bottom margin to give space below the border */
@@ -274,16 +278,27 @@
 
         }
 
-        .btn.btn-primary {
-            border-radius: 25px; /* Rounded corners */
-            padding: 10px 30px; /* Bigger size: 15px padding top-bottom, 30px padding left-right */
-            font-size: 16px; /* Font size */
-            height: 20px;
-                        display: inline-flex;  /* Make the container inline-flex */
+.btn.btn-primary {
+    /* Existing styles */
+    border-radius: 25px;
+    font-size: 16px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
 
-        }
+    /* New padding settings */
+    padding: 10px 40px;  /* 10px top-bottom, 40px left-right */
+}
+
+.button-container {
+    padding: 20px;  /* Add 20px padding to all sides of the container */
+}
 
 
+/* Generic padded-container class */
+.padded-container {
+    padding: 20px;  /* You can set the padding to any value you like */
+}
 
 
 
@@ -308,6 +323,10 @@
 
     <!-- Show Me Filters -->
     <div class="filter">
+
+                            <div class="padded-container">
+
+
         <h3>Show Me
             <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
         </h3>
@@ -323,6 +342,8 @@
             <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
             <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
         </label>
+                                            </div>
+
 
         <!-- This is the main form where users can set filters for movies. -->
         <form action="/filtered_movie" method="post">
@@ -330,6 +351,10 @@
 
             <div class="filter section-padding reset-margin-padding-left">  <!-- Added the reset-margin-padding-left class -->
                 <!-- IMDb Score Section -->
+
+                    <div class="padded-container">
+
+
                 <div class="filter">  <!-- New section for IMDb Score -->
                     <h3>Minimum IMDb Score</h3>
                     <!-- Min-Max Number Inputs -->
@@ -342,10 +367,15 @@
                     </div>
                 </div>
             </div>
+                                </div>
+
 
 
             <!-- Existing HTML for Vote Count -->
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+
+
                 <h3>Minimum User Votes</h3>
                 <div class="k-form-field">
                     <!-- Added HTML for Votes -->
@@ -526,6 +556,8 @@
             <!-- Language Section -->
             <!-- Filter container with padding adjustments -->
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+                <div class="padded-container">
                 <h3>Language</h3>
 
                 <!-- Bootstrap dropdown structure -->
@@ -545,25 +577,25 @@
                         <!-- Add more languages here -->
                     </ul>
                 </div>
-            </div>
+                                    </div>
 
+            </div>
 
 
 
 
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
-
-
                 <!-- Moved 'Apply Filters' Button -->
-                <div class="row mt-4 justify-content-center">
-                    <div class="col">
+
+                    <!-- Added the 'button-container' class for padding -->
+                    <div class="col button-container">
                         <button type="submit" class="btn btn-primary">Apply Filters</button>
                     </div>
                 </div>
-            </div>
-        </form>
 
+        </form>
     </div>
+
 
 
 </div>
