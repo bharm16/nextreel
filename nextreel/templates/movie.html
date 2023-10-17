@@ -23,7 +23,7 @@
         .container {
             background-color: #ffffff;
             padding: 30px;
-            {#border-radius: 12px;#}
+        {#border-radius: 12px;#}
             border-radius: 0;  /* Changed this line */
 
             box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
@@ -44,8 +44,8 @@
         .movie-poster {
             width: 100%;
             max-width: 400px;
-            border-radius: 12px;
-                border: none;  /* Add this line to remove the border */
+            border-radius: 0;
+            border: none;  /* Add this line to remove the border */
 
         }
         /* Info boxes */
@@ -89,7 +89,7 @@
             <div class="info-box">
                 <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
                 <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
-                 <div class="info-content" id="language">Language: {{ movie.languages }}</div> <!-- Added line -->
+                <div class="info-content" id="language">Language: {{ movie.languages }}</div> <!-- Added line -->
             </div>
             <div class="info-box">
                 <div class="info-title">Genres</div>
@@ -101,27 +101,27 @@
             </div>
 
 
-{#<div class="info-box">#}
-{#    <div class="info-title">Cast</div>#}
-{#    <div class="info-content">#}
-{#        {% set cast_list = movie.cast.split(", ") %}#}
-{#        {% for cast_member in cast_list %}#}
-{#            <a href="{{ url_for('get_movies_by_actor', actor_name=cast_member) }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>#}
-{#        {% endfor %}#}
-{#    </div>#}
-{#</div>#}
+            {#<div class="info-box">#}
+            {#    <div class="info-title">Cast</div>#}
+            {#    <div class="info-content">#}
+            {#        {% set cast_list = movie.cast.split(", ") %}#}
+            {#        {% for cast_member in cast_list %}#}
+            {#            <a href="{{ url_for('get_movies_by_actor', actor_name=cast_member) }}" class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>#}
+            {#        {% endfor %}#}
+            {#    </div>#}
+            {#</div>#}
 
 
 
-        <div class="info-box">
-    <div class="info-title">Cast</div>
-    <div class="info-content">
-        {% set cast_list = movie.cast.split(", ") %}
-        {% for cast_member in cast_list %}
-            <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
-        {% endfor %}
-    </div>
-</div>
+            <div class="info-box">
+                <div class="info-title">Cast</div>
+                <div class="info-content">
+                    {% set cast_list = movie.cast.split(", ") %}
+                    {% for cast_member in cast_list %}
+                        <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
+                    {% endfor %}
+                </div>
+            </div>
 
 
 
@@ -140,51 +140,51 @@
     </div>
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
-    <script>
-        function formatVotes() {
-            const voteElement = document.getElementById("votes");
-            console.log("Original text: " + voteElement.textContent); // debug line
+<script>
+    function formatVotes() {
+        const voteElement = document.getElementById("votes");
+        console.log("Original text: " + voteElement.textContent); // debug line
 
-            let votesText = voteElement.textContent.split(": ")[1];
-            votesText = parseInt(votesText).toLocaleString();
-            console.log("Formatted text: " + votesText); // debug line
+        let votesText = voteElement.textContent.split(": ")[1];
+        votesText = parseInt(votesText).toLocaleString();
+        console.log("Formatted text: " + votesText); // debug line
 
-            voteElement.textContent = "Votes: " + votesText;
-        }
-        console.log("Document loaded"); // debug line
-        formatVotes();
+        voteElement.textContent = "Votes: " + votesText;
+    }
+    console.log("Document loaded"); // debug line
+    formatVotes();
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const seenItButton = document.getElementById("seen-it-button");
-            seenItButton.addEventListener("click", function () {
-                const tconst = this.getAttribute("data-tconst");
-                fetch("/seen_it", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        tconst: tconst
-                    }),
-                    redirect: 'follow'  // Automatically follow redirects
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.href = response.url;  // Navigate to the new URL
-                    } else {
-                        alert("Failed to mark movie as seen!");
-                    }
-                }).catch(error => console.error("Error:", error));
+    document.addEventListener("DOMContentLoaded", function () {
+        const seenItButton = document.getElementById("seen-it-button");
+        seenItButton.addEventListener("click", function () {
+            const tconst = this.getAttribute("data-tconst");
+            fetch("/seen_it", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tconst: tconst
+                }),
+                redirect: 'follow'  // Automatically follow redirects
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;  // Navigate to the new URL
+                } else {
+                    alert("Failed to mark movie as seen!");
+                }
+            }).catch(error => console.error("Error:", error));
 
-
-            });
 
         });
 
-        // Capture the add-to-watchlist button and add a click event listener
+    });
+
+    // Capture the add-to-watchlist button and add a click event listener
 
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -211,6 +211,6 @@
     });
 
 
-    </script>
+</script>
 </body>
 </html>
