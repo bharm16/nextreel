@@ -69,21 +69,24 @@
 <body>
 
   {% include 'navbar.html' %}
+  {% include 'movie.html' %}
 
-  <!-- Create a flex container to hold both sections -->
-  <div class="d-flex flex-row justify-content-start">
 
+
+{#  <!-- Create a flex container to hold both sections -->#}
+{#  <div class="d-flex flex-row justify-content-start">#}
+{##}
 {#    <!-- Separate container for filter_card.html -->#}
 {#    <div class="container" style="flex: 1;">#}
 {#      {% include 'filter_card.html' %}#}
 {#    </div>#}
-
-    <!-- Separate container for movie.html -->
-    <div class="container" style="flex: 2;">
-      {% include 'movie.html' %}
-    </div>
-
-  </div>
+{##}
+{#    <!-- Separate container for movie.html -->#}
+{#    <div class="container" style="flex: 2;">#}
+{#      {% include 'movie.html' %}#}
+{#    </div>#}
+{##}
+{#  </div>#}
 
 </body>
 

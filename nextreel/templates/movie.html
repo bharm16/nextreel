@@ -101,6 +101,19 @@
             </div>
 
 
+<div class="info-box">
+    <div class="info-title">Cast</div>
+    <div class="info-content">
+        {{ movie.cast }}  <!-- Directly display the entire cast string -->
+    </div>
+</div>
+
+
+
+
+
+
+
             {#<div class="info-box">#}
             {#    <div class="info-title">Cast</div>#}
             {#    <div class="info-content">#}
@@ -113,16 +126,16 @@
 
 
 
-            <div class="info-box">
-                <div class="info-title">Cast</div>
-                <div class="info-content">
-                    {% set cast_list = movie.cast.split(", ") %}
-                    {% for cast_member in cast_list %}
-                        <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-
+            {#            <div class="info-box">#}
+            {#                <div class="info-title">Cast</div>#}
+            {#                <div class="info-content">#}
+            {#                    {% set cast_list = movie.cast.split(", ") %}#}
+            {#                    {% for cast_member in cast_list %}#}
+            {#                        <a class="btn btn-info btn-sm" role="button">{{ cast_member }}</a>#}
+            {#                    {% endfor %}#}
+            {#                </div>#}
+            {#            </div>#}
+            {##}
 
 
 

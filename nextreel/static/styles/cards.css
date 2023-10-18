@@ -60,7 +60,7 @@ main {
   transition: opacity 0.5s 0.1s ease-in;
 }
 .card:hover img {
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.8s ease-in;
   opacity: 1;
 }
 
