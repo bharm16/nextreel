@@ -135,6 +135,27 @@ def home():
     return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
+# Define a new route for /movie
+@app.route('/movie')
+def movie():
+    global should_logout_on_home_load
+    # Logout the user if the flag is set
+    if should_logout_on_home_load:
+        logout_user()
+        should_logout_on_home_load = False
+
+    # Fetch a movie from the global queue
+    # (consider adding additional logic here to ensure the movie is appropriate for the user)
+    movie_data = movie_queue.get()
+
+    # Update the global variable with the fetched movie data
+    global last_displayed_movie
+    last_displayed_movie = movie_data
+
+    # Render the movie.html template.
+    return render_template('movie.html', movie=movie_data, current_user=current_user)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
