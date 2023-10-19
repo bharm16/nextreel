@@ -16,24 +16,37 @@
             flex: 0 0 calc(50% - 1rem);
             max-width: calc(50% - 1rem);
         }
+
+        .icon-spacing {
+    margin-top: 20px;
+    margin-bottom: 20px;
+            padding-top: 40px;
+            padding-bottom: 20px;
+}
+
+
     </style>
 </head>
 <body>
 
 <!-- card_deck.html -->
+<!-- card_deck.html -->
 <div class="d-flex justify-content-between my-4">
     <!-- Suggest Me Movie Card -->
     <div class="card text-center half-width-card">
-        <i class="bi bi-stars text-success my-3" style="font-size:5rem"></i>
+        <!-- Replaced Bootstrap icon with Font Awesome icon -->
+        <i class="fa-solid fa-clapperboard fa-2xl my-3 icon-spacing" style="font-size:5rem"></i>
         <div class="card-body">
             <h5 class="card-title">Pick a Movie</h5>
-
-        <a class="btn btn-success btn-block mt-4" href="{{ url_for('movie') }}" role="button">Next Movie</a>
+            <a class="btn btn-success btn-block mt-4" href="{{ url_for('movie') }}" role="button">Next Movie</a>
         </div>
     </div>
+
+
+
     <!-- Filter Movies Card -->
     <div class="card text-center half-width-card">
-        <i class="bi bi-gear-fill text-success my-3" style="font-size:5rem"></i>
+        <i class="bi bi-gear-fill my-3" style="font-size:5rem"></i>
         <div class="card-body">
             <h5 class="card-title">Set Filters</h5>
 
@@ -41,6 +54,9 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://kit.fontawesome.com/ac5381aca9.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
