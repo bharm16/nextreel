@@ -29,3 +29,30 @@ body {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* Custom class for a transparent container */
+.transparent-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Custom class to center content */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom class for the header wrapper */
+.header-wrapper {
+  padding: 60px 0;  /* Vertical padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
