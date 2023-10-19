@@ -269,7 +269,7 @@ def next_movie():
         last_displayed_movie = next_movie_data
 
         # Redirect to the home page
-        return redirect(url_for('home'))
+        return redirect(url_for('movie'))
     else:
         # Return an error if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
@@ -284,7 +284,7 @@ def seen_it():
         tconst = last_displayed_movie.get("imdb_id")
         current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, last_displayed_movie,
                                                user_db_config)
-        return redirect(url_for('home'))
+        return redirect(url_for('movie'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
@@ -327,7 +327,7 @@ def add_to_watchlist():
         current_user.add_movie_to_watchlist(current_user.id, current_user.username, tconst, last_displayed_movie,
                                             user_db_config)
 
-        return redirect(url_for('home'))
+        return redirect(url_for('movie'))
     else:
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
