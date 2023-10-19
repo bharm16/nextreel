@@ -120,7 +120,7 @@
     <configuration name="header.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/header.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="movie.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/movie.html" useBuiltInWebServerPort="true">
+    <configuration name="movie_card.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/movie_card.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="user_watchlist.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/user_watchlist.html" useBuiltInWebServerPort="true">
@@ -133,7 +133,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -145,7 +145,7 @@
       <item itemvalue="Flask server.Flask (nextreel/app.py)" />
       <item itemvalue="JavaScript Debug.card_deck.html" />
       <item itemvalue="JavaScript Debug.header.html" />
-      <item itemvalue="JavaScript Debug.movie.html" />
+      <item itemvalue="JavaScript Debug.movie_card.html" />
       <item itemvalue="JavaScript Debug.user_watchlist.html" />
     </list>
     <recent_temporary>
@@ -153,7 +153,7 @@
         <item itemvalue="Flask server.Flask (nextreel/app.py)" />
         <item itemvalue="JavaScript Debug.card_deck.html" />
         <item itemvalue="JavaScript Debug.header.html" />
-        <item itemvalue="JavaScript Debug.movie.html" />
+        <item itemvalue="JavaScript Debug.movie_card.html" />
         <item itemvalue="JavaScript Debug.user_watchlist.html" />
       </list>
     </recent_temporary>
