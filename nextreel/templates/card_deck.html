@@ -28,7 +28,7 @@
         <div class="card-body">
             <h5 class="card-title">Suggest Me Movie</h5>
             <p class="card-text">Start the recommendation engine.</p>
-            <a class="btn btn-success btn-block mt-4" href="/next/" role="button">Next Movie</a>
+        <a class="btn btn-success btn-block mt-4" href="{{ url_for('next_movie') }}" role="button">Next Movie</a>
         </div>
     </div>
     <!-- Filter Movies Card -->
@@ -37,7 +37,7 @@
         <div class="card-body">
             <h5 class="card-title">Filter Movies</h5>
             <p class="card-text">Set filters according to your mood.</p>
-            <a class="btn btn-success btn-block mt-4" href="/set-your-filters/" role="button">Filters</a>
+        <a class="btn btn-success btn-block mt-4" href="{{ url_for('set_filters') }}" role="button">Filters</a>
         </div>
     </div>
 </div>
