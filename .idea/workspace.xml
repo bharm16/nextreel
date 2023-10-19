@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4db5d81d-d8bf-4828-bda8-dd9c9178aa58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nextreel/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/nextreel/templates/header.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +110,7 @@
       <recent name="$PROJECT_DIR$/tmdbsimple-master/static" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.card_deck.html">
+  <component name="RunManager" selected="Flask server.Flask (nextreel/app.py)">
     <configuration name="card_deck.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/nextreel/nextreel/templates/card_deck.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -147,8 +147,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.card_deck.html" />
         <item itemvalue="Flask server.Flask (nextreel/app.py)" />
+        <item itemvalue="JavaScript Debug.card_deck.html" />
         <item itemvalue="JavaScript Debug.header.html" />
         <item itemvalue="JavaScript Debug.movie.html" />
         <item itemvalue="JavaScript Debug.user_watchlist.html" />
