@@ -153,7 +153,7 @@ def movie():
     last_displayed_movie = movie_data
 
     # Render the movie_card.html template.
-    return render_template('movie_card.html', movie=movie_data, current_user=current_user)
+    return render_template('movie.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
