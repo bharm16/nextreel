@@ -1,0 +1,31 @@
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+.bg-cover {
+    background-size: cover !important;
+}
+
+
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+
+body {
+    min-height: 100vh;
+}
+
+/* Custom class to make certain elements span the entire width */
+.full-width-element {
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
+}

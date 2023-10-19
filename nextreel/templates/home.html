@@ -61,6 +61,19 @@
         .info-content {
             font-size: 1em;
         }
+
+
+        /* Custom class to make the header span the entire width of the page */
+.header-full-width {
+  width: 100%;           /* Full width */
+  padding: 0 !important; /* Override padding */
+  margin: 0 !important;  /* Override margin */
+  box-shadow: none;      /* Remove shadow */
+  border-radius: 0;      /* Remove rounded corners */
+}
+
+
+
     </style>
 </head>
 
@@ -68,8 +81,17 @@
 
 <body>
 
-  {% include 'navbar.html' %}
-  {% include 'movie.html' %}
+{% include 'navbar.html' %}
+
+  <!-- Make header span the whole page -->
+  <div class="container-fluid header-full-width">
+    {% include 'header.html' %}
+  </div>
+
+  <!-- Keep movie content in a constrained container -->
+  <div class="container">
+    {% include 'movie.html' %}
+  </div>
 
 
 
