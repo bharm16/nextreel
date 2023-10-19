@@ -7,8 +7,8 @@
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Include Bootstrap icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Include Font Awesome icons -->
+    <script src="https://kit.fontawesome.com/ac5381aca9.js" crossorigin="anonymous"></script>
 
     <style>
         /* Make the card take up half the width of the container */
@@ -17,46 +17,60 @@
             max-width: calc(50% - 1rem);
         }
 
+        /* Custom class for icon spacing */
         .icon-spacing {
-    margin-top: 20px;
-    margin-bottom: 20px;
-            padding-top: 40px;
-            padding-bottom: 20px;
-}
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
 
+        /* Custom class for 'Pick a Movie' icon color */
+        .icon-color-movie {
+            color: #1f8efa;
+        }
 
+        /* Custom class for 'Set Filters' icon color */
+        .icon-color-filter {
+            color: #1f8efa;
+        }
+
+        /* Custom class for 'Next Movie' button color */
+        .btn-next-movie {
+            background-color: #1f8efa;
+            color: white;
+        }
+
+        /* Custom class for 'Filters' button color */
+        .btn-set-filters {
+            background-color: #1f8efa;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
 <!-- card_deck.html -->
-<!-- card_deck.html -->
 <div class="d-flex justify-content-between my-4">
     <!-- Suggest Me Movie Card -->
     <div class="card text-center half-width-card">
-        <!-- Replaced Bootstrap icon with Font Awesome icon -->
-        <i class="fa-solid fa-clapperboard fa-2xl my-3 icon-spacing" style="font-size:5rem"></i>
+        <i class="fa-solid fa-clapperboard fa-2xl my-3 icon-spacing icon-color-movie" style="font-size:5rem"></i>
         <div class="card-body">
             <h5 class="card-title">Pick a Movie</h5>
-            <a class="btn btn-success btn-block mt-4" href="{{ url_for('movie') }}" role="button">Next Movie</a>
+            <!-- Added custom color class 'btn-next-movie' -->
+            <a class="btn btn-block mt-4 btn-next-movie" href="{{ url_for('movie') }}" role="button">Next Movie</a>
         </div>
     </div>
-
-
-
     <!-- Filter Movies Card -->
     <div class="card text-center half-width-card">
-        <i class="bi bi-gear-fill my-3" style="font-size:5rem"></i>
+        <i class="fa-solid fa-filter fa-2xl my-3 icon-spacing icon-color-filter" style="font-size:5rem"></i>
         <div class="card-body">
             <h5 class="card-title">Set Filters</h5>
-
-        <a class="btn btn-success btn-block mt-4" href="{{ url_for('set_filters') }}" role="button">Filters</a>
+            <!-- Added custom color class 'btn-set-filters' -->
+            <a class="btn btn-block mt-4 btn-set-filters" href="{{ url_for('set_filters') }}" role="button">Filters</a>
         </div>
     </div>
 </div>
-
-
-<script src="https://kit.fontawesome.com/ac5381aca9.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
