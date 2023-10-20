@@ -32,7 +32,14 @@
                 <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
             </a>
             <ul class="navbar-nav ml-auto">
+                <!-- Display "Set Filters" button always -->
+                <li class="nav-item">
+                    <a href="/setFilters" class="btn btn-custom">Set Filters</a>
+                </li>
+
+                <!-- Check if the user is authenticated -->
                 {% if current_user.is_authenticated %}
+                    <!-- Display user-specific menu if logged in -->
                     <li class="nav-item dropdown">
                         <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ current_user.username }}
@@ -45,20 +52,15 @@
                         </div>
                     </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a href="/setFilters" class="btn btn-custom">Set Filters</a>
-                    </li>
+                    <!-- Display general menu if not logged in -->
                     <li class="nav-item">
                         <a href="/login" class="btn btn-custom">Login</a>
                     </li>
-
+                    <!-- Display "Join Nextreel" button only when not logged in -->
+                    <li class="nav-item">
+                        <a href="/register" class="btn btn-custom">Join Nextreel</a>
+                    </li>
                 {% endif %}
-
-
-
-                <li class="nav-item">
-                    <a href="/register" class="btn btn-custom">Join Nextreel</a>
-                </li>
             </ul>
         </div>
     </div>
