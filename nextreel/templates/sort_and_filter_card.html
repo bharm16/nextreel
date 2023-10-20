@@ -736,6 +736,39 @@
         });
     };
 
+    window.onload = function() {
+
+
+    // Extracts query parameters from the URL
+function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    let obj = {};
+    for (const [key, value] of params.entries()) {
+        obj[key] = value;
+    }
+    return obj;
+}
+
+// Sets the input fields based on the query parameters
+function setFormValues(queryParams) {
+    // Loop through each query parameter and set the form input values
+    for (const [key, value] of Object.entries(queryParams)) {
+        const inputElement = document.getElementById(key);
+        if (inputElement) {
+            inputElement.value = value;
+        }
+    }
+}
+
+ // Get the query parameters from the URL
+    const queryParams = getQueryParams();
+
+    // Set the form values based on the query parameters
+    setFormValues(queryParams);
+};
+
+
+
 
 </script>
 
