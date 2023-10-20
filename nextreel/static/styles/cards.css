@@ -67,3 +67,35 @@ main {
 .material-symbols-outlined {
   vertical-align: middle;
 }
+
+/* Add these new styles */
+.card {
+    position: relative;
+}
+
+.card-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* ... existing styles ... */
+
+.card-content {
+    /* ... existing styles ... */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.eye-icon-container {
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .eye-icon-container {
+    opacity: 1;
+}
