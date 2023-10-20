@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/cards.css') }}">
+
+</head>
+<body>
+
+
+<!-- Poster container -->
+<div class="container">
+    <div class="row">
+        {% for detail in watched_movie_details %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card">
+                <img src="{{ detail.poster_url }}" alt="Poster" class="img-fluid">
+                <div class="card-content">
+                    <p>
+                        Title: {{ detail.title }}<br>
+                        Genre: {{ detail.genres }}<br>
+                        Directors: {{ detail.directors }}<br>
+                        Writers: {{ detail.writers }}<br>
+                        Runtime: {{ detail.runtimes }}<br>
+                        Rating: {{ detail.rating }}<br>
+                        Votes: {{ detail.votes }}
+                    </p>
+                    <a href="#" class="button">
+                        Find out more
+                        <span class="material-symbols-outlined">
+                            arrow_right_alt
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+</body>
+</html>
