@@ -14,9 +14,11 @@
     <div class="row">
         {% for detail in watched_movie_details %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
                 <div class="card">
                     <img src="{{ detail.poster_url }}" alt="Poster" class="img-fluid">
                     <div class="overlay"></div> <!-- This is the overlay -->
+
                     <div class="card-content">
                         <p>
                             {{ detail.title }}<br>
@@ -28,7 +30,11 @@
                             <i class="fas fa-bookmark fa-3x"></i>  <!-- This is the new bookmark icon -->
                         </a>
                     </div>
+
+
                 </div>
+
+
             </div>
         {% endfor %}
     </div>

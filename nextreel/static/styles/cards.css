@@ -67,24 +67,32 @@ main {
 .card p, .card a {
   position: absolute;
   opacity: 0;
-  max-width: 80%;
+  max-width: 90%;
   transition: opacity 0.3s ease-out;
+    text-align: center;
 }
 .card p {
   inset: auto auto 80px 30px;
+        text-align: center;
+
 }
 .card a {
   inset: auto auto 40px 30px;
   color: inherit;
-  text-decoration: none;
+        text-align: center;
+
 }
 .card:hover h2 {
   inset: auto auto 220px 30px;
   transition: inset 0.3s ease-out;
+        text-align: center;
+
 }
 .card:hover p, .card:hover a {
   opacity: 1;
   transition: opacity 0.5s 0.1s ease-in;
+        text-align: center;
+
 }
 .card:hover img {
   transition: opacity 0.8s ease-in;
@@ -95,10 +103,7 @@ main {
   vertical-align: middle;
 }
 
-/* Add these new styles */
-.card {
-    position: relative;
-}
+
 
 .card-footer {
     position: absolute;
@@ -117,15 +122,6 @@ main {
     justify-content: space-between;
 }
 
-.eye-icon-container {
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.card:hover .eye-icon-container {
-    opacity: 1;
-}
 
 
 .button i {
