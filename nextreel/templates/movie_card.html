@@ -137,11 +137,9 @@
             {#            </div>#}
             {##}
 
-
-            <form method="POST" action="/previous_movie" style="display: inline;">
-                <button type="submit" class="btn btn-custom">Previous Movie</button>
-            </form>
-
+<form method="POST" action="/previous_movie" style="display: inline;">
+    <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
+</form>
 
 
             <form method="POST" action="/next_movie" style="display: inline;">

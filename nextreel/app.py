@@ -114,80 +114,106 @@ def load_user(user_id):
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
 
-
 # Initialize two lists to act as stacks for previous and future movies
-previous_movies_stack = []
+
 future_movies_stack = []
+previous_movies_stack = []
+current_displayed_movie = None
 
 
 @app.route('/')
 def home():
-    global should_logout_on_home_load
+    return render_template('home.html')
+
+    # global should_logout_on_home_load
     # Logout the user if the flag is set
-    if should_logout_on_home_load:
-        logout_user()
-        should_logout_on_home_load = False
+    # if should_logout_on_home_load:
+    #     logout_user()
+    #     should_logout_on_home_load = False
 
     # Fetch a movie from the global queue
     # (consider adding additional logic here to ensure the movie is appropriate for the user)
-    movie_data = movie_queue.get()
+    # movie_data = movie_queue.get()
 
     # Update the global variable with the fetched movie data
-    global last_displayed_movie
-    last_displayed_movie = movie_data
+    # global last_displayed_movie
+    # last_displayed_movie = movie_data
 
     # Render the home page with the fetched movie data
-    return render_template('home.html', movie=movie_data, current_user=current_user)
+    # return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
-# Define a new route for /movie
+# Declare global stacks and variables
+previous_movies_stack = []
+future_movies_stack = []
+current_displayed_movie = None
+
+
 @app.route('/movie')
 def movie():
-    global should_logout_on_home_load
-    if should_logout_on_home_load:
-        logout_user()
-        should_logout_on_home_load = False
-
+    global current_displayed_movie
+    # Fetch the next movie from the queue
     current_movie_data = movie_queue.get()
+
+    # Update the global current_displayed_movie
+    current_displayed_movie = current_movie_data
 
     # Append the current displayed movie to the previous_movies_stack
     previous_movies_stack.append(current_movie_data)
 
-    global current_displayed_movie
-    current_displayed_movie = current_movie_data
-
-    return render_template('movie.html', movie=current_movie_data, current_user=current_user)
+    # Render the movie template, also passing the length of previous_movies_stack for UI control
+    return render_template('movie.html',
+                           movie=current_movie_data,
+                           current_user=current_user,
+                           previous_count=len(previous_movies_stack))
 
 
 @app.route('/previous_movie', methods=['GET', 'POST'])
 def previous_movie():
+    global current_displayed_movie, future_movies_stack  # Declare global variables
+
     # Append the current displayed movie to the future_movies_stack
-    future_movies_stack.append(current_displayed_movie)
+    if current_displayed_movie is not None:
+        future_movies_stack.append(current_displayed_movie)
 
-    try:
-        # Pop the previous movie from the previous_movies_stack
-        previous_movie_data = previous_movies_stack.pop()
+    # Pop the previous movie from previous_movies_stack
+    previous_movie_data = previous_movies_stack.pop()
 
-        # Render the page with the previous_movie_data
-        return render_template('movie.html', movie=previous_movie_data, current_user=current_user)
-    except IndexError:
-        return jsonify({'status': 'failure', 'message': 'No more previous movies'}), 400
+    # Update the current displayed movie
+    current_displayed_movie = previous_movie_data
+
+    # Render the movie template, also passing the length of previous_movies_stack for UI control
+    return render_template('movie.html',
+                           movie=previous_movie_data,
+                           current_user=current_user,
+                           previous_count=len(previous_movies_stack))
+
 
 @app.route('/next_movie', methods=['GET', 'POST'])
 def next_movie():
-    # Append the current displayed movie to the previous_movies_stack
-    previous_movies_stack.append(current_displayed_movie)
+    global current_displayed_movie  # Declare global variables
 
-    # If future_movies_stack is not empty, pop the next movie from it
+    # Append the current displayed movie to the previous_movies_stack
+    if current_displayed_movie is not None:
+        previous_movies_stack.append(current_displayed_movie)
+
+    next_movie_data = None
+
+    # Check if future_movies_stack has any movies to go forward to
     if future_movies_stack:
         next_movie_data = future_movies_stack.pop()
     else:
-        # If future_movies_stack is empty, fetch the next movie from movie_queue
+        # If no future movies, get a new movie from the queue
         next_movie_data = movie_queue.get()
 
-    # Render the page with the next_movie_data
-    return render_template('movie.html', movie=next_movie_data, current_user=current_user)
+    # Update the current displayed movie
+    current_displayed_movie = next_movie_data
 
+    # Render the movie template, also passing the length of previous_movies_stack for UI control
+    return render_template('movie.html',
+                           movie=next_movie_data,
+                           current_user=current_user,
+                           previous_count=len(previous_movies_stack))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -287,8 +313,6 @@ def filtered_movie_endpoint():
 
     # Render the template with the filtered movie
     return render_template('filtered_movies.html', movie=movie_data)
-
-
 
 
 # Assuming current_user is an instance of Account
