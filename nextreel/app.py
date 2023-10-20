@@ -312,7 +312,9 @@ def filtered_movie_endpoint():
     movie_data = movie.get_movie_data()
 
     # Render the template with the filtered movie
-    return render_template('filtered_movies.html', movie=movie_data)
+    # return render_template('filtered_movies.html', movie=movie_data)
+    return render_template('movie.html', movie=movie_data)
+
 
 
 # Assuming current_user is an instance of Account
