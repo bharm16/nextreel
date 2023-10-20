@@ -40,6 +40,19 @@
             /* Add padding to the left side */
             padding-left: 0px;  /* Adjust this value as needed */
 
+            /* New styles */
+            max-width: 90vw;
+            min-width: 300px;
+            flex: 1;
+            width: 100%;
+            overflow-y: auto;
+
+        }
+
+        @media (max-width: 768px) {
+            .movie-filter.card {
+                min-width: 100%;
+            }
         }
 
 
@@ -278,27 +291,27 @@
 
         }
 
-.btn.btn-primary {
-    /* Existing styles */
-    border-radius: 25px;
-    font-size: 16px;
-    height: 40px;
-    align-items: center;
-    justify-content: center;
+        .btn.btn-primary {
+            /* Existing styles */
+            border-radius: 25px;
+            font-size: 16px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
 
-    /* New padding settings */
-    padding: 10px 40px;  /* 10px top-bottom, 40px left-right */
-}
+            /* New padding settings */
+            padding: 10px 40px;  /* 10px top-bottom, 40px left-right */
+        }
 
-.button-container {
-    padding: 20px;  /* Add 20px padding to all sides of the container */
-}
+        .button-container {
+            padding: 20px;  /* Add 20px padding to all sides of the container */
+        }
 
 
-/* Generic padded-container class */
-.padded-container {
-    padding: 20px;  /* You can set the padding to any value you like */
-}
+        /* Generic padded-container class */
+        .padded-container {
+            padding: 20px;  /* You can set the padding to any value you like */
+        }
 
 
 
@@ -314,37 +327,34 @@
 <!-- filter_card.html -->
 <div class="movie-filter card">
     <!-- Name Section -->
-    <div class="name" data-callback="filterCallback()">
-        <h2>Filters</h2>
-        <span class="glyphicons_v2 chevron-right"></span>
-    </div>
+
 
 
 
     <!-- Show Me Filters -->
     <div class="filter">
-            <div class="filter section-padding reset-margin-padding-left no-padding-left">
+        <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
-                            <div class="padded-container">
+            <div class="padded-container">
 
 
-        <h3>Show Me
-            <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
-        </h3>
-        <label class="k-form-field">
-            <input id="show_me_everything" class="radio-button" type="radio" name="show_me" value="0" checked="checked">
-            <label for="show_me_everything" class="radio-button-label">Everything</label>
-        </label>
-        <label class="k-form-field">
-            <input id="show_me_not_seen" class="radio-button" type="radio" value="1" name="show_me" disabled="">
-            <label for="show_me_not_seen" class="radio-button-label">Movies I Haven't Seen</label>
-        </label>
-        <label class="k-form-field">
-            <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
-            <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
-        </label>
-                                            </div>
-                                </div>
+                <h3>Show Me
+                    <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
+                </h3>
+                <label class="k-form-field">
+                    <input id="show_me_everything" class="radio-button" type="radio" name="show_me" value="0" checked="checked">
+                    <label for="show_me_everything" class="radio-button-label">Everything</label>
+                </label>
+                <label class="k-form-field">
+                    <input id="show_me_not_seen" class="radio-button" type="radio" value="1" name="show_me" disabled="">
+                    <label for="show_me_not_seen" class="radio-button-label">Movies I Haven't Seen</label>
+                </label>
+                <label class="k-form-field">
+                    <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
+                    <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
+                </label>
+            </div>
+        </div>
 
 
 
@@ -355,22 +365,22 @@
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <!-- IMDb Score Section -->
 
-                    <div class="padded-container">
+                <div class="padded-container">
 
 
-                <div class="filter">  <!-- New section for IMDb Score -->
-                    <h3>Minimum IMDb Score</h3>
-                    <!-- Min-Max Number Inputs -->
-                    <div class="k-form-field">
-                        <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
-                    </div>
+                    <div class="filter">  <!-- New section for IMDb Score -->
+                        <h3>Minimum IMDb Score</h3>
+                        <!-- Min-Max Number Inputs -->
+                        <div class="k-form-field">
+                            <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+                        </div>
 
-                    <div class="slider-ui-container">
-                        <input type="range" class="custom-slider" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
+                        <div class="slider-ui-container">
+                            <input type="range" class="custom-slider" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
+                        </div>
                     </div>
                 </div>
             </div>
-                                </div>
 
 
 
@@ -378,15 +388,15 @@
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
 
-<div class="padded-container">
-                <h3>Minimum User Votes</h3>
-                <div class="k-form-field">
-                    <!-- Added HTML for Votes -->
+                <div class="padded-container">
+                    <h3>Minimum User Votes</h3>
+                    <div class="k-form-field">
+                        <!-- Added HTML for Votes -->
                         <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
                     </div>
 
-            </div>
                 </div>
+            </div>
 
 
             <!-- Release Year Section -->
@@ -561,26 +571,26 @@
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
                 <div class="padded-container">
-                <h3>Language</h3>
+                    <h3>Language</h3>
 
-                <!-- Bootstrap dropdown structure -->
-                <div class="dropdown">
-                    <!-- Improved button styling and accessibility features -->
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <!-- ID added to dynamically change this text -->
-                        <span id="selectedLanguage">Language</span>
-                        <!-- Font Awesome down caret icon -->
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <!-- Menu list -->
-                    <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
-                        <li><a class="dropdown-item language-item" href="#">English</a></li>
-                        <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
-                        <li><a class="dropdown-item language-item" href="#">French</a></li>
-                        <!-- Add more languages here -->
-                    </ul>
+                    <!-- Bootstrap dropdown structure -->
+                    <div class="dropdown">
+                        <!-- Improved button styling and accessibility features -->
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- ID added to dynamically change this text -->
+                            <span id="selectedLanguage">Language</span>
+                            <!-- Font Awesome down caret icon -->
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <!-- Menu list -->
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+                            <li><a class="dropdown-item language-item" href="#">English</a></li>
+                            <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
+                            <li><a class="dropdown-item language-item" href="#">French</a></li>
+                            <!-- Add more languages here -->
+                        </ul>
+                    </div>
                 </div>
-                                    </div>
 
             </div>
 
@@ -590,11 +600,11 @@
             <div class="filter section-padding reset-margin-padding-left no-padding-left">
                 <!-- Moved 'Apply Filters' Button -->
 
-                    <!-- Added the 'button-container' class for padding -->
-                    <div class="col button-container">
-                        <button type="submit" class="btn btn-primary">Apply Filters</button>
-                    </div>
+                <!-- Added the 'button-container' class for padding -->
+                <div class="col button-container">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
                 </div>
+            </div>
 
         </form>
     </div>
@@ -755,7 +765,6 @@
 
 </script>
 
-<!-- Importing required JavaScript libraries -->
 
 
 </body>

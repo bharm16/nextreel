@@ -4,31 +4,49 @@
     <meta charset="UTF-8">
     <title>Watched Movies</title>
 
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
+    <!-- Custom CSS to apply Flexbox -->
+    <style>
+        /* Define a flex container */
+        .flex-container {
+            display: flex;
+            flex-direction: row;  /* Align children horizontally */
+        }
+
+        /* Styling for the filter card container */
+        .filter-card-container {
+            flex: 1;  /* Take up 1 part of the available space */
+            /* You can also set a fixed width like width: 200px; */
+        }
+
+        /* Styling for the watched movie cards container */
+        .watched-movie-cards-container {
+            flex: 3;  /* Take up 3 parts of the available space */
+        }
 
 
 
-
+    </style>
 
 </head>
-
-
-
-
-
-
 <body>
-{% include 'navbar.html' %}
-        {% include 'watched_movie_cards.html' %}
+    {% include 'navbar.html' %}
 
+    <!-- Wrap the filter card and watched movie cards in a flex container -->
+    <div class="flex-container">
 
+        <!-- Include the filter card inside its container -->
+        <div class="filter-card-container">
+            {% include 'filter_card.html' %}
+        </div>
 
+        <!-- Include the watched movie cards inside its container -->
+        <div class="watched-movie-cards-container">
+            {% include 'watched_movie_cards.html' %}
+        </div>
 
-
-
-
+    </div>  <!-- End of flex-container -->
 
 </body>
 </html>
