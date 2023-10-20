@@ -18,6 +18,31 @@ main {
   box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Ensure these elements are above the overlay */
+.card h2, .card p, .card a, .card-content {
+    z-index: 2;
+    position: relative;
+}
+
+
+/* New overlay styles */
+.overlay {
+    position: absolute; /* Position it over the image */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    z-index: 1; /* Make sure it's above the image */
+}
+
+/* Modified existing styles */
+.card-content, .card a, .card p {
+    /* ... other styles ... */
+    z-index: 2; /* Make sure text and content are above the overlay */
+    position: relative; /* This is needed to make z-index work */
+}
+
 .card img {
   position: absolute;
   object-fit: cover;
@@ -27,6 +52,8 @@ main {
   left: 0;
   opacity: 0.9;
   transition: opacity 0.2s ease-out;
+        z-index: 0; /* Make sure it's below the overlay */
+
 }
 .card h2 {
   position: absolute;
@@ -61,7 +88,7 @@ main {
 }
 .card:hover img {
   transition: opacity 0.8s ease-in;
-  opacity: 1;
+  opacity: 1;  /* Lower value to make darker */
 }
 
 .material-symbols-outlined {
