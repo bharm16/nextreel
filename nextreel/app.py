@@ -115,6 +115,11 @@ def load_user(user_id):
 global last_displayed_movie
 
 
+# Initialize two lists to act as stacks for previous and future movies
+previous_movies_stack = []
+future_movies_stack = []
+
+
 @app.route('/')
 def home():
     global should_logout_on_home_load
@@ -139,41 +144,50 @@ def home():
 @app.route('/movie')
 def movie():
     global should_logout_on_home_load
-    # Logout the user if the flag is set
     if should_logout_on_home_load:
         logout_user()
         should_logout_on_home_load = False
 
-    # Fetch a movie from the global queue
-    # (consider adding additional logic here to ensure the movie is appropriate for the user)
-    movie_data = movie_queue.get()
+    current_movie_data = movie_queue.get()
 
-    # Update the global variable with the fetched movie data
-    global last_displayed_movie
-    last_displayed_movie = movie_data
+    # Append the current displayed movie to the previous_movies_stack
+    previous_movies_stack.append(current_movie_data)
 
-    # Render the movie_card.html template.
-    return render_template('movie.html', movie=movie_data, current_user=current_user)
+    global current_displayed_movie
+    current_displayed_movie = current_movie_data
+
+    return render_template('movie.html', movie=current_movie_data, current_user=current_user)
 
 
-# Route to load the next movie from the queue
+@app.route('/previous_movie', methods=['GET', 'POST'])
+def previous_movie():
+    # Append the current displayed movie to the future_movies_stack
+    future_movies_stack.append(current_displayed_movie)
+
+    try:
+        # Pop the previous movie from the previous_movies_stack
+        previous_movie_data = previous_movies_stack.pop()
+
+        # Render the page with the previous_movie_data
+        return render_template('movie.html', movie=previous_movie_data, current_user=current_user)
+    except IndexError:
+        return jsonify({'status': 'failure', 'message': 'No more previous movies'}), 400
+
 @app.route('/next_movie', methods=['GET', 'POST'])
 def next_movie():
-    global last_displayed_movie  # Use the global variable to get the last displayed movie
+    # Append the current displayed movie to the previous_movies_stack
+    previous_movies_stack.append(current_displayed_movie)
 
-    # If there is a last displayed movie, just replace it with the next one from the queue
-    if last_displayed_movie:
-        # Get the next movie from the queue
+    # If future_movies_stack is not empty, pop the next movie from it
+    if future_movies_stack:
+        next_movie_data = future_movies_stack.pop()
+    else:
+        # If future_movies_stack is empty, fetch the next movie from movie_queue
         next_movie_data = movie_queue.get()
 
-        # Update the global variable with the new movie data
-        last_displayed_movie = next_movie_data
+    # Render the page with the next_movie_data
+    return render_template('movie.html', movie=next_movie_data, current_user=current_user)
 
-        # Redirect to the home page
-        return redirect(url_for('movie'))
-    else:
-        # Return an error if no movies are in the queue
-        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
 @app.route('/login', methods=['GET', 'POST'])
