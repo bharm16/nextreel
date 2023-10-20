@@ -16,17 +16,25 @@
             background-color: #1f8efa;
         }
 
-        /* Making the navbar sticky at the top */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;  /* Ensure navbar is above the content */
+.navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+
+}
+
+        /* Reset body margin-top */
+        body {
+            margin-top: 0 !important;
         }
+
+
+
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <a href="{{ url_for('home') }}">
                 <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
@@ -71,7 +79,7 @@
 
                 {% endif %}
             </ul>
-        </div>
+
     </div>
 </nav>
 </body>
