@@ -9,11 +9,13 @@
     <!-- Custom CSS to apply Flexbox -->
     <style>
         /* Define a flex container */
-        .flex-container {
-            display: flex;
-            flex-direction: row;  /* Align children horizontally */
-        }
-
+     .flex-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;  /* Sets the maximum width */
+    max-height: 100vh;  /* Sets the maximum height to the viewport height */
+    overflow: auto;  /* Allows scrolling if content overflows */
+  }
         /* Styling for the filter card container */
         .filter-card-container {
             flex: 1;  /* Take up 1 part of the available space */
@@ -75,10 +77,11 @@
                 </select>
             </div>
 
-            <!-- Include the watched movie cards inside its container -->
-            <div class="watched-movie-cards-container">
-                {% include 'watched_movie_cards.html' %}
-            </div>
+<!-- Include the watched movie cards inside its container -->
+<div class="watched-movie-cards-container flex-container">
+    {% include 'watched_movie_cards.html' %}
+</div>
+
         </div>
     </div>
 

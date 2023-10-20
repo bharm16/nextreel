@@ -34,6 +34,8 @@ main {
     height: 100%;
     background: rgba(0, 0, 0, 0.5); /* Black background with opacity */
     z-index: 1; /* Make sure it's above the image */
+            text-align: center;
+
 }
 
 /* Modified existing styles */
@@ -57,7 +59,7 @@ main {
 }
 .card h2 {
   position: absolute;
-  inset: auto auto 30px 30px;
+  /*inset: auto auto 30px 30px;*/
   margin: 0;
   transition: inset 0.3s 0.3s ease-out;
   font-family: "Roboto Condensed", sans-serif;
@@ -72,9 +74,10 @@ main {
     text-align: center;
 }
 .card p {
-  inset: auto auto 80px 30px;
-        text-align: center;
-
+  position: absolute;  /* Required for 'inset' to work */
+  inset: 50% auto auto 50%;  /* Center top-left corner of the element to the center of its parent */
+  transform: translate(-50%, -50%);  /* Move back by half of its own width and height */
+  text-align: center;  /* Center the text within the element */
 }
 .card a {
   inset: auto auto 40px 30px;
