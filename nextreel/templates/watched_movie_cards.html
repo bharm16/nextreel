@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <!-- Add Font Awesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/cards.css') }}">
-
 </head>
 <body>
 
@@ -20,33 +17,35 @@
                 <div class="card">
                     <img src="{{ detail.poster_url }}" alt="Poster" class="img-fluid">
                     <div class="overlay"></div> <!-- This is the overlay -->
-
                     <div class="card-content">
                         <p>
-                            Title: {{ detail.title }}<br>
-                            Genre: {{ detail.genres }}<br>
-                            Directors: {{ detail.directors }}<br>
-                            Writers: {{ detail.writers }}<br>
-                            Runtime: {{ detail.runtimes }}<br>
-                            Rating: {{ detail.rating }}<br>
-                            Votes: {{ detail.votes }}
+                            {{ detail.title }}<br>
+                            {{ detail.rating }}<br>
+                            <span class="votes">{{ detail.votes }}</span>  <!-- Added a class to identify the element -->
                         </p>
                         <a href="#" class="button">
                             <i class="fas fa-eye fa-3x"></i>
                             <i class="fas fa-bookmark fa-3x"></i>  <!-- This is the new bookmark icon -->
-
                         </a>
-
-
                     </div>
-
-            </div>
-
-
+                </div>
             </div>
         {% endfor %}
+    </div>
 </div>
-</div>
+
+<script>
+    // Get all elements with the class 'votes'
+    const votesElements = document.querySelectorAll('.votes');
+
+    // Iterate over the NodeList and update the innerText
+    votesElements.forEach(el => {
+        const count = parseInt(el.innerText, 10);  // Parse the vote count to an integer
+        if (count >= 1000) {
+            el.innerText = (count / 1000).toFixed(0) + 'k';  // Convert to 'k' representation
+        }
+    });
+</script>
 
 </body>
 </html>
