@@ -83,7 +83,7 @@ def account_settings():
 
 from flask import request, render_template, flash
 from flask_login import login_required, current_user
-from nextreel.scripts.sort_and_filter import sort_movies  # Import the sorting function
+from nextreel.scripts.sort_and_filter import sort_movies, get_filtered_watched_movies  # Import the sorting function
 
 
 @app.route('/watched_movies')
@@ -94,6 +94,22 @@ def watched_movies():
 
     # Fetch all watched movie details for the current user
     watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
+
+    imdb_score_min = request.args.get('imdb_score_min', default=None, type=float)
+    num_votes_min = request.args.get('num_votes_min', default=None, type=int)
+
+    genres = request.args.getlist('genres[]')  # Fetch multiple genre options
+    language = request.args.get('selectedLanguage', default=None, type=str)
+
+    # Fetch all watched movie details for the current user with filters
+    watched_movie_details = get_filtered_watched_movies(
+        user_db_config,
+        current_user.id,
+        imdb_score_min=imdb_score_min,
+        num_votes_min=num_votes_min,
+        genres=genres,
+        language=language
+    )
 
     # Get the sorting criteria from query parameters
     sort_by = request.args.get('sort_by', default='tconst', type=str)

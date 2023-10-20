@@ -334,30 +334,9 @@
 
 
             <!-- This is the main form where users can set filters for movies. -->
-            <form action="/filtered_movie" method="post">
-
-                         <div class="filter section-padding reset-margin-padding-left no-padding-left">
-
-                <div class="padded-container">
+<form action="/watched_movies" method="get">
 
 
-                    <h3>Show Me
-                        <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
-                    </h3>
-                    <label class="k-form-field">
-                        <input id="show_me_everything" class="radio-button" type="radio" name="show_me" value="0" checked="checked">
-                        <label for="show_me_everything" class="radio-button-label">Everything</label>
-                    </label>
-                    <label class="k-form-field">
-                        <input id="show_me_not_seen" class="radio-button" type="radio" value="1" name="show_me" disabled="">
-                        <label for="show_me_not_seen" class="radio-button-label">Movies I Haven't Seen</label>
-                    </label>
-                    <label class="k-form-field">
-                        <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
-                        <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
-                    </label>
-                </div>
-            </div>
 
 
                 <div class="filter section-padding reset-margin-padding-left no-padding-left">
@@ -393,12 +372,14 @@
 
                     </div>
                 </div>
-                 </form>
+
 
 
 
       <!-- Release Year Section -->
                 <div class="filter section-padding reset-margin-padding-left no-padding-left">
+                                        <div class="padded-container">
+
                     <h3>Release Year</h3>
                     <div class="year-row"> <!-- Removed inline style -->
 
@@ -417,6 +398,7 @@
                         </div>
                     </div>
                 </div>
+                        </div>
 
 
 
@@ -601,6 +583,8 @@
         <button type="submit" class="btn btn-primary">Apply Filters</button>
     </div>
 </div>
+
+                     </form>
 
 
 <!-- Include jQuery first if you need AJAX or other jQuery features -->
