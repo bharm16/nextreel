@@ -81,6 +81,11 @@ def account_settings():
     return render_template('user_account_settings.html')
 
 
+from flask import request, render_template, flash
+from flask_login import login_required, current_user
+from nextreel.scripts.sort_and_filter import sort_movies  # Import the sorting function
+
+
 @app.route('/watched_movies')
 @login_required
 def watched_movies():
@@ -90,11 +95,13 @@ def watched_movies():
     # Fetch all watched movie details for the current user
     watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
 
-    # Sort the list by tconst
-    if watched_movie_details:  # Check if the list is not None or empty
-        watched_movie_details.sort(key=lambda x: x['tconst'])
+    # Get the sorting criteria from query parameters
+    sort_by = request.args.get('sort_by', default='tconst', type=str)
 
-    if watched_movie_details is None:
+    # Sort the movies using the imported function
+    watched_movie_details = sort_movies(watched_movie_details, sort_by)
+
+    if watched_movie_details is None or len(watched_movie_details) == 0:
         flash("No watched movies found for this user.")
 
     return render_template('watched_movies.html', watched_movie_details=watched_movie_details)

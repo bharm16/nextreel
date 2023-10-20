@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sort By Options</title>
+</head>
+<body>
+
+    <!-- Create a dropdown menu for sorting options -->
+    <label for="sort-options">Sort by: </label>
+    <select id="sort-options">
+        <!-- Sorting by Year -->
+        <optgroup label="Year">
+            <!-- Sort by Year: Low to High -->
+            <option value="year_low_to_high">Low to High</option>
+            <!-- Sort by Year: High to Low -->
+            <option value="year_high_to_low">High to Low</option>
+        </optgroup>
+
+        <!-- Sorting by IMDb Rating -->
+        <optgroup label="IMDb Rating">
+            <!-- Sort by IMDb Rating: Low to High -->
+            <option value="imdb_low_to_high">Low to High</option>
+            <!-- Sort by IMDb Rating: High to Low -->
+            <option value="imdb_high_to_low">High to Low</option>
+        </optgroup>
+
+        <!-- Sorting by Vote Count -->
+        <optgroup label="Vote Count">
+            <!-- Sort by Vote Count: Low to High -->
+            <option value="vote_low_to_high">Low to High</option>
+            <!-- Sort by Vote Count: High to Low -->
+            <option value="vote_high_to_low">High to Low</option>
+        </optgroup>
+    </select>
+
+</body>
+</html>
