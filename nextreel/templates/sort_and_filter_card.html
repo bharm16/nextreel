@@ -348,13 +348,13 @@
             <div class="filter">  <!-- New section for IMDb Score -->
                 <h3>Minimum IMDb Score</h3>
                 <div class="k-form-field">
-                    <select class="form-control" id="imdb_score_min" name="imdb_score_min">
+                    <select class="form-control" id="imdb_score_min" name="imdb_score_min" >
                         <!-- Options will be filled in by JavaScript -->
                     </select>
                 </div>
                 <h3>Maximum IMDb Score</h3> <!-- New header for Maximum IMDb Score -->
                 <div class="k-form-field">
-                    <select class="form-control" id="imdb_score_max" name="imdb_score_max">
+                    <select class="form-control" id="imdb_score_max" name="imdb_score_max" >
                         <!-- Options will be filled in by JavaScript -->
                     </select>
                 </div>
@@ -798,6 +798,10 @@ function populateImdbDropdowns() {
         imdbDropdownMin.appendChild(optionMin);
         imdbDropdownMax.appendChild(optionMax);
     }
+    // Set the default values
+imdbDropdownMin.value = 7.0;
+imdbDropdownMax.value = 10.0;
+
 }
 
 // Call the function to populate IMDb dropdowns
