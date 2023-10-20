@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Add this line inside your <head> section -->
+
+
+    <style>
+
+
+        /* Styling for Filter Card */
+        .movie-filter.card {
+            color: #000;
+            font-family: "Source Sans Pro", Arial, sans-serif;
+            font-size: 1em;
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            background-color: #fff;
+            min-width: 300px;
+            width: 300px;
+            border: 1px solid #e3e3e3;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            overflow: hidden;
+            margin-top: 30px;
+            margin-left: 50px;
+
+            /* Add or modify this line */
+            flex-direction: column;  /* Stack children vertically */
+
+            min-height: 1000px;
+
+
+            /* Add padding to the left side */
+            padding-left: 0px;  /* Adjust this value as needed */
+
+            /* New styles */
+            max-width: 90vw;
+            min-width: 200px;
+            flex: 1;
+            width: 100%;
+            overflow-y: auto;
+
+        }
+
+        @media (max-width: 768px) {
+            .movie-filter.card {
+                min-width: 100%;
+            }
+        }
+
+
+
+
+        /* Styling for form field */
+        .k-form-field {
+            display: flex;
+            align-items: center;  /* Vertically align radio and label */
+        }
+
+        /* Styling for radio button */
+        .radio-button {
+            margin-right: 8px;  /* Add some space between radio and label */
+        }
+
+
+
+        /* Styling for IMDb Score Section */
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            padding-left: 20px;
+        }
+
+        /* Styling for IMDb Score Range Slider */
+        input[type=range] {
+            width: 80%;
+            height: 8px;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+
+
+        /* Add these styles to make the checkboxes the same size */
+        .check span {
+            min-width: 60px;  /* Minimum width */
+            /* remove the fixed width */
+            height: 40px;  /* Fixed height */
+            display: flex;
+            align-items: center;  /* Center text vertically */
+            justify-content: center;  /* Center text horizontally */
+            white-space: nowrap;  /* Prevents the text from wrapping */
+        }
+
+        /* Add this new style to center the content inside .form-check */
+        .form-check {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .movie-filter.card .form-control {
+            width: 95%; /* reduced from 100% to fit better */
+        }
+
+
+        label.check {
+            cursor: pointer;
+        }
+
+        label.check input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Updated CSS for the genre buttons */
+        label.check span {
+            /* ... existing styles ... */
+            min-width: 60px;  /* Minimum width */
+            /* remove the fixed width */
+            height: 40px;  /* Fixed height */
+            display: flex;
+            align-items: center;  /* Center text vertically */
+            justify-content: center;  /* Center text horizontally */
+            white-space: nowrap;  /* Prevents the text from wrapping */
+            padding: 7px 14px; /* Add padding so that it will look good even when the text is small */
+            border-radius: 20px;  /* New: Add rounded corners */
+            border: 1px solid #2a2929; /* New: Add a border when not selected */
+        }
+
+        label.check input:checked + span {
+            border-color: #ffffff;
+            background-color: #1f8efa;
+            color: #fff;
+        }
+
+
+
+        /* Styling for Genre Container */
+        .genre-container {
+            /* Existing Styles */
+            flex-wrap: wrap;
+
+            /* New Styles */
+            direction: ltr;  /* Left-to-Right text direction */
+            display: inline-flex;  /* Make the container inline-flex */
+            align-items: center;  /* Vertically align items in the container */
+            width: 100%;  /* Take up the full width of the parent element */
+            box-sizing: border-box;  /* Include padding and border in width and height */
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Styling for Genre Buttons */
+        .genre-button {
+            /* Existing Styles */
+            width: auto;
+            flex: none;
+            margin: 6px;
+
+            /* New Styles */
+            display: inline-flex;  /* Make the button inline-flex */
+            align-items: center;  /* Vertically align content in the button */
+            box-sizing: border-box;  /* Include padding and border in width and height */
+            padding: 0;
+            margin-top: -8px;
+        }
+
+
+        /* Add some padding to top and bottom of each section */
+        .section-padding {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+
+        /*  only controls minimum user votes input box   */
+        .form__input {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            font-size: 1.0rem; /* Reduced font-size */
+            margin: 0 auto;
+            padding: 2.0rem 2rem; /* Padding might need to be adjusted if height is set */
+            border-radius: 0.2rem;
+            background-color: rgb(255, 255, 255);
+            border: none;
+            width: 90%;
+            display: block;
+            border-bottom: 0.3rem solid transparent;
+            transition: all 0.3s;
+            height: 2rem; /* Added height */
+
+        }
+
+
+        .slider-ui-container {
+            display: block; /* Override flex display if any */
+            justify-content: flex-start; /* Override centering */
+            align-items: flex-start; /* Override centering */
+        }
+
+        /* Custom styles for headers within the filter panel */
+        .movie-filter.card h2,
+        .movie-filter.card h3 {
+            font-size: 1.0em;  /* Adjust the font size */
+            margin-top: 0;  /* Remove top margin */
+            margin-bottom: 0.2em;  /* Reduced bottom margin for less space below the header */
+            text-align: left;  /* Align text to the left */
+            padding-left: 10px;
+        }
+
+
+
+
+        /* New class to add a border line between sections  border line   */
+        .reset-margin-padding-left {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Adjust color and thickness as needed */
+            margin-bottom: 20px; /* Add some bottom margin to give space below the border */
+            padding-bottom: 20px; /* Add some bottom padding to give space above the border */
+            border-color: #101111;
+
+        }
+
+
+        /* CSS to make the year-row stack its children vertically */
+        .year-row {
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+        }
+
+        /* CSS to make the year-col take full width and add some margin */
+        .year-col {
+            width: 100% !important;
+            margin-bottom: 15px !important;
+            padding-left: 10px;
+        }
+
+
+
+
+
+        /* Default Font */
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+
+        /* Consistent Spacing */
+        .section-padding {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* Consistent Font for Headers */
+        h2, h3 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2em;
+        }
+
+
+        /* Add a border to the User Votes input field */
+        .form__input#num_votes_min {
+            border: 2px solid #ccc;
+        }
+
+        /* Make the font size of the Language label the same as the Genre label */
+        .language-dropdown-toggle span {
+            font-size: 1.0em; /* Match this with the font size of your genre labels */
+        }
+
+        /* Setting the font-family and font-size for the selected language */
+        #selectedLanguage {
+            font-family: 'Roboto', sans-serif; /* Same as the rest of your file */
+            font-size: 14px; /* Adjust this value to match the rest of your file */
+            font-weight: normal;  /* Explicitly setting font-weight to normal */
+
+        }
+
+        .btn.btn-primary {
+            /* Existing styles */
+            border-radius: 25px;
+            font-size: 16px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+
+            /* New padding settings */
+            padding: 10px 40px;  /* 10px top-bottom, 40px left-right */
+        }
+
+        .button-container {
+            padding: 20px;  /* Add 20px padding to all sides of the container */
+        }
+
+
+        /* Generic padded-container class */
+        .padded-container {
+            padding: 20px;  /* You can set the padding to any value you like */
+        }
+
+        /* New CSS to scale down the movie filter card */
+        .movie-filter.card .card-content {
+            transform: scale(0.75);
+            transform-origin: top left;
+        }
+
+
+
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+
+            <!-- This is the main form where users can set filters for movies. -->
+            <form action="/filtered_movie" method="post">
+
+                         <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+                <div class="padded-container">
+
+
+                    <h3>Show Me
+                        <span class="tooltip glyphicons_v2 circle-question" data-tooltip-id="#show_me_tooltip" data-role="tooltip"></span>
+                    </h3>
+                    <label class="k-form-field">
+                        <input id="show_me_everything" class="radio-button" type="radio" name="show_me" value="0" checked="checked">
+                        <label for="show_me_everything" class="radio-button-label">Everything</label>
+                    </label>
+                    <label class="k-form-field">
+                        <input id="show_me_not_seen" class="radio-button" type="radio" value="1" name="show_me" disabled="">
+                        <label for="show_me_not_seen" class="radio-button-label">Movies I Haven't Seen</label>
+                    </label>
+                    <label class="k-form-field">
+                        <input id="show_me_seen" class="radio-button" type="radio" value="2" name="show_me" disabled="">
+                        <label for="show_me_seen" class="radio-button-label">Movies I Have Seen</label>
+                    </label>
+                </div>
+            </div>
+
+
+                <div class="filter section-padding reset-margin-padding-left no-padding-left">
+                    <!-- IMDb Score Section -->
+
+                    <div class="padded-container">
+
+
+                        <div class="filter">  <!-- New section for IMDb Score -->
+                            <h3>Minimum IMDb Score</h3>
+                            <!-- Min-Max Number Inputs -->
+                            <div class="k-form-field">
+                                <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
+                            </div>
+
+                            <div class="slider-ui-container">
+                                <input type="range" class="custom-slider" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Existing HTML for Vote Count -->
+                <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+
+                    <div class="padded-container">
+                        <h3>Minimum User Votes</h3>
+                        <div class="k-form-field">
+                            <!-- Added HTML for Votes -->
+                            <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
+                        </div>
+
+                    </div>
+                </div>
+                 </form>
+
+
+
+      <!-- Release Year Section -->
+                <div class="filter section-padding reset-margin-padding-left no-padding-left">
+                    <h3>Release Year</h3>
+                    <div class="year-row"> <!-- Removed inline style -->
+
+                        <!-- Minimum Year -->
+                        <div class="year-col"> <!-- Removed inline style -->
+                            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+                            <!-- Min Year Slider -->
+                            <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
+                        </div>
+
+                        <!-- Maximum Year -->
+                        <div class="year-col"> <!-- Removed inline style -->
+                            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
+                            <!-- Max Year Slider -->
+                            <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
+                        </div>
+                    </div>
+                </div>
+
+
+
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+    <div class="filter">  <!-- New section for Vote Count -->
+        <div class="genre-container">  <!-- New container for genre buttons -->
+
+            <!-- Place "Select All" checkbox here, above the 4 columns -->
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)" checked>
+                    <span>Select All</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
+                    <span>Action</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
+                    <span>Adventure</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
+                    <span>Animation</span>
+                </label>
+            </div>
+
+
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
+                    <span>Biography</span>
+                </label>
+            </div>
+
+
+
+
+
+
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
+                    <span>Comedy</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
+                    <span>Crime</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
+                    <span>Documentary</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
+                    <span>Drama</span>
+                </label>
+            </div>
+
+
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
+                    <span>Fantasy</span>
+                </label>
+            </div>
+
+
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
+                    <span>Horror</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
+                    <span>Musical</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
+                    <span>Sci-Fi</span>
+                </label>
+            </div>
+
+
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
+                    <span>Sport</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
+                    <span>Thriller</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
+                    <span>War</span>
+                </label>
+            </div>
+
+            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                <label class="check"> <!-- .check style applied here -->
+                    <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
+                    <span>Western</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Language Section -->
+<!-- Filter container with padding adjustments -->
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+    <div class="padded-container">
+        <h3>Language</h3>
+
+        <!-- Bootstrap dropdown structure -->
+        <div class="dropdown">
+            <!-- Improved button styling and accessibility features -->
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <!-- ID added to dynamically change this text -->
+                <span id="selectedLanguage">Language</span>
+                <!-- Font Awesome down caret icon -->
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <!-- Menu list -->
+            <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+                <li><a class="dropdown-item language-item" href="#">English</a></li>
+                <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
+                <li><a class="dropdown-item language-item" href="#">French</a></li>
+                <!-- Add more languages here -->
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="filter section-padding reset-margin-padding-left no-padding-left">
+    <!-- Moved 'Apply Filters' Button -->
+
+    <!-- Added the 'button-container' class for padding -->
+    <div class="col button-container">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+</div>
+
+
+<!-- Include jQuery first if you need AJAX or other jQuery features -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then include Popper.js and Bootstrap JS or Bootstrap Bundle -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+    // JavaScript to sync IMDb score range slider with min-max number inputs
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function responsible for linking the IMDb score input field with the slider
+        function linkInputAndSlider() {
+            // Get elements by their IDs
+            const minInput = document.getElementById("imdb_score_min");
+            const rangeInput = document.getElementById("imdb_score_range");
+
+            // Update number input when the range slider changes
+            rangeInput.addEventListener("input", function() {
+                minInput.value = rangeInput.value;
+            });
+
+            // Update range slider when number input changes
+            minInput.addEventListener("input", function() {
+                rangeInput.value = minInput.value;
+            });
+        }
+
+        // Function controls the sliders' UI and behavior
+        function controlSliders() {
+            const sliders = document.querySelectorAll(".slider-ui");
+
+            sliders.forEach(slider => {
+                let input = slider.querySelector("input[type=range]");
+                let min = input.getAttribute("min");
+                let max = input.getAttribute("max");
+                let valueElem = slider.querySelector(".value");
+
+                slider.querySelector(".min").innerText = min;
+                slider.querySelector(".max").innerText = max;
+
+                function setValueElem() {
+                    valueElem.innerText = input.value;
+                    let percent = (input.value - min) / (max - min) * 100;
+                    valueElem.style.left = percent + "%";
+                }
+                setValueElem();
+
+                input.addEventListener("input", setValueElem);
+                input.addEventListener("mousedown", () => {
+                    valueElem.classList.add("up");
+                });
+                input.addEventListener("mouseup", () => {
+                    valueElem.classList.remove("up");
+                });
+            });
+        }
+
+        // Call both functions when the document is ready
+        linkInputAndSlider();
+        controlSliders();
+
+        // Get the dropdown element by its ID
+        const voteCountDropdown = document.getElementById("vote_count");
+
+        // Add the default option with a value of 0
+        let defaultOption = document.createElement("option");
+        defaultOption.value = 0;
+        defaultOption.innerHTML = "0";
+        voteCountDropdown.appendChild(defaultOption);
+
+        // Loop to populate the dropdown starts from 25000 and goes up to 500000, incrementing by 25000 each time
+        for (let i = 25000; i <= 500000; i += 25000) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.innerHTML = i.toLocaleString();
+            voteCountDropdown.appendChild(option);
+        }
+    });
+
+    // Function to select all checkboxes
+    function selectAllCheckboxes(source) {
+        const checkboxes = document.getElementsByName('genres[]');
+        for(let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+
+
+    // Function to link year input fields with their sliders
+    function linkYearInputAndSlider() {
+        // Link Min Year
+        const minYearInput = document.getElementById("year_min");
+        const minYearSlider = document.getElementById("year_min_range");
+
+        // Link Max Year
+        const maxYearInput = document.getElementById("year_max");
+        const maxYearSlider = document.getElementById("year_max_range");
+
+        // Update Min Year input when the Min Year slider changes
+        minYearSlider.addEventListener("input", function() {
+            minYearInput.value = minYearSlider.value;
+        });
+
+        // Update Min Year slider when Min Year input changes
+        minYearInput.addEventListener("input", function() {
+            minYearSlider.value = minYearInput.value;
+        });
+
+        // Update Max Year input when the Max Year slider changes
+        maxYearSlider.addEventListener("input", function() {
+            maxYearInput.value = maxYearSlider.value;
+        });
+
+        // Update Max Year slider when Max Year input changes
+        maxYearInput.addEventListener("input", function() {
+            maxYearSlider.value = maxYearInput.value;
+        });
+    }
+
+    // Call the function to link year input fields with sliders
+    linkYearInputAndSlider();
+
+
+    // This function sets the default language to English
+    function setDefaultLanguage() {
+        // Get the element where the selected language is displayed
+        const languageSpan = document.getElementById('selectedLanguage');
+
+        // Set the default language to English
+        languageSpan.textContent = 'English';
+    }
+
+    // Call the function to set the default language when the page loads
+    window.onload = function() {
+        setDefaultLanguage();
+
+        // Get all dropdown items
+        const dropdownItems = document.querySelectorAll('.language-item');
+
+        // Add click event listener to each item
+        dropdownItems.forEach((item) => {
+            item.addEventListener('click', function() {
+                // Update the button label when an item is clicked
+                document.getElementById('selectedLanguage').textContent = this.textContent;
+            });
+        });
+    };
+
+
+</script>
+
+
+
+</body>
+</html>
