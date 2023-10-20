@@ -348,13 +348,13 @@
                         <div class="filter">  <!-- New section for IMDb Score -->
                             <h3>Minimum IMDb Score</h3>
                             <!-- Min-Max Number Inputs -->
-                            <div class="k-form-field">
-                                <input type="number" class="form-control" id="imdb_score_min" name="imdb_score_min" min="1" max="10" step="0.1" value="7.0">
-                            </div>
+                        <div class="k-form-field">
+    <select class="form-control" id="imdb_score_min" name="imdb_score_min">
+        <!-- Options will be filled in by JavaScript -->
+    </select>
+</div>
 
-                            <div class="slider-ui-container">
-                                <input type="range" class="custom-slider" id="imdb_score_range" name="imdb_score_range" min="1" max="10" step="0.1" value="7.0">
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -767,6 +767,34 @@ function setFormValues(queryParams) {
     setFormValues(queryParams);
 };
 
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to populate IMDb dropdown
+    function populateImdbDropdown() {
+        // Get the IMDb dropdown element
+        const imdbDropdown = document.getElementById("imdb_score_min");
+
+        // Loop to populate the dropdown starts from 1 and goes up to 10, incrementing by 0.1 each time
+        for (let i = 1; i <= 10; i += 0.1) {
+            // Round to one decimal place to avoid floating-point issues
+            i = Math.round(i * 10) / 10;
+
+            // Create an option element
+            let option = document.createElement("option");
+
+            // Set option attributes
+            option.value = i;
+            option.innerHTML = i.toFixed(1);  // toFixed ensures one decimal place
+
+            // Append option to dropdown
+            imdbDropdown.appendChild(option);
+        }
+    }
+
+    // Call the function to populate IMDb dropdown
+    populateImdbDropdown();
+
+
+});
 
 
 
