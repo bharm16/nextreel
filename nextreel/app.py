@@ -156,6 +156,26 @@ def movie():
     return render_template('movie.html', movie=movie_data, current_user=current_user)
 
 
+# Route to load the next movie from the queue
+@app.route('/next_movie', methods=['GET', 'POST'])
+def next_movie():
+    global last_displayed_movie  # Use the global variable to get the last displayed movie
+
+    # If there is a last displayed movie, just replace it with the next one from the queue
+    if last_displayed_movie:
+        # Get the next movie from the queue
+        next_movie_data = movie_queue.get()
+
+        # Update the global variable with the new movie data
+        last_displayed_movie = next_movie_data
+
+        # Redirect to the home page
+        return redirect(url_for('movie'))
+    else:
+        # Return an error if no movies are in the queue
+        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -255,24 +275,6 @@ def filtered_movie_endpoint():
     return render_template('filtered_movies.html', movie=movie_data)
 
 
-# Route to load the next movie from the queue
-@app.route('/next_movie', methods=['GET', 'POST'])
-def next_movie():
-    global last_displayed_movie  # Use the global variable to get the last displayed movie
-
-    # If there is a last displayed movie, just replace it with the next one from the queue
-    if last_displayed_movie:
-        # Get the next movie from the queue
-        next_movie_data = movie_queue.get()
-
-        # Update the global variable with the new movie data
-        last_displayed_movie = next_movie_data
-
-        # Redirect to the home page
-        return redirect(url_for('movie'))
-    else:
-        # Return an error if no movies are in the queue
-        return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
 # Assuming current_user is an instance of Account
