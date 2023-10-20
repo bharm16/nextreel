@@ -96,6 +96,8 @@ def watched_movies():
     watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
 
     imdb_score_min = request.args.get('imdb_score_min', default=None, type=float)
+    imdb_score_max = request.args.get('imdb_score_max', default=None, type=float)
+
     num_votes_min = request.args.get('num_votes_min', default=None, type=int)
 
     genres = request.args.getlist('genres[]')  # Fetch multiple genre options
@@ -106,6 +108,8 @@ def watched_movies():
         user_db_config,
         current_user.id,
         imdb_score_min=imdb_score_min,
+        imdb_score_max=imdb_score_max,
+
         num_votes_min=num_votes_min,
         genres=genres,
         language=language

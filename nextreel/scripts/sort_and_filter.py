@@ -43,7 +43,7 @@ WHERE user_id=%s
 
 # queries.py
 
-def get_filtered_watched_movies(user_db_config, user_id, imdb_score_min=None, num_votes_min=None, genres=None,
+def get_filtered_watched_movies(user_db_config, user_id, imdb_score_min=None, imdb_score_max=None, num_votes_min=None, genres=None,
                                 language=None):
     """
     Fetch watched movies for a user based on filters.
@@ -66,6 +66,11 @@ def get_filtered_watched_movies(user_db_config, user_id, imdb_score_min=None, nu
     if imdb_score_min is not None:
         filter_clauses.append(" AND rating >= %s")
         params.append(imdb_score_min)
+
+    # Add filter conditions based on the parameters
+    if imdb_score_max is not None:
+        filter_clauses.append(" AND rating <= %s")
+        params.append(imdb_score_max)
 
     if num_votes_min is not None:
         filter_clauses.append(" AND votes >= %s")

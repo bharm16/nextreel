@@ -333,258 +333,262 @@
 
 
 
-            <!-- This is the main form where users can set filters for movies. -->
+<!-- This is the main form where users can set filters for movies. -->
 <form action="/watched_movies" method="get">
 
 
 
 
-                <div class="filter section-padding reset-margin-padding-left no-padding-left">
-                    <!-- IMDb Score Section -->
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
+        <!-- IMDb Score Section -->
 
-                    <div class="padded-container">
-
-
-                        <div class="filter">  <!-- New section for IMDb Score -->
-                            <h3>Minimum IMDb Score</h3>
-                            <!-- Min-Max Number Inputs -->
-                        <div class="k-form-field">
-    <select class="form-control" id="imdb_score_min" name="imdb_score_min">
-        <!-- Options will be filled in by JavaScript -->
-    </select>
-</div>
+        <div class="padded-container">
 
 
-                        </div>
-                    </div>
+            <div class="filter">  <!-- New section for IMDb Score -->
+                <h3>Minimum IMDb Score</h3>
+                <div class="k-form-field">
+                    <select class="form-control" id="imdb_score_min" name="imdb_score_min">
+                        <!-- Options will be filled in by JavaScript -->
+                    </select>
                 </div>
-
-                <!-- Existing HTML for Vote Count -->
-                <div class="filter section-padding reset-margin-padding-left no-padding-left">
-
-
-                    <div class="padded-container">
-                        <h3>Minimum User Votes</h3>
-                        <div class="k-form-field">
-                            <!-- Added HTML for Votes -->
-                            <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
-                        </div>
-
-                    </div>
+                <h3>Maximum IMDb Score</h3> <!-- New header for Maximum IMDb Score -->
+                <div class="k-form-field">
+                    <select class="form-control" id="imdb_score_max" name="imdb_score_max">
+                        <!-- Options will be filled in by JavaScript -->
+                    </select>
                 </div>
-
-
-
-
-      <!-- Release Year Section -->
-                <div class="filter section-padding reset-margin-padding-left no-padding-left">
-                                        <div class="padded-container">
-
-                    <h3>Release Year</h3>
-                    <div class="year-row"> <!-- Removed inline style -->
-
-                        <!-- Minimum Year -->
-                        <div class="year-col"> <!-- Removed inline style -->
-                            <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
-                            <!-- Min Year Slider -->
-                            <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
-                        </div>
-
-                        <!-- Maximum Year -->
-                        <div class="year-col"> <!-- Removed inline style -->
-                            <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
-                            <!-- Max Year Slider -->
-                            <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
-                        </div>
-                    </div>
-                </div>
-                        </div>
-
-
-
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
-
-    <div class="filter">  <!-- New section for Vote Count -->
-        <div class="genre-container">  <!-- New container for genre buttons -->
-
-            <!-- Place "Select All" checkbox here, above the 4 columns -->
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)" checked>
-                    <span>Select All</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
-                    <span>Action</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
-                    <span>Adventure</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
-                    <span>Animation</span>
-                </label>
-            </div>
-
-
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
-                    <span>Biography</span>
-                </label>
-            </div>
-
-
-
-
-
-
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
-                    <span>Comedy</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
-                    <span>Crime</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
-                    <span>Documentary</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
-                    <span>Drama</span>
-                </label>
-            </div>
-
-
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
-                    <span>Fantasy</span>
-                </label>
-            </div>
-
-
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
-                    <span>Horror</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
-                    <span>Musical</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
-                    <span>Sci-Fi</span>
-                </label>
-            </div>
-
-
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
-                    <span>Sport</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
-                    <span>Thriller</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
-                    <span>War</span>
-                </label>
-            </div>
-
-            <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
-                <label class="check"> <!-- .check style applied here -->
-                    <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
-                    <span>Western</span>
-                </label>
             </div>
 
         </div>
     </div>
-</div>
+
+    <!-- Existing HTML for Vote Count -->
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
 
 
-<!-- Language Section -->
-<!-- Filter container with padding adjustments -->
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
+        <div class="padded-container">
+            <h3>Minimum User Votes</h3>
+            <div class="k-form-field">
+                <!-- Added HTML for Votes -->
+                <input type="number" class="form-control" id="num_votes_min" name="num_votes_min" min="0" value="100000">
+            </div>
 
-    <div class="padded-container">
-        <h3>Language</h3>
-
-        <!-- Bootstrap dropdown structure -->
-        <div class="dropdown">
-            <!-- Improved button styling and accessibility features -->
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <!-- ID added to dynamically change this text -->
-                <span id="selectedLanguage">Language</span>
-                <!-- Font Awesome down caret icon -->
-                <i class="fa fa-caret-down"></i>
-            </button>
-            <!-- Menu list -->
-            <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
-                <li><a class="dropdown-item language-item" href="#">English</a></li>
-                <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
-                <li><a class="dropdown-item language-item" href="#">French</a></li>
-                <!-- Add more languages here -->
-            </ul>
         </div>
     </div>
 
-</div>
 
 
-<div class="filter section-padding reset-margin-padding-left no-padding-left">
-    <!-- Moved 'Apply Filters' Button -->
 
-    <!-- Added the 'button-container' class for padding -->
-    <div class="col button-container">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    <!-- Release Year Section -->
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
+        <div class="padded-container">
+
+            <h3>Release Year</h3>
+            <div class="year-row"> <!-- Removed inline style -->
+
+                <!-- Minimum Year -->
+                <div class="year-col"> <!-- Removed inline style -->
+                    <input type="number" class="form-control" id="year_min" name="year_min" min="1900" value="1900">
+                    <!-- Min Year Slider -->
+                    <input type="range" class="year-range" id="year_min_range" name="year_min_range" min="1900" max="2023" step="1" value="1900">
+                </div>
+
+                <!-- Maximum Year -->
+                <div class="year-col"> <!-- Removed inline style -->
+                    <input type="number" class="form-control" id="year_max" name="year_max" max="2023" value="2023">
+                    <!-- Max Year Slider -->
+                    <input type="range" class="year-range" id="year_max_range" name="year_max_range" min="1900" max="2023" step="1" value="2023">
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-                     </form>
+
+
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+        <div class="filter">  <!-- New section for Vote Count -->
+            <div class="genre-container">  <!-- New container for genre buttons -->
+
+                <!-- Place "Select All" checkbox here, above the 4 columns -->
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input type="checkbox" id="selectAll" onclick="selectAllCheckboxes(this)" checked>
+                        <span>Select All</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Action" id="Action" name="genres[]" checked>
+                        <span>Action</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Adventure" id="Adventure" name="genres[]" checked>
+                        <span>Adventure</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Animation" id="Animation" name="genres[]" checked>
+                        <span>Animation</span>
+                    </label>
+                </div>
+
+
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Biography" id="Biography" name="genres[]" checked>
+                        <span>Biography</span>
+                    </label>
+                </div>
+
+
+
+
+
+
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Comedy" id="Comedy" name="genres[]" checked>
+                        <span>Comedy</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Crime" id="Crime" name="genres[]" checked>
+                        <span>Crime</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Documentary" id="Documentary" name="genres[]" checked>
+                        <span>Documentary</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Drama" id="Drama" name="genres[]" checked>
+                        <span>Drama</span>
+                    </label>
+                </div>
+
+
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Fantasy" id="Fantasy" name="genres[]" checked>
+                        <span>Fantasy</span>
+                    </label>
+                </div>
+
+
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Horror" id="Horror" name="genres[]" checked>
+                        <span>Horror</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Musical" id="Musical" name="genres[]" checked>
+                        <span>Musical</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Sci-Fi" id="Sci-Fi" name="genres[]" checked>
+                        <span>Sci-Fi</span>
+                    </label>
+                </div>
+
+
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Sport" id="Sport" name="genres[]" checked>
+                        <span>Sport</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Thriller" id="Thriller" name="genres[]" checked>
+                        <span>Thriller</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="War" id="War" name="genres[]" checked>
+                        <span>War</span>
+                    </label>
+                </div>
+
+                <div class="form-check genre-button"> <!-- Note the added 'genre-button' class -->
+                    <label class="check"> <!-- .check style applied here -->
+                        <input class="form-check-input" type="checkbox" value="Western" id="Western" name="genres[]" checked>
+                        <span>Western</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Language Section -->
+    <!-- Filter container with padding adjustments -->
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
+
+        <div class="padded-container">
+            <h3>Language</h3>
+
+            <!-- Bootstrap dropdown structure -->
+            <div class="dropdown">
+                <!-- Improved button styling and accessibility features -->
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <!-- ID added to dynamically change this text -->
+                    <span id="selectedLanguage">Language</span>
+                    <!-- Font Awesome down caret icon -->
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <!-- Menu list -->
+                <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+                    <li><a class="dropdown-item language-item" href="#">English</a></li>
+                    <li><a class="dropdown-item language-item" href="#">Spanish</a></li>
+                    <li><a class="dropdown-item language-item" href="#">French</a></li>
+                    <!-- Add more languages here -->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="filter section-padding reset-margin-padding-left no-padding-left">
+        <!-- Moved 'Apply Filters' Button -->
+
+        <!-- Added the 'button-container' class for padding -->
+        <div class="col button-container">
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </div>
+    </div>
+
+</form>
 
 
 <!-- Include jQuery first if you need AJAX or other jQuery features -->
@@ -739,62 +743,90 @@
     window.onload = function() {
 
 
-    // Extracts query parameters from the URL
-function getQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    let obj = {};
-    for (const [key, value] of params.entries()) {
-        obj[key] = value;
-    }
-    return obj;
-}
+        // Extracts query parameters from the URL
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            let obj = {};
+            for (const [key, value] of params.entries()) {
+                obj[key] = value;
+            }
+            return obj;
+        }
 
 // Sets the input fields based on the query parameters
-function setFormValues(queryParams) {
-    // Loop through each query parameter and set the form input values
-    for (const [key, value] of Object.entries(queryParams)) {
-        const inputElement = document.getElementById(key);
-        if (inputElement) {
-            inputElement.value = value;
+        function setFormValues(queryParams) {
+            // Loop through each query parameter and set the form input values
+            for (const [key, value] of Object.entries(queryParams)) {
+                const inputElement = document.getElementById(key);
+                if (inputElement) {
+                    inputElement.value = value;
+                }
+            }
         }
+
+        // Get the query parameters from the URL
+        const queryParams = getQueryParams();
+
+        // Set the form values based on the query parameters
+        setFormValues(queryParams);
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to populate IMDb dropdown
+       // Function to populate IMDb dropdowns
+function populateImdbDropdowns() {
+    // Get the IMDb dropdown elements
+    const imdbDropdownMin = document.getElementById("imdb_score_min");
+    const imdbDropdownMax = document.getElementById("imdb_score_max");
+
+    // Loop to populate the dropdowns starts from 1 and goes up to 10, incrementing by 0.1 each time
+    for (let i = 1; i <= 10; i += 0.1) {
+        // Round to one decimal place to avoid floating-point issues
+        i = Math.round(i * 10) / 10;
+
+        // Create an option element for Min
+        let optionMin = document.createElement("option");
+        optionMin.value = i;
+        optionMin.innerHTML = i.toFixed(1);
+
+        // Create an option element for Max
+        let optionMax = document.createElement("option");
+        optionMax.value = i;
+        optionMax.innerHTML = i.toFixed(1);
+
+        // Append options to dropdowns
+        imdbDropdownMin.appendChild(optionMin);
+        imdbDropdownMax.appendChild(optionMax);
     }
 }
 
- // Get the query parameters from the URL
-    const queryParams = getQueryParams();
+// Call the function to populate IMDb dropdowns
+populateImdbDropdowns();
 
-    // Set the form values based on the query parameters
-    setFormValues(queryParams);
-};
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Function to populate IMDb dropdown
-    function populateImdbDropdown() {
-        // Get the IMDb dropdown element
-        const imdbDropdown = document.getElementById("imdb_score_min");
+// Function to enforce that max IMDb score is never less than min IMDb score
+function enforceImdbMinMax() {
+    const imdbDropdownMin = document.getElementById("imdb_score_min");
+    const imdbDropdownMax = document.getElementById("imdb_score_max");
 
-        // Loop to populate the dropdown starts from 1 and goes up to 10, incrementing by 0.1 each time
-        for (let i = 1; i <= 10; i += 0.1) {
-            // Round to one decimal place to avoid floating-point issues
-            i = Math.round(i * 10) / 10;
-
-            // Create an option element
-            let option = document.createElement("option");
-
-            // Set option attributes
-            option.value = i;
-            option.innerHTML = i.toFixed(1);  // toFixed ensures one decimal place
-
-            // Append option to dropdown
-            imdbDropdown.appendChild(option);
+    imdbDropdownMin.addEventListener("change", function() {
+        if (parseFloat(imdbDropdownMin.value) > parseFloat(imdbDropdownMax.value)) {
+            imdbDropdownMax.value = imdbDropdownMin.value;
         }
-    }
+    });
 
-    // Call the function to populate IMDb dropdown
-    populateImdbDropdown();
+    imdbDropdownMax.addEventListener("change", function() {
+        if (parseFloat(imdbDropdownMax.value) < parseFloat(imdbDropdownMin.value)) {
+            imdbDropdownMin.value = imdbDropdownMax.value;
+        }
+    });
+}
+
+// Call the function to enforce IMDb min-max relationship
+enforceImdbMinMax();
 
 
-});
+    });
 
 
 
