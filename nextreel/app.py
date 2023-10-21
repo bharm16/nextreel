@@ -1,7 +1,10 @@
 # Import required libraries
 import threading
+import time
+
 from queue import Queue, Empty
 
+import tmdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
@@ -13,6 +16,7 @@ from nextreel.scripts.log_movie_to_account import update_title_basics_if_empty
 from nextreel.scripts.movie import Movie
 from nextreel.scripts.person import Person
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
+from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_tmdb_id
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -35,7 +39,8 @@ movie_queue = Queue(maxsize=3)
 # Assuming ImdbRandomMovieFetcher is imported or defined above
 
 
-import time
+# Set your TMDb API key
+tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
 
 
 def populate_movie_queue():
@@ -54,12 +59,24 @@ def populate_movie_queue():
 
             if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
                 movie = Movie(tconst, db_config)
-                movie_data = movie.get_movie_data()
-                movie_queue.put(movie_data)
-                update_title_basics_if_empty(tconst, movie_data['plot'], movie_data['poster_url'],
-                                             movie_data['languages'], db_config)
+                movie_data_imdb = movie.get_movie_data()
 
-            time.sleep(1)
+                # Fetch TMDb ID using IMDb tconst
+                tmdb_id = get_tmdb_id_by_tconst(tconst)  # Using the imported function here
+
+                movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
+                print(movie_data_tmdb)
+
+                movie_data = {
+                    'IMDb': movie_data_imdb,
+                    'TMDb': movie_data_tmdb
+                }
+
+            movie_queue.put(movie_data_imdb)
+            update_title_basics_if_empty(tconst, movie_data_imdb['plot'], movie_data_imdb['poster_url'],
+                                         movie_data_imdb['languages'], db_config)
+
+        time.sleep(1)
 
 
 # Don't forget to import other required modules and functions
@@ -243,9 +260,6 @@ def next_movie():
                            previous_count=len(previous_movies_stack))
 
 
-
-
-
 # Assuming current_user is an instance of Account
 @app.route('/seen_it', methods=['POST'])
 @login_required
@@ -358,9 +372,6 @@ def filtered_movie_endpoint():
     # Render the template with the filtered movie
     # return render_template('filtered_movies.html', movie=movie_data)
     return render_template('movie.html', movie=movie_data)
-
-
-
 
 
 @app.route('/actor/<actor_name>', methods=['GET'])
