@@ -67,6 +67,12 @@ def populate_movie_queue():
                 movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
                 print(movie_data_tmdb)
 
+                # If a TMDb ID is found, you can fetch more data from TMDb or do whatever you need to do
+                if tmdb_id:
+                    movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)  # Replace with your actual TMDb fetching function
+                    backdrop_path = movie_data_tmdb.get('backdrop_path', '')  # Replace with your actual logic
+                    movie_data_imdb['backdrop_path'] = backdrop_path  # Add backdrop_path to the dictionary
+
                 movie_data = {
                     'IMDb': movie_data_imdb,
                     'TMDb': movie_data_tmdb
