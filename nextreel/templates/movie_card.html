@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,23 +16,33 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f1f5f9;
             color: #333;
-
-            /* Dynamic background image */
-            background-image: url("https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}");
-            background-size: cover;  /* Cover the entire window */
-            background-position: center;  /* Center the background */
-            background-repeat: no-repeat;  /* Do not repeat the image */
-
+                        padding-bottom: 20vh;  /* Push down the content */
 
         }
-        /* Light container for contrast */
-        .container {
- .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 0;  /* Changed this line */
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+
+        /* Set initial styles for movie-card-wrapper */
+        .movie-card-wrapper {
+            position: relative; /* Make it a positioned element */
+            overflow: hidden; /* Contain floated elements */
         }
+
+        /* Float the row containing movie details above the backdrop */
+        .movie-details-row {
+            position: relative; /* Make it a positioned element */
+            z-index: 3; /* Float above backdrop */
+                        padding-top: 25vh;  /* Push down the content */
+
+        }
+
+        /* Semi-transparent white overlay */
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.8); /* white with 80% opacity */
+            position: absolute; /* Absolute position */
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0; /* Cover the entire parent */
+            z-index: 2; /* Above the backdrop */
         }
 
         /* Snappy button colors */
@@ -44,80 +52,87 @@
             border: none;
             margin-right: 15px;
         }
+
         /* Hover effect */
         .btn-custom:hover {
             background-color: #156ebf;
         }
-        /* Improved image styling */
-        .movie-poster {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 0;
-            border: none;  /* Add this line to remove the border */
 
-        }
-        /* Info boxes */
-        .info-box {
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
-        }
         /* Font sizes */
         .info-title {
             font-size: 1.2em;
             margin-bottom: 10px;
         }
+
         .info-content {
             font-size: 1em;
         }
 
+        /* Info boxes */
+        .info-box {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+            background-color: transparent;  /* Make it transparent */
+            position: relative;  /* Make it a positioned element */
+            z-index: 3;  /* Position it above the overlay */
+        }
 
+        /* Movie poster */
+        .movie-poster {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 0;
+            border: none;  /* Add this line to remove the border */
+            position: relative;  /* Make it a positioned element */
+            z-index: 3;  /* Position it above the overlay */
+                        margin-top: -50px;  /* Move the movie poster upwards */
+
+        }
 
     </style>
 </head>
 
 <body>
 
+    <!-- Use inline style to set background image -->
+    <div class="movie-card-wrapper" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <!-- Semi-transparent white overlay -->
+        <div class="overlay"></div>
 
-
-
-
-
-{#<div class="container my-5">#}
-
-
-    <div class="row">
-        <div class="col-lg-4 col-md-6 text-center">
-            <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+        <!-- Float this row above the backdrop -->
+        <div class="row movie-details-row">
+            <!-- Your movie details here -->
+            <div class="col-lg-4 col-md-6 text-center">
+                <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="info-box">
+                    <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
+                    <div class="info-content">{{ movie.plot }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
+                    <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
+                    <div class="info-content" id="language">Language: {{ movie.languages }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-title">Genres</div>
+                    <div class="info-content">{{ movie.genres }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-content">Directed by {{ movie.directors }}</div>
+                    <div class="info-content">Written by {{ movie.writers }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-title">Cast</div>
+                    <div class="info-content">{{ movie.cast }}</div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-8 col-md-6">
-            <div class="info-box">
-                <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
-                <div class="info-content">{{ movie.plot }}</div>
-            </div>
-            <div class="info-box">
-                <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
-                <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
-                <div class="info-content" id="language">Language: {{ movie.languages }}</div> <!-- Added line -->
-            </div>
-            <div class="info-box">
-                <div class="info-title">Genres</div>
-                <div class="info-content">{{ movie.genres }}</div>
-            </div>
-            <div class="info-box">
-                <div class="info-content">Directed by {{ movie.directors }}</div>
-                <div class="info-content">Written by {{ movie.writers }}</div>
-            </div>
-
-
-<div class="info-box">
-    <div class="info-title">Cast</div>
-    <div class="info-content">
-        {{ movie.cast }}  <!-- Directly display the entire cast string -->
     </div>
-</div>
+
 
 
 
@@ -143,6 +158,9 @@
             {% endif %}
         </div>
     </div>
+        </div>
+    </div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
