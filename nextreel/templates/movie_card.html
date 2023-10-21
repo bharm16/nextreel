@@ -31,6 +31,7 @@
             position: relative; /* Make it a positioned element */
             z-index: 3; /* Float above backdrop */
                         padding-top: 25vh;  /* Push down the content */
+            padding-bottom: 25vh;
 
         }
 
@@ -88,7 +89,7 @@
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+            {#box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);#}
             background-color: transparent;  /* Make it transparent */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the overlay */
@@ -148,9 +149,8 @@
                     <div class="info-title">Cast</div>
                     <div class="info-content">{{ movie.cast }}</div>
                 </div>
-            </div>
-        </div>
-    </div>
+
+
 
 
 
@@ -177,8 +177,11 @@
             {% endif %}
         </div>
     </div>
-        </div>
-    </div>
+                </div>
+
+
+
+
 
 
 
