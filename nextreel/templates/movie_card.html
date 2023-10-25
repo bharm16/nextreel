@@ -11,20 +11,40 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
     <style>
-        /* Modern background color */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f1f5f9;
-            color: #333;
-                        padding-bottom: 20vh;  /* Push down the content */
+/* Modern background color */
+body {
+  /* Existing styles */
+  font-family: 'Poppins', sans-serif;
+  background-color: #f1f5f9;
+  color: #333;
+  padding-bottom: 20vh;  /* Push down the content */
 
-        }
+  /* Make it a positioned element for pseudo-element to work */
+  position: relative;
+}
 
-        /* Set initial styles for movie-card-wrapper */
-        .movie-card-wrapper {
-            position: relative; /* Make it a positioned element */
-            overflow: hidden; /* Contain floated elements */
-        }
+/* Pseudo-element to add background */
+body::before {
+  content: "";  /* Required for the pseudo-element to work */
+  position: absolute;  /* Absolutely position it */
+
+  /* Center it vertically: start and end 25% from the top and bottom */
+  top: 25vh;
+  bottom: 25vh;
+
+  /* Stretch it horizontally: start and end 0% from the left and right */
+  left: 0;
+  right: 0;
+
+  z-index: -1;  /* Place it behind the content */
+
+  /* Your background settings */
+  background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 
         /* Float the row containing movie details above the backdrop */
         .movie-details-row {
@@ -107,13 +127,36 @@
 
         }
 
+
+            /* Full-width background container */
+    .full-width-background {
+      width: 100%;  /* Full width */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Set initial styles for movie-card-wrapper */
+    .movie-card-wrapper {
+      /* Removed background settings */
+      position: relative; /* Make it a positioned element */
+      overflow: hidden; /* Contain floated elements */
+    }
+
+
     </style>
 </head>
 
 <body>
 
+
+  <div class="full-width-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');">
+
     <!-- Use inline style to set background image -->
-    <div class="movie-card-wrapper" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+{#    <div class="movie-card-wrapper" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">#}
+
+
+      <div class="movie-card-wrapper">
 
             <div class="fade-overlay"></div>
 
@@ -150,6 +193,29 @@
                     <div class="info-content">{{ movie.cast }}</div>
                 </div>
 
+            <!-- ... existing HTML ... -->
+
+<div class="info-box">
+  <div class="info-title">Cast</div>
+  <div class="info-content">
+    <ul>
+      {% for actor in movie.cast %}
+        <li>
+          {{ actor.name }}
+          {% if actor.image_url %}
+            <img src="{{ actor.image_url }}" alt="{{ actor.name }}" width="50" />
+          {% else %}
+            <span>No image available</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<!-- ... existing HTML ... -->
+
+
 
 
 
@@ -177,6 +243,7 @@
             {% endif %}
         </div>
     </div>
+                </div>
                 </div>
 
 
