@@ -195,7 +195,22 @@
             <!-- Your movie details here -->
             <div class="col-lg-4 col-md-6 text-center">
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
-            </div>
+
+
+
+            <div class="movie-navigation-buttons">
+        <form method="POST" action="/previous_movie" style="display: inline;">
+            <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
+        </form>
+        <form method="POST" action="/next_movie" style="display: inline;">
+            <button type="submit" class="btn btn-custom">Next Movie</button>
+        </form>
+    </div>
+                </div>
+
+
+
+
             <div class="col-lg-8 col-md-6">
                 <div class="info-box">
                     <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
@@ -267,14 +282,6 @@
 
 
 
-                <form method="POST" action="/previous_movie" style="display: inline;">
-                    <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
-                </form>
-
-
-                <form method="POST" action="/next_movie" style="display: inline;">
-                    <button type="submit" class="btn btn-custom">Next Movie</button>
-                </form>
 
 
 
