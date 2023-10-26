@@ -179,6 +179,18 @@
         }
 
 
+        /* Styling for votes-label */
+.votes-label {
+    position: relative;  /* Position it absolutely within the .progress-bar-wrapper */
+    bottom: 0;  /* Align it to the bottom of the circle */
+    right: -70px;  /* Align it to the right of the circle */
+    font-size: 18px;  /* Adjust font size */
+    color: #333;  /* Font color */
+    z-index: 5;  /* Make sure it appears above the circle */
+    top: -10px;
+}
+
+
     </style>
 
 
@@ -208,7 +220,9 @@
                     <div class="progress-bar-wrapper">
                         <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
                             <strong></strong>
-                            <span>IMDb <br> Rating</span>
+                                    <div class="votes-label" id="votes">Votes: {{ movie.votes }} Votes</div>
+
+{#                            <span>IMDb <br> Rating</span>#}
                         </div>
                     </div>
 
