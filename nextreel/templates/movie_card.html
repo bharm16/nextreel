@@ -118,7 +118,7 @@
             background-color: transparent;  /* Make it transparent */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the overlay */
-                font-size: 1em;
+            font-size: 1em;
 
 
         }
@@ -168,27 +168,53 @@
         }
 
 
-/* Additional style to position the rating circle */
-        .progress-bar-wrapper {
-            position: absolute;
-            top: -130px;  /* Adjust this value to accommodate for the negative margin */
-            right: 25px;
-            z-index: 4;
-                transform: scale(0.8);  /* Adjust this value to resize the progress bar */
+        /* New styles for votes-label */
+        .votes-label {
+            font-size: 10px;
+            color: #333;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+    line-height: normal;  /* Override the line-height */
+            margin-left: 10px;
+        }
+
+        /* Style for rating-circle, if necessary */
+        .rating-circle {
+    margin-right: 20px !important;
+        }
+
+        /* Wrapper to control the size and layout of both components */
+        .rating-votes-wrapper {
+            display: flex;
+            align-items: center;
+                margin-right: 20px;  /* Add a margin to the right */
 
         }
 
+        /* Make the rating-circle and votes-label the same size */
+        .rating-circle, .votes-label {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+             margin: 0;
+    padding: 0;
+        }
 
-        /* Styling for votes-label */
-.votes-label {
-    position: relative;  /* Position it absolutely within the .progress-bar-wrapper */
-    bottom: 0;  /* Align it to the bottom of the circle */
-    right: -70px;  /* Align it to the right of the circle */
-    font-size: 18px;  /* Adjust font size */
-    color: #333;  /* Font color */
-    z-index: 5;  /* Make sure it appears above the circle */
-    top: -10px;
+/* Check text alignment and box sizing */
+.rating-circle strong, .votes-label {
+    text-align: center;
+    margin: 0;
+    box-sizing: border-box;
+        line-height: 100px; /* Same as the height of the circles */
+
 }
+
 
 
     </style>
@@ -213,18 +239,10 @@
         <!-- Float this row above the backdrop -->
         <div class="row movie-details-row">
             <!-- Your movie details here -->
-                <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
+            <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
 
-                 <!-- Position the circle progress bar -->
-                    <div class="progress-bar-wrapper">
-                        <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                            <strong></strong>
-                                    <div class="votes-label" id="votes">Votes: {{ movie.votes }} Votes</div>
 
-{#                            <span>IMDb <br> Rating</span>#}
-                        </div>
-                    </div>
 
 
 
@@ -246,6 +264,30 @@
                     <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
                     <div class="info-content">{{ movie.plot }}</div>
                 </div>
+
+
+                <!-- New info-box for score and vote components -->
+                <div class="info-box">
+                    <div class="info-title">Rating and Votes</div>
+                    <div class="rating-votes-wrapper">
+                        <!-- Position the circle progress bar -->
+                        <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                            <strong></strong>
+                        </div>
+
+                        <div class="votes-label" id="votes">
+                            Votes: {{ movie.votes }}
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
                 <div class="info-box">
                     <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
                     <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
@@ -255,21 +297,21 @@
                     <div class="info-title">Genres</div>
                     <div class="info-content">{{ movie.genres }}</div>
                 </div>
-               <div class="info-box">
-    <!-- Start a new Bootstrap row here -->
-    <div class="row">
-        <!-- First column: "Directed by" -->
-        <div class="col-sm-6 info-content">
-            Directed by {{ movie.directors }}
-        </div>
+                <div class="info-box">
+                    <!-- Start a new Bootstrap row here -->
+                    <div class="row">
+                        <!-- First column: "Directed by" -->
+                        <div class="col-sm-6 info-content">
+                            Directed by {{ movie.directors }}
+                        </div>
 
-        <!-- Second column: "Written by" -->
-        <div class="col-sm-6 info-content">
-            Written by {{ movie.writers }}
-        </div>
-    </div>
-    <!-- End of Bootstrap row -->
-</div>
+                        <!-- Second column: "Written by" -->
+                        <div class="col-sm-6 info-content">
+                            Written by {{ movie.writers }}
+                        </div>
+                    </div>
+                    <!-- End of Bootstrap row -->
+                </div>
 
 
 
@@ -317,13 +359,13 @@
 
 
 
-<!-- Circle Progress Bar for IMDb Rating -->
-<div class="progress-bar-wrapper"> <!-- Changed class name from "progressbar" -->
-<div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-        <strong></strong>
-        <span>IMDb <br> Rating</span>
-    </div>
-</div>
+                <!-- Circle Progress Bar for IMDb Rating -->
+                <div class="progress-bar-wrapper"> <!-- Changed class name from "progressbar" -->
+                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                        <strong></strong>
+                        <span>IMDb <br> Rating</span>
+                    </div>
+                </div>
 
 
 
@@ -355,18 +397,18 @@
 
 <!-- Initialize circle progress bar -->
 <script>
-$(document).ready(function ($) {
-    $('#rating-circle').circleProgress({
-        value: $('#rating-circle').data('percent') / 10, // IMDb rating is usually out of 10
-        size: 100, // Size of the circle
-        thickness: 10, // Thickness of the circle line
-        fill: {
-            color: '#1f8efa' // Fill color
-        }
-    }).on('circle-animation-progress', function (event, progress, stepValue) {
-        $(this).find('strong').text((stepValue * 10).toFixed(1));
+    $(document).ready(function ($) {
+        $('#rating-circle').circleProgress({
+            value: $('#rating-circle').data('percent') / 10, // IMDb rating is usually out of 10
+            size: 100, // Size of the circle
+            thickness: 10, // Thickness of the circle line
+            fill: {
+                color: '#1f8efa' // Fill color
+            }
+        }).on('circle-animation-progress', function (event, progress, stepValue) {
+            $(this).find('strong').text((stepValue * 10).toFixed(1));
+        });
     });
-});
 
 </script>
 
