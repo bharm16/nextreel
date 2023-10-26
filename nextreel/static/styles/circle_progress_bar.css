@@ -1,0 +1,33 @@
+/* Common styles for all circle types */
+.circle, .animation-circle, .rating-circle {
+  width: 200px;
+  height: 200px;
+  margin: 6px 6px 20px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Common styles for canvas within all circle types */
+.circle canvas, .animation-circle canvas, .rating-circle canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Common styles for strong text within all circle types */
+.circle strong, .animation-circle strong, .rating-circle strong {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: black;
+}
+
+/* Additional specific styles */
+.circle span, .animation-circle span, .rating-circle span {
+  display: block;
+  color: #aaa;
+  margin-top: 12px;
+}

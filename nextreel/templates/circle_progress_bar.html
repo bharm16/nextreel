@@ -57,33 +57,36 @@
 
 <script>
 
-    $(document).ready(function ($) {
+$(document).ready(function ($) {
     function animateElements() {
         $('.progress-bar-wrapper').each(function () {
             var elementPos = $(this).offset().top;
             var topOfWindow = $(window).scrollTop();
-    var percent = $(this).find('.animation-circle').attr('data-percent');
+            var percent = $(this).find('.animation-circle').attr('data-percent');  // Changed from '.circle' to '.animation-circle'
             var animate = $(this).data('animate');
             if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
                 $(this).data('animate', true);
-                $(this).find('.circle').circleProgress({
-                    // startAngle: -Math.PI / 2,
+                $(this).find('.animation-circle').circleProgress({  // Changed from '.circle' to '.animation-circle'
                     value: percent / 100,
-                    size : 400,
+                    size: 400,
                     thickness: 15,
                     fill: {
                         color: '#663399'
                     }
                 }).on('circle-animation-progress', function (event, progress, stepValue) {
-                    $(this).find('strong').text((stepValue*100).toFixed(0) + "%");
+                    $(this).find('strong').text((stepValue * 100).toFixed(0) + "%");
                 }).stop();
             }
         });
     }
 
+    // Trigger the function initially and on scroll
     animateElements();
     $(window).scroll(animateElements);
 });
+
+
+
 </script>
 
 </body>
