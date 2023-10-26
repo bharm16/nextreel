@@ -168,32 +168,43 @@
         }
 
 
-        /* New styles for votes-label */
-        .votes-label {
-            font-size: 10px;
-            color: #333;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.5);
-            border: 2px solid #333;
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
+/* New styles for votes-label */
+.votes-label {
+    font-size: 15px; /* Consider reducing if text is too large */
+    color: #333;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid #333;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
     line-height: normal;  /* Override the line-height */
-            margin-left: 10px;
-        }
+    margin-left: 10px;
+    display: flex;  /* Make it a flex container */
+    justify-content: center;  /* Center content horizontally */
+    align-items: center;  /* Center content vertically */
+    flex-wrap: wrap;  /* Allow items to wrap */
+    flex-direction: column;  /* Stack items vertically */
+    overflow: hidden;  /* Hide any overflow */
+        white-space: normal; /* Allow line breaks and text wrapping */
+
+}
 
         /* Style for rating-circle, if necessary */
         .rating-circle {
-    margin-right: 20px !important;
+            margin-right: 20px !important;
         }
 
         /* Wrapper to control the size and layout of both components */
         .rating-votes-wrapper {
             display: flex;
             align-items: center;
-                margin-right: 20px;  /* Add a margin to the right */
+            margin-right: 20px;  /* Add a margin to the right */
+            transform: scale(0.8);  /* Scale down to half size */
+    transform-origin: 0 0;  /* Optional: define the point around which to scale */
+}
 
-        }
+
 
         /* Make the rating-circle and votes-label the same size */
         .rating-circle, .votes-label {
@@ -202,18 +213,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
-             margin: 0;
-    padding: 0;
+            margin: 0;
+            padding: 0;
+
         }
 
-/* Check text alignment and box sizing */
-.rating-circle strong, .votes-label {
-    text-align: center;
-    margin: 0;
-    box-sizing: border-box;
-        line-height: 100px; /* Same as the height of the circles */
+        /* Check text alignment and box sizing */
+        .rating-circle strong, .votes-label {
+            text-align: center;
+            margin: 0;
+            box-sizing: border-box;
+            line-height: 100px; /* Same as the height of the circles */
 
+
+        }
+
+#vote-number, #vote-text {
+    white-space: normal; /* Allow line breaks and text wrapping */
 }
+
+
+
+
+
 
 
 
@@ -266,9 +288,13 @@
                 </div>
 
 
+
+
+
+
                 <!-- New info-box for score and vote components -->
                 <div class="info-box">
-                    <div class="info-title">Rating and Votes</div>
+                    <div class="info-title"></div>
                     <div class="rating-votes-wrapper">
                         <!-- Position the circle progress bar -->
                         <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
@@ -276,10 +302,12 @@
                         </div>
 
                         <div class="votes-label" id="votes">
-                            Votes: {{ movie.votes }}
+                            <div id="vote-number">{{ movie.votes }}</div>
+                            <div id="vote-text"> Votes</div>
                         </div>
 
                     </div>
+
                 </div>
 
 
@@ -288,11 +316,13 @@
 
 
 
-                <div class="info-box">
-                    <div class="info-title">IMDb Rating: {{ movie.rating }}</div>
-                    <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>
-                    <div class="info-content" id="language">Language: {{ movie.languages }}</div>
-                </div>
+{#                <div class="info-box">#}
+{#                    <div class="info-title">IMDb Rating: {{ movie.rating }}</div>#}
+{#                    <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>#}
+{#                    <div class="info-content" id="language">Language: {{ movie.languages }}</div>#}
+{#                </div>#}
+{#            #}
+
                 <div class="info-box">
                     <div class="info-title">Genres</div>
                     <div class="info-content">{{ movie.genres }}</div>
@@ -421,17 +451,26 @@
 
 
     function formatVotes() {
-        const voteElement = document.getElementById("votes");
+        // Target the new vote-number element
+        const voteElement = document.getElementById("vote-number");
         console.log("Original text: " + voteElement.textContent); // debug line
 
-        let votesText = voteElement.textContent.split(": ")[1];
+        // No need to split the text; it's just the vote count now
+        let votesText = voteElement.textContent;
+
+        // Format the vote count
         votesText = parseInt(votesText).toLocaleString();
         console.log("Formatted text: " + votesText); // debug line
 
-        voteElement.textContent = "Votes: " + votesText;
+        // Update the text content of vote-number
+        voteElement.textContent = votesText;
     }
-    console.log("Document loaded"); // debug line
+
     formatVotes();
+
+
+
+
 
     document.addEventListener("DOMContentLoaded", function () {
         const seenItButton = document.getElementById("seen-it-button");
