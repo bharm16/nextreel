@@ -22,12 +22,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 30px;
-  color: black;
+  color: #101111;
 }
 
 /* Additional specific styles */
 .circle span, .animation-circle span, .rating-circle span {
   display: block;
-  color: #aaa;
+  color: #ffffff;
   margin-top: 12px;
 }

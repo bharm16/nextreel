@@ -168,10 +168,15 @@
         }
 
 
+/* Additional style to position the rating circle */
+        .progress-bar-wrapper {
+            position: absolute;
+            top: -130px;  /* Adjust this value to accommodate for the negative margin */
+            right: 25px;
+            z-index: 4;
+                transform: scale(0.8);  /* Adjust this value to resize the progress bar */
 
-
-
-
+        }
 
 
     </style>
@@ -190,25 +195,22 @@
 <div class="row movie-details-row">
 
 
-    {#  <div class="full-width-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');">#}
-
-    <!-- Use inline style to set background image -->
-    {#    <div class="movie-card-wrapper" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">#}
-
-
     <div class="movie-card-wrapper">
 
-        {#        <div class="fade-overlay"></div>#}
-        {##}
-        {##}
-        {#        <!-- Semi-transparent white overlay -->#}
-        {#        <div class="overlay"></div>#}
 
         <!-- Float this row above the backdrop -->
         <div class="row movie-details-row">
             <!-- Your movie details here -->
-            <div class="col-lg-4 col-md-6 text-center">
+                <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+
+                 <!-- Position the circle progress bar -->
+                    <div class="progress-bar-wrapper">
+                        <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                            <strong></strong>
+                            <span>IMDb <br> Rating</span>
+                        </div>
+                    </div>
 
 
 
@@ -239,10 +241,22 @@
                     <div class="info-title">Genres</div>
                     <div class="info-content">{{ movie.genres }}</div>
                 </div>
-                <div class="info-box">
-                    <div class="info-content">Directed by {{ movie.directors }}</div>
-                    <div class="info-content">Written by {{ movie.writers }}</div>
-                </div>
+               <div class="info-box">
+    <!-- Start a new Bootstrap row here -->
+    <div class="row">
+        <!-- First column: "Directed by" -->
+        <div class="col-sm-6 info-content">
+            Directed by {{ movie.directors }}
+        </div>
+
+        <!-- Second column: "Written by" -->
+        <div class="col-sm-6 info-content">
+            Written by {{ movie.writers }}
+        </div>
+    </div>
+    <!-- End of Bootstrap row -->
+</div>
+
 
 
                 {#                <div class="info-box">#}
@@ -333,7 +347,7 @@ $(document).ready(function ($) {
         size: 100, // Size of the circle
         thickness: 10, // Thickness of the circle line
         fill: {
-            color: '#663399' // Fill color
+            color: '#1f8efa' // Fill color
         }
     }).on('circle-animation-progress', function (event, progress, stepValue) {
         $(this).find('strong').text((stepValue * 10).toFixed(1));
