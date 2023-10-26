@@ -43,16 +43,13 @@ class Movie:
     def store_movie_data(self, movie):
         ia = imdb.IMDb()
 
-        # Fetch cast information from IMDb
-        imdb_cast = [actor['name'] for actor in movie.get('cast', [])][:3]
-
         # Fetch TMDb ID
         tmdb_id = get_tmdb_id_by_tconst(self.tconst)
 
         # Fetch cast information from TMDb
         tmdb_cast_info = []
         if tmdb_id:
-            tmdb_cast = get_cast_info_by_tmdb_id(tmdb_id)[:3]  # Limit to first 3 actors
+            tmdb_cast = get_cast_info_by_tmdb_id(tmdb_id)[:10]  # Limit to first 10 actors
             for cast_member in tmdb_cast:
                 profile_path = cast_member.get('profile_path')
                 image_url = get_full_image_url(profile_path) if profile_path else None
@@ -61,30 +58,21 @@ class Movie:
                     'image_url': image_url
                 })
 
-        # Combine IMDb and TMDb cast information
-        combined_cast = [{
-            'name': name,
-            'image_url': next((info['image_url'] for info in tmdb_cast_info if info['name'] == name), None)
-        } for name in imdb_cast]
-
         self.movie_data = {
             "title": movie.get('title', 'N/A'),
             "imdb_id": movie.getID(),
             "genres": ', '.join(movie.get('genres', ['N/A'])),
             "directors": ', '.join([director['name'] for director in movie.get('director', [])]),
             "writers": next((writer['name'] for writer in movie.get('writer', []) if 'name' in writer), "N/A"),
-            "cast": ', '.join([actor['name'] for actor in movie.get('cast', [])][:3]),
             "runtimes": ', '.join(movie.get('runtimes', ['N/A'])),
             "countries": ', '.join(movie.get('countries', ['N/A'])),
             "languages": movie.get('languages', ['N/A'])[0] if movie.get('languages') else 'N/A',
-            # "languages": ', '.join(movie.get('languages', ['N/A'])) if movie.get('languages') else 'N/A',
             "rating": movie.get('rating', 'N/A'),
             "votes": movie.get('votes', 'N/A'),
             "plot": movie.get('plot', ['N/A'])[0],
             "poster_url": movie.get_fullsizeURL(),
             "year": movie.get('year'),
-            "cast": combined_cast  # Combined cast information
-
+            "cast": tmdb_cast_info  # Use the TMDb cast information
         }
 
     def get_movie_data(self):
