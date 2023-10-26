@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/circle_progress_bar.css') }}">
 
-        <script src="https://kit.fontawesome.com/ac5381aca9.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ac5381aca9.js" crossorigin="anonymous"></script>
 
 
 
@@ -104,8 +104,14 @@
 
         /* Font sizes */
         .info-title {
-            font-size: 1.2em;
+            font-size: 2.0em;
             margin-bottom: 10px;
+        }
+
+        .move-title {
+            font-size: 2.0em;
+            margin-bottom: 5px;
+
         }
 
         .info-content {
@@ -135,9 +141,7 @@
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the background-overlay */
             margin-top: -50px;  /* Move the movie poster upwards */
-
         }
-
 
         /* Full-width background container */
         .full-width-background {
@@ -154,44 +158,40 @@
             overflow: hidden; /* Contain floated elements */
         }
 
-/* Existing CSS ... */
+        /* Actor Cards */
+        .actor-card {
+            width: 150px; /* Fixed width */
+            margin: 10px; /* Margin around each card */
+            padding: 15px; /* Padding inside each card */
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
 
-/* Actor Cards */
-.actor-card {
-    width: 150px; /* Fixed width */
-    margin: 10px; /* Margin around each card */
-    padding: 15px; /* Padding inside each card */
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
+        }
 
-}
+        /* Actor Card Image */
+        .actor-card img {
+            width: 100%; /* Full width */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover; /* Cover the whole area */
+            max-height: 200px; /* Max height */
+        }
 
-/* Actor Card Image */
-.actor-card img {
-    width: 100%; /* Full width */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Cover the whole area */
-    max-height: 200px; /* Max height */
-}
+        /* Actor Card Body */
+        .actor-card .card-body {
+            min-height: 50px; /* Min height */
+            max-height: 50px; /* Max height */
+            overflow: hidden; /* Hide Overflowing Text */
 
-/* Actor Card Body */
-.actor-card .card-body {
-    min-height: 50px; /* Min height */
-    max-height: 50px; /* Max height */
-    overflow: hidden; /* Hide Overflowing Text */
+        }
 
-}
+        /* Actor Card Footer */
+        .actor-card .card-footer {
+            padding: 2px;
+            text-align: center;
+            white-space: nowrap; /* Don't wrap text to next line */
+            overflow: hidden;  /* Hide text outside the container */
+            text-overflow: ellipsis;  /* Add ellipsis for overflowed text */
 
-/* Actor Card Footer */
-.actor-card .card-footer {
-    padding: 5px;
-    text-align: center;
-    white-space: nowrap; /* Don't wrap text to next line */
-    overflow: hidden;  /* Hide text outside the container */
-    text-overflow: ellipsis;  /* Add ellipsis for overflowed text */
-
-}
-
-
+        }
 
 
         /* New styles for votes-label */
@@ -213,7 +213,6 @@
             flex-direction: column;  /* Stack items vertically */
             overflow: hidden;  /* Hide any overflow */
             white-space: normal; /* Allow line breaks and text wrapping */
-
         }
 
         /* Style for rating-circle, if necessary */
@@ -226,10 +225,9 @@
             display: flex;
             align-items: center;
             margin-right: 20px;  /* Add a margin to the right */
-            transform: scale(0.7);  /* Scale down to half size */
+            transform: scale(0.6);  /* Scale down to half size */
             transform-origin: 0 0;  /* Optional: define the point around which to scale */
         }
-
 
 
         /* Make the rating-circle and votes-label the same size */
@@ -250,22 +248,12 @@
             margin: 0;
             box-sizing: border-box;
             line-height: 100px; /* Same as the height of the circles */
-
-
         }
 
         #vote-number, #vote-text {
             white-space: normal; /* Allow line breaks and text wrapping */
         }
 
-
-        /* Custom CSS to adjust spacing */
-
-        /* More specific selectors for custom row and columns */
-
-        {#div.row.custom-row-ratings-genres > div.col-md-6 {#}
-        {#    padding-left: 0px !important;  /* Reduce left padding */#}
-        {#    padding-right: -50px !important;  /* Reduce right padding */#}
 
         div.row.custom-row-directed-written > div.col-sm-6 {
             padding-left: 0px !important;  /* Reduce left padding */
@@ -319,31 +307,38 @@
             font-size: 16px; /* reset to the desired font-size */
         }
 
-/* Make the cast row scrollable */
-.cast-list {
-    display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-}
+        /* Make the cast row scrollable */
+        .cast-list {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
 
-/* Class to prevent row items from wrapping into new lines */
-.no-wrap-row {
-    flex-wrap: nowrap;
-}
+        /* Class to prevent row items from wrapping into new lines */
+        .no-wrap-row {
+            flex-wrap: nowrap;
+        }
 
-/* Hide the scrollbar for Chrome, Safari and Opera */
-.cast-list::-webkit-scrollbar {
-    display: none;
-}
+        /* Hide the scrollbar for Chrome, Safari and Opera */
+        .cast-list::-webkit-scrollbar {
+            display: none;
+        }
 
-/* Hide scrollbar for IE, Edge, and Firefox */
-.cast-list {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+        /* Hide scrollbar for IE, Edge, and Firefox */
+        .cast-list {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
 
+        /* CSS for controlling spacing around the genre section */
+        .genre-section {
+            margin-top: -10px;  /* Add top margin to push it down relative to the title */
+            margin-bottom: 30px;  /* Add bottom margin to push the plot text down */
+            padding-left: 5px;  /* Optional: Add some left padding */
+            padding-right: 5px;  /* Optional: Add some right padding */
+        }
 
 
     </style>
@@ -391,54 +386,58 @@
             <div class="col-lg-8 col-md-6">
                 <div class="info-container">
                     <div class="move-title">{{ movie.title }} | {{ movie.year }}</div>
+
+                    <!-- Wrapped Genres with the new genre-section class -->
+                    <div class="genre-section">
+                        <div class="genre-title"></div>
+                        <div class="genre-list">{{ movie.genres }}</div>
+                    </div>
+
                     <div class="movie-plot">{{ movie.plot }}</div>
                 </div>
 
 
 
 
-<!-- New info-box for score, vote components and genres -->
-<div class="info-box">
-    <div class="info-title"></div>
 
-    <!-- New row to contain both ratings and genres -->
-    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
-    <div class="row score-votes-genre-section">
 
-        <!-- Column for ratings and vote count -->
-        <div class="col-md-6">
-            <div class="rating-votes-wrapper">
-                <!-- Position the circle progress bar -->
-                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                    <strong></strong>
+                <!-- New info-box for score, vote components and genres -->
+                <div class="info-box">
+                    <div class="info-title"></div>
+
+                    <!-- New row to contain both ratings and genres -->
+                    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+                    <div class="row score-votes-genre-section">
+
+                        <!-- Column for ratings and vote count -->
+                        <div class="col-md-6">
+                            <div class="rating-votes-wrapper">
+                                <!-- Position the circle progress bar -->
+                                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                                    <strong></strong>
+                                </div>
+
+                                <!-- Votes Label -->
+                                <div class="votes-label action-button" id="votes">
+                                    <div id="vote-number">{{ movie.votes }}</div>
+                                    <div id="vote-text"> Votes</div>
+                                </div>
+
+                                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                                <button class="votes-label action-button" id="seen-it-button">
+                                    <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
+                                    <div></div>
+                                </button>
+                                <button class="votes-label action-button" id="watchlist-button">
+                                    <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
+                                    <div></div>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
-
-                <!-- Votes Label -->
-                <div class="votes-label action-button" id="votes">
-                    <div id="vote-number">{{ movie.votes }}</div>
-                    <div id="vote-text"> Votes</div>
-                </div>
-
-                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-                <button class="votes-label action-button" id="seen-it-button">
-                    <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
-                    <div>Seen It</div>
-                </button>
-                <button class="votes-label action-button" id="watchlist-button">
-                    <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
-                    <div>Watchlist</div>
-                </button>
-            </div>
-        </div>
-
-        <!-- Column for genres -->
-        <!-- This is now properly set up to be next to the rating and votes column -->
-        <div class="col-md-6">
-            <div class="genre-title">Genres</div>
-            <div class="genre-list">{{ movie.genres }}</div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -462,37 +461,6 @@
                 </div>
 
 
-<div class="info-box">
-    <div class="cast-title"></div>
-    <div class="cast-list">
-        <!-- Create a new flexbox container for the cast -->
-        <div class="d-flex flex-nowrap">
-            <!-- Loop through the list of actors -->
-            {% for actor in movie.cast %}
-                <div class="m-2">  <!-- Added m-2 for margin -->
-                    <!-- Bootstrap Card -->
-                    <div class="card actor-card">
-                        {% if actor.image_url %}
-                            <!-- Actor Image -->
-                            <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
-                        {% else %}
-                            <!-- Placeholder if No Image -->
-                            <div class="card-body">
-                                <p class="card-text">No image available</p>
-                            </div>
-                        {% endif %}
-                        <!-- Actor Name -->
-                        <div class="card-footer actor-name">
-                            <small class="text-muted">{{ actor.name }}</small>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-<!-- Existing HTML ... -->
-
 
 
 
@@ -506,6 +474,39 @@
                 {% endif %}
             </div>
         </div>
+
+        <div class="info-box">
+            <div class="cast-title"></div>
+            <div class="cast-list">
+                <!-- Create a new flexbox container for the cast -->
+                <div class="d-flex flex-nowrap">
+                    <!-- Loop through the list of actors -->
+                    {% for actor in movie.cast %}
+                        <div class="m-0.2">  <!-- Added m-2 for margin -->
+                            <!-- Bootstrap Card -->
+                            <div class="card actor-card">
+                                {% if actor.image_url %}
+                                    <!-- Actor Image -->
+                                    <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
+                                {% else %}
+                                    <!-- Placeholder if No Image -->
+                                    <div class="card-body">
+                                        <p class="card-text">No image available</p>
+                                    </div>
+                                {% endif %}
+                                <!-- Actor Name -->
+                                <div class="card-footer actor-name">
+                                    <small class="text-muted">{{ actor.name }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Existing HTML ... -->
+
+
     </div>
 </div>
 
