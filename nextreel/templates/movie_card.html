@@ -233,6 +233,19 @@
 }
 
 
+/* Custom CSS to adjust spacing */
+
+/* More specific selectors for custom row and columns */
+
+div.row.custom-row-ratings-genres > div.col-md-6 {
+    padding-left: 0px !important;  /* Reduce left padding */
+    padding-right: -50px !important;  /* Reduce right padding */
+}
+
+div.row.custom-row-directed-written > div.col-sm-6 {
+    padding-left: 0px !important;  /* Reduce left padding */
+    padding-right: 0px !important;  /* Reduce right padding */
+}
 
 
 
@@ -292,44 +305,40 @@
 
 
 
-                <!-- New info-box for score and vote components -->
-                <div class="info-box">
-                    <div class="info-title"></div>
-                    <div class="rating-votes-wrapper">
-                        <!-- Position the circle progress bar -->
-                        <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                            <strong></strong>
-                        </div>
+<!-- New info-box for score, vote components and genres -->
+<div class="info-box">
+    <div class="info-title"></div>
 
-                        <div class="votes-label" id="votes">
-                            <div id="vote-number">{{ movie.votes }}</div>
-                            <div id="vote-text"> Votes</div>
-                        </div>
-
-                    </div>
-
+    <!-- New row to contain both ratings and genres -->
+    <div class="row custom-row-ratings-genres">
+        <!-- Column for ratings and vote count -->
+        <div class="col-md-6">
+            <div class="rating-votes-wrapper">
+                <!-- Position the circle progress bar -->
+                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                    <strong></strong>
                 </div>
-
-
-
-
-
-
-
-{#                <div class="info-box">#}
-{#                    <div class="info-title">IMDb Rating: {{ movie.rating }}</div>#}
-{#                    <div class="info-content" id="votes">Votes: {{ movie.votes }}</div>#}
-{#                    <div class="info-content" id="language">Language: {{ movie.languages }}</div>#}
-{#                </div>#}
-{#            #}
-
-                <div class="info-box">
-                    <div class="info-title">Genres</div>
-                    <div class="info-content">{{ movie.genres }}</div>
+                <div class="votes-label" id="votes">
+                    <div id="vote-number">{{ movie.votes }}</div>
+                    <div id="vote-text"> Votes</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Column for genres -->
+        <div class="col-md-6">
+            <div class="info-title">Genres</div>
+            <div class="info-content">{{ movie.genres }}</div>
+        </div>
+    </div>
+</div>
+
+
+
+
                 <div class="info-box">
                     <!-- Start a new Bootstrap row here -->
-                    <div class="row">
+    <div class="row custom-row-directed-written">
                         <!-- First column: "Directed by" -->
                         <div class="col-sm-6 info-content">
                             Directed by {{ movie.directors }}
@@ -388,14 +397,6 @@
 
 
 
-
-                <!-- Circle Progress Bar for IMDb Rating -->
-                <div class="progress-bar-wrapper"> <!-- Changed class name from "progressbar" -->
-                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                        <strong></strong>
-                        <span>IMDb <br> Rating</span>
-                    </div>
-                </div>
 
 
 
