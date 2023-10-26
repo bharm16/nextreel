@@ -28,9 +28,9 @@
             content: "";  /* Required for the pseudo-element to work */
             position: absolute;  /* Absolutely position it */
 
-            {#/* Center it vertically: start and end 25% from the top and bottom */#}
-            {#top: 25vh;#}
-            {#bottom: 25vh;#}
+        {#/* Center it vertically: start and end 25% from the top and bottom */#}
+        {#top: 25vh;#}
+        {#bottom: 25vh;#}
 
             /* Stretch it horizontally: start and end 0% from the left and right */
             top: 0;
@@ -149,6 +149,7 @@
         .actor-card {
             width: 150px; /* Fixed width */
             margin: 10px; /* Margin around each card */
+            padding-right: 10px; /* Margin around
         }
 
         .actor-card img {
@@ -159,6 +160,9 @@
         .actor-name {
             text-align: center; /* Centered text */
         }
+
+
+
 
 
 
@@ -184,11 +188,11 @@
 
     <div class="movie-card-wrapper">
 
-{#        <div class="fade-overlay"></div>#}
-{##}
-{##}
-{#        <!-- Semi-transparent white overlay -->#}
-{#        <div class="overlay"></div>#}
+        {#        <div class="fade-overlay"></div>#}
+        {##}
+        {##}
+        {#        <!-- Semi-transparent white overlay -->#}
+        {#        <div class="overlay"></div>#}
 
         <!-- Float this row above the backdrop -->
         <div class="row movie-details-row">
@@ -198,15 +202,15 @@
 
 
 
-            <div class="movie-navigation-buttons">
-        <form method="POST" action="/previous_movie" style="display: inline;">
-            <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
-        </form>
-        <form method="POST" action="/next_movie" style="display: inline;">
-            <button type="submit" class="btn btn-custom">Next Movie</button>
-        </form>
-    </div>
+                <div class="movie-navigation-buttons">
+                    <form method="POST" action="/previous_movie" style="display: inline;">
+                        <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
+                    </form>
+                    <form method="POST" action="/next_movie" style="display: inline;">
+                        <button type="submit" class="btn btn-custom">Next Movie</button>
+                    </form>
                 </div>
+            </div>
 
 
 
@@ -275,16 +279,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
                 {% if current_user.is_authenticated %}
                     <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
                     <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Add to Watchlist</button>
@@ -301,11 +295,18 @@
 
 
 
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
 <script>
+
+
+
+
+
+
     function formatVotes() {
         const voteElement = document.getElementById("votes");
         console.log("Original text: " + voteElement.textContent); // debug line
@@ -370,6 +371,8 @@
             }).catch(error => console.error("Error:", error));
         });
     });
+
+
 
 
 </script>
