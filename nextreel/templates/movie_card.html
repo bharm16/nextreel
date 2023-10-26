@@ -52,7 +52,7 @@
 
 
         /* Float the row containing movie details above the backdrop */
-        .movie-details-row {
+        .main-movie-details {
             position: relative; /* Make it a positioned element */
             z-index: 3; /* Float above backdrop */
             padding-top: 12.5vh;  /* Push down the content */
@@ -63,8 +63,8 @@
 
 
 
-        /* Semi-transparent white overlay */
-        .overlay {
+        /* Semi-transparent white background-overlay */
+        .background-overlay {
             background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0.5) 100%);
             position: fixed;
             top: 0;
@@ -74,8 +74,8 @@
             z-index: 2;
         }
 
-        /* Fading overlay */
-        .fade-overlay {
+        /* Fading background-overlay */
+        .background-fade-background-overlay {
             background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,1) 100%);
             position: absolute;
             top: 0;
@@ -117,7 +117,7 @@
         {#box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);#}
             background-color: transparent;  /* Make it transparent */
             position: relative;  /* Make it a positioned element */
-            z-index: 3;  /* Position it above the overlay */
+            z-index: 3;  /* Position it above the background-overlay */
             font-size: 1em;
 
 
@@ -130,7 +130,7 @@
             border-radius: 0;
             border: none;  /* Add this line to remove the border */
             position: relative;  /* Make it a positioned element */
-            z-index: 3;  /* Position it above the overlay */
+            z-index: 3;  /* Position it above the background-overlay */
             margin-top: -50px;  /* Move the movie poster upwards */
 
         }
@@ -144,8 +144,8 @@
             background-repeat: no-repeat;
         }
 
-        /* Set initial styles for movie-card-wrapper */
-        .movie-card-wrapper {
+        /* Set initial styles for movie-card-container */
+        .movie-card-container {
             /* Removed background settings */
             position: relative; /* Make it a positioned element */
             overflow: hidden; /* Contain floated elements */
@@ -269,19 +269,19 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 <body>
 
 
-<div class="fade-overlay"></div>
+<div class="background-fade-background-overlay"></div>
 
 
-<!-- Semi-transparent white overlay -->
-<div class="overlay"></div>
-<div class="row movie-details-row">
+<!-- Semi-transparent white background-overlay -->
+<div class="background-overlay"></div>
+<div class="row main-movie-details">
 
 
-    <div class="movie-card-wrapper">
+    <div class="movie-card-container">
 
 
         <!-- Float this row above the backdrop -->
-        <div class="row movie-details-row">
+        <div class="row main-movie-details">
             <!-- Your movie details here -->
             <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
@@ -304,9 +304,9 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 
 
             <div class="col-lg-8 col-md-6">
-                <div class="info-box">
-                    <div class="info-title">{{ movie.title }} | {{ movie.year }}</div>
-                    <div class="info-content">{{ movie.plot }}</div>
+                <div class="info-container">
+                    <div class="move-title">{{ movie.title }} | {{ movie.year }}</div>
+                    <div class="movie-plot">{{ movie.plot }}</div>
                 </div>
 
 
@@ -319,7 +319,7 @@ div.row.custom-row-directed-written > div.col-sm-6 {
     <div class="info-title"></div>
 
     <!-- New row to contain both ratings and genres -->
-    <div class="row custom-row-ratings-genres">
+    <div class="score-votes-genre-section">
         <!-- Column for ratings and vote count -->
         <div class="col-md-6">
             <div class="rating-votes-wrapper">
@@ -351,8 +351,8 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 
         <!-- Column for genres -->
         <div class="col-md-6">
-            <div class="info-title">Genres</div>
-            <div class="info-content">{{ movie.genres }}</div>
+            <div class="genre-title">Genres</div>
+            <div class="genre-list">{{ movie.genres }}</div>
         </div>
     </div>
 </div>
@@ -364,12 +364,12 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                     <!-- Start a new Bootstrap row here -->
     <div class="row custom-row-directed-written">
                         <!-- First column: "Directed by" -->
-                        <div class="col-sm-6 info-content">
+                        <div class="col-sm-6 director-info">
                             Directed by {{ movie.directors }}
                         </div>
 
                         <!-- Second column: "Written by" -->
-                        <div class="col-sm-6 info-content">
+                        <div class="col-sm-6 writer-info">
                             Written by {{ movie.writers }}
                         </div>
                     </div>
@@ -388,8 +388,8 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                 <!-- Existing HTML ... -->
 
                 <div class="info-box">
-                    <div class="info-title">Cast</div>
-                    <div class="info-content">
+                    <div class="cast-title">Cast</div>
+                    <div class="cast-list">
                         <div class="row">
                             <!-- Loop through the list of actors -->
                             {% for actor in movie.cast %}
@@ -426,8 +426,8 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 
 
                 {% if current_user.is_authenticated %}
-                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
-                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Add to Watchlist</button>
+                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
+                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
                 {% endif %}
             </div>
         </div>
