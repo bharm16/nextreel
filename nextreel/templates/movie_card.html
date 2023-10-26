@@ -200,7 +200,7 @@
             display: flex;
             align-items: center;
             margin-right: 20px;  /* Add a margin to the right */
-            transform: scale(0.8);  /* Scale down to half size */
+            transform: scale(0.7);  /* Scale down to half size */
     transform-origin: 0 0;  /* Optional: define the point around which to scale */
 }
 
@@ -248,7 +248,16 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 }
 
 
-
+.action-button {
+    /* Inherit the same styles as .votes-label */
+    /* Any additional styles specific to action buttons can go here */
+}
+.action-button i {
+    margin-bottom: 5px;  /* Add a small bottom margin to the icon */
+}
+.action-button div {
+    font-size: 14px;  /* Adjust font size if needed */
+}
 
 
 
@@ -322,6 +331,21 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                     <div id="vote-number">{{ movie.votes }}</div>
                     <div id="vote-text"> Votes</div>
                 </div>
+
+
+                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+    <button class="votes-label action-button" id="seen-it-button">
+        <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
+        <div>Seen It</div>
+    </button>
+    <button class="votes-label action-button" id="watchlist-button">
+        <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
+        <div>Watchlist</div>
+    </button>
+
+
+
+
             </div>
         </div>
 
