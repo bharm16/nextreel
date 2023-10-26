@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='styles/circle_progress_bar.css') }}">#}
+
+
     <style>
         /* Modern background color */
         body {
@@ -115,6 +118,9 @@
             background-color: transparent;  /* Make it transparent */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the overlay */
+                font-size: 1em;
+
+
         }
 
         /* Movie poster */
@@ -167,6 +173,8 @@
 
 
     </style>
+
+
 </head>
 
 <body>
@@ -279,6 +287,17 @@
 
 
 
+<!-- Circle Progress Bar for IMDb Rating -->
+<div class="progress-bar-wrapper"> <!-- Changed class name from "progressbar" -->
+<div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+        <strong></strong>
+        <span>IMDb <br> Rating</span>
+    </div>
+</div>
+
+
+
+
                 {% if current_user.is_authenticated %}
                     <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Seen It</button>
                     <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn btn-custom">Add to Watchlist</button>
@@ -294,14 +313,35 @@
 
 
 
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
-<script>
 
+
+<!-- Include jQuery and circle-progress.js -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+
+<!-- Initialize circle progress bar -->
+<script>
+$(document).ready(function ($) {
+    $('#rating-circle').circleProgress({
+        value: $('#rating-circle').data('percent') / 10, // IMDb rating is usually out of 10
+        size: 100, // Size of the circle
+        thickness: 10, // Thickness of the circle line
+        fill: {
+            color: '#663399' // Fill color
+        }
+    }).on('circle-animation-progress', function (event, progress, stepValue) {
+        $(this).find('strong').text((stepValue * 10).toFixed(1));
+    });
+});
+</script>
+
+
+
+<script>
 
 
 

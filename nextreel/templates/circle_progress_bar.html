@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/circle_progress_bar.css') }}">
+
+</head>
+<body>
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="container">
+    <h2>Progress Bar</h2>
+	<div class="row text-center">
+
+
+		<div class="col-sm-4">
+		    <div class="progressbar">
+            <div class="second circle" data-percent="77">
+              <strong></strong>
+              <span>animation <br> progress</span>
+            </div>
+            </div>
+		</div>
+
+
+
+	</div>
+</div>
+
+
+
+<div class="container">
+    <h2>Progress Bar</h2>
+    <div class="row text-center">
+        <div class="col-sm-4">
+            <div class="progress-bar-wrapper"> <!-- Changed class name from "progressbar" -->
+                <div class="animation-circle" data-percent="77"> <!-- Changed class name from "second circle" -->
+                    <strong></strong>
+                    <span>animation <br> progress</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+
+
+
+<script>
+
+    $(document).ready(function ($) {
+    function animateElements() {
+        $('.progress-bar-wrapper').each(function () {
+            var elementPos = $(this).offset().top;
+            var topOfWindow = $(window).scrollTop();
+    var percent = $(this).find('.animation-circle').attr('data-percent');
+            var animate = $(this).data('animate');
+            if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+                $(this).data('animate', true);
+                $(this).find('.circle').circleProgress({
+                    // startAngle: -Math.PI / 2,
+                    value: percent / 100,
+                    size : 400,
+                    thickness: 15,
+                    fill: {
+                        color: '#663399'
+                    }
+                }).on('circle-animation-progress', function (event, progress, stepValue) {
+                    $(this).find('strong').text((stepValue*100).toFixed(0) + "%");
+                }).stop();
+            }
+        });
+    }
+
+    animateElements();
+    $(window).scroll(animateElements);
+});
+</script>
+
+</body>
+</html>
