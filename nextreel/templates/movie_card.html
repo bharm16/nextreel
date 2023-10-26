@@ -168,27 +168,27 @@
         }
 
 
-/* New styles for votes-label */
-.votes-label {
-    font-size: 15px; /* Consider reducing if text is too large */
-    color: #333;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 2px solid #333;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: normal;  /* Override the line-height */
-    margin-left: 10px;
-    display: flex;  /* Make it a flex container */
-    justify-content: center;  /* Center content horizontally */
-    align-items: center;  /* Center content vertically */
-    flex-wrap: wrap;  /* Allow items to wrap */
-    flex-direction: column;  /* Stack items vertically */
-    overflow: hidden;  /* Hide any overflow */
-        white-space: normal; /* Allow line breaks and text wrapping */
+        /* New styles for votes-label */
+        .votes-label {
+            font-size: 15px; /* Consider reducing if text is too large */
+            color: #333;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px solid #333;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            line-height: normal;  /* Override the line-height */
+            margin-left: 10px;
+            display: flex;  /* Make it a flex container */
+            justify-content: center;  /* Center content horizontally */
+            align-items: center;  /* Center content vertically */
+            flex-wrap: wrap;  /* Allow items to wrap */
+            flex-direction: column;  /* Stack items vertically */
+            overflow: hidden;  /* Hide any overflow */
+            white-space: normal; /* Allow line breaks and text wrapping */
 
-}
+        }
 
         /* Style for rating-circle, if necessary */
         .rating-circle {
@@ -201,8 +201,8 @@
             align-items: center;
             margin-right: 20px;  /* Add a margin to the right */
             transform: scale(0.7);  /* Scale down to half size */
-    transform-origin: 0 0;  /* Optional: define the point around which to scale */
-}
+            transform-origin: 0 0;  /* Optional: define the point around which to scale */
+        }
 
 
 
@@ -228,63 +228,70 @@
 
         }
 
-#vote-number, #vote-text {
-    white-space: normal; /* Allow line breaks and text wrapping */
-}
+        #vote-number, #vote-text {
+            white-space: normal; /* Allow line breaks and text wrapping */
+        }
 
 
-/* Custom CSS to adjust spacing */
+        /* Custom CSS to adjust spacing */
 
-/* More specific selectors for custom row and columns */
+        /* More specific selectors for custom row and columns */
 
-{#div.row.custom-row-ratings-genres > div.col-md-6 {#}
-{#    padding-left: 0px !important;  /* Reduce left padding */#}
-{#    padding-right: -50px !important;  /* Reduce right padding */#}
+        {#div.row.custom-row-ratings-genres > div.col-md-6 {#}
+        {#    padding-left: 0px !important;  /* Reduce left padding */#}
+        {#    padding-right: -50px !important;  /* Reduce right padding */#}
 
-div.row.custom-row-directed-written > div.col-sm-6 {
-    padding-left: 0px !important;  /* Reduce left padding */
-    padding-right: 0px !important;  /* Reduce right padding */
-}
+        div.row.custom-row-directed-written > div.col-sm-6 {
+            padding-left: 0px !important;  /* Reduce left padding */
+            padding-right: 0px !important;  /* Reduce right padding */
+        }
 
 
-.action-button {
-    /* Inherit the same styles as .votes-label */
-    /* Any additional styles specific to action buttons can go here */
-}
-.action-button i {
-    margin-bottom: 5px;  /* Add a small bottom margin to the icon */
-}
-.action-button div {
-    font-size: 14px;  /* Adjust font size if needed */
-}
+        .action-button {
+            /* Inherit the same styles as .votes-label */
+            /* Any additional styles specific to action buttons can go here */
+        }
+        .action-button i {
+            margin-bottom: 5px;  /* Add a small bottom margin to the icon */
+        }
+        .action-button div {
+            font-size: 14px;  /* Adjust font size if needed */
+        }
 
-/* Add margin to all buttons within .rating-votes-wrapper */
-.rating-votes-wrapper button {
-    margin: 0 20px; /* 0 vertical margin, 10px horizontal margin */
-}
+        /* Add margin to all buttons within .rating-votes-wrapper */
+        .rating-votes-wrapper button {
+            display: flex;
+            align-items: center;
+            margin: 0 20px; /* 0 vertical margin, 10px horizontal margin */
+        }
 
-.spaced-button {
-    min-width: 100px;  /* Set a minimum width */
-    margin-right: 10px;
-}
+        /* Add some spacing between buttons and genres */
+        .score-votes-genre-section > .col-md-6 {
+            padding: 10px;
+        }
 
-.rating-votes-wrapper {
-    min-width: 1400px;  /* Or whatever minimum width you need */
-}
+        .spaced-button {
+            min-width: 100px;  /* Set a minimum width */
+            margin-right: 10px;
+        }
 
-/* Add margin to action buttons within .rating-votes-wrapper */
-.action-button {
-    margin-left: 10px;  /* Add left margin */
-    margin-right: 10px; /* Add right margin */
-}
+        .rating-votes-wrapper {
+            min-width: 1400px;  /* Or whatever minimum width you need */
+        }
 
-.rating-votes-wrapper {
-    font-size: 0;
-}
+        /* Add margin to action buttons within .rating-votes-wrapper */
+        .action-button {
+            margin-left: 10px;  /* Add left margin */
+            margin-right: 10px; /* Add right margin */
+        }
 
-.action-button, .votes-label, .rating-circle {
-    font-size: 16px; /* reset to the desired font-size */
-}
+        .rating-votes-wrapper {
+            font-size: 0;
+        }
+
+        .action-button, .votes-label, .rating-circle {
+            font-size: 16px; /* reset to the desired font-size */
+        }
 
 
 
@@ -340,14 +347,14 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 
 
 
-
-
 <!-- New info-box for score, vote components and genres -->
 <div class="info-box">
     <div class="info-title"></div>
 
     <!-- New row to contain both ratings and genres -->
-    <div class="score-votes-genre-section">
+    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+    <div class="row score-votes-genre-section">
+
         <!-- Column for ratings and vote count -->
         <div class="col-md-6">
             <div class="rating-votes-wrapper">
@@ -355,30 +362,27 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                 <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
                     <strong></strong>
                 </div>
+
+                <!-- Votes Label -->
                 <div class="votes-label action-button" id="votes">
                     <div id="vote-number">{{ movie.votes }}</div>
                     <div id="vote-text"> Votes</div>
                 </div>
 
-
-<!-- New buttons for "Seen it" and "Add to Watchlist" -->
-<button class="votes-label action-button" id="seen-it-button">
-    <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
-    <div>Seen It</div>
-</button>
-<button class="votes-label action-button" id="watchlist-button">
-    <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
-    <div>Watchlist</div>
-</button>
-
-
-
-
-
+                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                <button class="votes-label action-button" id="seen-it-button">
+                    <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
+                    <div>Seen It</div>
+                </button>
+                <button class="votes-label action-button" id="watchlist-button">
+                    <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
+                    <div>Watchlist</div>
+                </button>
             </div>
         </div>
 
         <!-- Column for genres -->
+        <!-- This is now properly set up to be next to the rating and votes column -->
         <div class="col-md-6">
             <div class="genre-title">Genres</div>
             <div class="genre-list">{{ movie.genres }}</div>
@@ -389,9 +393,11 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 
 
 
+
+
                 <div class="info-box">
                     <!-- Start a new Bootstrap row here -->
-    <div class="row custom-row-directed-written">
+                    <div class="row custom-row-directed-written">
                         <!-- First column: "Directed by" -->
                         <div class="col-sm-6 director-info">
                             Directed by {{ movie.directors }}
