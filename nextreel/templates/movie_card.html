@@ -237,10 +237,9 @@
 
 /* More specific selectors for custom row and columns */
 
-div.row.custom-row-ratings-genres > div.col-md-6 {
-    padding-left: 0px !important;  /* Reduce left padding */
-    padding-right: -50px !important;  /* Reduce right padding */
-}
+{#div.row.custom-row-ratings-genres > div.col-md-6 {#}
+{#    padding-left: 0px !important;  /* Reduce left padding */#}
+{#    padding-right: -50px !important;  /* Reduce right padding */#}
 
 div.row.custom-row-directed-written > div.col-sm-6 {
     padding-left: 0px !important;  /* Reduce left padding */
@@ -258,6 +257,21 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 .action-button div {
     font-size: 14px;  /* Adjust font size if needed */
 }
+
+/* Add margin to all buttons within .rating-votes-wrapper */
+.rating-votes-wrapper button {
+    margin: 0 20px; /* 0 vertical margin, 10px horizontal margin */
+}
+
+.spaced-button {
+    min-width: 100px;  /* Set a minimum width */
+    margin-right: 10px;
+}
+
+.rating-votes-wrapper {
+    min-width: 500px;  /* Or whatever minimum width you need */
+}
+
 
 
 
