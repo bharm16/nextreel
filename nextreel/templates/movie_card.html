@@ -154,21 +154,44 @@
             overflow: hidden; /* Contain floated elements */
         }
 
-        /* Actor Cards */
-        .actor-card {
-            width: 150px; /* Fixed width */
-            margin: 10px; /* Margin around each card */
-            padding-right: 10px; /* Margin around
-        }
+/* Existing CSS ... */
 
-        .actor-card img {
-            width: 100%; /* Full width */
-            height: auto; /* Maintain aspect ratio */
-        }
+/* Actor Cards */
+.actor-card {
+    width: 150px; /* Fixed width */
+    margin: 10px; /* Margin around each card */
+    padding: 15px; /* Padding inside each card */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
 
-        .actor-name {
-            text-align: center; /* Centered text */
-        }
+}
+
+/* Actor Card Image */
+.actor-card img {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the whole area */
+    max-height: 200px; /* Max height */
+}
+
+/* Actor Card Body */
+.actor-card .card-body {
+    min-height: 50px; /* Min height */
+    max-height: 50px; /* Max height */
+    overflow: hidden; /* Hide Overflowing Text */
+
+}
+
+/* Actor Card Footer */
+.actor-card .card-footer {
+    padding: 5px;
+    text-align: center;
+    white-space: nowrap; /* Don't wrap text to next line */
+    overflow: hidden;  /* Hide text outside the container */
+    text-overflow: ellipsis;  /* Add ellipsis for overflowed text */
+
+}
+
+
 
 
         /* New styles for votes-label */
@@ -416,12 +439,12 @@
 
 
                 <div class="info-box">
-                    <div class="cast-title">Cast</div>
+                    <div class="cast-title"></div>
                     <div class="cast-list">
                         <div class="row">
                             <!-- Loop through the list of actors -->
                             {% for actor in movie.cast %}
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+<div class="col-lg-2 col-md-3 col-sm-4 col-6 m-2">  <!-- Added m-2 for margin -->
                                     <!-- Bootstrap Card -->
                                     <div class="card actor-card">
                                         {% if actor.image_url %}
