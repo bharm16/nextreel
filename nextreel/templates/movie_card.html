@@ -269,7 +269,21 @@ div.row.custom-row-directed-written > div.col-sm-6 {
 }
 
 .rating-votes-wrapper {
-    min-width: 500px;  /* Or whatever minimum width you need */
+    min-width: 1400px;  /* Or whatever minimum width you need */
+}
+
+/* Add margin to action buttons within .rating-votes-wrapper */
+.action-button {
+    margin-left: 10px;  /* Add left margin */
+    margin-right: 10px; /* Add right margin */
+}
+
+.rating-votes-wrapper {
+    font-size: 0;
+}
+
+.action-button, .votes-label, .rating-circle {
+    font-size: 16px; /* reset to the desired font-size */
 }
 
 
@@ -341,21 +355,22 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                 <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
                     <strong></strong>
                 </div>
-                <div class="votes-label" id="votes">
+                <div class="votes-label action-button" id="votes">
                     <div id="vote-number">{{ movie.votes }}</div>
                     <div id="vote-text"> Votes</div>
                 </div>
 
 
-                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-    <button class="votes-label action-button" id="seen-it-button">
-        <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
-        <div>Seen It</div>
-    </button>
-    <button class="votes-label action-button" id="watchlist-button">
-        <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
-        <div>Watchlist</div>
-    </button>
+<!-- New buttons for "Seen it" and "Add to Watchlist" -->
+<button class="votes-label action-button" id="seen-it-button">
+    <i class="fas fa-eye"></i> <!-- Font Awesome Eye Icon -->
+    <div>Seen It</div>
+</button>
+<button class="votes-label action-button" id="watchlist-button">
+    <i class="fas fa-bookmark"></i> <!-- Font Awesome Bookmark Icon -->
+    <div>Watchlist</div>
+</button>
+
 
 
 
@@ -390,16 +405,6 @@ div.row.custom-row-directed-written > div.col-sm-6 {
                     <!-- End of Bootstrap row -->
                 </div>
 
-
-
-                {#                <div class="info-box">#}
-                {#                    <div class="info-title">Cast</div>#}
-                {#                    <div class="info-content">{{ movie.cast }}</div>#}
-                {#                </div>#}
-
-                <!-- ... existing HTML ... -->
-
-                <!-- Existing HTML ... -->
 
                 <div class="info-box">
                     <div class="cast-title">Cast</div>
