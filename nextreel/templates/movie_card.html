@@ -378,7 +378,18 @@
     padding-bottom: 1.5em;
     max-width: 80%; /* Restrict max-width to 80% of the parent div */
     word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
-    margin: auto; /* Center the container */
+    {#margin: auto; /* Center the container */#}
+}
+
+/* CSS */
+/* Reduce right margin of movie poster */
+.col-lg-5.col-md-6.text-center.position-relative {
+    margin-right: -50px;  /* Adjust this value as needed */
+}
+
+/* Or reduce left margin of info-container */
+.col-lg-7.col-md-6.col-sm-10.mx-auto {
+    margin-left: -80px;  /* Adjust this value as needed */
 }
 
 
@@ -404,7 +415,7 @@
         <!-- Float this row above the backdrop -->
         <div class="row main-movie-details">
             <!-- Your movie details here -->
-            <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
+            <div class="col-lg-5 col-md-6 text-center position-relative">  <!-- Added position-relative -->
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
 
 
@@ -421,7 +432,7 @@
                 </div>
             </div>
 
-<div class="col-lg-6 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
+<div class="col-lg-7 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
     <div class="info-container"> <!-- This class will have updated CSS -->
         <!-- New row combining title, year, and director -->
         <div class="row align-items-center">
