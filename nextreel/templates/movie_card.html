@@ -387,38 +387,43 @@
             margin-left: -80px;  /* Adjust this value as needed */
         }
 
+        /* Flexbox row for title, year, and director */
+        .flexbox-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;  /* This allows the items to wrap */
+        }
 
-/* Flexbox row for title, year, and director */
-.flexbox-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        /* Flexbox item for movie title */
+        .flex-item-title {
+            flex-grow: 1;
+            flex-shrink: 1;
+            text-align: left;
+            white-space: nowrap;  /* If you want the title to not break */
+            padding-right: 0 !important;
+        }
 
-/* Flexbox item for movie title */
-.flex-item-title {
-    flex-grow: 1;
-    flex-shrink: 1;
-    text-align: left;
-}
+        /* Flexbox item for year and director */
+        .flex-item-details {
+            display: flex;
+            align-items: center;
+            flex-grow: 0;
+            flex-shrink: 0;
+            text-align: left;
+            {#margin-left: -10px;#}
+        }
 
-/* Flexbox item for year and director */
-.flex-item-details {
-    display: flex;
-    align-items: center; /* Vertically aligns the contents */
-    flex-grow: 0;
-    flex-shrink: 0;
-    text-align: right;
-}
 
-/* Styles for year, separator, and director */
-.year-content, .director-info, .separator {
-    margin: 0 5px; /* Adds a little space around each element */
-}
 
-.separator {
-    font-weight: bold; /* Makes the separator stand out a bit */
-}
+        /* Styles for year, separator, and director */
+        .year-content, .director-info, .separator {
+            margin: 0 5px; /* Adds a little space around each element */
+        }
+
+        .separator {
+            font-weight: bold; /* Makes the separator stand out a bit */
+        }
 
 
 
@@ -464,36 +469,33 @@
             </div>
 
 
-<div class="col-lg-7 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
-    <div class="info-container"> <!-- This class will have updated CSS -->
+            <div class="col-lg-7 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
+                <div class="info-container"> <!-- This class will have updated CSS -->
 
-      <div class="flexbox-title-row">
-    <div class="flex-item-title">
-        <div class="movie-title no-margin-padding">{{ movie.title }}</div>
-    </div>
-    <div class="flex-item-details">
+                    <div class="flexbox-title-row flex-wrap">  <!-- Add 'flex-wrap' class -->
+                        <div class="flex-item-title">
+                            <div class="movie-title no-margin-padding">{{ movie.title }}</div>
+                        </div>
+                        <div class="flex-item-details">
+                            <div class="year-content">{{ movie.year }}</div>
+                            <div class="director-info">Directed by {{ movie.directors }}</div>
+                        </div>
+                    </div>
+                    <!-- End of new flexbox row -->
 
-        <div class="year-content">{{ movie.year }}</div>
-         <div class="director-info">Directed by {{ movie.directors }}</div>
-{#        <span class="separator">|</span> <!-- Separator between year and director -->#}
+                    <!-- Existing genre and other details -->
+                    <div class="d-flex align-items-center genre-year-wrapper">
+                        <div class="genre-content">
+                            {{ movie.genres }}
+                        </div>
+                        <!-- Spacer div to ensure a small gap -->
+                        <div class="spacer"></div>
+                    </div>
 
-    </div>
-</div>
-        <!-- End of new flexbox row -->
-
-        <!-- Existing genre and other details -->
-        <div class="d-flex align-items-center genre-year-wrapper">
-            <div class="genre-content">
-                {{ movie.genres }}
-            </div>
-            <!-- Spacer div to ensure a small gap -->
-            <div class="spacer"></div>
-        </div>
-
-        <!-- Movie plot remains the same -->
-        <div class="movie-plot">
-            {{ movie.plot }}
-        </div>
+                    <!-- Movie plot remains the same -->
+                    <div class="movie-plot">
+                        {{ movie.plot }}
+                    </div>
 
 
 
@@ -505,250 +507,250 @@
 
 
 
-                            <!-- New info-box for score, vote components and genres -->
-                            <div class="info-box">
-                                <div class="info-title"></div>
+                    <!-- New info-box for score, vote components and genres -->
+                    <div class="info-box">
+                        <div class="info-title"></div>
 
-                                <!-- New row to contain both ratings and genres -->
-                                <!-- Added a Bootstrap 'row' class to properly contain the columns -->
-                                <div class="row score-votes-genre-section">
+                        <!-- New row to contain both ratings and genres -->
+                        <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+                        <div class="row score-votes-genre-section">
 
-                                    <!-- Column for ratings and vote count -->
-                                    <div class="col-md-6">
-                                        <div class="rating-votes-wrapper">
-                                            <!-- Position the circle progress bar -->
-                                            <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                                                <strong></strong>
-                                            </div>
-
-                                            <!-- Votes Label -->
-                                            <div class="votes-label action-button" id="votes">
-                                                <div id="vote-number">{{ movie.votes }}</div>
-                                                <div id="vote-text"> Votes</div>
-                                            </div>
-
-                                            <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-                                            <button class="votes-label action-button" id="seen-it-button">
-                                                <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
-
-                                            </button>
-                                            <button class="votes-label action-button" id="watchlist-button">
-                                                <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
-                                            </button>
-                                        </div>
+                            <!-- Column for ratings and vote count -->
+                            <div class="col-md-6">
+                                <div class="rating-votes-wrapper">
+                                    <!-- Position the circle progress bar -->
+                                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                                        <strong></strong>
                                     </div>
 
+                                    <!-- Votes Label -->
+                                    <div class="votes-label action-button" id="votes">
+                                        <div id="vote-number">{{ movie.votes }}</div>
+                                        <div id="vote-text"> Votes</div>
+                                    </div>
 
+                                    <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                                    <button class="votes-label action-button" id="seen-it-button">
+                                        <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
+
+                                    </button>
+                                    <button class="votes-label action-button" id="watchlist-button">
+                                        <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                {% if current_user.is_authenticated %}
+                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
+                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="cast-title"></div>
+            <div class="cast-list">
+                <!-- Create a new flexbox container for the cast -->
+                <div class="d-flex flex-nowrap">
+                    <!-- Loop through the list of actors -->
+                    {% for actor in movie.cast %}
+                        <div class="m-0.2">  <!-- Added m-2 for margin -->
+                            <!-- Bootstrap Card -->
+                            <div class="card actor-card">
+                                {% if actor.image_url %}
+                                    <!-- Actor Image -->
+                                    <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
+                                {% else %}
+                                    <!-- Placeholder if No Image -->
+                                    <div class="card-body">
+                                        <p class="card-text">No image available</p>
+                                    </div>
+                                {% endif %}
+                                <!-- Actor Name -->
+                                <div class="card-footer actor-name">
+                                    <small class="text-muted">{{ actor.name }}</small>
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-                        {% if current_user.is_authenticated %}
-                            <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
-                            <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
-                        {% endif %}
-                    </div>
+                    {% endfor %}
                 </div>
-
-                <div class="info-box">
-                    <div class="cast-title"></div>
-                    <div class="cast-list">
-                        <!-- Create a new flexbox container for the cast -->
-                        <div class="d-flex flex-nowrap">
-                            <!-- Loop through the list of actors -->
-                            {% for actor in movie.cast %}
-                                <div class="m-0.2">  <!-- Added m-2 for margin -->
-                                    <!-- Bootstrap Card -->
-                                    <div class="card actor-card">
-                                        {% if actor.image_url %}
-                                            <!-- Actor Image -->
-                                            <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
-                                        {% else %}
-                                            <!-- Placeholder if No Image -->
-                                            <div class="card-body">
-                                                <p class="card-text">No image available</p>
-                                            </div>
-                                        {% endif %}
-                                        <!-- Actor Name -->
-                                        <div class="card-footer actor-name">
-                                            <small class="text-muted">{{ actor.name }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <!-- Existing HTML ... -->
-
-
             </div>
         </div>
+        <!-- Existing HTML ... -->
+
+
+    </div>
+</div>
 
 
 
 
 
-        {#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+{#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 
 
 
-        <!-- Include jQuery and circle-progress.js -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+<!-- Include jQuery and circle-progress.js -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
 
-        <!-- Initialize circle progress bar -->
-        <script>
-            $(document).ready(function ($) {
-                $('#rating-circle').circleProgress({
-                    value: $('#rating-circle').data('percent') / 10, // IMDb rating is usually out of 10
-                    size: 100, // Size of the circle
-                    thickness: 10, // Thickness of the circle line
-                    fill: {
-                        color: '#1f8efa' // Fill color
-                    }
-                }).on('circle-animation-progress', function (event, progress, stepValue) {
-                    $(this).find('strong').text((stepValue * 10).toFixed(1));
-                });
-            });
-
-        </script>
-
-
-
-        <script>
-
-
-            document.addEventListener("DOMContentLoaded", function () {
-                // Locate the genre-info element by its id
-                const genreInfoElement = document.getElementById("genre-info");
-
-                // Read the full genres text
-                const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
-
-                // Split the genres by comma (or whatever delimiter is used)
-                const genresArray = fullGenres.split(',');
-
-                // Take only the first three genres
-                const firstThreeGenres = genresArray.slice(0, 3);
-
-                // Convert the array back to a comma-separated string
-                const firstThreeGenresText = firstThreeGenres.join(', ');
-
-                // Update the genre-info element's text content
-                genreInfoElement.textContent = firstThreeGenresText;
-            });
-
-
-
-            function formatVotes() {
-                // Target the new vote-number element
-                const voteElement = document.getElementById("vote-number");
-                console.log("Original text: " + voteElement.textContent); // debug line
-
-                // No need to split the text; it's just the vote count now
-                let votesText = voteElement.textContent;
-
-                // Format the vote count
-                votesText = parseInt(votesText).toLocaleString();
-                console.log("Formatted text: " + votesText); // debug line
-
-                // Update the text content of vote-number
-                voteElement.textContent = votesText;
+<!-- Initialize circle progress bar -->
+<script>
+    $(document).ready(function ($) {
+        $('#rating-circle').circleProgress({
+            value: $('#rating-circle').data('percent') / 10, // IMDb rating is usually out of 10
+            size: 100, // Size of the circle
+            thickness: 10, // Thickness of the circle line
+            fill: {
+                color: '#1f8efa' // Fill color
             }
+        }).on('circle-animation-progress', function (event, progress, stepValue) {
+            $(this).find('strong').text((stepValue * 10).toFixed(1));
+        });
+    });
 
-            formatVotes();
-
-
-
-
-
-            document.addEventListener("DOMContentLoaded", function () {
-                const seenItButton = document.getElementById("seen-it-button");
-                seenItButton.addEventListener("click", function () {
-                    const tconst = this.getAttribute("data-tconst");
-                    fetch("/seen_it", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            tconst: tconst
-                        }),
-                        redirect: 'follow'  // Automatically follow redirects
-                    }).then(response => {
-                        if (response.ok) {
-                            window.location.href = response.url;  // Navigate to the new URL
-                        } else {
-                            alert("Failed to mark movie as seen!");
-                        }
-                    }).catch(error => console.error("Error:", error));
+</script>
 
 
-                });
 
-            });
-
-            // Capture the add-to-watchlist button and add a click event listener
+<script>
 
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const addToWatchlistButton = document.getElementById("add-to-watchlist-button");
-                addToWatchlistButton.addEventListener("click", function () {
-                    const tconst = this.getAttribute("data-tconst");
-                    fetch("/add_to_watchlist", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            tconst: tconst
-                        }),
-                        redirect: 'follow'  // Automatically follow redirects
-                    }).then(response => {
-                        if (response.ok) {
-                            window.location.href = response.url;  // Navigate to the new URL
-                        } else {
-                            alert("Failed to add movie to watchlist!");
-                        }
-                    }).catch(error => console.error("Error:", error));
-                });
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Locate the genre-info element by its id
+        const genreInfoElement = document.getElementById("genre-info");
+
+        // Read the full genres text
+        const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
+
+        // Split the genres by comma (or whatever delimiter is used)
+        const genresArray = fullGenres.split(',');
+
+        // Take only the first three genres
+        const firstThreeGenres = genresArray.slice(0, 3);
+
+        // Convert the array back to a comma-separated string
+        const firstThreeGenresText = firstThreeGenres.join(', ');
+
+        // Update the genre-info element's text content
+        genreInfoElement.textContent = firstThreeGenresText;
+    });
 
 
-            $(document).ready(function(){
-                // Function to adjust font size
-                function adjustFontSize() {
-                    const containerWidth = $('.info-container').width();  // Get container width
-                    let fontSize = 50;  // Start with a large font size in pixels (you can adjust this)
 
-                    $('.movie-title').css('font-size', fontSize + 'px');  // Set initial font size
+    function formatVotes() {
+        // Target the new vote-number element
+        const voteElement = document.getElementById("vote-number");
+        console.log("Original text: " + voteElement.textContent); // debug line
 
-                    // Loop to reduce font size until the text fits inside the container
-                    while ($('.movie-title').width() > containerWidth) {
-                        fontSize -= 1;  // Reduce font size by 1px
-                        $('.movie-title').css('font-size', fontSize + 'px');  // Apply new font size
-                    }
+        // No need to split the text; it's just the vote count now
+        let votesText = voteElement.textContent;
+
+        // Format the vote count
+        votesText = parseInt(votesText).toLocaleString();
+        console.log("Formatted text: " + votesText); // debug line
+
+        // Update the text content of vote-number
+        voteElement.textContent = votesText;
+    }
+
+    formatVotes();
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const seenItButton = document.getElementById("seen-it-button");
+        seenItButton.addEventListener("click", function () {
+            const tconst = this.getAttribute("data-tconst");
+            fetch("/seen_it", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tconst: tconst
+                }),
+                redirect: 'follow'  // Automatically follow redirects
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;  // Navigate to the new URL
+                } else {
+                    alert("Failed to mark movie as seen!");
                 }
-
-                // Adjust font size initially
-                adjustFontSize();
-
-                // Re-adjust font size when window is resized
-                $(window).resize(adjustFontSize);
-            });
+            }).catch(error => console.error("Error:", error));
 
 
+        });
+
+    });
+
+    // Capture the add-to-watchlist button and add a click event listener
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const addToWatchlistButton = document.getElementById("add-to-watchlist-button");
+        addToWatchlistButton.addEventListener("click", function () {
+            const tconst = this.getAttribute("data-tconst");
+            fetch("/add_to_watchlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tconst: tconst
+                }),
+                redirect: 'follow'  // Automatically follow redirects
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = response.url;  // Navigate to the new URL
+                } else {
+                    alert("Failed to add movie to watchlist!");
+                }
+            }).catch(error => console.error("Error:", error));
+        });
+    });
+
+
+    $(document).ready(function(){
+        // Function to adjust font size
+        function adjustFontSize() {
+            const containerWidth = $('.info-container').width();  // Get container width
+            let fontSize = 50;  // Start with a large font size in pixels (you can adjust this)
+
+            $('.movie-title').css('font-size', fontSize + 'px');  // Set initial font size
+
+            // Loop to reduce font size until the text fits inside the container
+            while ($('.movie-title').width() > containerWidth) {
+                fontSize -= 1;  // Reduce font size by 1px
+                $('.movie-title').css('font-size', fontSize + 'px');  // Apply new font size
+            }
+        }
+
+        // Adjust font size initially
+        adjustFontSize();
+
+        // Re-adjust font size when window is resized
+        $(window).resize(adjustFontSize);
+    });
 
 
 
-        </script>
+
+
+</script>
 </body>
 </html>
