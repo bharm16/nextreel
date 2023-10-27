@@ -34,9 +34,6 @@
             content: "";  /* Required for the pseudo-element to work */
             position: absolute;  /* Absolutely position it */
 
-        {#/* Center it vertically: start and end 25% from the top and bottom */#}
-        {#top: 25vh;#}
-        {#bottom: 25vh;#}
 
             /* Stretch it horizontally: start and end 0% from the left and right */
             top: 0;
@@ -111,33 +108,25 @@
         {#margin-bottom: 10px;#}
         }
 
-        .move-title {
-            font-size: 4.0em;
-            margin-bottom: 0;
-            padding-bottom: -30px;
 
-
-        }
 
         .info-container {
-            font-size: 0.8em;
-            padding-top: 1.5em;
+        {#font-size: 0.8em;#}
+        {#padding-top: 1.5em;#}
             padding-bottom: 1.5em;
-            min-width: 500px;
+            min-width: 400px;
+
         }
 
         /* Info boxes */
         .info-box {
-        {#padding: 15px;#}
             margin: 10px 0;
             border-radius: 8px;
-        {#box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);#}
             background-color: transparent;  /* Make it transparent */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the background-overlay */
             font-size: 1em;
-            padding-bottom: 0;
-            padding-right: 5px;
+            padding-bottom: 10px;
 
 
         }
@@ -145,21 +134,23 @@
         /* Movie poster */
         .movie-poster {
             width: 100%;
-            max-width: 350px;
+            max-width: 325px;
             border-radius: 0;
             border: none;  /* Add this line to remove the border */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the background-overlay */
-            margin-top: -45px;  /* Move the movie poster upwards */
+            margin-top: -20px;  /* Move the movie poster upwards */
         }
 
-        /* Full-width background container */
-        .full-width-background {
-            width: 100%;  /* Full width */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+        .movie-title {
+            font-size: 4.0em;
+            margin-bottom: 0;
+            padding-bottom: -30px;
+            font-weight: 700;  /* Bold */
+            position: relative;
+            top: -40px;  // Move it up by 30px
         }
+
 
         /* Set initial styles for movie-card-container */
         .movie-card-container {
@@ -347,43 +338,39 @@
 
 
 
-        .vertical-spacing-movie-plot {
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-
-
-
-        /* New CSS class to control the font size of the movie plot */
-        .movie-plot-font {
-            font-size: 18px;  /* You can adjust this value according to your needs */
-        }
 
 
 
 
         /* Flexbox wrapper for genres and year */
-.genre-year-wrapper {
-    justify-content: flex-start; /* Align items to the start */
-}
+        .genre-year-wrapper {
+            justify-content: flex-start; /* Align items to the start */
+        }
 
-/* CSS for genre content */
-.genre-content {
-    flex-grow: 0; /* Do not let it take available space */
-    flex-shrink: 0; /* Do not let it shrink */
-}
+        /* CSS for genre content */
+        .genre-content {
+            flex-grow: 0; /* Do not let it take available space */
+            flex-shrink: 0; /* Do not let it shrink */
+        }
 
-/* CSS for year content */
-.year-content {
-    flex-shrink: 0; /* Don't let it shrink */
-}
+        /* CSS for year content */
+        .year-content {
+            flex-shrink: 0; /* Don't let it shrink */
+        }
 
-/* Spacer div to control the gap */
-.spacer {
-    width: 15px; /* You can adjust this width */
-}
+        /* Spacer div to control the gap */
+        .spacer {
+            width: 15px; /* You can adjust this width */
+        }
 
 
+
+        /* New CSS class to control the font size of the movie plot */
+        .movie-plot {
+            font-size: 1.0em;  /* You can adjust this value according to your needs */
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
 
 
 
@@ -430,7 +417,7 @@
 
             <div class="col-lg-8 col-md-6">
                 <div class="info-container">
-                    <div class="move-title no-margin-padding">{{ movie.title }}</div>
+                    <div class="movie-title no-margin-padding">{{ movie.title }}</div>
 
                     <!-- Flexbox wrapper -->
                     <div class="d-flex align-items-center genre-year-wrapper">
@@ -448,7 +435,7 @@
                         Directed by {{ movie.directors }}
                     </div>
 
-                    <div class="movie-plot movie-plot-font vertical-spacing-movie-plot">
+                    <div class="movie-plot">
                         {{ movie.plot }}
                     </div>
                 </div>
@@ -672,6 +659,30 @@
             }).catch(error => console.error("Error:", error));
         });
     });
+
+
+    $(document).ready(function(){
+        // Function to adjust font size
+        function adjustFontSize() {
+            const containerWidth = $('.info-container').width();  // Get container width
+            let fontSize = 50;  // Start with a large font size in pixels (you can adjust this)
+
+            $('.movie-title').css('font-size', fontSize + 'px');  // Set initial font size
+
+            // Loop to reduce font size until the text fits inside the container
+            while ($('.movie-title').width() > containerWidth) {
+                fontSize -= 1;  // Reduce font size by 1px
+                $('.movie-title').css('font-size', fontSize + 'px');  // Apply new font size
+            }
+        }
+
+        // Adjust font size initially
+        adjustFontSize();
+
+        // Re-adjust font size when window is resized
+        $(window).resize(adjustFontSize);
+    });
+
 
 
 
