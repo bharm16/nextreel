@@ -77,20 +77,20 @@
             z-index: 2;
         }
 
-.background-fade-background-overlay {
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0) 0%,  /* Fully visible at the top */
-        rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
-        rgba(255,255,255,0.9) 30%  /* Barely visible starting from 30% */
-    );
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-}
+        .background-fade-background-overlay {
+            background: linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0) 0%,  /* Fully visible at the top */
+                    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
+                    rgba(255,255,255,0.9) 30%  /* Barely visible starting from 30% */
+            );
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
 
         /* Snappy button colors */
         .btn-custom {
@@ -108,11 +108,11 @@
         /* Font sizes */
         .info-title {
             font-size: 2.0em;
-            {#margin-bottom: 10px;#}
+        {#margin-bottom: 10px;#}
         }
 
         .move-title {
-            font-size: 3.0em;
+            font-size: 3.5em;
             margin-bottom: 0;
             padding-bottom: -30px;
 
@@ -120,15 +120,15 @@
         }
 
         .info-container {
-            font-size: 1em;
+            font-size: 0.8em;
             padding-top: 1.5em;
             padding-bottom: 1.5em;
-            min-width 500px;
+            min-width: 500px;
         }
 
         /* Info boxes */
         .info-box {
-            {#padding: 15px;#}
+        {#padding: 15px;#}
             margin: 10px 0;
             border-radius: 8px;
         {#box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);#}
@@ -137,6 +137,7 @@
             z-index: 3;  /* Position it above the background-overlay */
             font-size: 1em;
             padding-bottom: 0;
+            padding-right: 5px;
 
 
         }
@@ -144,12 +145,12 @@
         /* Movie poster */
         .movie-poster {
             width: 100%;
-            max-width: 300px;
+            max-width: 350px;
             border-radius: 0;
             border: none;  /* Add this line to remove the border */
             position: relative;  /* Make it a positioned element */
             z-index: 3;  /* Position it above the background-overlay */
-            margin-top: -50px;  /* Move the movie poster upwards */
+            margin-top: -45px;  /* Move the movie poster upwards */
         }
 
         /* Full-width background container */
@@ -172,7 +173,7 @@
             width: 150px; /* Fixed width */
             margin: 10px; /* Margin around each card */
             padding: 15px; /* Padding inside each card */
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
 
         }
 
@@ -265,8 +266,8 @@
 
 
         div.row.custom-row-directed-written > div.col-sm-6 {
-            padding-left: 0px !important;  /* Reduce left padding */
-            padding-right: 0px !important;  /* Reduce right padding */
+            padding-left: 0 !important;  /* Reduce left padding */
+            padding-right: 0 !important;  /* Reduce right padding */
         }
 
 
@@ -293,11 +294,6 @@
             padding: 10px;
         }
 
-        .spaced-button {
-            min-width: 100px;  /* Set a minimum width */
-            margin-right: 10px;
-        }
-
         .rating-votes-wrapper {
             min-width: 1400px;  /* Or whatever minimum width you need */
         }
@@ -313,7 +309,7 @@
         }
 
         .action-button, .votes-label, .rating-circle {
-            font-size: 16px; /* reset to the desired font-size */
+            font-size: 12px; /* reset to the desired font-size */
         }
 
         /* Make the cast row scrollable */
@@ -342,36 +338,75 @@
 
 
         /* CSS for controlling spacing around the genre section */
-        .genre-section {
-            margin-top: -10px;  /* Add top margin to push it down relative to the title */
-            margin-bottom: 30px;  /* Add bottom margin to push the plot text down */
-            padding-left: 5px;  /* Optional: Add some left padding */
-            padding-right: 5px;  /* Optional: Add some right padding */
+
+
+        /* Existing CSS to remove padding and margins */
+        .no-margin-padding {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Additional CSS for negative margin */
+        .negative-margin {
+            margin-top: -10px !important;
+        }
+
+        /* New CSS class to add vertical spacing */
+        .vertical-spacing {
+        {#margin-top: 40px;#}
+            margin-bottom: 40px;
+        }
+
+        .vertical-spacing-movie-plot {
+            margin-top: 40px;
+            margin-bottom: 40px;
         }
 
 
-/* Existing CSS to remove padding and margins */
-.no-margin-padding {
-    margin: 0 !important;
-    padding: 0 !important;
+
+        /* New CSS class to control the font size of the movie plot */
+        .movie-plot-font {
+            font-size: 18px;  /* You can adjust this value according to your needs */
+        }
+
+        /* Custom padding or margin */
+        .custom-padding-genre-year-columns {
+            padding-right: 20px;  /* Add right padding to create space */
+            padding-left: 20px;  /* Add left padding to create space */
+        }
+
+
+        /* Flexbox Styles */
+        .flex-row {
+            display: flex;
+            justify-content: flex-start;  /* Align items to the start */
+        }
+
+        .flex-end {
+            margin-left: auto;  /* Push the item to the right */
+        }
+
+/* Flexbox wrapper for genres and year */
+.genre-year-wrapper {
+    justify-content: flex-start; /* Align items to the start */
 }
 
-/* Additional CSS for negative margin */
-.negative-margin {
-    margin-top: -10px !important;
+/* CSS for genre content */
+.genre-content {
+    flex-grow: 0; /* Do not let it take available space */
+    flex-shrink: 0; /* Do not let it shrink */
 }
 
-/* New CSS class to add vertical spacing */
-.vertical-spacing {
-    {#margin-top: 40px;#}
-    margin-bottom: 40px;
+/* CSS for year content */
+.year-content {
+    flex-shrink: 0; /* Don't let it shrink */
 }
 
-/* New CSS class to add vertical spacing */
-.vertical-spacing-bottom {
-    margin-top: 40px;
-    margin-bottom: 40px;
+/* Spacer div to control the gap */
+.spacer {
+    width: 15px; /* You can adjust this width */
 }
+
 
 
 
@@ -417,33 +452,31 @@
             </div>
 
 
-<!-- Existing HTML before the section -->
-<div class="col-lg-8 col-md-6">
-    <div class="info-container">
-        <!-- Removed the year from the movie title -->
-        <div class="move-title no-margin-padding">{{ movie.title }}</div>
+            <div class="col-lg-8 col-md-6">
+                <div class="info-container">
+                    <div class="move-title no-margin-padding">{{ movie.title }}</div>
 
-        <!-- Moved "Directed by", "Genres", and "Year" sections just below the movie title -->
-        <div class="info-box negative-margin">
-            <!-- Start a new Bootstrap row here -->
-            <div class="row custom-row-directed-written vertical-spacing">
-                <!-- First column: "Directed by" -->
-                <div class="col-sm-4 director-info ">
-                    Directed by {{ movie.directors }}
+                    <!-- Flexbox wrapper -->
+                    <div class="d-flex align-items-center genre-year-wrapper">
+                        <div class="genre-content">
+                            {{ movie.genres }}
+                        </div>
+                        <!-- Spacer div to ensure a small gap -->
+                        <div class="spacer"></div>
+                        <div class="year-content">
+                            {{ movie.year }}
+                        </div>
+                    </div>
+
+                    <div class="director-info">
+                        Directed by {{ movie.directors }}
+                    </div>
+
+                    <div class="movie-plot movie-plot-font vertical-spacing-movie-plot">
+                        {{ movie.plot }}
+                    </div>
                 </div>
-                <!-- Second column: "Genres" -->
-                <div class="col-sm-4 genre-info ">
-                    {{ movie.genres }}
-                </div>
-                <!-- Third column: "Year" -->
-                <div class="col-sm-4 year-info ">
-                    {{ movie.year }}
-                </div>
-            </div>
-        </div>
-        <!-- Rest of the content -->
-        <div class="movie-plot vertical-spacing">{{ movie.plot }}</div>
-    </div>
+
 
 
 
@@ -474,11 +507,10 @@
                                 <!-- New buttons for "Seen it" and "Add to Watchlist" -->
                                 <button class="votes-label action-button" id="seen-it-button">
                                     <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
-                                    <div></div>
+
                                 </button>
                                 <button class="votes-label action-button" id="watchlist-button">
                                     <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
-                                    <div></div>
                                 </button>
                             </div>
                         </div>
@@ -486,31 +518,6 @@
 
                     </div>
                 </div>
-
-
-
-
-
-
-{#                <div class="info-box">#}
-{#                    <!-- Start a new Bootstrap row here -->#}
-{#                    <div class="row custom-row-directed-written">#}
-{#                        <!-- First column: "Directed by" -->#}
-{#                        <div class="col-sm-6 director-info">#}
-{#                            Directed by {{ movie.directors }}#}
-{#                        </div>#}
-{##}
-{#                        <!-- Second column: "Written by" -->#}
-{#                        <div class="col-sm-6 writer-info">#}
-{#                            Written by {{ movie.writers }}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <!-- End of Bootstrap row -->#}
-{#                </div>#}
-
-
-
-
 
 
 
@@ -562,8 +569,6 @@
 
 
 
-
-
 {#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
@@ -596,6 +601,25 @@
 <script>
 
 
+    document.addEventListener("DOMContentLoaded", function () {
+        // Locate the genre-info element by its id
+        const genreInfoElement = document.getElementById("genre-info");
+
+        // Read the full genres text
+        const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
+
+        // Split the genres by comma (or whatever delimiter is used)
+        const genresArray = fullGenres.split(',');
+
+        // Take only the first three genres
+        const firstThreeGenres = genresArray.slice(0, 3);
+
+        // Convert the array back to a comma-separated string
+        const firstThreeGenresText = firstThreeGenres.join(', ');
+
+        // Update the genre-info element's text content
+        genreInfoElement.textContent = firstThreeGenresText;
+    });
 
 
 
