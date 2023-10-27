@@ -82,7 +82,7 @@
                     to bottom,
                     rgba(255,255,255,0) 0%,  /* Fully visible at the top */
                     rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
-                    rgba(255,255,255,0.9) 30%  /* Barely visible starting from 30% */
+                    rgba(255,255,255,1) 30%  /* Barely visible starting from 30% */
             );
             position: absolute;
             top: 0;
@@ -112,7 +112,7 @@
         }
 
         .move-title {
-            font-size: 3.5em;
+            font-size: 4.0em;
             margin-bottom: 0;
             padding-bottom: -30px;
 
@@ -337,7 +337,6 @@
         }
 
 
-        /* CSS for controlling spacing around the genre section */
 
 
         /* Existing CSS to remove padding and margins */
@@ -346,16 +345,7 @@
             padding: 0 !important;
         }
 
-        /* Additional CSS for negative margin */
-        .negative-margin {
-            margin-top: -10px !important;
-        }
 
-        /* New CSS class to add vertical spacing */
-        .vertical-spacing {
-        {#margin-top: 40px;#}
-            margin-bottom: 40px;
-        }
 
         .vertical-spacing-movie-plot {
             margin-top: 40px;
@@ -369,24 +359,10 @@
             font-size: 18px;  /* You can adjust this value according to your needs */
         }
 
-        /* Custom padding or margin */
-        .custom-padding-genre-year-columns {
-            padding-right: 20px;  /* Add right padding to create space */
-            padding-left: 20px;  /* Add left padding to create space */
-        }
 
 
-        /* Flexbox Styles */
-        .flex-row {
-            display: flex;
-            justify-content: flex-start;  /* Align items to the start */
-        }
 
-        .flex-end {
-            margin-left: auto;  /* Push the item to the right */
-        }
-
-/* Flexbox wrapper for genres and year */
+        /* Flexbox wrapper for genres and year */
 .genre-year-wrapper {
     justify-content: flex-start; /* Align items to the start */
 }
