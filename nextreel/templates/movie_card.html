@@ -341,14 +341,6 @@
             justify-content: flex-start; /* Align items to the start */
         }
 
-        {#/* CSS for genre content */#}
-        {#.genre-content {#}
-        {#    flex-grow: 0; /* Do not let it take available space */#}
-        {#    flex-shrink: 0; /* Do not let it shrink */#}
-        {##}
-        {#/* CSS for year content */#}
-        {#.year-content {#}
-        {#    flex-shrink: 0; /* Don't let it shrink */#}
 
         /* Spacer div to control the gap */
         .spacer {
@@ -368,12 +360,12 @@
 
         /* CSS */
         /* Reduce right margin of movie poster */
-        .col-lg-5.col-md-6.text-center.position-relative {
+        .col-lg-4.col-md-6.text-center.position-relative {
             margin-right: -50px;  /* Adjust this value as needed */
         }
 
         /* Or reduce left margin of info-container */
-        .col-lg-7.col-md-6.col-sm-10.mx-auto {
+        .col-lg-8.col-md-6.col-sm-10.mx-auto {
             margin-left: -80px;  /* Adjust this value as needed */
         }
 
@@ -386,6 +378,7 @@
             justify-content: flex-start;  /* Align items to the start of the main axis */
             align-items: center;  /* Center-align items along the cross-axis */
             flex-wrap: wrap;  /* Allow items to wrap onto the next line */
+            margin-left: 0;
         }
 
         /* Flex item for the movie title */
@@ -418,13 +411,14 @@
         {#margin: auto; /* Center the container */#}
         }
 
-        /* New Flex Container */
-        .new-flex-container {
-            display: flex;
-            justify-content: flex-start;
-            overflow-wrap: break-word;  /* Wrap overly long words onto the next line */
-        }
+.inline-element, .inline-block-element {
+  display: inline;  /* Make the elements inline */
+  margin-right: 5px; /* Optional: add some right margin for spacing */
+}
 
+.inline-block-element {
+  display: inline-block; /* Make the container inline-block */
+}
 
 
     </style>
@@ -449,7 +443,7 @@
         <!-- Float this row above the backdrop -->
         <div class="row main-movie-details">
             <!-- Your movie details here -->
-            <div class="col-lg-5 col-md-6 text-center position-relative">  <!-- Added position-relative -->
+            <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
                 <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
 
 
@@ -466,26 +460,23 @@
                 </div>
             </div>
 
-            <div class="col-lg-7 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
-                <div class="info-container"> <!-- This class will have updated CSS -->
+<div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
+  <div class="info-container">
+    <!-- Bootstrap row -->
+    <div class="row">
+      <!-- Single Bootstrap column -->
+      <div class="col">
+        <!-- Inline element for title -->
+        <span class="movie-title inline-element">{{ movie.title }}</span>
+        <!-- Inline-block element for year and director -->
+        <span class="year-director-container inline-block-element">
+          <span class="year-content">{{ movie.year }}</span>
+          <span class="director-info">Directed by {{ movie.directors }}</span>
+        </span>
+      </div>
+    </div>
 
-                    <!-- New flex container -->
-                    <div class="new-flex-container">
 
-                        <!-- This is the flex container that should hold the title, year, and director -->
-                        <div class="flexbox-title-row">
-                            <!-- This should hold the movie title -->
-                            <div class="flex-item-title">
-                                <div class="movie-title no-margin-padding">{{ movie.title }}</div>
-                            </div>
-                            <!-- This should hold the year and director -->
-                            <div class="flex-item-details">
-                                <div class="year-content">{{ movie.year }}</div>
-                                <div class="director-info">Directed by {{ movie.directors }}</div>
-                            </div>
-                        </div>
-
-                    </div> <!-- End of new flex container -->
 
 
 
