@@ -1,10 +1,12 @@
+import random
+
 import imdb
 import tmdbsimple as tmdb
-
 from nextreel.scripts.db_config_scripts import db_config
 from nextreel.scripts.mysql_query_builder import get_db_connection
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher
 
+# Initialize database connection
 get_db_connection(db_config)
 
 # Initialize TMDb API Key
@@ -40,13 +42,27 @@ class Movie:
         ia = imdb.IMDb()
         return ia.get_movie(imdbId)
 
+    def fetch_images_from_tmdb(self, tmdb_id):
+        """
+        Fetch movie images from TMDb using the movie's TMDb ID.
+
+        Args:
+            tmdb_id (int): The TMDb ID of the movie.
+
+        Returns:
+            dict: A dictionary containing image URLs.
+        """
+        movie = tmdb.Movies(tmdb_id)
+        response = movie.images()
+        image_data = {
+            'posters': [img['file_path'] for img in response.get('posters', [])],
+            'backdrops': [img['file_path'] for img in response.get('backdrops', [])]
+        }
+        return image_data
+
     def store_movie_data(self, movie):
         ia = imdb.IMDb()
-
-        # Fetch TMDb ID
         tmdb_id = get_tmdb_id_by_tconst(self.tconst)
-
-        # Fetch cast information from TMDb
         tmdb_cast_info = []
         if tmdb_id:
             tmdb_cast = get_cast_info_by_tmdb_id(tmdb_id)[:10]  # Limit to first 10 actors
@@ -57,6 +73,7 @@ class Movie:
                     'name': cast_member['name'],
                     'image_url': image_url
                 })
+            tmdb_image_info = self.fetch_images_from_tmdb(tmdb_id)
 
         self.movie_data = {
             "title": movie.get('title', 'N/A'),
@@ -72,15 +89,33 @@ class Movie:
             "plot": movie.get('plot', ['N/A'])[0],
             "poster_url": movie.get_fullsizeURL(),
             "year": movie.get('year'),
-            "cast": tmdb_cast_info  # Use the TMDb cast information
+            "cast": tmdb_cast_info,
+            "images": tmdb_image_info  # Add TMDb image information
         }
 
     def get_movie_data(self):
-            movie_data = self.fetch_info_from_imdb()
-            self.store_movie_data(movie_data)
-            return self.movie_data
+        movie_data = self.fetch_info_from_imdb()
+        self.store_movie_data(movie_data)
+        return self.movie_data
 
-    # Main function to run the program
+
+def get_random_backdrop_url(backdrops):
+    """
+    Selects a random backdrop URL from a list of backdrops.
+
+    Args:
+        backdrops (list): List of backdrop image file paths.
+
+    Returns:
+        str: The full URL of a randomly selected backdrop, or None if no backdrops are available.
+    """
+    if backdrops:
+        random_backdrop = random.choice(backdrops)  # Randomly select a backdrop
+        return get_full_image_url(random_backdrop)  # You can specify the size you want
+    else:
+        return None
+
+
 def main(criteria):
     movie_fetcher = ImdbRandomMovieFetcher(db_config)
     row = movie_fetcher.fetch_random_movie(criteria)
@@ -93,9 +128,18 @@ def main(criteria):
     movie_data = movie.get_movie_data()
     print(movie_data)
 
-    print("Fetched movie genres:", movie_data.get('genres'))
+    # Corrected this line
+    for image in movie_data["images"].get('posters', []):
+        print(image)
 
-    # Example usage
+        # New code to randomly select a backdrop
+    random_backdrop_url = get_random_backdrop_url(movie_data["images"].get('backdrops', []))
+    if random_backdrop_url:
+        print(f"Randomly selected backdrop URL: {random_backdrop_url}")
+    else:
+        print("No backdrops available for this movie.")
+
+
 if __name__ == "__main__":
     criteria = {
         "min_year": 1900,
@@ -106,5 +150,4 @@ if __name__ == "__main__":
         "language": "en",
         "genres": ["Action", "Drama"]
     }
-
     main(criteria)
