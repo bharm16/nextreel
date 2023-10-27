@@ -681,6 +681,7 @@
 
 <script>
 
+// Updated JavaScript code
 document.addEventListener("DOMContentLoaded", function () {
     // Locate the genre-info element by its id
     const genreInfoElement = document.getElementById("genre-info");
@@ -694,20 +695,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // Split the genres by comma (or whatever delimiter is used)
     const genresArray = fullGenres.split(',');
 
-    // Loop through each genre and create a button
-    genresArray.forEach(function(genre) {
+    // Limit the number of genres to display
+    const maxGenresToShow = 3;
+
+    // Loop through each genre and create a button, but only up to maxGenresToShow
+    for (let i = 0; i < Math.min(genresArray.length, maxGenresToShow); i++) {
         // Create a new button element
         const btn = document.createElement("button");
 
         // Add text to the button
-        btn.innerHTML = genre.trim();  // Using trim() to remove any leading/trailing whitespace
+        btn.innerHTML = genresArray[i].trim();  // Using trim() to remove any leading/trailing whitespace
 
         // Add the custom CSS class to the button
         btn.className = "genre-custom-button";
 
         // Append the button to the genre-info div
         genreInfoElement.appendChild(btn);
-    });
+    }
 });
 
 
