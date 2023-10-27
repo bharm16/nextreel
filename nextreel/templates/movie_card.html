@@ -541,7 +541,7 @@
                                     <!-- Votes Label -->
                                     <div class="votes-label action-button" id="votes">
                                         <div id="vote-number">{{ movie.votes }}</div>
-                                        <div id="vote-text"> Votes</div>
+{#                                        <div id="vote-text"> Votes</div>#}
                                     </div>
 
                                     <!-- New buttons for "Seen it" and "Add to Watchlist" -->
@@ -642,6 +642,25 @@
 
 <script>
 
+
+    function formatVotes() {
+  const voteElement = document.getElementById("vote-number");
+  let voteCount = parseInt(voteElement.textContent, 10);
+  let formattedVotes = '';
+  if (voteCount >= 1000000) {
+    formattedVotes = (voteCount / 1000000).toFixed(1) + 'M';
+  } else if (voteCount >= 1000) {
+    formattedVotes = (voteCount / 1000).toFixed(1) + 'K';
+  } else {
+    formattedVotes = voteCount;
+  }
+  voteElement.textContent = formattedVotes;
+}
+
+
+
+
+
     // Updated JavaScript code
     document.addEventListener("DOMContentLoaded", function () {
         // Locate the genre-info element by its id
@@ -677,22 +696,21 @@
 
 
 
-
-    function formatVotes() {
-        // Target the new vote-number element
-        const voteElement = document.getElementById("vote-number");
-        console.log("Original text: " + voteElement.textContent); // debug line
-
-        // No need to split the text; it's just the vote count now
-        let votesText = voteElement.textContent;
-
-        // Format the vote count
-        votesText = parseInt(votesText).toLocaleString();
-        console.log("Formatted text: " + votesText); // debug line
-
-        // Update the text content of vote-number
-        voteElement.textContent = votesText;
-    }
+    {##}
+    {#function formatVotes() {#}
+    {#    // Target the new vote-number element#}
+    {#    const voteElement = document.getElementById("vote-number");#}
+    {#    console.log("Original text: " + voteElement.textContent); // debug line#}
+    {##}
+    {#    // No need to split the text; it's just the vote count now#}
+    {#    let votesText = voteElement.textContent;#}
+    {##}
+    {#    // Format the vote count#}
+    {#    votesText = parseInt(votesText).toLocaleString();#}
+    {#    console.log("Formatted text: " + votesText); // debug line#}
+    {##}
+    {#    // Update the text content of vote-number#}
+    {#    voteElement.textContent = votesText;#}
 
     formatVotes();
 
