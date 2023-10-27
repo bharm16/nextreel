@@ -137,18 +137,18 @@
             margin-top: -20px;  /* Move the movie poster upwards */
         }
 
-.movie-title {
-    /* Existing styles */
-    font-size: 4.0em;
-    margin-bottom: 0;
-    padding-bottom: -30px;
-    font-weight: 700;  /* Bold */
-    position: relative;
-    font-family: 'TiemposHeadlineWeb-Bold', Georgia, serif;
+        .movie-title {
+            /* Existing styles */
+            font-size: 4.0em;
+            margin-bottom: 0;
+            padding-bottom: -30px;
+            font-weight: 700;  /* Bold */
+            position: relative;
+            font-family: 'TiemposHeadlineWeb-Bold', Georgia, serif;
 
-    /* New style to reduce letter spacing */
-    letter-spacing: -0.06em;  /* Negative value to reduce spacing */
-}
+            /* New style to reduce letter spacing */
+            letter-spacing: -0.06em;  /* Negative value to reduce spacing */
+        }
 
 
 
@@ -415,54 +415,54 @@
         {#margin: auto; /* Center the container */#}
         }
 
-.inline-element, .inline-block-element {
-  display: inline;  /* Make the elements inline */
-  margin-right: 10px; /* Optional: add some right margin for spacing */
-}
+        .inline-element, .inline-block-element {
+            display: inline;  /* Make the elements inline */
+            margin-right: 10px; /* Optional: add some right margin for spacing */
+        }
 
-.inline-block-element {
-  display: inline-block; /* Make the container inline-block */
-}
+        .inline-block-element {
+            display: inline-block; /* Make the container inline-block */
+        }
 
-.year-content {
-  margin-right: 10px;  /* Add some right margin to increase space between year and director */
-}
+        .year-content {
+            margin-right: 10px;  /* Add some right margin to increase space between year and director */
+        }
 
 
-/* Custom Button Style */
-.genre-custom-button {
-    /* Basic Box Styling */
-    box-sizing: border-box;
-    margin-bottom: 1px;
-    margin-right: 1px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 0;
-    padding: 0;
-    vertical-align: baseline;
+        /* Custom Button Style */
+        .genre-custom-button {
+            /* Basic Box Styling */
+            box-sizing: border-box;
+            margin-bottom: 1px;
+            margin-right: 1px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 0;
+            padding: 0;
+            vertical-align: baseline;
 
-    /* Appearance */
-    background: #283038;  /* Background color */
-    border-radius: 3px;  /* Rounded corners */
-    box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .05);  /* Inner shadow */
-    color: #9ab;  /* Text color */
+            /* Appearance */
+            background: #283038;  /* Background color */
+            border-radius: 3px;  /* Rounded corners */
+            box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .05);  /* Inner shadow */
+            color: #9ab;  /* Text color */
 
-    /* Text Styling */
-    text-transform: capitalize;  /* Capitalize text */
-    cursor: pointer;  /* Pointer cursor on hover */
-    text-decoration: none;  /* No underline */
-    line-height: 1.5;  /* Line height */
-    font-family: Graphik-Regular-Web, sans-serif;  /* Font family */
-    font-size: 100%;  /* Font size */
-    font-style: inherit;
-    font-weight: inherit;
+            /* Text Styling */
+            text-transform: capitalize;  /* Capitalize text */
+            cursor: pointer;  /* Pointer cursor on hover */
+            text-decoration: none;  /* No underline */
+            line-height: 1.5;  /* Line height */
+            font-family: Graphik-Regular-Web, sans-serif;  /* Font family */
+            font-size: 100%;  /* Font size */
+            font-style: inherit;
+            font-weight: inherit;
 
-    /* Spacing and Layout */
-    display: inline-block;  /* Display as inline-block */
-    padding: 3px 6px;  /* Padding around text */
-    white-space: nowrap;  /* Prevent text from wrapping */
-}
+            /* Spacing and Layout */
+            display: inline-block;  /* Display as inline-block */
+            padding: 3px 6px;  /* Padding around text */
+            white-space: nowrap;  /* Prevent text from wrapping */
+        }
 
 
 
@@ -505,139 +505,145 @@
                 </div>
             </div>
 
-<div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
-  <div class="info-container">
-    <!-- Bootstrap row -->
-    <div class="row">
-      <!-- Single Bootstrap column -->
-      <div class="col">
-        <!-- Inline element for title -->
-        <span class="movie-title inline-element">{{ movie.title }}</span>
-        <!-- Inline-block element for year and director -->
-        <span class="year-director-container inline-block-element">
+            <div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
+                <div class="info-container">
+                    <!-- Bootstrap row -->
+                    <div class="row">
+                        <!-- Single Bootstrap column -->
+                        <div class="col">
+                            <!-- Inline element for title -->
+                            <span class="movie-title inline-element">{{ movie.title }}</span>
+                            <!-- Inline-block element for year and director -->
+                            <span class="year-director-container inline-block-element">
           <span class="year-content">{{ movie.year }}</span>
           <span class="director-info">Directed by {{ movie.directors }}</span>
         </span>
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-                <!-- End of new flexbox row -->
-
-                <!-- Existing genre and other details -->
-                <div class="d-flex align-items-center genre-year-wrapper">
-                    <div class="genre-content" id="genre-info">
-                        {{ movie.genres }}
-                    </div>
-                    <!-- Spacer div to ensure a small gap -->
-                    <div class="spacer"></div>
-                </div>
-
-                <!-- Movie plot remains the same -->
-                <div class="movie-plot">
-                    {{ movie.plot }}
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-                <!-- New info-box for score, vote components and genres -->
-                <div class="info-box">
-                    <div class="info-title"></div>
-
-                    <!-- New row to contain both ratings and genres -->
-                    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
-                    <div class="row score-votes-genre-section">
-
-                        <!-- Column for ratings and vote count -->
-                        <div class="col-md-6">
-                            <div class="rating-votes-wrapper">
-                                <!-- Position the circle progress bar -->
-                                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                                    <strong></strong>
-                                </div>
-
-                                <!-- Votes Label -->
-                                <div class="votes-label action-button" id="votes">
-                                    <div id="vote-number">{{ movie.votes }}</div>
-                                    <div id="vote-text"> Votes</div>
-                                </div>
-
-                                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-                                <button class="votes-label action-button" id="seen-it-button">
-                                    <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
-
-                                </button>
-                                <button class="votes-label action-button" id="watchlist-button">
-                                    <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
-                                </button>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-            {% if current_user.is_authenticated %}
-                <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
-                <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="info-box">
-        <div class="cast-title"></div>
-        <div class="cast-list">
-            <!-- Create a new flexbox container for the cast -->
-            <div class="d-flex flex-nowrap">
-                <!-- Loop through the list of actors -->
-                {% for actor in movie.cast %}
-                    <div class="m-0.2">  <!-- Added m-2 for margin -->
-                        <!-- Bootstrap Card -->
-                        <div class="card actor-card">
-                            {% if actor.image_url %}
-                                <!-- Actor Image -->
-                                <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
-                            {% else %}
-                                <!-- Placeholder if No Image -->
-                                <div class="card-body">
-                                    <p class="card-text">No image available</p>
-                                </div>
-                            {% endif %}
-                            <!-- Actor Name -->
-                            <div class="card-footer actor-name">
-                                <small class="text-muted">{{ actor.name }}</small>
-                            </div>
                         </div>
                     </div>
-                {% endfor %}
+
+
+
+
+
+
+
+
+
+                    <!-- End of new flexbox row -->
+
+                    <!-- Existing genre and other details -->
+                    <div class="d-flex align-items-center genre-year-wrapper">
+
+
+                        <!-- Empty div to hold genre buttons -->
+                        <div class="genre-content" id="genre-info">
+                            {{ movie.genres }}
+                        </div>
+
+                        <!-- Spacer div to ensure a small gap -->
+                        <div class="spacer"></div>
+                    </div>
+
+
+
+                    <!-- Movie plot remains the same -->
+                    <div class="movie-plot">
+                        {{ movie.plot }}
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- New info-box for score, vote components and genres -->
+                    <div class="info-box">
+                        <div class="info-title"></div>
+
+                        <!-- New row to contain both ratings and genres -->
+                        <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+                        <div class="row score-votes-genre-section">
+
+                            <!-- Column for ratings and vote count -->
+                            <div class="col-md-6">
+                                <div class="rating-votes-wrapper">
+                                    <!-- Position the circle progress bar -->
+                                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                                        <strong></strong>
+                                    </div>
+
+                                    <!-- Votes Label -->
+                                    <div class="votes-label action-button" id="votes">
+                                        <div id="vote-number">{{ movie.votes }}</div>
+                                        <div id="vote-text"> Votes</div>
+                                    </div>
+
+                                    <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                                    <button class="votes-label action-button" id="seen-it-button">
+                                        <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
+
+                                    </button>
+                                    <button class="votes-label action-button" id="watchlist-button">
+                                        <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                {% if current_user.is_authenticated %}
+                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
+                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
+                {% endif %}
             </div>
         </div>
+
+        <div class="info-box">
+            <div class="cast-title"></div>
+            <div class="cast-list">
+                <!-- Create a new flexbox container for the cast -->
+                <div class="d-flex flex-nowrap">
+                    <!-- Loop through the list of actors -->
+                    {% for actor in movie.cast %}
+                        <div class="m-0.2">  <!-- Added m-2 for margin -->
+                            <!-- Bootstrap Card -->
+                            <div class="card actor-card">
+                                {% if actor.image_url %}
+                                    <!-- Actor Image -->
+                                    <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
+                                {% else %}
+                                    <!-- Placeholder if No Image -->
+                                    <div class="card-body">
+                                        <p class="card-text">No image available</p>
+                                    </div>
+                                {% endif %}
+                                <!-- Actor Name -->
+                                <div class="card-footer actor-name">
+                                    <small class="text-muted">{{ actor.name }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Existing HTML ... -->
+
+
     </div>
-    <!-- Existing HTML ... -->
-
-
-</div>
 </div>
 
 
@@ -675,26 +681,35 @@
 
 <script>
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Locate the genre-info element by its id
+    const genreInfoElement = document.getElementById("genre-info");
 
-    document.addEventListener("DOMContentLoaded", function () {
-        // Locate the genre-info element by its id
-        const genreInfoElement = document.getElementById("genre-info");
+    // Read the full genres text
+    const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
 
-        // Read the full genres text
-        const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
+    // Clear out the existing content (if any)
+    genreInfoElement.innerHTML = '';
 
-        // Split the genres by comma (or whatever delimiter is used)
-        const genresArray = fullGenres.split(',');
+    // Split the genres by comma (or whatever delimiter is used)
+    const genresArray = fullGenres.split(',');
 
-        // Take only the first three genres
-        const firstThreeGenres = genresArray.slice(0, 3);
+    // Loop through each genre and create a button
+    genresArray.forEach(function(genre) {
+        // Create a new button element
+        const btn = document.createElement("button");
 
-        // Convert the array back to a comma-separated string
-        const firstThreeGenresText = firstThreeGenres.join(', ');
+        // Add text to the button
+        btn.innerHTML = genre.trim();  // Using trim() to remove any leading/trailing whitespace
 
-        // Update the genre-info element's text content
-        genreInfoElement.textContent = firstThreeGenresText;
+        // Add the custom CSS class to the button
+        btn.className = "genre-custom-button";
+
+        // Append the button to the genre-info div
+        genreInfoElement.appendChild(btn);
     });
+});
+
 
 
 
