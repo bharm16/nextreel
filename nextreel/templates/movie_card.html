@@ -110,13 +110,8 @@
 
 
 
-        .info-container {
-        {#font-size: 0.8em;#}
-        {#padding-top: 1.5em;#}
-            padding-bottom: 1.5em;
-            min-width: 400px;
 
-        }
+
 
         /* Info boxes */
         .info-box {
@@ -148,6 +143,13 @@
             padding-bottom: -30px;
             font-weight: 700;  /* Bold */
             position: relative;
+            top: -40px;  // Move it up by 30px
+        }
+
+        .movie-title-row {
+
+            margin-bottom: 0;
+            padding-bottom: -30px;
             top: -40px;  // Move it up by 30px
         }
 
@@ -372,7 +374,12 @@
             margin-bottom: 40px;
         }
 
-
+.info-container {
+    padding-bottom: 1.5em;
+    max-width: 80%; /* Restrict max-width to 80% of the parent div */
+    word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
+    margin: auto; /* Center the container */
+}
 
 
     </style>
@@ -414,31 +421,38 @@
                 </div>
             </div>
 
+<div class="col-lg-6 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
+    <div class="info-container"> <!-- This class will have updated CSS -->
+        <!-- New row combining title, year, and director -->
+        <div class="row align-items-center">
+            <div class="col-sm-8">
+                <div class="movie-title no-margin-padding">{{ movie.title }}</div>
+            </div>
+            <div class="col-sm-2 text-end movie-title-row">
+                <div class="year-content">{{ movie.year }}</div>
+            </div>
+            <div class="col-sm-2 text-end movie-title-row">
+                <div class="director-info">Directed by {{ movie.directors }}</div>
+            </div>
+        </div>
+        <!-- End of new row -->
 
-            <div class="col-lg-8 col-md-6">
-                <div class="info-container">
-                    <div class="movie-title no-margin-padding">{{ movie.title }}</div>
+        <!-- Existing genre and other details -->
+        <div class="d-flex align-items-center genre-year-wrapper">
+            <div class="genre-content">
+                {{ movie.genres }}
+            </div>
+            <!-- Spacer div to ensure a small gap -->
+            <div class="spacer"></div>
+        </div>
 
-                    <!-- Flexbox wrapper -->
-                    <div class="d-flex align-items-center genre-year-wrapper">
-                        <div class="genre-content">
-                            {{ movie.genres }}
-                        </div>
-                        <!-- Spacer div to ensure a small gap -->
-                        <div class="spacer"></div>
-                        <div class="year-content">
-                            {{ movie.year }}
-                        </div>
-                    </div>
+        <!-- Movie plot remains the same -->
+        <div class="movie-plot">
+            {{ movie.plot }}
+        </div>
 
-                    <div class="director-info">
-                        Directed by {{ movie.directors }}
-                    </div>
 
-                    <div class="movie-plot">
-                        {{ movie.plot }}
-                    </div>
-                </div>
+
 
 
 
@@ -481,6 +495,8 @@
 
                     </div>
                 </div>
+                    </div>
+
 
 
 
