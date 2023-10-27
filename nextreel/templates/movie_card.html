@@ -308,10 +308,7 @@
             scrollbar-width: thin;
         }
 
-        /* Class to prevent row items from wrapping into new lines */
-        .no-wrap-row {
-            flex-wrap: nowrap;
-        }
+
 
         /* Hide the scrollbar for Chrome, Safari and Opera */
         .cast-list::-webkit-scrollbar {
@@ -344,16 +341,14 @@
             justify-content: flex-start; /* Align items to the start */
         }
 
-        /* CSS for genre content */
-        .genre-content {
-            flex-grow: 0; /* Do not let it take available space */
-            flex-shrink: 0; /* Do not let it shrink */
-        }
-
-        /* CSS for year content */
-        .year-content {
-            flex-shrink: 0; /* Don't let it shrink */
-        }
+        {#/* CSS for genre content */#}
+        {#.genre-content {#}
+        {#    flex-grow: 0; /* Do not let it take available space */#}
+        {#    flex-shrink: 0; /* Do not let it shrink */#}
+        {##}
+        {#/* CSS for year content */#}
+        {#.year-content {#}
+        {#    flex-shrink: 0; /* Don't let it shrink */#}
 
         /* Spacer div to control the gap */
         .spacer {
@@ -369,12 +364,7 @@
             margin-bottom: 40px;
         }
 
-        .info-container {
-            padding-bottom: 1.5em;
-            max-width: 80%; /* Restrict max-width to 80% of the parent div */
-            word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */
-        {#margin: auto; /* Center the container */#}
-        }
+
 
         /* CSS */
         /* Reduce right margin of movie poster */
@@ -387,45 +377,53 @@
             margin-left: -80px;  /* Adjust this value as needed */
         }
 
-        /* Flexbox row for title, year, and director */
+
+
+
+        /* Flexbox container for title, year, and director */
         .flexbox-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;  /* This allows the items to wrap */
+            display: flex;  /* Enable flexbox */
+            justify-content: flex-start;  /* Align items to the start of the main axis */
+            align-items: center;  /* Center-align items along the cross-axis */
+            flex-wrap: wrap;  /* Allow items to wrap onto the next line */
         }
 
-        /* Flexbox item for movie title */
+        /* Flex item for the movie title */
         .flex-item-title {
-            flex-grow: 1;
-            flex-shrink: 1;
-            text-align: left;
-            white-space: nowrap;  /* If you want the title to not break */
-            padding-right: 0 !important;
+            flex: 1;  /* Allow it to grow and shrink as needed */
+        {#white-space: normal;  /* Keep content on a single line */#}
+        {#overflow: auto;  /* Hide any overflowing content */#}
+            /* Add ellipsis for overflowing content */
         }
 
-        /* Flexbox item for year and director */
+        /* Flex item for the year and director */
         .flex-item-details {
+            display: flex;  /* Enable flexbox */
+            justify-content: flex-start;  /* Align items to the start of the main axis */
+
+            align-items: center;  /* Center-align items along the cross-axis */
+            flex: 0 0 auto;  /* Don't allow it to grow or shrink, and set initial size to auto */
+        {#white-space: nowrap;  /* Keep content on a single line */#}
+        }
+
+        /* The children of .flex-item-details */
+        .year-content, .director-info {
+            white-space: nowrap;  /* Keep content on a single line */
+        }
+
+        .info-container {
+            padding-bottom: 1.5em;
+            max-width: 80%; /* Restrict max-width to 80% of the parent div */
+        {#word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */#}
+        {#margin: auto; /* Center the container */#}
+        }
+
+        /* New Flex Container */
+        .new-flex-container {
             display: flex;
-            align-items: center;
-            flex-grow: 0;
-            flex-shrink: 0;
-            text-align: left;
-            {#margin-left: -10px;#}
+            justify-content: flex-start;
+            overflow-wrap: break-word;  /* Wrap overly long words onto the next line */
         }
-
-
-
-        /* Styles for year, separator, and director */
-        .year-content, .director-info, .separator {
-            margin: 0 5px; /* Adds a little space around each element */
-        }
-
-        .separator {
-            font-weight: bold; /* Makes the separator stand out a bit */
-        }
-
-
 
 
 
@@ -468,81 +466,45 @@
                 </div>
             </div>
 
-
             <div class="col-lg-7 col-md-6 col-sm-10 mx-auto"> <!-- Changed column size and added centering -->
                 <div class="info-container"> <!-- This class will have updated CSS -->
 
-                    <div class="flexbox-title-row flex-wrap">  <!-- Add 'flex-wrap' class -->
-                        <div class="flex-item-title">
-                            <div class="movie-title no-margin-padding">{{ movie.title }}</div>
-                        </div>
-                        <div class="flex-item-details">
-                            <div class="year-content">{{ movie.year }}</div>
-                            <div class="director-info">Directed by {{ movie.directors }}</div>
-                        </div>
-                    </div>
-                    <!-- End of new flexbox row -->
+                    <!-- New flex container -->
+                    <div class="new-flex-container">
 
-                    <!-- Existing genre and other details -->
-                    <div class="d-flex align-items-center genre-year-wrapper">
-<div class="genre-content" id="genre-info">
-                            {{ movie.genres }}
-                        </div>
-                        <!-- Spacer div to ensure a small gap -->
-                        <div class="spacer"></div>
-                    </div>
-
-                    <!-- Movie plot remains the same -->
-                    <div class="movie-plot">
-                        {{ movie.plot }}
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                    <!-- New info-box for score, vote components and genres -->
-                    <div class="info-box">
-                        <div class="info-title"></div>
-
-                        <!-- New row to contain both ratings and genres -->
-                        <!-- Added a Bootstrap 'row' class to properly contain the columns -->
-                        <div class="row score-votes-genre-section">
-
-                            <!-- Column for ratings and vote count -->
-                            <div class="col-md-6">
-                                <div class="rating-votes-wrapper">
-                                    <!-- Position the circle progress bar -->
-                                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                                        <strong></strong>
-                                    </div>
-
-                                    <!-- Votes Label -->
-                                    <div class="votes-label action-button" id="votes">
-                                        <div id="vote-number">{{ movie.votes }}</div>
-                                        <div id="vote-text"> Votes</div>
-                                    </div>
-
-                                    <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-                                    <button class="votes-label action-button" id="seen-it-button">
-                                        <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
-
-                                    </button>
-                                    <button class="votes-label action-button" id="watchlist-button">
-                                        <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
-                                    </button>
-                                </div>
+                        <!-- This is the flex container that should hold the title, year, and director -->
+                        <div class="flexbox-title-row">
+                            <!-- This should hold the movie title -->
+                            <div class="flex-item-title">
+                                <div class="movie-title no-margin-padding">{{ movie.title }}</div>
                             </div>
-
-
+                            <!-- This should hold the year and director -->
+                            <div class="flex-item-details">
+                                <div class="year-content">{{ movie.year }}</div>
+                                <div class="director-info">Directed by {{ movie.directors }}</div>
+                            </div>
                         </div>
+
+                    </div> <!-- End of new flex container -->
+
+
+
+
+
+                <!-- End of new flexbox row -->
+
+                <!-- Existing genre and other details -->
+                <div class="d-flex align-items-center genre-year-wrapper">
+                    <div class="genre-content" id="genre-info">
+                        {{ movie.genres }}
                     </div>
+                    <!-- Spacer div to ensure a small gap -->
+                    <div class="spacer"></div>
+                </div>
+
+                <!-- Movie plot remains the same -->
+                <div class="movie-plot">
+                    {{ movie.plot }}
                 </div>
 
 
@@ -550,46 +512,94 @@
 
 
 
-                {% if current_user.is_authenticated %}
-                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
-                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
-                {% endif %}
-            </div>
-        </div>
 
-        <div class="info-box">
-            <div class="cast-title"></div>
-            <div class="cast-list">
-                <!-- Create a new flexbox container for the cast -->
-                <div class="d-flex flex-nowrap">
-                    <!-- Loop through the list of actors -->
-                    {% for actor in movie.cast %}
-                        <div class="m-0.2">  <!-- Added m-2 for margin -->
-                            <!-- Bootstrap Card -->
-                            <div class="card actor-card">
-                                {% if actor.image_url %}
-                                    <!-- Actor Image -->
-                                    <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
-                                {% else %}
-                                    <!-- Placeholder if No Image -->
-                                    <div class="card-body">
-                                        <p class="card-text">No image available</p>
-                                    </div>
-                                {% endif %}
-                                <!-- Actor Name -->
-                                <div class="card-footer actor-name">
-                                    <small class="text-muted">{{ actor.name }}</small>
+
+
+
+
+                <!-- New info-box for score, vote components and genres -->
+                <div class="info-box">
+                    <div class="info-title"></div>
+
+                    <!-- New row to contain both ratings and genres -->
+                    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+                    <div class="row score-votes-genre-section">
+
+                        <!-- Column for ratings and vote count -->
+                        <div class="col-md-6">
+                            <div class="rating-votes-wrapper">
+                                <!-- Position the circle progress bar -->
+                                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                                    <strong></strong>
                                 </div>
+
+                                <!-- Votes Label -->
+                                <div class="votes-label action-button" id="votes">
+                                    <div id="vote-number">{{ movie.votes }}</div>
+                                    <div id="vote-text"> Votes</div>
+                                </div>
+
+                                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                                <button class="votes-label action-button" id="seen-it-button">
+                                    <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
+
+                                </button>
+                                <button class="votes-label action-button" id="watchlist-button">
+                                    <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
+                                </button>
                             </div>
                         </div>
-                    {% endfor %}
+
+
+                    </div>
                 </div>
             </div>
+
+
+
+
+
+
+            {% if current_user.is_authenticated %}
+                <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
+                <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
+            {% endif %}
         </div>
-        <!-- Existing HTML ... -->
-
-
     </div>
+
+    <div class="info-box">
+        <div class="cast-title"></div>
+        <div class="cast-list">
+            <!-- Create a new flexbox container for the cast -->
+            <div class="d-flex flex-nowrap">
+                <!-- Loop through the list of actors -->
+                {% for actor in movie.cast %}
+                    <div class="m-0.2">  <!-- Added m-2 for margin -->
+                        <!-- Bootstrap Card -->
+                        <div class="card actor-card">
+                            {% if actor.image_url %}
+                                <!-- Actor Image -->
+                                <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
+                            {% else %}
+                                <!-- Placeholder if No Image -->
+                                <div class="card-body">
+                                    <p class="card-text">No image available</p>
+                                </div>
+                            {% endif %}
+                            <!-- Actor Name -->
+                            <div class="card-footer actor-name">
+                                <small class="text-muted">{{ actor.name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Existing HTML ... -->
+
+
+</div>
 </div>
 
 
