@@ -111,8 +111,6 @@
 
 
 
-
-
         /* Info boxes */
         .info-box {
             margin: 10px 0;
@@ -327,19 +325,6 @@
 
 
 
-
-        /* Existing CSS to remove padding and margins */
-        .no-margin-padding {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-
-
-
-
-
-
         /* Flexbox wrapper for genres and year */
         .genre-year-wrapper {
             justify-content: flex-start; /* Align items to the start */
@@ -375,33 +360,6 @@
 
 
 
-
-        /* Flexbox container for title, year, and director */
-        .flexbox-title-row {
-            display: flex;  /* Enable flexbox */
-            justify-content: flex-start;  /* Align items to the start of the main axis */
-            align-items: center;  /* Center-align items along the cross-axis */
-            flex-wrap: wrap;  /* Allow items to wrap onto the next line */
-            margin-left: 0;
-        }
-
-        /* Flex item for the movie title */
-        .flex-item-title {
-            flex: 1;  /* Allow it to grow and shrink as needed */
-        {#white-space: normal;  /* Keep content on a single line */#}
-        {#overflow: auto;  /* Hide any overflowing content */#}
-            /* Add ellipsis for overflowing content */
-        }
-
-        /* Flex item for the year and director */
-        .flex-item-details {
-            display: flex;  /* Enable flexbox */
-            justify-content: flex-start;  /* Align items to the start of the main axis */
-
-            align-items: center;  /* Center-align items along the cross-axis */
-            flex: 0 0 auto;  /* Don't allow it to grow or shrink, and set initial size to auto */
-        {#white-space: nowrap;  /* Keep content on a single line */#}
-        }
 
         /* The children of .flex-item-details */
         .year-content, .director-info {
@@ -681,38 +639,38 @@
 
 <script>
 
-// Updated JavaScript code
-document.addEventListener("DOMContentLoaded", function () {
-    // Locate the genre-info element by its id
-    const genreInfoElement = document.getElementById("genre-info");
+    // Updated JavaScript code
+    document.addEventListener("DOMContentLoaded", function () {
+        // Locate the genre-info element by its id
+        const genreInfoElement = document.getElementById("genre-info");
 
-    // Read the full genres text
-    const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
+        // Read the full genres text
+        const fullGenres = genreInfoElement.textContent || genreInfoElement.innerText;
 
-    // Clear out the existing content (if any)
-    genreInfoElement.innerHTML = '';
+        // Clear out the existing content (if any)
+        genreInfoElement.innerHTML = '';
 
-    // Split the genres by comma (or whatever delimiter is used)
-    const genresArray = fullGenres.split(',');
+        // Split the genres by comma (or whatever delimiter is used)
+        const genresArray = fullGenres.split(',');
 
-    // Limit the number of genres to display
-    const maxGenresToShow = 3;
+        // Limit the number of genres to display
+        const maxGenresToShow = 3;
 
-    // Loop through each genre and create a button, but only up to maxGenresToShow
-    for (let i = 0; i < Math.min(genresArray.length, maxGenresToShow); i++) {
-        // Create a new button element
-        const btn = document.createElement("button");
+        // Loop through each genre and create a button, but only up to maxGenresToShow
+        for (let i = 0; i < Math.min(genresArray.length, maxGenresToShow); i++) {
+            // Create a new button element
+            const btn = document.createElement("button");
 
-        // Add text to the button
-        btn.innerHTML = genresArray[i].trim();  // Using trim() to remove any leading/trailing whitespace
+            // Add text to the button
+            btn.innerHTML = genresArray[i].trim();  // Using trim() to remove any leading/trailing whitespace
 
-        // Add the custom CSS class to the button
-        btn.className = "genre-custom-button";
+            // Add the custom CSS class to the button
+            btn.className = "genre-custom-button";
 
-        // Append the button to the genre-info div
-        genreInfoElement.appendChild(btn);
-    }
-});
+            // Append the button to the genre-info div
+            genreInfoElement.appendChild(btn);
+        }
+    });
 
 
 
