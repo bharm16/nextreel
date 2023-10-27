@@ -725,28 +725,6 @@
     });
 
 
-    $(document).ready(function(){
-        // Function to adjust font size
-        function adjustFontSize() {
-            const containerWidth = $('.info-container').width();  // Get container width
-            let fontSize = 50;  // Start with a large font size in pixels (you can adjust this)
-
-            $('.movie-title').css('font-size', fontSize + 'px');  // Set initial font size
-
-            // Loop to reduce font size until the text fits inside the container
-            while ($('.movie-title').width() > containerWidth) {
-                fontSize -= 1;  // Reduce font size by 1px
-                $('.movie-title').css('font-size', fontSize + 'px');  // Apply new font size
-            }
-        }
-
-        // Adjust font size initially
-        adjustFontSize();
-
-        // Re-adjust font size when window is resized
-        $(window).resize(adjustFontSize);
-    });
-
 
 
 
