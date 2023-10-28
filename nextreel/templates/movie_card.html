@@ -404,7 +404,7 @@
             /* Your background settings */
             background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
             background-size: cover;  /* Stretch the image to cover the entire container */
-            background-position: top -100px;  /* Align the image to the top of the container */
+            background-position: top -250px;  /* Align the image to the top of the container */
             {#background-position: top;  /* Align the image to the top of the container */#}
 
             background-repeat: no-repeat;  /* Do not repeat the image */
@@ -417,6 +417,7 @@
             content: ""; /* Required for the pseudo-element to work */
             position: absolute; /* Absolutely position it within backdrop-container */
             top: -40px; /* Stretch it to cover all corners */
+
             right: 0;
             bottom: 0;
             left: 0;
