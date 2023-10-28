@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <!-- Style for the navbar buttons -->
-    <style>
+        <style>
+        /* Custom button styles */
         /* Custom button styles */
         .btn-custom {
             background-color: #1f8efa !important;
@@ -11,34 +12,90 @@
             border: none;
             margin-right: 15px;
         }
-        /* Hover effect */
+
+        /* Hover effect for custom buttons */
         .btn-custom:hover {
             background-color: #1f8efa;
         }
 
-.navbar {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-
-}
-
-        /* Reset body margin-top */
-        body {
-            margin-top: 0 !important;
+        /* Custom logo button styles */
+        .btn-logo {
+            background: transparent !important;
+            border: none !important;
+            margin-left: -80px;
+            vertical-align: bottom;
         }
 
+        /* Custom navbar styles */
+        .navbar {
+            position: sticky;
+            z-index: 1000;
+            {#margin: 0;#}
+            max-height: 100px;
+            {#background-color: #f8f9fa;  /* light gray background */#}
+            color: #343a40;  /* dark text color */
+            margin-top:-15px;
+            background-color: transparent;
+        }
 
+        /* Styling for the logo image */
+        .navbar img {
+            max-height: 300px;
+            max-width: 300px;
+            margin-left: -10px;
+            {#margin-top:20px;#}
+            {#vertical-align: bottom;#}
+        }
+
+        /* Style for nav links */
+        .navbar a {
+            color: #343a40;  /* dark text color */
+        }
+
+        .all-navbar-buttons-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+                {#margin-top: 20px;  /* Adds 20px of space inside the top border */#}
+
+
+        }
+
+                /* Wrapper for logo button */
+        .logo-wrapper {
+            flex-grow: 1;  /* Takes up available space */
+            vertical-align: bottom;
+            align-content: baseline;
+        }
+
+        /* Wrapper for right-side buttons */
+        .button-wrapper {
+            display: flex;
+            {#align-items: center;#}
+            vertical-align: bottom;
+        }
 
     </style>
+
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <a href="{{ url_for('home') }}">
-                <img src="{{ url_for('static', filename='nextreel_logo_nobg.png') }}" height="100">
+            <div class="all-navbar-buttons-wrapper">
+                    <div class="logo-wrapper">
+
+           <!-- Added btn-logo class to the anchor tag wrapping the image -->
+            <a href="{{ url_for('home') }}" class="btn btn-logo">
+                <img src="{{ url_for('static', filename='nextreel_tentative_logo_nobg.png') }}">
             </a>
+                                </div>
+
+
+            <div class="button-wrapper">
+
             <ul class="navbar-nav ml-auto">
                 <!-- Display "Set Filters" button always -->
 
@@ -79,6 +136,9 @@
 
                 {% endif %}
             </ul>
+                        </div>
+        </div>
+
 
     </div>
 </nav>
