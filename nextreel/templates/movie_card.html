@@ -30,34 +30,35 @@
         }
 
         /* Pseudo-element to add background */
-        body::before {
-            content: "";  /* Required for the pseudo-element to work */
-            position: absolute;  /* Absolutely position it */
-
-
-            /* Stretch it horizontally: start and end 0% from the left and right */
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-
-            z-index: -1;  /* Place it behind the content */
-
-            /* Your background settings */
-            background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+        {#body::before {#}
+        {#    content: "";  /* Required for the pseudo-element to work */#}
+        {#    position: absolute;  /* Absolutely position it */#}
+        {##}
+        {##}
+        {#    /* Stretch it horizontally: start and end 0% from the left and right */#}
+        {#    top: 0;#}
+        {#    bottom: 0;#}
+        {#    left: 0;#}
+        {#    right: 0;#}
+        {##}
+        {#    z-index: -1;  /* Place it behind the content */#}
+        {##}
+        {#    /* Your background settings */#}
+        {#background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');#}
+        {#background-size: cover;#}
+        {#background-position: center;#}
+        {#background-repeat: no-repeat;#}
 
 
         /* Float the row containing movie details above the backdrop */
         .main-movie-details {
             position: relative; /* Make it a positioned element */
             z-index: 3; /* Float above backdrop */
-            {#padding-top: 12.5vh;  /* Push down the content */#}
-            padding-top: 350px;
+        {#padding-top: 12.5vh;  /* Push down the content */#}
+        {#padding-top: 350px;#}
             padding-bottom: 12.5vh;
+              margin-top: 450px;  /* Push down the content to after the backdrop */
+
 
         }
 
@@ -80,7 +81,7 @@
                     to bottom,
                     rgba(255,255,255,0) 0%,  /* Fully visible at the top */
                     rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
-                    rgba(255,255,255,1) 30%  /* Barely visible starting from 30% */
+                    rgba(255,255,255,1) 45%  /* Barely visible starting from 30% */
             );
             position: absolute;
             top: 0;
@@ -428,6 +429,46 @@
         }
 
 
+        /* New styles for backdrop-container */
+        .backdrop-container {
+            position: absolute;  /* Absolutely position it */
+            top: 0;              /* Start from the top */
+            left: 0;             /* Start from the left */
+            right: 0;            /* Take the full width */
+            height: 450px;       /* Height up to where movie poster begins */
+            z-index: -1;         /* Place it behind the content */
+
+            /* Your background settings */
+            background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+            background-size: cover;
+            
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* New CSS rule for the gradient div */
+.background-fade-overlay {
+  /* Position it absolutely within the closest relative/absolute/fixed parent */
+  position: absolute;
+  /* Place it at the bottom of the backdrop */
+  bottom: 0;
+  /* Stretch it horizontally */
+  left: 0;
+  right: 0;
+  /* Define the height of the gradient effect */
+  {#height: 150px; /* You can adjust this */#}
+  /* Gradient details */
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0) 0%,  /* Fully visible at the top */
+    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
+    rgba(255,255,255,1) 25%  /* Barely visible starting from 30% */
+  );
+  /* Set the z-index higher than the backdrop but lower than the movie details */
+  z-index: 1;
+}
+
+
 
     </style>
 
@@ -435,16 +476,18 @@
 </head>
 
 <body>
+<div class="backdrop-container"></div>
+<div class="background-fade-overlay"></div>
 
 
-<div class="background-fade-background-overlay"></div>
-
-
-<!-- Semi-transparent white background-overlay -->
-<div class="background-overlay"></div>
-<div class="row main-movie-details">
-
-
+{#<div class="background-fade-background-overlay"></div>#}
+{##}
+{##}
+{#<!-- Semi-transparent white background-overlay -->#}
+{#<div class="background-overlay"></div>#}
+{#<div class="row main-movie-details">#}
+{##}
+{##}
     <div class="movie-card-container">
 
 
@@ -543,7 +586,7 @@
                                     <!-- Votes Label -->
                                     <div class="votes-label action-button" id="votes">
                                         <div id="vote-number">{{ movie.votes }}</div>
-{#                                        <div id="vote-text"> Votes</div>#}
+                                        {#                                        <div id="vote-text"> Votes</div>#}
                                     </div>
 
                                     <!-- New buttons for "Seen it" and "Add to Watchlist" -->
@@ -646,18 +689,18 @@
 
 
     function formatVotes() {
-  const voteElement = document.getElementById("vote-number");
-  let voteCount = parseInt(voteElement.textContent, 10);
-  let formattedVotes = '';
-  if (voteCount >= 1000000) {
-    formattedVotes = (voteCount / 1000000).toFixed(1) + 'M';
-  } else if (voteCount >= 1000) {
-    formattedVotes = (voteCount / 1000).toFixed(1) + 'K';
-  } else {
-    formattedVotes = voteCount;
-  }
-  voteElement.textContent = formattedVotes;
-}
+        const voteElement = document.getElementById("vote-number");
+        let voteCount = parseInt(voteElement.textContent, 10);
+        let formattedVotes = '';
+        if (voteCount >= 1000000) {
+            formattedVotes = (voteCount / 1000000).toFixed(1) + 'M';
+        } else if (voteCount >= 1000) {
+            formattedVotes = (voteCount / 1000).toFixed(1) + 'K';
+        } else {
+            formattedVotes = voteCount;
+        }
+        voteElement.textContent = formattedVotes;
+    }
 
 
 
