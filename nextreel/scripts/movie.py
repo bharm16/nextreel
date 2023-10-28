@@ -30,6 +30,64 @@ def get_full_image_url(profile_path, size='w185'):
     return f"{base_url}{size}{profile_path}"
 
 
+def get_video_url_by_tmdb_id(tmdb_id):
+    """
+    Fetches a single video URL for a movie from TMDb using its TMDb ID.
+    It looks for a video that is on YouTube and is of type "Trailer".
+
+    Args:
+        tmdb_id (int): The TMDb ID of the movie.
+
+    Returns:
+        str: A single video URL, or None if no suitable video is found.
+    """
+    movie = tmdb.Movies(tmdb_id)
+    response = movie.videos()
+    video_results = response.get('results', [])
+
+    for video in video_results:
+        # Only include videos that are on YouTube and are of type "Trailer"
+        if video['site'] == 'YouTube' and video['type'] == 'Trailer':
+            youtube_url = f"https://www.youtube.com/watch?v={video['key']}"
+            return youtube_url  # Return the first suitable video URL found
+
+    return None  # Return None if no suitable video is found
+
+
+def fetch_images_from_tmdb(tmdb_id):
+    """
+    Fetch movie images from TMDb using the movie's TMDb ID.
+
+    Args:
+        tmdb_id (int): The TMDb ID of the movie.
+
+    Returns:
+        dict: A dictionary containing image URLs.
+    """
+    movie = tmdb.Movies(tmdb_id)
+    response = movie.images()
+    image_data = {
+        'posters': [img['file_path'] for img in response.get('posters', [])],
+        'backdrops': [img['file_path'] for img in response.get('backdrops', [])]
+    }
+    return image_data
+
+
+def fetch_videos_from_tmdb(tmdb_id):
+    """
+    Fetch movie videos from TMDb using the movie's TMDb ID.
+
+    Args:
+        tmdb_id (int): The TMDb ID of the movie.
+
+    Returns:
+        list: A list of dictionaries containing video data.
+    """
+    movie = tmdb.Movies(tmdb_id)
+    response = movie.videos()  # Fetch video data from TMDb
+    return response.get('results', [])  # Extract the 'results' field which contains the video data
+
+
 class Movie:
     def __init__(self, tconst, db_config):
         self.tconst = tconst
@@ -42,29 +100,14 @@ class Movie:
         ia = imdb.IMDb()
         return ia.get_movie(imdbId)
 
-    def fetch_images_from_tmdb(self, tmdb_id):
-        """
-        Fetch movie images from TMDb using the movie's TMDb ID.
-
-        Args:
-            tmdb_id (int): The TMDb ID of the movie.
-
-        Returns:
-            dict: A dictionary containing image URLs.
-        """
-        movie = tmdb.Movies(tmdb_id)
-        response = movie.images()
-        image_data = {
-            'posters': [img['file_path'] for img in response.get('posters', [])],
-            'backdrops': [img['file_path'] for img in response.get('backdrops', [])]
-        }
-        return image_data
-
     def store_movie_data(self, movie):
         ia = imdb.IMDb()
         tmdb_id = get_tmdb_id_by_tconst(self.tconst)
         tmdb_cast_info = []
         if tmdb_id:
+
+            tmdb_movie_trailer = get_video_url_by_tmdb_id(tmdb_id)
+
             tmdb_cast = get_cast_info_by_tmdb_id(tmdb_id)[:10]  # Limit to first 10 actors
             for cast_member in tmdb_cast:
                 profile_path = cast_member.get('profile_path')
@@ -73,7 +116,7 @@ class Movie:
                     'name': cast_member['name'],
                     'image_url': image_url
                 })
-            tmdb_image_info = self.fetch_images_from_tmdb(tmdb_id)
+            tmdb_image_info = fetch_images_from_tmdb(tmdb_id)
 
         self.movie_data = {
             "title": movie.get('title', 'N/A'),
@@ -90,7 +133,9 @@ class Movie:
             "poster_url": movie.get_fullsizeURL(),
             "year": movie.get('year'),
             "cast": tmdb_cast_info,
-            "images": tmdb_image_info  # Add TMDb image information
+            "images": tmdb_image_info,  # Add TMDb image information
+            "trailer": tmdb_movie_trailer  # Add TMDb video URLs
+
         }
 
     def get_movie_data(self):
@@ -132,12 +177,16 @@ def main(criteria):
     for image in movie_data["images"].get('posters', []):
         print(image)
 
+
+
         # New code to randomly select a backdrop
     random_backdrop_url = get_random_backdrop_url(movie_data["images"].get('backdrops', []))
     if random_backdrop_url:
         print(f"Randomly selected backdrop URL: {random_backdrop_url}")
     else:
         print("No backdrops available for this movie.")
+
+    print(movie_data.get("trailer", []))
 
 
 if __name__ == "__main__":

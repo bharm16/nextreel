@@ -577,6 +577,14 @@
                                 <button class="votes-label action-button" id="watchlist-button">
                                     <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
                                 </button>
+
+
+                                <button class="votes-label action-button" id="play-button" data-video-url="{{ movie.trailer }}">
+                                    <i class="fa-solid fa-play fa-2x"></i> <!-- Font Awesome Play Icon -->
+                                </button>
+
+
+
                             </div>
                         </div>
 
@@ -795,6 +803,18 @@
         });
     });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+  const playButton = document.getElementById("play-button");
+  playButton.addEventListener("click", function () {
+    const videoUrl = this.getAttribute("data-video-url"); // Read the video URL from data attribute
+    if (videoUrl) {
+      window.open(videoUrl, '_blank'); // Open the video URL in a new tab
+    } else {
+      alert("Video URL not available");
+    }
+  });
+});
 
 
 
