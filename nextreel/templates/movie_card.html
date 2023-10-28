@@ -36,18 +36,10 @@
         .main-movie-details {
             position: relative; /* Make it a positioned element */
             z-index: 3; /* Float above backdrop */
-        {#padding-top: 12.5vh;  /* Push down the content */#}
-        {#padding-top: 350px;#}
             padding-bottom: 12.5vh;
-              {#margin-top: 450px;  /* Push down the content to after the backdrop */#}
-
 
         }
 
-
-
-
-        /* Semi-transparent white background-overlay */
 
         /* Snappy button colors */
         .btn-custom {
@@ -65,7 +57,7 @@
         /* Font sizes */
         .info-title {
             font-size: 2.0em;
-        {#margin-bottom: 10px;#}
+
         }
 
 
@@ -88,12 +80,13 @@
         .movie-poster {
             width: 100%;
             max-width: 300px;
+            max-height:450px;
             border-radius: 0;
             border: none;  /* Add this line to remove the border */
             position: relative;  /* Make it a positioned element */
             z-index: 4;  /* Position it above the background-overlay */
             margin-top: -120px;  /* Move the movie poster upwards */
-            {#padding-top: -100px;#}
+        {#padding-top: -100px;#}
         }
 
         .movie-title {
@@ -116,7 +109,7 @@
         .movie-card-container {
             /* Removed background settings */
             position: relative; /* Make it a positioned element */
-            {#overflow: hidden; /* Contain floated elements */#}
+        {#overflow: hidden; /* Contain floated elements */#}
 
         }
 
@@ -335,8 +328,8 @@
         .info-container {
             padding-bottom: 1.5em;
             max-width: 80%; /* Restrict max-width to 80% of the parent div */
-        {#word-wrap: break-word; /* Allow long words to be broken and wrap onto the next line */#}
-        {#margin: auto; /* Center the container */#}
+            margin-top: -50px;
+
         }
 
         .inline-element, .inline-block-element {
@@ -390,88 +383,69 @@
 
 
         /* New styles for backdrop-container */
-/* Updated styles for backdrop-container */
-.backdrop-container {
+        /* Updated styles for backdrop-container */
+        .backdrop-container {
 
 
-    position: relative;  /* Use relative positioning */
-    top: 0;              /* Start from the top */
-    left: 0;             /* Start from the left */
-    right: 0;            /* Take the full width */
-    width: 100%;          /* Make sure it spans the full width */
-    min-height: 500px;    /* Minimum height */
-    z-index: -1;          /* Place it behind the content */
+            position: relative;  /* Use relative positioning */
+            top: 0;              /* Start from the top */
+            left: 0;             /* Start from the left */
+            right: 0;            /* Take the full width */
+            width: 100%;          /* Make sure it spans the full width */
+            min-height: 500px;    /* Minimum height */
+            z-index: -1;          /* Place it behind the content */
 
-    /* Your background settings */
-    background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
-    background-size: cover;  /* Stretch the image to cover the entire container */
-    background-position: top;  /* Align the image to the top of the container */
-    background-repeat: no-repeat;  /* Do not repeat the image */
-    margin-bottom: -100px;
+            /* Your background settings */
+            background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+            background-size: cover;  /* Stretch the image to cover the entire container */
+            background-position: top;  /* Align the image to the top of the container */
+            background-repeat: no-repeat;  /* Do not repeat the image */
+            margin-bottom: -100px;
 
-}
+        }
 
-/* New Pseudo-element for gradient overlay */
-.backdrop-container::before {
-  content: ""; /* Required for the pseudo-element to work */
-  position: absolute; /* Absolutely position it within backdrop-container */
-  top: 0; /* Stretch it to cover all corners */
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* Combined Background Gradients */
-  background:
-    /* First Linear Gradient (horizontal) */
-linear-gradient(90deg,
-      #ffffff 0, rgba(255,255,255,.986) .97%, rgba(255,255,255,.945) 2.07833333%,
-      rgba(255,255,255,.883) 3.29666667%, rgba(255,255,255,.803) 4.60166667%,
-      rgba(255,255,255,.711) 5.96666667%, rgba(255,255,255,.61) 7.365%,
-      rgba(255,255,255,.504) 8.77166667%, rgba(255,255,255,.398) 10.16%,
-      rgba(255,255,255,.296) 11.505%, rgba(255,255,255,.203) 12.78%,
-      rgba(255,255,255,.122) 13.95833333%, rgba(255,255,255,.059) 15.01666667%,
-      rgba(255,255,255,.016) 15.92833333%, rgba(255,255,255,0) 16.66666667%,
-      rgba(255,255,255,0) 83.33333333%, rgba(255,255,255,.016) 84.07166667%,
-      rgba(255,255,255,.059) 84.98333333%, rgba(255,255,255,.122) 86.04166667%,
-      rgba(255,255,255,.203) 87.22%, rgba(255,255,255,.296) 88.495%,
-      rgba(255,255,255,.398) 89.84%, rgba(255,255,255,.504) 91.22833333%,
-      rgba(255,255,255,.61) 92.635%, rgba(255,255,255,.711) 94.03333333%,
-      rgba(255,255,255,.803) 95.39833333%, rgba(255,255,255,.883) 96.70333333%,
-      rgba(255,255,255,.945) 97.92166667%, rgba(255,255,255,.986) 99.03%, #ffffff),
+        /* New Pseudo-element for gradient overlay */
+        .backdrop-container::before {
+            content: ""; /* Required for the pseudo-element to work */
+            position: absolute; /* Absolutely position it within backdrop-container */
+            top: 0; /* Stretch it to cover all corners */
+            right: 0;
+            bottom: 0;
+            left: 0;
+            /* Combined Background Gradients */
+            background:
+                /* First Linear Gradient (horizontal) */
+                    linear-gradient(90deg,
+                    #ffffff 0, rgba(255,255,255,.986) .97%, rgba(255,255,255,.945) 2.07833333%,
+                    rgba(255,255,255,.883) 3.29666667%, rgba(255,255,255,.803) 4.60166667%,
+                    rgba(255,255,255,.711) 5.96666667%, rgba(255,255,255,.61) 7.365%,
+                    rgba(255,255,255,.504) 8.77166667%, rgba(255,255,255,.398) 10.16%,
+                    rgba(255,255,255,.296) 11.505%, rgba(255,255,255,.203) 12.78%,
+                    rgba(255,255,255,.122) 13.95833333%, rgba(255,255,255,.059) 15.01666667%,
+                    rgba(255,255,255,.016) 15.92833333%, rgba(255,255,255,0) 16.66666667%,
+                    rgba(255,255,255,0) 83.33333333%, rgba(255,255,255,.016) 84.07166667%,
+                    rgba(255,255,255,.059) 84.98333333%, rgba(255,255,255,.122) 86.04166667%,
+                    rgba(255,255,255,.203) 87.22%, rgba(255,255,255,.296) 88.495%,
+                    rgba(255,255,255,.398) 89.84%, rgba(255,255,255,.504) 91.22833333%,
+                    rgba(255,255,255,.61) 92.635%, rgba(255,255,255,.711) 94.03333333%,
+                    rgba(255,255,255,.803) 95.39833333%, rgba(255,255,255,.883) 96.70333333%,
+                    rgba(255,255,255,.945) 97.92166667%, rgba(255,255,255,.986) 99.03%, #ffffff),
 
-    /* Second Linear Gradient (vertical) */
-    linear-gradient(0deg,
-      #ffffff 0, #ffffff 21.48148148%, rgba(255,255,255,.986) 23.63703704%,
-      rgba(255,255,255,.945) 26.1%, rgba(255,255,255,.883) 28.80740741%,
-      rgba(255,255,255,.803) 31.70740741%, rgba(255,255,255,.711) 34.74074074%,
-      rgba(255,255,255,.61) 37.84814815%, rgba(255,255,255,.504) 40.97407407%,
-      rgba(255,255,255,.398) 44.05925926%, rgba(255,255,255,.296) 47.04814815%,
-      rgba(255,255,255,.203) 49.88148148%, rgba(255,255,255,.122) 52.5%,
-      rgba(255,255,255,.059) 54.85185185%, rgba(255,255,255,.016) 56.87777778%,
-      rgba(255,255,255,0) 58.51851852%);
-  z-index: 1; /* Layer it above the backdrop image but below the content */
-}
+                        /* Second Linear Gradient (vertical) */
+                    linear-gradient(0deg,
+                    #ffffff 0, #ffffff 21.48148148%, rgba(255,255,255,.986) 23.63703704%,
+                    rgba(255,255,255,.945) 26.1%, rgba(255,255,255,.883) 28.80740741%,
+                    rgba(255,255,255,.803) 31.70740741%, rgba(255,255,255,.711) 34.74074074%,
+                    rgba(255,255,255,.61) 37.84814815%, rgba(255,255,255,.504) 40.97407407%,
+                    rgba(255,255,255,.398) 44.05925926%, rgba(255,255,255,.296) 47.04814815%,
+                    rgba(255,255,255,.203) 49.88148148%, rgba(255,255,255,.122) 52.5%,
+                    rgba(255,255,255,.059) 54.85185185%, rgba(255,255,255,.016) 56.87777778%,
+                    rgba(255,255,255,0) 58.51851852%);
+            z-index: 1; /* Layer it above the backdrop image but below the content */
+            margin-top: -20px;
+        }
 
 
-{#        /* New CSS rule for the gradient div */#}
-{#.background-fade-overlay {#}
-{#  /* Position it absolutely within the closest relative/absolute/fixed parent */#}
-{#  position: absolute;#}
-{#  /* Place it at the bottom of the backdrop */#}
-{#  bottom: 0;#}
-{#  /* Stretch it horizontally */#}
-{#  left: 0;#}
-{#  right: 0;#}
-{#  /* Define the height of the gradient effect */#}
-  {#height: 150px; /* You can adjust this */#}
-{#  /* Gradient details */#}
-{#  background: linear-gradient(#}
-{#    to bottom,#}
-{#    rgba(255,255,255,0) 0%,  /* Fully visible at the top */#}
-{#    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */#}
-{#    rgba(255,255,255,1) 25%  /* Barely visible starting from 30% */#}
-{#  );#}
-{#  /* Set the z-index higher than the backdrop but lower than the movie details */#}
-{#  z-index: 1;#}
 
 
 
@@ -494,120 +468,42 @@ linear-gradient(90deg,
 {#<div class="row main-movie-details">#}
 {##}
 {##}
-    <div class="movie-card-container">
+<div class="movie-card-container">
 
 
-        <!-- Float this row above the backdrop -->
-        <div class="row main-movie-details">
-            <!-- Your movie details here -->
-            <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
-                <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
+    <!-- Float this row above the backdrop -->
+    <div class="row main-movie-details">
+        <!-- Your movie details here -->
+        <div class="col-lg-4 col-md-6 text-center position-relative">  <!-- Added position-relative -->
+            <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
 
 
 
 
 
-                <div class="movie-navigation-buttons">
-                    <form method="POST" action="/previous_movie" style="display: inline;">
-                        <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
-                    </form>
-                    <form method="POST" action="/next_movie" style="display: inline;">
-                        <button type="submit" class="btn btn-custom">Next Movie</button>
-                    </form>
-                </div>
+            <div class="movie-navigation-buttons">
+                <form method="POST" action="/previous_movie" style="display: inline;">
+                    <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
+                </form>
+                <form method="POST" action="/next_movie" style="display: inline;">
+                    <button type="submit" class="btn btn-custom">Next Movie</button>
+                </form>
             </div>
+        </div>
 
-            <div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
-                <div class="info-container">
-                    <!-- Bootstrap row -->
-                    <div class="row">
-                        <!-- Single Bootstrap column -->
-                        <div class="col">
-                            <!-- Inline element for title -->
-                            <span class="movie-title inline-element">{{ movie.title }}</span>
-                            <!-- Inline-block element for year and director -->
-                            <span class="year-director-container inline-block-element">
+        <div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
+            <div class="info-container">
+                <!-- Bootstrap row -->
+                <div class="row">
+                    <!-- Single Bootstrap column -->
+                    <div class="col">
+                        <!-- Inline element for title -->
+                        <span class="movie-title inline-element">{{ movie.title }}</span>
+                        <!-- Inline-block element for year and director -->
+                        <span class="year-director-container inline-block-element">
           <span class="year-content">{{ movie.year }}</span>
           <span class="director-info">Directed by {{ movie.directors }}</span>
         </span>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
-
-                    <!-- End of new flexbox row -->
-
-                    <!-- Existing genre and other details -->
-                    <div class="d-flex align-items-center genre-year-wrapper">
-
-
-                        <!-- Empty div to hold genre buttons -->
-                        <div class="genre-content" id="genre-info">
-                            {{ movie.genres }}
-                        </div>
-
-                        <!-- Spacer div to ensure a small gap -->
-                        <div class="spacer"></div>
-                    </div>
-
-
-
-                    <!-- Movie plot remains the same -->
-                    <div class="movie-plot">
-                        {{ movie.plot }}
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                    <!-- New info-box for score, vote components and genres -->
-                    <div class="info-box">
-                        <div class="info-title"></div>
-
-                        <!-- New row to contain both ratings and genres -->
-                        <!-- Added a Bootstrap 'row' class to properly contain the columns -->
-                        <div class="row score-votes-genre-section">
-
-                            <!-- Column for ratings and vote count -->
-                            <div class="col-md-6">
-                                <div class="rating-votes-wrapper">
-                                    <!-- Position the circle progress bar -->
-                                    <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
-                                        <strong></strong>
-                                    </div>
-
-                                    <!-- Votes Label -->
-                                    <div class="votes-label action-button" id="votes">
-                                        <div id="vote-number">{{ movie.votes }}</div>
-                                        {#                                        <div id="vote-text"> Votes</div>#}
-                                    </div>
-
-                                    <!-- New buttons for "Seen it" and "Add to Watchlist" -->
-                                    <button class="votes-label action-button" id="seen-it-button">
-                                        <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
-
-                                    </button>
-                                    <button class="votes-label action-button" id="watchlist-button">
-                                        <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
-                                    </button>
-                                </div>
-                            </div>
-
-
-                        </div>
                     </div>
                 </div>
 
@@ -616,46 +512,124 @@ linear-gradient(90deg,
 
 
 
-                {% if current_user.is_authenticated %}
-                    <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
-                    <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
-                {% endif %}
-            </div>
-        </div>
 
-        <div class="info-box">
-            <div class="cast-title"></div>
-            <div class="cast-list">
-                <!-- Create a new flexbox container for the cast -->
-                <div class="d-flex flex-nowrap">
-                    <!-- Loop through the list of actors -->
-                    {% for actor in movie.cast %}
-                        <div class="m-0.2">  <!-- Added m-2 for margin -->
-                            <!-- Bootstrap Card -->
-                            <div class="card actor-card">
-                                {% if actor.image_url %}
-                                    <!-- Actor Image -->
-                                    <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
-                                {% else %}
-                                    <!-- Placeholder if No Image -->
-                                    <div class="card-body">
-                                        <p class="card-text">No image available</p>
-                                    </div>
-                                {% endif %}
-                                <!-- Actor Name -->
-                                <div class="card-footer actor-name">
-                                    <small class="text-muted">{{ actor.name }}</small>
+
+
+                <!-- End of new flexbox row -->
+
+                <!-- Existing genre and other details -->
+                <div class="d-flex align-items-center genre-year-wrapper">
+
+
+                    <!-- Empty div to hold genre buttons -->
+                    <div class="genre-content" id="genre-info">
+                        {{ movie.genres }}
+                    </div>
+
+                    <!-- Spacer div to ensure a small gap -->
+                    <div class="spacer"></div>
+                </div>
+
+
+
+                <!-- Movie plot remains the same -->
+                <div class="movie-plot">
+                    {{ movie.plot }}
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <!-- New info-box for score, vote components and genres -->
+                <div class="info-box">
+                    <div class="info-title"></div>
+
+                    <!-- New row to contain both ratings and genres -->
+                    <!-- Added a Bootstrap 'row' class to properly contain the columns -->
+                    <div class="row score-votes-genre-section">
+
+                        <!-- Column for ratings and vote count -->
+                        <div class="col-md-6">
+                            <div class="rating-votes-wrapper">
+                                <!-- Position the circle progress bar -->
+                                <div class="rating-circle" id="rating-circle" data-percent="{{ movie.rating }}" style="width:100px; height:100px;">
+                                    <strong></strong>
                                 </div>
+
+                                <!-- Votes Label -->
+                                <div class="votes-label action-button" id="votes">
+                                    <div id="vote-number">{{ movie.votes }}</div>
+                                    {#                                        <div id="vote-text"> Votes</div>#}
+                                </div>
+
+                                <!-- New buttons for "Seen it" and "Add to Watchlist" -->
+                                <button class="votes-label action-button" id="seen-it-button">
+                                    <i class="fas fa-eye fa-2x"></i> <!-- Font Awesome Eye Icon -->
+
+                                </button>
+                                <button class="votes-label action-button" id="watchlist-button">
+                                    <i class="fas fa-bookmark fa-2x"></i> <!-- Font Awesome Bookmark Icon -->
+                                </button>
                             </div>
                         </div>
-                    {% endfor %}
+
+
+                    </div>
                 </div>
             </div>
+
+
+
+
+
+
+            {% if current_user.is_authenticated %}
+                <button id="seen-it-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Seen It</button>
+                <button id="add-to-watchlist-button" data-tconst="{{ movie.imdb_id }}" class="btn navigation-button">Add to Watchlist</button>
+            {% endif %}
         </div>
-        <!-- Existing HTML ... -->
-
-
     </div>
+
+    <div class="info-box">
+        <div class="cast-title"></div>
+        <div class="cast-list">
+            <!-- Create a new flexbox container for the cast -->
+            <div class="d-flex flex-nowrap">
+                <!-- Loop through the list of actors -->
+                {% for actor in movie.cast %}
+                    <div class="m-0.2">  <!-- Added m-2 for margin -->
+                        <!-- Bootstrap Card -->
+                        <div class="card actor-card">
+                            {% if actor.image_url %}
+                                <!-- Actor Image -->
+                                <img src="{{ actor.image_url }}" class="card-img-top" alt="{{ actor.name }}">
+                            {% else %}
+                                <!-- Placeholder if No Image -->
+                                <div class="card-body">
+                                    <p class="card-text">No image available</p>
+                                </div>
+                            {% endif %}
+                            <!-- Actor Name -->
+                            <div class="card-footer actor-name">
+                                <small class="text-muted">{{ actor.name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Existing HTML ... -->
+
+
+</div>
 </div>
 
 
