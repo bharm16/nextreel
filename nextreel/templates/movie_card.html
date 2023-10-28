@@ -21,7 +21,7 @@
         body {
             /* Existing styles */
             font-family: 'Poppins', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #ffffff;
             color: #333;
             padding-bottom: 20vh;  /* Push down the content */
 
@@ -158,6 +158,7 @@
             /* Removed background settings */
             position: relative; /* Make it a positioned element */
             overflow: hidden; /* Contain floated elements */
+
         }
 
         /* Actor Cards */
@@ -432,12 +433,14 @@
         /* New styles for backdrop-container */
 /* Updated styles for backdrop-container */
 .backdrop-container {
+
+
     position: relative;  /* Use relative positioning */
     top: 0;              /* Start from the top */
     left: 0;             /* Start from the left */
     right: 0;            /* Take the full width */
     width: 100%;          /* Make sure it spans the full width */
-    min-height: 450px;    /* Minimum height */
+    min-height: 500px;    /* Minimum height */
     z-index: -1;          /* Place it behind the content */
 
     /* Your background settings */
@@ -445,7 +448,8 @@
     background-size: cover;  /* Stretch the image to cover the entire container */
     background-position: top;  /* Align the image to the top of the container */
     background-repeat: no-repeat;  /* Do not repeat the image */
-    margin-bottom: 40px;
+    margin-bottom: -40px;
+
 }
 
 /* New Pseudo-element for gradient overlay */
@@ -456,36 +460,60 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0), /* Fully transparent at the center */
-    rgba(255, 255, 255, 1) 100% /* Fully white at the edges */
-  );
+  /* Combined Background Gradients */
+  background:
+    /* First Linear Gradient (horizontal) */
+linear-gradient(90deg,
+      #ffffff 0, rgba(255,255,255,.986) .97%, rgba(255,255,255,.945) 2.07833333%,
+      rgba(255,255,255,.883) 3.29666667%, rgba(255,255,255,.803) 4.60166667%,
+      rgba(255,255,255,.711) 5.96666667%, rgba(255,255,255,.61) 7.365%,
+      rgba(255,255,255,.504) 8.77166667%, rgba(255,255,255,.398) 10.16%,
+      rgba(255,255,255,.296) 11.505%, rgba(255,255,255,.203) 12.78%,
+      rgba(255,255,255,.122) 13.95833333%, rgba(255,255,255,.059) 15.01666667%,
+      rgba(255,255,255,.016) 15.92833333%, rgba(255,255,255,0) 16.66666667%,
+      rgba(255,255,255,0) 83.33333333%, rgba(255,255,255,.016) 84.07166667%,
+      rgba(255,255,255,.059) 84.98333333%, rgba(255,255,255,.122) 86.04166667%,
+      rgba(255,255,255,.203) 87.22%, rgba(255,255,255,.296) 88.495%,
+      rgba(255,255,255,.398) 89.84%, rgba(255,255,255,.504) 91.22833333%,
+      rgba(255,255,255,.61) 92.635%, rgba(255,255,255,.711) 94.03333333%,
+      rgba(255,255,255,.803) 95.39833333%, rgba(255,255,255,.883) 96.70333333%,
+      rgba(255,255,255,.945) 97.92166667%, rgba(255,255,255,.986) 99.03%, #ffffff),
+
+    /* Second Linear Gradient (vertical) */
+    linear-gradient(0deg,
+      #ffffff 0, #ffffff 21.48148148%, rgba(255,255,255,.986) 23.63703704%,
+      rgba(255,255,255,.945) 26.1%, rgba(255,255,255,.883) 28.80740741%,
+      rgba(255,255,255,.803) 31.70740741%, rgba(255,255,255,.711) 34.74074074%,
+      rgba(255,255,255,.61) 37.84814815%, rgba(255,255,255,.504) 40.97407407%,
+      rgba(255,255,255,.398) 44.05925926%, rgba(255,255,255,.296) 47.04814815%,
+      rgba(255,255,255,.203) 49.88148148%, rgba(255,255,255,.122) 52.5%,
+      rgba(255,255,255,.059) 54.85185185%, rgba(255,255,255,.016) 56.87777778%,
+      rgba(255,255,255,0) 58.51851852%);
   z-index: 1; /* Layer it above the backdrop image but below the content */
 }
 
 
-        /* New CSS rule for the gradient div */
-.background-fade-overlay {
-  /* Position it absolutely within the closest relative/absolute/fixed parent */
-  position: absolute;
-  /* Place it at the bottom of the backdrop */
-  bottom: 0;
-  /* Stretch it horizontally */
-  left: 0;
-  right: 0;
-  /* Define the height of the gradient effect */
+{#        /* New CSS rule for the gradient div */#}
+{#.background-fade-overlay {#}
+{#  /* Position it absolutely within the closest relative/absolute/fixed parent */#}
+{#  position: absolute;#}
+{#  /* Place it at the bottom of the backdrop */#}
+{#  bottom: 0;#}
+{#  /* Stretch it horizontally */#}
+{#  left: 0;#}
+{#  right: 0;#}
+{#  /* Define the height of the gradient effect */#}
   {#height: 150px; /* You can adjust this */#}
-  /* Gradient details */
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0) 0%,  /* Fully visible at the top */
-    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
-    rgba(255,255,255,1) 25%  /* Barely visible starting from 30% */
-  );
-  /* Set the z-index higher than the backdrop but lower than the movie details */
-  z-index: 1;
-}
+{#  /* Gradient details */#}
+{#  background: linear-gradient(#}
+{#    to bottom,#}
+{#    rgba(255,255,255,0) 0%,  /* Fully visible at the top */#}
+{#    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */#}
+{#    rgba(255,255,255,1) 25%  /* Barely visible starting from 30% */#}
+{#  );#}
+{#  /* Set the z-index higher than the backdrop but lower than the movie details */#}
+{#  z-index: 1;#}
+
 
 
 
