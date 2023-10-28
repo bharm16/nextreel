@@ -524,6 +524,31 @@
 }
 
 
+/* Common styles for both left and right arrow buttons */
+.arrow-button {
+  position: absolute; /* Absolute positioning */
+  top: 0;           /* Center vertically */
+  z-index: 5;         /* Place it above other elements */
+  background-color: rgba(0,0,0,0.5); /* Semi-transparent black background */
+  color: white;       /* White arrow icon */
+  border: none;       /* No border */
+  cursor: pointer;    /* Pointer cursor on hover */
+  font-size: 24px;    /* Font size of the arrow icon */
+  padding: 10px;      /* Padding around the icon */
+}
+
+/* Positioning for left arrow */
+.left-arrow {
+  left: 0; /* Stick to the left side */
+}
+
+/* Positioning for right arrow */
+.right-arrow {
+  right: 0; /* Stick to the right side */
+}
+
+
+
     </style>
 
 
@@ -536,6 +561,22 @@
 
 
 <div class="movie-card-container">
+
+<!-- Previous Movie Button -->
+    <form method="POST" action="/previous_movie" style="display: inline;">
+        <button type="submit" class="arrow-button left-arrow" {% if previous_count == 0 %}disabled{% endif %}>
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </form>
+
+    <!-- Next Movie Button -->
+    <form method="POST" action="/next_movie" style="display: inline;">
+        <button type="submit" class="arrow-button right-arrow">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </form>
+
+
 
 
     <!-- Float this row above the backdrop -->
@@ -873,6 +914,21 @@
         });
     });
 
+document.addEventListener("DOMContentLoaded", function () {
+  // Capture the left-arrow button and add a click event listener
+  const leftArrowButton = document.getElementById("left-arrow-button");
+  leftArrowButton.addEventListener("click", function () {
+    // Do something for the previous movie
+    // You can programmatically submit the /previous_movie form here
+  });
+
+  // Capture the right-arrow button and add a click event listener
+  const rightArrowButton = document.getElementById("right-arrow-button");
+  rightArrowButton.addEventListener("click", function () {
+    // Do something for the next movie
+    // You can programmatically submit the /next_movie form here
+  });
+});
 
 
 
