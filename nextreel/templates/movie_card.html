@@ -444,7 +444,25 @@
             z-index: 1; /* Layer it above the backdrop image but below the content */
             margin-top: -20px;
         }
+        /* New CSS for play button */
+        .play-trailer-button {
+            font-size: 20px; /* Ensuring font-size matches other buttons */
+            color: #333;  /* Text color */
+            background-color: transparent;
+            border: none; /* No border */
+            display: flex;  /* Use flexbox for layout */
+            align-items: center;  /* Center content vertically */
+            justify-content: center;  /* Center content horizontally */
+            padding: 10px;  /* Padding around the button */
+            margin-left: 10px;  /* Add left margin */
+            margin-right: 10px; /* Add right margin */
+        }
 
+
+        /* Make sure the icon and text align well */
+        .play-trailer-button i, .play-trailer-button span {
+            margin-right: 5px;  /* Small right margin for spacing */
+        }
 
 
 
@@ -579,8 +597,9 @@
                                 </button>
 
 
-                                <button class="votes-label action-button" id="play-button" data-video-url="{{ movie.trailer }}">
-                                    <i class="fa-solid fa-play fa-2x"></i> <!-- Font Awesome Play Icon -->
+                                <!-- Updated Play button -->
+                                <button class="play-trailer-button" id="play-button" data-video-url="{{ movie.trailer }}">
+                                    <i class="fa-solid fa-play"></i> Play Trailer <!-- Font Awesome Play Icon + Text -->
                                 </button>
 
 
@@ -804,17 +823,17 @@
     });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  const playButton = document.getElementById("play-button");
-  playButton.addEventListener("click", function () {
-    const videoUrl = this.getAttribute("data-video-url"); // Read the video URL from data attribute
-    if (videoUrl) {
-      window.open(videoUrl, '_blank'); // Open the video URL in a new tab
-    } else {
-      alert("Video URL not available");
-    }
-  });
-});
+    document.addEventListener("DOMContentLoaded", function () {
+        const playButton = document.getElementById("play-button");
+        playButton.addEventListener("click", function () {
+            const videoUrl = this.getAttribute("data-video-url"); // Read the video URL from data attribute
+            if (videoUrl) {
+                window.open(videoUrl, '_blank'); // Open the video URL in a new tab
+            } else {
+                alert("Video URL not available");
+            }
+        });
+    });
 
 
 
