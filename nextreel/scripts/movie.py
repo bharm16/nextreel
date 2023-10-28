@@ -88,6 +88,26 @@ def fetch_videos_from_tmdb(tmdb_id):
     return response.get('results', [])  # Extract the 'results' field which contains the video data
 
 
+# Add this function to your existing code
+def get_credits_by_tmdb_id(tmdb_id):
+    """
+    Fetch the cast and crew for a movie using its TMDb ID.
+
+    Args:
+        tmdb_id (int): The TMDb ID of the movie.
+
+    Returns:
+        dict: A dictionary containing both cast and crew information.
+    """
+    movie = tmdb.Movies(tmdb_id)
+    response = movie.credits()
+    return {
+        'cast': response.get('cast', []),
+        'crew': response.get('crew', [])
+    }
+
+
+
 class Movie:
     def __init__(self, tconst, db_config):
         self.tconst = tconst
@@ -105,6 +125,8 @@ class Movie:
         tmdb_id = get_tmdb_id_by_tconst(self.tconst)
         tmdb_cast_info = []
         if tmdb_id:
+
+            tmdb_credits = get_credits_by_tmdb_id(tmdb_id)
 
             tmdb_movie_trailer = get_video_url_by_tmdb_id(tmdb_id)
 
@@ -134,7 +156,8 @@ class Movie:
             "year": movie.get('year'),
             "cast": tmdb_cast_info,
             "images": tmdb_image_info,  # Add TMDb image information
-            "trailer": tmdb_movie_trailer  # Add TMDb video URLs
+            "trailer": tmdb_movie_trailer, # Add TMDb video URLs
+            "credits": tmdb_credits
 
         }
 
@@ -177,7 +200,10 @@ def main(criteria):
     for image in movie_data["images"].get('posters', []):
         print(image)
 
-
+    # Print cast information line by line
+    print("Cast Information:")
+    for cast_member in movie_data.get("cast", []):
+        print(f"Name: {cast_member['name']}, Image URL: {cast_member['image_url']}")
 
         # New code to randomly select a backdrop
     random_backdrop_url = get_random_backdrop_url(movie_data["images"].get('backdrops', []))
@@ -187,6 +213,23 @@ def main(criteria):
         print("No backdrops available for this movie.")
 
     print(movie_data.get("trailer", []))
+
+    # New code to print credit information line by line
+    print("Cast and Crew Information:")
+
+    # Print Cast Information
+    print("\nCast:")
+    for cast_member in movie_data.get("credits", {}).get("cast", []):
+        name = cast_member.get('name', 'N/A')
+        character = cast_member.get('character', 'N/A')
+        print(f"Actor: {name}, Character: {character}")
+
+    # Print Crew Information
+    print("\nCrew:")
+    for crew_member in movie_data.get("credits", {}).get("crew", []):
+        name = crew_member.get('name', 'N/A')
+        job = crew_member.get('job', 'N/A')
+        print(f"Name: {name}, Job: {job}")
 
 
 if __name__ == "__main__":
