@@ -29,25 +29,7 @@
             position: relative;
         }
 
-        /* Pseudo-element to add background */
-        {#body::before {#}
-        {#    content: "";  /* Required for the pseudo-element to work */#}
-        {#    position: absolute;  /* Absolutely position it */#}
-        {##}
-        {##}
-        {#    /* Stretch it horizontally: start and end 0% from the left and right */#}
-        {#    top: 0;#}
-        {#    bottom: 0;#}
-        {#    left: 0;#}
-        {#    right: 0;#}
-        {##}
-        {#    z-index: -1;  /* Place it behind the content */#}
-        {##}
-        {#    /* Your background settings */#}
-        {#background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');#}
-        {#background-size: cover;#}
-        {#background-position: center;#}
-        {#background-repeat: no-repeat;#}
+
 
 
         /* Float the row containing movie details above the backdrop */
@@ -66,30 +48,6 @@
 
 
         /* Semi-transparent white background-overlay */
-        .background-overlay {
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 45%, rgba(255,255,255,0.5) 100%);
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 2;
-        }
-
-        .background-fade-background-overlay {
-            background: linear-gradient(
-                    to bottom,
-                    rgba(255,255,255,0) 0%,  /* Fully visible at the top */
-                    rgba(255,255,255,0) 20%,  /* Fully visible until just before 30% */
-                    rgba(255,255,255,1) 45%  /* Barely visible starting from 30% */
-            );
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-        }
 
         /* Snappy button colors */
         .btn-custom {
@@ -129,12 +87,13 @@
         /* Movie poster */
         .movie-poster {
             width: 100%;
-            max-width: 325px;
+            max-width: 300px;
             border-radius: 0;
             border: none;  /* Add this line to remove the border */
             position: relative;  /* Make it a positioned element */
-            z-index: 3;  /* Position it above the background-overlay */
-            margin-top: -20px;  /* Move the movie poster upwards */
+            z-index: 4;  /* Position it above the background-overlay */
+            margin-top: -120px;  /* Move the movie poster upwards */
+            {#padding-top: -100px;#}
         }
 
         .movie-title {
@@ -157,7 +116,7 @@
         .movie-card-container {
             /* Removed background settings */
             position: relative; /* Make it a positioned element */
-            overflow: hidden; /* Contain floated elements */
+            {#overflow: hidden; /* Contain floated elements */#}
 
         }
 
