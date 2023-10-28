@@ -110,6 +110,7 @@
             /* Removed background settings */
             position: relative; /* Make it a positioned element */
         {#overflow: hidden; /* Contain floated elements */#}
+            margin-top: -20px
 
         }
 
@@ -118,7 +119,7 @@
             width: 150px; /* Fixed width */
             margin: 0; /* Margin around each card */
             padding: 10px; /* Padding inside each card */
-            {#box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */#}
+        {#box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */#}
 
         }
 
@@ -266,7 +267,7 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
-            {#margin: 0;#}
+        {#margin: 0;#}
             margin-top: -90px;
             margin-left: 35px;
         }
@@ -447,7 +448,9 @@
                     rgba(255,255,255,.059) 54.85185185%, rgba(255,255,255,.016) 56.87777778%,
                     rgba(255,255,255,0) 58.51851852%);
             z-index: 1; /* Layer it above the backdrop image but below the content */
-            margin-top: -20px;
+            margin-top: -30px;
+            {#            margin-bottom: -100px;#}
+
         }
         /* New CSS for play button */
         .play-trailer-button {
@@ -469,6 +472,47 @@
             margin-right: 5px;  /* Small right margin for spacing */
         }
 
+        /* ... Existing Styles ... */
+
+        /* Styling for the row containing movie navigation buttons */
+        .movie-nav-row {
+            /* Add padding to the row */
+            padding: 15px 0;
+
+            /* Center the row content */
+            justify-content: center;
+
+            /* Add a background color if needed */
+            background-color: #ffffff;
+        }
+
+        /* Styling for the movie navigation buttons within the row */
+        .movie-navigation-buttons {
+            /* Customize button appearance */
+            background-color: #1f8efa;
+            color: #ffffff;
+            border: none;
+            padding: 4px 6px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            {#margin: 4px 2px;#}
+            cursor: pointer;
+            {#border-radius: 12px;#}
+                margin-right: 25px;  /* Add right margin */
+
+        }
+
+
+
+/* This is the new CSS class acting as a flex container */
+.movie-nav-buttons-wrapper {
+    display: flex;  /* Enables flexbox */
+    justify-content: left;  /* Horizontally centers the buttons */
+    align-items: center;  /* Vertically centers the buttons */
+    margin-top: -50px;
+}
 
 
 
@@ -483,14 +527,7 @@
 <div class="background-fade-overlay"></div>
 
 
-{#<div class="background-fade-background-overlay"></div>#}
-{##}
-{##}
-{#<!-- Semi-transparent white background-overlay -->#}
-{#<div class="background-overlay"></div>#}
-{#<div class="row main-movie-details">#}
-{##}
-{##}
+
 <div class="movie-card-container">
 
 
@@ -501,17 +538,6 @@
             <img class="movie-poster" src="{{ movie.poster_url }}" alt="Movie Poster">
 
 
-
-
-
-            <div class="movie-navigation-buttons">
-                <form method="POST" action="/previous_movie" style="display: inline;">
-                    <button type="submit" class="btn btn-custom" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
-                </form>
-                <form method="POST" action="/next_movie" style="display: inline;">
-                    <button type="submit" class="btn btn-custom">Next Movie</button>
-                </form>
-            </div>
         </div>
 
         <div class="col-lg-8 col-md-6 col-sm-10 mx-auto">
@@ -530,14 +556,6 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
                 <!-- End of new flexbox row -->
 
                 <!-- Existing genre and other details -->
@@ -553,21 +571,10 @@
                     <div class="spacer"></div>
                 </div>
 
-
-
                 <!-- Movie plot remains the same -->
                 <div class="movie-plot">
                     {{ movie.plot }}
                 </div>
-
-
-
-
-
-
-
-
-
 
 
                 <!-- New info-box for score, vote components and genres -->
@@ -608,7 +615,6 @@
                                 </button>
 
 
-
                             </div>
                         </div>
 
@@ -616,6 +622,22 @@
                     </div>
                 </div>
             </div>
+
+
+
+<div class="row movie-nav-row">
+    <!-- This is the new div acting as a flex container -->
+    <div class="movie-nav-buttons-wrapper">
+        <form method="POST" action="/previous_movie" style="display: inline;">
+            <button type="submit" class="btn movie-navigation-buttons" {% if previous_count == 0 %}disabled{% endif %}>Previous Movie</button>
+        </form>
+        <form method="POST" action="/next_movie" style="display: inline;">
+            <button type="submit" class="btn movie-navigation-buttons">Next Movie</button>
+        </form>
+    </div>
+</div>
+
+
 
 
 
@@ -652,7 +674,7 @@
                                 <small class="text-muted">{{ actor.name }}</small>
                             </div>
 
-                        <div class="card-footer character-name">
+                            <div class="card-footer character-name">
                                 <small class="text-muted">{{ actor.character }}</small>
                             </div>
 
