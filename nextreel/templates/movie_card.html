@@ -57,7 +57,7 @@
         {#padding-top: 12.5vh;  /* Push down the content */#}
         {#padding-top: 350px;#}
             padding-bottom: 12.5vh;
-              margin-top: 450px;  /* Push down the content to after the backdrop */
+              {#margin-top: 450px;  /* Push down the content to after the backdrop */#}
 
 
         }
@@ -430,21 +430,24 @@
 
 
         /* New styles for backdrop-container */
-        .backdrop-container {
-            position: absolute;  /* Absolutely position it */
-            top: 0;              /* Start from the top */
-            left: 0;             /* Start from the left */
-            right: 0;            /* Take the full width */
-            height: 450px;       /* Height up to where movie poster begins */
-            z-index: -1;         /* Place it behind the content */
+/* Updated styles for backdrop-container */
+.backdrop-container {
+    position: relative;  /* Use relative positioning */
+    top: 0;              /* Start from the top */
+    left: 0;             /* Start from the left */
+    right: 0;            /* Take the full width */
+    width: 100%;          /* Make sure it spans the full width */
+    min-height: 500px;    /* Minimum height */
+    z-index: -1;          /* Place it behind the content */
 
-            /* Your background settings */
-            background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
-            background-size: cover;
-            
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+    /* Your background settings */
+    background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+    background-size: cover;  /* Stretch the image to cover the entire container */
+    background-position: top;  /* Align the image to the top of the container */
+    background-repeat: no-repeat;  /* Do not repeat the image */
+    margin-bottom: 20px;
+}
+
 
         /* New CSS rule for the gradient div */
 .background-fade-overlay {
