@@ -116,9 +116,9 @@
         /* Actor Cards */
         .actor-card {
             width: 150px; /* Fixed width */
-            margin: 10px; /* Margin around each card */
+            margin: 0; /* Margin around each card */
             padding: 15px; /* Padding inside each card */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */
+            {#box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional: Shadow for 3D effect */#}
 
         }
 
@@ -264,6 +264,7 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
+            margin: 0;
         }
 
 
