@@ -22,7 +22,20 @@ def get_tmdb_id_by_tconst(tconst):
 def get_cast_info_by_tmdb_id(tmdb_id):
     movie = tmdb.Movies(tmdb_id)
     response = movie.credits()
-    return response.get('cast', [])
+    cast_info = []
+    # Limit the number of cast members to the first 10
+    for cast_member in response.get('cast', [])[:10]:
+        profile_path = cast_member.get('profile_path')
+        image_url = get_full_image_url(profile_path) if profile_path else None
+        # Add character name here
+        character_name = cast_member.get('character', 'N/A')
+        cast_info.append({
+            'name': cast_member['name'],
+            'image_url': image_url,
+            'character': character_name  # Include the character name
+        })
+    return cast_info
+
 
 
 def get_full_image_url(profile_path, size='w185'):
@@ -107,7 +120,6 @@ def get_credits_by_tmdb_id(tmdb_id):
     }
 
 
-
 class Movie:
     def __init__(self, tconst, db_config):
         self.tconst = tconst
@@ -121,25 +133,34 @@ class Movie:
         return ia.get_movie(imdbId)
 
     def store_movie_data(self, movie):
+        """
+        Store movie data from IMDb and TMDb sources into a single dictionary.
+
+        Args:
+            movie (imdb.Movie.Movie): IMDb movie object containing various movie details.
+        """
         ia = imdb.IMDb()
         tmdb_id = get_tmdb_id_by_tconst(self.tconst)
         tmdb_cast_info = []
-        if tmdb_id:
+        tmdb_image_info = {}
+        tmdb_movie_trailer = None
+        tmdb_credits = {}
 
+        # Check if there is a TMDb ID corresponding to the IMDb ID
+        if tmdb_id:
+            # Fetch cast and crew information from TMDb
             tmdb_credits = get_credits_by_tmdb_id(tmdb_id)
 
+            # Fetch a trailer URL from TMDb
             tmdb_movie_trailer = get_video_url_by_tmdb_id(tmdb_id)
 
-            tmdb_cast = get_cast_info_by_tmdb_id(tmdb_id)[:10]  # Limit to first 10 actors
-            for cast_member in tmdb_cast:
-                profile_path = cast_member.get('profile_path')
-                image_url = get_full_image_url(profile_path) if profile_path else None
-                tmdb_cast_info.append({
-                    'name': cast_member['name'],
-                    'image_url': image_url
-                })
+            # Fetch cast information from TMDb and limit it to first 10 actors
+            tmdb_cast_info = get_cast_info_by_tmdb_id(tmdb_id)[:10]
+
+            # Fetch image information from TMDb
             tmdb_image_info = fetch_images_from_tmdb(tmdb_id)
 
+        # Populate the movie_data dictionary with various fields
         self.movie_data = {
             "title": movie.get('title', 'N/A'),
             "imdb_id": movie.getID(),
@@ -154,11 +175,10 @@ class Movie:
             "plot": movie.get('plot', ['N/A'])[0],
             "poster_url": movie.get_fullsizeURL(),
             "year": movie.get('year'),
-            "cast": tmdb_cast_info,
+            "cast": tmdb_cast_info,  # This now includes character names
             "images": tmdb_image_info,  # Add TMDb image information
-            "trailer": tmdb_movie_trailer, # Add TMDb video URLs
-            "credits": tmdb_credits
-
+            "trailer": tmdb_movie_trailer,  # Add TMDb video URLs
+            "credits": tmdb_credits  # Add TMDb credits information
         }
 
     def get_movie_data(self):
@@ -224,12 +244,10 @@ def main(criteria):
         character = cast_member.get('character', 'N/A')
         print(f"Actor: {name}, Character: {character}")
 
-    # Print Crew Information
-    print("\nCrew:")
-    for crew_member in movie_data.get("credits", {}).get("crew", []):
-        name = crew_member.get('name', 'N/A')
-        job = crew_member.get('job', 'N/A')
-        print(f"Name: {name}, Job: {job}")
+    # Print cast information line by line
+    print("Cast Information:")
+    for cast_member in movie_data.get("cast", []):
+        print(f"Name: {cast_member['name']}, Character: {cast_member['character']}, Image URL: {cast_member['image_url']}")
 
 
 if __name__ == "__main__":
