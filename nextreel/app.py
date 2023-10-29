@@ -22,7 +22,7 @@ from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # IMPORTANT: Change this in production
 
-default_movie_tmdb_id = 926393  # This is the TMDb ID for the movie "Fight Club"
+default_movie_tmdb_id = 62  # This is the TMDb ID for the movie "Fight Club"
 default_backdrop_url = get_backdrop_image_for_home(default_movie_tmdb_id)
 
 

@@ -21,10 +21,14 @@
         .full-width-element {
             font-family: 'Merriweather', serif;
             font-weight: 700;
+            font-size:20px;
+
             align-items: center;
             text-align: center;
             color: #f4f4f4;
             vertical-align:baseline;
+            position: relative;
+            z-index: 2;
 
         }
 
@@ -32,7 +36,7 @@
     background-image: url("{{ default_backdrop_url }}");
     background-size: cover;
     background-position: center;
-    min-height: 700px;  /* You can adjust this value */
+    min-height: 1000px;  /* You can adjust this value */
 
     /* Flexbox properties for centering */
     display: flex;
@@ -40,19 +44,15 @@
     align-items: center;
 
     /* Optional: Additional padding if needed */
-    padding: 20px;
+    {#padding: 20px;#}
 }
 
 .backdrop-container {
-    {#min-height: 400px;  /* You can adjust this value */#}
-
-    /* Flexbox properties for centering */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    {#padding-top: 500px;#}
-    /* Optional: Additional padding if needed */
-    {#padding: 20px;#}
+     display: flex;  /* Enable Flexbox */
+    flex-direction: column;  /* Stack children vertically */
+    justify-content: flex-end;  /* Align children at the bottom */
+                align-items: center;
+    min-height: 600px;
 
 
 }
@@ -63,20 +63,17 @@
     </style>
 </head>
 <body>
-<!-- Container to hold the centered content -->
-<!-- Container to hold the centered content -->
 
 
 
 <!-- Wrapper div for setting the background -->
-<!-- Note: Replaced 'background-wrapper' with 'backdrop-container' -->
-<div class="backdrop-container" style="background-image: url('{{ default_backdrop_url }}');">  <!-- Inline style attribute -->
-    <div class="container bottom-aligned-text">  <!-- Added 'bottom-aligned-text' class -->
+<div class="backdrop-container" style="background-image: url('{{ default_backdrop_url }}');">
+    <div class="container">
         <!-- Your existing content -->
         <div class="full-width-element">
             <!-- Text here will use the Merriweather font -->
-            <div class="row justify-content-center"> <!-- Added justify-content-center -->
-                <div class="col-lg-10 mb-4 offset-lg-1"> <!-- Added offset-lg-1 -->
+            <div class="row justify-content-center">
+    <div class="col-lg-10 mb-4 text-center"> <!-- Added text-center -->
                     <p>Welcome.</p>
                     <p>Discover new films based on criteria defined by you.</p>
                     <p>Log films you've seen so you can always get new recommendations.</p>
@@ -85,6 +82,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Including card_deck.html -->
 {% include 'card_deck.html' %}

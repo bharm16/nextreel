@@ -29,7 +29,7 @@
             display: block;
 
             /*controls height of gradient*/
-            
+
             height: 775px;
             left: 50%;
             pointer-events: none;
@@ -39,7 +39,7 @@
             width: 1200px;
             z-index: 1;
 
-            padding-top: 500px;
+            /*padding-top: 500px;*/
 
             /*content: ""; !* Required for the pseudo-element to work *!*/
             /*position: absolute; !* Absolutely position it within backdrop-container *!*/
