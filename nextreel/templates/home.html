@@ -7,63 +7,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
+    <!-- Import Merriweather font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap">
+
+    <!-- Other CSS files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
 
     <style>
-
-
-
+        /* Set the font for the entire document */
+        body {
+            font-family: 'Merriweather', serif;
+        }
 
         /* Custom class to make the header span the entire width of the page */
-.header-full-width {
-  width: 100%;           /* Full width */
-  padding: 0 !important; /* Override padding */
-  margin: 0 !important;  /* Override margin */
-  box-shadow: none;      /* Remove shadow */
-  border-radius: 0;      /* Remove rounded corners */
-}
-
-
-
+        .header-full-width {
+            width: 100%;           /* Full width */
+            padding: 0 !important; /* Override padding */
+            margin: 0 !important;  /* Override margin */
+            box-shadow: none;      /* Remove shadow */
+            border-radius: 0;      /* Remove rounded corners */
+        }
     </style>
 </head>
-
 
 <body>
 
 {% include 'navbar.html' %}
 
-  <!-- Make header span the whole page -->
-  <div class="container-fluid header-full-width">
-    {% include 'header.html' %}
-  </div>
+    <div class="container">
+        <!-- Make header span the whole page -->
+        <div class="container-fluid header-full-width">
+            {% include 'header.html' %}
+        </div>
+    </div>
 
-
-<!-- Make footer span the whole page -->
+    <!-- Make footer span the whole page -->
     <div class="container-fluid header-full-width">
         {% include 'footer.html' %}
     </div>
 
-
-
-{#  <!-- Create a flex container to hold both sections -->#}
-{#  <div class="d-flex flex-row justify-content-start">#}
-{##}
-{#    <!-- Separate container for filter_card.html -->#}
-{#    <div class="container" style="flex: 1;">#}
-{#      {% include 'filter_card.html' %}#}
-{#    </div>#}
-{##}
-{#    <!-- Separate container for movie_card.html -->#}
-{#    <div class="container" style="flex: 2;">#}
-{#      {% include 'movie_card.html' %}#}
-{#    </div>#}
-{##}
-{#  </div>#}
-
 </body>
 
 </html>
-
