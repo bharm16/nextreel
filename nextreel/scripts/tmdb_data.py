@@ -51,6 +51,20 @@ def get_backdrop_image_for_home(tmdb_id):
             return backdrop_url
     return None
 
+# Modify this function to return all backdrop images
+def get_all_backdrop_images(tmdb_id):
+    if tmdb_id:
+        image_data = fetch_images_from_tmdb(tmdb_id)
+        backdrops = image_data.get('backdrops', [])
+        if backdrops:
+            # Create a list to hold all backdrop URLs
+            all_backdrop_urls = []
+            for backdrop in backdrops:
+                backdrop_url = get_full_image_url(backdrop)
+                all_backdrop_urls.append(backdrop_url)
+            return all_backdrop_urls
+    return None
+
 
 # Class for managing TMDb movie information
 class TmdbMovieInfo:
@@ -65,7 +79,8 @@ def main(api_key, tconst):
     tmdb_info = TmdbMovieInfo(api_key)
 
     # Fetch TMDb ID
-    tmdb_id = get_tmdb_id_by_tconst(tconst)
+    # tmdb_id = get_tmdb_id_by_tconst(tconst)
+    tmdb_id = 62
 
     if tmdb_id:
         # Fetch and display movie information
@@ -88,9 +103,13 @@ def main(api_key, tconst):
 
             # Fix here: pass tmdb_id instead of movie_info to get the backdrop image
 
-        backdrop = get_backdrop_image_for_home(tmdb_id)
-        print(backdrop)
-
+        all_backdrops = get_all_backdrop_images(tmdb_id)
+        if all_backdrops:
+            print("All backdrop images:")
+            for backdrop in all_backdrops:
+                print(backdrop)
+        else:
+            print("No backdrop images found.")
 
     else:
         print("TMDb ID not found.")

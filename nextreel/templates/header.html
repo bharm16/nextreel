@@ -25,27 +25,14 @@
 
             align-items: center;
             text-align: center;
-            color: #f4f4f4;
+            color: rgba(50, 50, 50, 0.7);
             vertical-align:baseline;
             position: relative;
             z-index: 2;
 
         }
 
-.background-wrapper {
-    background-image: url("{{ default_backdrop_url }}");
-    background-size: cover;
-    background-position: center;
-    min-height: 1000px;  /* You can adjust this value */
 
-    /* Flexbox properties for centering */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    /* Optional: Additional padding if needed */
-    {#padding: 20px;#}
-}
 
 .backdrop-container {
      display: flex;  /* Enable Flexbox */
@@ -67,7 +54,7 @@
 
 
 <!-- Wrapper div for setting the background -->
-<div class="backdrop-container" style="background-image: url('{{ default_backdrop_url }}');">
+<div class="backdrop-container" style="background-image: url('https://image.tmdb.org/t/p/original/dMrAwwB7PMC4SjgsTbgmEJblaYd.jpg');">
     <div class="container">
         <!-- Your existing content -->
         <div class="full-width-element">
