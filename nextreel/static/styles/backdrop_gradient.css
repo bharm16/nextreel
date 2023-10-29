@@ -1,0 +1,100 @@
+        .backdrop-container {
+
+
+            position: relative;  /* Use relative positioning */
+            top: 0;              /* Start from the top */
+            left: 0;             /* Start from the left */
+            right: 0;            /* Take the full width */
+            width: 100%;          /* Make sure it spans the full width */
+            min-height: 500px;    /* Minimum height */
+            z-index: -1;          /* Place it behind the content */
+
+            /* Your background settings */
+            background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+            background-size: cover;  /* Stretch the image to cover the entire container */
+            /*background-position: top -250px;  !* Align the image to the top of the container *!*/
+            background-position: top;
+
+            background-repeat: no-repeat;  /* Do not repeat the image */
+            /*margin-bottom: -80px;*/
+
+
+        }
+
+        /* New Pseudo-element for gradient overlay */
+        .backdrop-container::before {
+
+            /*background-repeat: no-repeat;*/
+            content: "";
+            display: block;
+
+            /*controls height of gradient*/
+            
+            height: 775px;
+            left: 50%;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            transform: translateX(-50%);
+            width: 1200px;
+            z-index: 1;
+
+            padding-top: 500px;
+
+            /*content: ""; !* Required for the pseudo-element to work *!*/
+            /*position: absolute; !* Absolutely position it within backdrop-container *!*/
+            /*!*top: -60px; !* Stretch it to cover all corners *!*!*/
+            /*top:0;*/
+
+            /*right: 0;*/
+            /*bottom: 0;*/
+            /*left: 0;*/
+            /* Combined Background Gradients */
+            background:
+                /* First Linear Gradient (horizontal) */
+                    linear-gradient(90deg,
+                    #ffffff 0, rgba(255,255,255,.986) .97%, rgba(255,255,255,.945) 2.07833333%,
+                    rgba(255,255,255,.883) 3.29666667%, rgba(255,255,255,.803) 4.60166667%,
+                    rgba(255,255,255,.711) 5.96666667%, rgba(255,255,255,.61) 7.365%,
+                    rgba(255,255,255,.504) 8.77166667%, rgba(255,255,255,.398) 10.16%,
+                    rgba(255,255,255,.296) 11.505%, rgba(255,255,255,.203) 12.78%,
+                    rgba(255,255,255,.122) 13.95833333%, rgba(255,255,255,.059) 15.01666667%,
+                    rgba(255,255,255,.016) 15.92833333%, rgba(255,255,255,0) 16.66666667%,
+                    rgba(255,255,255,0) 83.33333333%, rgba(255,255,255,.016) 84.07166667%,
+                    rgba(255,255,255,.059) 84.98333333%, rgba(255,255,255,.122) 86.04166667%,
+                    rgba(255,255,255,.203) 87.22%, rgba(255,255,255,.296) 88.495%,
+                    rgba(255,255,255,.398) 89.84%, rgba(255,255,255,.504) 91.22833333%,
+                    rgba(255,255,255,.61) 92.635%, rgba(255,255,255,.711) 94.03333333%,
+                    rgba(255,255,255,.803) 95.39833333%, rgba(255,255,255,.883) 96.70333333%,
+                    rgba(255,255,255,.945) 97.92166667%, rgba(255,255,255,.986) 99.03%, #ffffff),
+
+                        /* Second Linear Gradient (vertical) */
+                    linear-gradient(0deg,
+                    #ffffff 0, #ffffff 21.48148148%, rgba(255,255,255,.986) 23.63703704%,
+                    rgba(255,255,255,.945) 26.1%, rgba(255,255,255,.883) 28.80740741%,
+                    rgba(255,255,255,.803) 31.70740741%, rgba(255,255,255,.711) 34.74074074%,
+                    rgba(255,255,255,.61) 37.84814815%, rgba(255,255,255,.504) 40.97407407%,
+                    rgba(255,255,255,.398) 44.05925926%, rgba(255,255,255,.296) 47.04814815%,
+                    rgba(255,255,255,.203) 49.88148148%, rgba(255,255,255,.122) 52.5%,
+                    rgba(255,255,255,.059) 54.85185185%, rgba(255,255,255,.016) 56.87777778%,
+                    rgba(255,255,255,0) 58.51851852%);
+            z-index: 1; /* Layer it above the backdrop image but below the content */
+
+
+        }
+
+
+        /*.backdrop-wrapper > .backdropmask:before {*/
+        /*    background-image: linear-gradient(90deg, #14181d 0, rgba(20, 24, 29, .986) .97%, rgba(20, 24, 29, .945) 2.07833333%, rgba(20, 24, 29, .883) 3.29666667%, rgba(20, 24, 29, .803) 4.60166667%, rgba(20, 24, 29, .711) 5.96666667%, rgba(20, 24, 29, .61) 7.365%, rgba(20, 24, 29, .504) 8.77166667%, rgba(20, 24, 29, .398) 10.16%, rgba(20, 24, 29, .296) 11.505%, rgba(20, 24, 29, .203) 12.78%, rgba(20, 24, 29, .122) 13.95833333%, rgba(20, 24, 29, .059) 15.01666667%, rgba(20, 24, 29, .016) 15.92833333%, rgba(20, 24, 29, 0) 16.66666667%, rgba(20, 24, 29, 0) 83.33333333%, rgba(20, 24, 29, .016) 84.07166667%, rgba(20, 24, 29, .059) 84.98333333%, rgba(20, 24, 29, .122) 86.04166667%, rgba(20, 24, 29, .203) 87.22%, rgba(20, 24, 29, .296) 88.495%, rgba(20, 24, 29, .398) 89.84%, rgba(20, 24, 29, .504) 91.22833333%, rgba(20, 24, 29, .61) 92.635%, rgba(20, 24, 29, .711) 94.03333333%, rgba(20, 24, 29, .803) 95.39833333%, rgba(20, 24, 29, .883) 96.70333333%, rgba(20, 24, 29, .945) 97.92166667%, rgba(20, 24, 29, .986) 99.03%, #14181d), linear-gradient(0deg, #14181d 0, #14181d 21.48148148%, rgba(20, 24, 29, .986) 23.63703704%, rgba(20, 24, 29, .945) 26.1%, rgba(20, 24, 29, .883) 28.80740741%, rgba(20, 24, 29, .803) 31.70740741%, rgba(20, 24, 29, .711) 34.74074074%, rgba(20, 24, 29, .61) 37.84814815%, rgba(20, 24, 29, .504) 40.97407407%, rgba(20, 24, 29, .398) 44.05925926%, rgba(20, 24, 29, .296) 47.04814815%, rgba(20, 24, 29, .203) 49.88148148%, rgba(20, 24, 29, .122) 52.5%, rgba(20, 24, 29, .059) 54.85185185%, rgba(20, 24, 29, .016) 56.87777778%, rgba(20, 24, 29, 0) 58.51851852%);*/
+        /*    background-repeat: no-repeat;*/
+        /*    content: "";*/
+        /*    display: block;*/
+        /*    height: 675px;*/
+        /*    left: 50%;*/
+        /*    pointer-events: none;*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    transform: translateX(-50%);*/
+        /*    width: 1200px;*/
+        /*    z-index: 0*/
+        /*}*/

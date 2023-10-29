@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap">
     <!-- Include External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+    <!-- Include Backdrop Gradient CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/backdrop_gradient.css') }}"> <!-- New Line -->
     <!-- Add Custom CSS -->
+
     <style>
         /* Apply Merriweather font to elements with .full-width-element class */
         .full-width-element {
@@ -21,6 +24,8 @@
             align-items: center;
             text-align: center;
             color: #f4f4f4;
+            vertical-align:baseline;
+
         }
 
 .background-wrapper {
@@ -38,6 +43,22 @@
     padding: 20px;
 }
 
+.backdrop-container {
+    {#min-height: 400px;  /* You can adjust this value */#}
+
+    /* Flexbox properties for centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    {#padding-top: 500px;#}
+    /* Optional: Additional padding if needed */
+    {#padding: 20px;#}
+
+
+}
+
+
+
 
     </style>
 </head>
@@ -47,24 +68,23 @@
 
 
 
-    <!-- Wrapper div for setting the background -->
-    <div class="background-wrapper">
-        <div class="container">
-            <!-- Your existing content -->
-            <div class="full-width-element">
-                <!-- Text here will use the Merriweather font -->
-                <div class="row justify-content-center"> <!-- Added justify-content-center -->
-                    <div class="col-lg-10 mb-4 offset-lg-1"> <!-- Added offset-lg-1 -->
-                        <p>Welcome.</p>
-                        <p>Discover new films based on criteria defined by you.</p>
-                        <p>Log films you've seen so you can always get new recommendations.</p>
-                    </div>
+<!-- Wrapper div for setting the background -->
+<!-- Note: Replaced 'background-wrapper' with 'backdrop-container' -->
+<div class="backdrop-container" style="background-image: url('{{ default_backdrop_url }}');">  <!-- Inline style attribute -->
+    <div class="container bottom-aligned-text">  <!-- Added 'bottom-aligned-text' class -->
+        <!-- Your existing content -->
+        <div class="full-width-element">
+            <!-- Text here will use the Merriweather font -->
+            <div class="row justify-content-center"> <!-- Added justify-content-center -->
+                <div class="col-lg-10 mb-4 offset-lg-1"> <!-- Added offset-lg-1 -->
+                    <p>Welcome.</p>
+                    <p>Discover new films based on criteria defined by you.</p>
+                    <p>Log films you've seen so you can always get new recommendations.</p>
                 </div>
             </div>
         </div>
     </div>
-
-
+</div>
 
 <!-- Including card_deck.html -->
 {% include 'card_deck.html' %}
