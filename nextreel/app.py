@@ -16,11 +16,21 @@ from nextreel.scripts.log_movie_to_account import update_title_basics_if_empty
 from nextreel.scripts.movie import Movie
 from nextreel.scripts.person import Person
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
-from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_tmdb_id
+from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_tmdb_id, get_backdrop_image_for_home
 
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = 'some_random_secret_key'  # IMPORTANT: Change this in production
+
+default_movie_tmdb_id = 926393  # This is the TMDb ID for the movie "Fight Club"
+default_backdrop_url = get_backdrop_image_for_home(default_movie_tmdb_id)
+
+
+# Set it as a global template variable
+@app.context_processor
+def inject_default_backdrop_url():
+    return dict(default_backdrop_url=default_backdrop_url)
+
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -69,7 +79,8 @@ def populate_movie_queue():
 
                 # If a TMDb ID is found, you can fetch more data from TMDb or do whatever you need to do
                 if tmdb_id:
-                    movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)  # Replace with your actual TMDb fetching function
+                    movie_data_tmdb = get_movie_info_by_tmdb_id(
+                        tmdb_id)  # Replace with your actual TMDb fetching function
                     backdrop_path = movie_data_tmdb.get('backdrop_path', '')  # Replace with your actual logic
                     movie_data_imdb['backdrop_path'] = backdrop_path  # Add backdrop_path to the dictionary
 
@@ -93,6 +104,35 @@ def populate_movie_queue():
 populate_thread = threading.Thread(target=populate_movie_queue)
 populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
+
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+    # Default movie TMDb ID for the backdrop image (replace with an actual TMDb ID)
+    # default_movie_tmdb_id = 926393  # This is the TMDb ID for the movie "Fight Club"
+    #
+    # # Fetch a default backdrop image URL within the home route
+    # default_backdrop_url = get_backdrop_image_for_home(default_movie_tmdb_id)
+
+    # Pass the default backdrop URL to the template
+
+    # global should_logout_on_home_load
+    # Logout the user if the flag is set
+    # if should_logout_on_home_load:
+    #     logout_user()
+    #     should_logout_on_home_load = False
+
+    # Fetch a movie from the global queue
+    # (consider adding additional logic here to ensure the movie is appropriate for the user)
+    # movie_data = movie_queue.get()
+
+    # Update the global variable with the fetched movie data
+    # global last_displayed_movie
+    # last_displayed_movie = movie_data
+
+    # Render the home page with the fetched movie data
+    # return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/account_settings')
@@ -169,29 +209,6 @@ global last_displayed_movie
 future_movies_stack = []
 previous_movies_stack = []
 current_displayed_movie = None
-
-
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-    # global should_logout_on_home_load
-    # Logout the user if the flag is set
-    # if should_logout_on_home_load:
-    #     logout_user()
-    #     should_logout_on_home_load = False
-
-    # Fetch a movie from the global queue
-    # (consider adding additional logic here to ensure the movie is appropriate for the user)
-    # movie_data = movie_queue.get()
-
-    # Update the global variable with the fetched movie data
-    # global last_displayed_movie
-    # last_displayed_movie = movie_data
-
-    # Render the home page with the fetched movie data
-    # return render_template('home.html', movie=movie_data, current_user=current_user)
-
 
 # Declare global stacks and variables
 previous_movies_stack = []

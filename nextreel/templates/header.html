@@ -20,25 +20,49 @@
             font-weight: 700;
             align-items: center;
             text-align: center;
+            color: #f4f4f4;
         }
+
+.background-wrapper {
+    background-image: url("{{ default_backdrop_url }}");
+    background-size: cover;
+    background-position: center;
+    min-height: 700px;  /* You can adjust this value */
+
+    /* Flexbox properties for centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Optional: Additional padding if needed */
+    padding: 20px;
+}
+
+
     </style>
 </head>
 <body>
 <!-- Container to hold the centered content -->
 <!-- Container to hold the centered content -->
-<div class="container">
-    <!-- Your existing content -->
-    <div class="full-width-element">
-        <!-- Text here will use the Merriweather font -->
-        <div class="row justify-content-center"> <!-- Added justify-content-center -->
-            <div class="col-lg-10 mb-4 offset-lg-1"> <!-- Added offset-lg-1 -->
-                <p>Welcome.</p>
-                <p>Discover new films based on criteria defined by you.</p>
-                <p>Log films you've seen so you can always get new recommendations.</p>
+
+
+
+    <!-- Wrapper div for setting the background -->
+    <div class="background-wrapper">
+        <div class="container">
+            <!-- Your existing content -->
+            <div class="full-width-element">
+                <!-- Text here will use the Merriweather font -->
+                <div class="row justify-content-center"> <!-- Added justify-content-center -->
+                    <div class="col-lg-10 mb-4 offset-lg-1"> <!-- Added offset-lg-1 -->
+                        <p>Welcome.</p>
+                        <p>Discover new films based on criteria defined by you.</p>
+                        <p>Log films you've seen so you can always get new recommendations.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
