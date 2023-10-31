@@ -341,7 +341,7 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        result = Account.register_user(username, email, password)
+        result = Account.register_user(username, email, password, user_db_config)
 
         if result == "Username already exists.":
             flash("Username already exists.")
