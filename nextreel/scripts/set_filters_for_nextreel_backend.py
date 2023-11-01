@@ -1,54 +1,90 @@
 from nextreel.scripts.mysql_query_builder import execute_query
 
 
+def build_parameters(criteria):
+    """Construct the list of parameters for the SQL query based on given criteria."""
+    # Note: Added "LIKE" clause for the language
+    language = "%" + criteria.get('language', 'en') + "%"
+    parameters = [
+        criteria.get('min_year', 1900),
+        criteria.get('max_year', 2023),
+        criteria.get('min_rating', 7.0),
+        criteria.get('max_rating', 10),
+        criteria.get('min_votes', 100000),
+        criteria.get('title_type', 'movie'),
+        language  # added this line
+    ]
+    return parameters
+
+
+def build_genre_conditions(criteria, parameters):
+    """Construct the genre conditions for the SQL query."""
+    genre_conditions = []
+    genres = criteria.get('genres')
+    if genres:
+        genre_conditions = [" OR ".join(["tb.genres LIKE %s" for _ in genres])]
+        parameters.extend(["%" + genre + "%" for genre in genres])
+    return genre_conditions
+
+
+def build_base_query():
+    return """
+  SELECT tb.*
+    FROM `title.basics` tb
+    JOIN `title.ratings` tr ON tb.tconst = tr.tconst
+    WHERE tb.startYear BETWEEN %s AND %s
+    AND tr.averagerating BETWEEN %s AND %s
+    AND tr.numVotes >= %s
+    AND tb.titleType = %s
+    AND tb.language LIKE %s  -- Changed this line
+    """
+
+
 class ImdbRandomMovieFetcher:
     def __init__(self, db_config):
         """Initialize with database configuration."""
         self.db_config = db_config
 
-    def build_base_query(self):
-        return """
-      SELECT tb.*
-        FROM `title.basics` tb
-        JOIN `title.ratings` tr ON tb.tconst = tr.tconst
-        WHERE tb.startYear BETWEEN %s AND %s
-        AND tr.averagerating BETWEEN %s AND %s
-        AND tr.numVotes >= %s
-        AND tb.titleType = %s
-        AND tb.language LIKE %s  -- Changed this line
-        """
+    def fetch_random_movies25(self, criteria):
+        """Fetch 25 random movie rows based on given criteria."""
 
-    def build_parameters(self, criteria):
-        """Construct the list of parameters for the SQL query based on given criteria."""
-        # Note: Added "LIKE" clause for the language
-        language = "%" + criteria.get('language', 'en') + "%"
-        parameters = [
-            criteria.get('min_year', 1900),
-            criteria.get('max_year', 2023),
-            criteria.get('min_rating', 7.0),
-            criteria.get('max_rating', 10),
-            criteria.get('min_votes', 100000),
-            criteria.get('title_type', 'movie'),
-            language  # added this line
-        ]
-        return parameters
+        # Build the base query, parameters, and genre conditions
+        base_query = build_base_query()
+        parameters = build_parameters(criteria)
+        genre_conditions = build_genre_conditions(criteria, parameters)
 
-    def build_genre_conditions(self, criteria, parameters):
-        """Construct the genre conditions for the SQL query."""
-        genre_conditions = []
-        genres = criteria.get('genres')
-        if genres:
-            genre_conditions = [" OR ".join(["tb.genres LIKE %s" for _ in genres])]
-            parameters.extend(["%" + genre + "%" for genre in genres])
-        return genre_conditions
+        # Debugging: Print the criteria and parameters
+        print("Criteria passed to fetch_random_movie:", criteria)
+        print("Parameters built for SQL query:", parameters)
+
+        # Complete the query by appending the genre conditions, if any
+        # Changed LIMIT 1 to LIMIT 25 to fetch 25 rows instead of 1
+        full_query = base_query + (
+            f" AND ({genre_conditions[0]})" if genre_conditions else "") + " ORDER BY RAND() LIMIT 25"
+
+        # Debugging lines to print the generated SQL query and parameters
+        print("Generated SQL Query:", full_query)
+        print("Query Parameters:", parameters)
+
+        # Execute the query and fetch the random rows
+        random_rows = execute_query(self.db_config, full_query, parameters, fetch='all')
+
+        if random_rows:
+            print("Fetched 25 random movies:")
+            for i, row in enumerate(random_rows):
+                print(f"Row {i + 1}: {row}")
+        else:
+            print("No movies found based on the given criteria.")
+
+        return random_rows if random_rows else None
 
     def fetch_random_movie(self, criteria):
         """Fetch a random movie row based on given criteria."""
 
         # Build the base query, parameters, and genre conditions
-        base_query = self.build_base_query()
-        parameters = self.build_parameters(criteria)
-        genre_conditions = self.build_genre_conditions(criteria, parameters)
+        base_query = build_base_query()
+        parameters = build_parameters(criteria)
+        genre_conditions = build_genre_conditions(criteria, parameters)
 
         # Debugging: Print the criteria and parameters
         print("Criteria passed to fetch_random_movie:", criteria)
@@ -112,7 +148,7 @@ def extract_movie_filter_criteria(form_data):
 if __name__ == "__main__":
     db_config = {'host': 'localhost',
                  'user': 'root',
-                 'password': 'password',
+                 'password': 'caching_sha2_password',
                  'database': 'imdb'}
 
     criteria = {'min_year': 2000,
@@ -127,3 +163,14 @@ if __name__ == "__main__":
     fetcher = ImdbRandomMovieFetcher(db_config)
     random_row = fetcher.fetch_random_movie(criteria)
     print("Random Movie Row:", random_row)
+
+    # Test fetching 25 random movies
+    random_rows = fetcher.fetch_random_movies25(criteria)
+
+    # # Debugging: Print the fetched rows
+    # if random_rows:
+    #     print("Fetched 25 random movies:")
+    #     for i, row in enumerate(random_rows):
+    #         print(f"Row {i + 1}: {row}")
+    # else:
+    #     print("No movies found based on the given criteria.")
