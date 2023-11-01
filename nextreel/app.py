@@ -62,8 +62,6 @@ current_displayed_movie = None
 
 
 def fetch_and_render_movie(movie_queue, current_displayed_movie, previous_movies_stack, criteria=None):
-
-
     """Fetch a movie from the given queue and render the movie template."""
     # Check if the queue is empty
     if movie_queue.empty():
@@ -119,30 +117,6 @@ def filtered_movie_endpoint():
 @app.route('/')
 def home():
     return render_template('home.html')
-    # Default movie TMDb ID for the backdrop image (replace with an actual TMDb ID)
-    # default_movie_tmdb_id = 926393  # This is the TMDb ID for the movie "Fight Club"
-    #
-    # # Fetch a default backdrop image URL within the home route
-    # default_backdrop_url = get_backdrop_image_for_home(default_movie_tmdb_id)
-
-    # Pass the default backdrop URL to the template
-
-    # global should_logout_on_home_load
-    # Logout the user if the flag is set
-    # if should_logout_on_home_load:
-    #     logout_user()
-    #     should_logout_on_home_load = False
-
-    # Fetch a movie from the global queue
-    # (consider adding additional logic here to ensure the movie is appropriate for the user)
-    # movie_data = movie_queue.get()
-
-    # Update the global variable with the fetched movie data
-    # global last_displayed_movie
-    # last_displayed_movie = movie_data
-
-    # Render the home page with the fetched movie data
-    # return render_template('home.html', movie=movie_data, current_user=current_user)
 
 
 @app.route('/account_settings')
@@ -213,8 +187,6 @@ def load_user(user_id):
 
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
-
-
 
 
 @app.route('/previous_movie', methods=['GET', 'POST'])
@@ -347,33 +319,6 @@ def set_filters():
 
     # Render the filter settings template
     return render_template('set_filters.html')
-
-
-@app.route('/actor/<actor_name>', methods=['GET'])
-def get_movies_by_actor(actor_name):
-    start_time = time.time()  # Record the start time
-
-    # Create a Person object
-    actor = Person(db_config, actor_name)
-
-    # Use the Person object to fetch actor's details
-    fetched_actor = actor.actor_info
-
-    if fetched_actor is None:
-        return "Actor not found", 404
-
-    # Convert the actor information to a dictionary
-    actor_dict = fetched_actor.data
-
-    # Fetch the actor's filmography (this assumes that 'filmography' is a key in actor_dict)
-    actor_filmography = actor_dict.get('filmography', {})
-
-    end_time = time.time()  # Record the end time
-    print(f"Time taken for database queries: {end_time - start_time} seconds")
-
-    # Render a template to display the actor's details and filmography
-    return render_template('actor_movies.html', actor_dict=actor_dict, actor_filmography=actor_filmography,
-                           actor_name=actor_name)
 
 
 @app.route('/add_to_watchlist', methods=['POST'])
