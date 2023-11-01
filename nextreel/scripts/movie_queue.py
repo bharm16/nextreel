@@ -42,6 +42,7 @@ class MovieQueue:
         with self.lock:
             print("Stopping the populate thread...")
             self.stop_thread = True
+        self.populate_thread.join()  # Wait for the thread to complete
 
     def empty_queue(self):
         """Empty the movie queue."""
@@ -81,36 +82,47 @@ class MovieQueue:
         return self.populate_thread.is_alive()
 
     def load_movies_into_queue(self, watched_movies, watchlist_movies):
+        # Fetch a batch of 25 movies based on the criteria
         rows = self.movie_fetcher.fetch_random_movies25(self.criteria)
         print(f"Fetched {len(rows)} movies.")
 
+        # If there are rows to process
         if rows:
+            # Iterate through each row
             for row in rows:
-                # Check the stop_thread flag before adding a movie to the queue
+                # Acquire the lock and check the stop_thread flag
                 with self.lock:
                     if self.stop_thread:
                         print("Stopping populate_movie_queue because stop_thread is True.")
-                        break
+                        return  # Stop the current operation
 
+                # Get the tconst value from the row
                 tconst = row['tconst'] if row else None
                 print(f"Processing movie with tconst: {tconst}")
 
+                # Check if the movie is not in watched or watchlist sets
                 if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
                     print("Movie passes the watched and watchlist check.")
+
+                    # Create a Movie object and fetch its IMDb data
                     movie = Movie(tconst, self.db_config)
                     movie_data_imdb = movie.get_movie_data()
 
+                    # Fetch additional movie data from TMDb
                     tmdb_id = get_tmdb_id_by_tconst(tconst)
                     movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
 
+                    # Combine the IMDb and TMDb data
                     movie_data = {
                         'IMDb': movie_data_imdb,
                         'TMDb': movie_data_tmdb
                     }
 
+                    # Add the movie data to the queue
                     self.queue.put(movie_data_imdb)
                     print("Added movie to movie queue.")
 
+                    # Update the database if title basics are empty
                     update_title_basics_if_empty(
                         tconst,
                         movie_data_imdb['plot'],
@@ -121,7 +133,6 @@ class MovieQueue:
                     print("Updated title basics if they were empty.")
                 else:
                     print("Movie does not pass the watched and watchlist check.")
-
 
 
 def main():
