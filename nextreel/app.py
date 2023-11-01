@@ -54,21 +54,24 @@ movie_queue_manager = MovieQueue(db_config, movie_queue)
 # Optionally check that the thread is alive
 print("Is populate_thread alive?", movie_queue_manager.is_thread_alive())
 
+# Initialize two lists to act as stacks for previous and future movies
 
-@app.route('/movie')
-def movie():
-    global movie_queue  # make sure you're using the global movie_queue
-    global current_displayed_movie
+future_movies_stack = []
+previous_movies_stack = []
+current_displayed_movie = None
 
+
+def fetch_and_render_movie(movie_queue, current_displayed_movie, previous_movies_stack, criteria=None):
+
+
+    """Fetch a movie from the given queue and render the movie template."""
     # Check if the queue is empty
     if movie_queue.empty():
         print("The movie queue is empty.")
-        return "The movie queue is empty.", 404  # Return a 404 or some other message
+        return "The movie queue is empty.", 404
 
     # Fetch the next movie from the queue
     current_movie_data = movie_queue.get()
-
-    print("Current movie data: ", current_movie_data)  # Print it out for debugging
 
     # Update the global current_displayed_movie
     current_displayed_movie = current_movie_data
@@ -83,64 +86,34 @@ def movie():
                            previous_count=len(previous_movies_stack))
 
 
-# Import time at the top of your file if not already done
-import time
+@app.route('/movie')
+def movie():
+    global movie_queue, current_displayed_movie, previous_movies_stack  # Declare global variables
+    return fetch_and_render_movie(movie_queue, current_displayed_movie, previous_movies_stack)
 
-
-# ... (rest of your imports and code)
 
 @app.route('/filtered_movie', methods=['POST'])
 def filtered_movie_endpoint():
-    global global_movie_fetcher, global_criteria  # Declare global variables
+    global movie_queue, current_displayed_movie, previous_movies_stack  # Declare global variables
+    global global_movie_fetcher, global_criteria  # Additional global variables
 
     # Extract new filter criteria from the form
     new_criteria = extract_movie_filter_criteria(request.form)
 
-    # Debugging print statement
-    print("Extracted criteria:", new_criteria)
-
     # Update global criteria
     global_criteria = new_criteria
 
-    # Use the global movie_queue_manager variable
-    global movie_queue_manager
-
-    # Initialize a new movie queue and its manager
-    # movie_queue = Queue(maxsize=25)
-
-    # Create a new MovieQueue manager with the updated filter criteria
+    # Initialize a new movie queue and its manager with the updated filter criteria
     movie_queue_manager = MovieQueue(db_config, movie_queue, global_criteria)
+
+    # Debugging
+    print("Extracted criteria:", new_criteria)
     movie_queue_manager.is_thread_alive()
 
-    # # Start the thread to populate the movie queue
-    # # NOTE: Replace start_populate_thread with the actual method to start the thread in your MovieQueue class
-    # movie_queue_manager.start_populate_thread()
-
     # Wait for a few seconds to give the thread some time to populate the queue
-    time.sleep(5)  # Wait for 5 seconds; you can adjust this time as needed
+    time.sleep(5)
 
-    # Now, proceed with fetching a movie just like in the `/movie` route
-    if movie_queue.empty():
-        print("The movie queue is empty.")  # Debugging print statement
-        return "The movie queue is empty.", 404  # Return a 404 status code if the queue is empty
-
-    # Fetch the next movie from the queue
-    current_movie_data = movie_queue.get()
-
-    # Debugging print statement
-    print("Current movie data: ", current_movie_data)
-
-    # Update the global current_displayed_movie variable
-    current_displayed_movie = current_movie_data
-
-    # Append the current displayed movie to the previous_movies_stack
-    previous_movies_stack.append(current_movie_data)
-
-    # Render the movie template, also passing the length of previous_movies_stack for UI control
-    return render_template('movie.html',
-                           movie=current_movie_data,
-                           current_user=current_user,
-                           previous_count=len(previous_movies_stack))
+    return fetch_and_render_movie(movie_queue, current_displayed_movie, previous_movies_stack, criteria=new_criteria)
 
 
 @app.route('/')
@@ -241,11 +214,7 @@ def load_user(user_id):
 # Declare a global variable to store the last displayed movie
 global last_displayed_movie
 
-# Initialize two lists to act as stacks for previous and future movies
 
-future_movies_stack = []
-previous_movies_stack = []
-current_displayed_movie = None
 
 
 @app.route('/previous_movie', methods=['GET', 'POST'])
