@@ -22,11 +22,12 @@ def _get_user_data():
 
 
 class MovieQueue:
-    def __init__(self, db_config, queue):
+    def __init__(self, db_config, queue, criteria=None):
         self.db_config = db_config
         self.queue = queue
         self.movie_fetcher = ImdbRandomMovieFetcher(self.db_config)
-        self.criteria = {}
+        self.criteria = criteria or {}  # Use the provided criteria or an empty dict
+
         self.stop_thread = False  # Initialize the stop flag
         self.lock = threading.Lock()
 

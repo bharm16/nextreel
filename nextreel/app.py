@@ -44,9 +44,6 @@ should_logout_on_home_load = True
 global_movie_fetcher = ImdbRandomMovieFetcher(db_config)
 global_criteria = {}  # Start with empty criteria; can be updated dynamically
 
-
-
-
 # Set your TMDb API key
 tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
 
@@ -56,7 +53,6 @@ movie_queue_manager = MovieQueue(db_config, movie_queue)
 
 # Optionally check that the thread is alive
 print("Is populate_thread alive?", movie_queue_manager.is_thread_alive())
-
 
 
 @app.route('/movie')
@@ -75,6 +71,66 @@ def movie():
     print("Current movie data: ", current_movie_data)  # Print it out for debugging
 
     # Update the global current_displayed_movie
+    current_displayed_movie = current_movie_data
+
+    # Append the current displayed movie to the previous_movies_stack
+    previous_movies_stack.append(current_movie_data)
+
+    # Render the movie template, also passing the length of previous_movies_stack for UI control
+    return render_template('movie.html',
+                           movie=current_movie_data,
+                           current_user=current_user,
+                           previous_count=len(previous_movies_stack))
+
+
+# Import time at the top of your file if not already done
+import time
+
+
+# ... (rest of your imports and code)
+
+@app.route('/filtered_movie', methods=['POST'])
+def filtered_movie_endpoint():
+    global global_movie_fetcher, global_criteria  # Declare global variables
+
+    # Extract new filter criteria from the form
+    new_criteria = extract_movie_filter_criteria(request.form)
+
+    # Debugging print statement
+    print("Extracted criteria:", new_criteria)
+
+    # Update global criteria
+    global_criteria = new_criteria
+
+    # Use the global movie_queue_manager variable
+    global movie_queue_manager
+
+    # Initialize a new movie queue and its manager
+    # movie_queue = Queue(maxsize=25)
+
+    # Create a new MovieQueue manager with the updated filter criteria
+    movie_queue_manager = MovieQueue(db_config, movie_queue, global_criteria)
+    movie_queue_manager.is_thread_alive()
+
+    # # Start the thread to populate the movie queue
+    # # NOTE: Replace start_populate_thread with the actual method to start the thread in your MovieQueue class
+    # movie_queue_manager.start_populate_thread()
+
+    # Wait for a few seconds to give the thread some time to populate the queue
+    time.sleep(5)  # Wait for 5 seconds; you can adjust this time as needed
+
+    # Now, proceed with fetching a movie just like in the `/movie` route
+    if movie_queue.empty():
+        print("The movie queue is empty.")  # Debugging print statement
+        return "The movie queue is empty.", 404  # Return a 404 status code if the queue is empty
+
+    # Fetch the next movie from the queue
+    current_movie_data = movie_queue.get()
+
+    # Debugging print statement
+    print("Current movie data: ", current_movie_data)
+
+    # Update the global current_displayed_movie variable
     current_displayed_movie = current_movie_data
 
     # Append the current displayed movie to the previous_movies_stack
@@ -189,11 +245,6 @@ global last_displayed_movie
 
 future_movies_stack = []
 previous_movies_stack = []
-current_displayed_movie = None
-
-# Declare global stacks and variables
-previous_movies_stack = []
-future_movies_stack = []
 current_displayed_movie = None
 
 
@@ -318,7 +369,6 @@ def register():
 # Route for setting filters
 @app.route('/setFilters')
 def set_filters():
-
     print("entering setFilters")
     movie_queue_manager.stop_populate_thread()
     movie_queue_manager.empty_queue()
@@ -326,47 +376,8 @@ def set_filters():
 
     print(f"Current size of the movie queue: {movie_queue_manager.queue.qsize()}")
 
-
-
     # Render the filter settings template
     return render_template('set_filters.html')
-
-
-@app.route('/filtered_movie', methods=['POST'])
-def filtered_movie_endpoint():
-    global global_movie_fetcher, global_criteria  # Declare global variables
-
-    # Extract new filter criteria from the form
-    new_criteria = extract_movie_filter_criteria(request.form)
-
-    print("Extracted criteria:", new_criteria)
-
-    # Update global criteria
-    global_criteria = new_criteria
-
-    # Empty the existing movie queue to remove movies that don't match new criteria
-    while not movie_queue.empty():
-        try:
-            movie_queue.get_nowait()
-        except Empty:
-            break
-
-    # Fetch a random movie based on the updated global criteria
-    row = global_movie_fetcher.fetch_random_movie(global_criteria)
-
-    # If no movies found, return an error message
-    if not row:
-        return "No movies found based on the given criteria."
-
-    # Create a Movie instance and fetch the movie data
-    movie = Movie(row['tconst'], db_config)
-
-    # Fetch and generate detailed movie information
-    movie_data = movie.get_movie_data()
-
-    # Render the template with the filtered movie
-    # return render_template('filtered_movies.html', movie=movie_data)
-    return render_template('movie.html', movie=movie_data)
 
 
 @app.route('/actor/<actor_name>', methods=['GET'])
