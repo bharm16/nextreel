@@ -105,6 +105,11 @@ class MovieQueue:
                 if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
                     print("Movie passes the watched and watchlist check.")
 
+                    # Wait until the queue size drops below 10
+                    while self.queue.qsize() >= 10:
+                        print("Queue size is 10 or more, waiting...")
+                        time.sleep(1)  # Wait for 1 second before re-checking
+
                     # Create a Movie object and fetch its IMDb data
                     movie = Movie(tconst, self.db_config)
                     movie_data_imdb = movie.get_movie_data()
