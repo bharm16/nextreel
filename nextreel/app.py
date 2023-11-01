@@ -318,6 +318,10 @@ def register():
 # Route for setting filters
 @app.route('/setFilters')
 def set_filters():
+
+    print("entering setFilters")
+    movie_queue_manager.stop_populate_thread()
+
     # Render the filter settings template
     return render_template('set_filters.html')
 

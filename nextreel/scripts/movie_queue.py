@@ -3,6 +3,7 @@ from queue import Queue
 import time
 from flask_login import current_user
 
+from nextreel.db_config import db_config
 from nextreel.scripts.get_user_account import get_all_watched_movie_details_by_user, get_all_movies_in_watchlist
 from nextreel.scripts.log_movie_to_account import update_title_basics_if_empty
 from nextreel.scripts.movie import Movie
@@ -25,6 +26,8 @@ class MovieQueue:
         self.queue = queue
         self.movie_fetcher = ImdbRandomMovieFetcher(self.db_config)
         self.criteria = {}
+        self.stop_thread = False  # Initialize the stop flag
+        self.lock = threading.Lock()
 
         # Initialize the populate thread here
         self.populate_thread = threading.Thread(target=self.populate)
@@ -34,20 +37,34 @@ class MovieQueue:
     def set_criteria(self, new_criteria):
         self.criteria = new_criteria
 
+    def stop_populate_thread(self):
+        with self.lock:
+            print("Stopping the populate thread...")
+            self.stop_thread = True
+
     def populate(self):
+        # Initialize sets for watched_movies and watchlist_movies
         watched_movies = set()
         watchlist_movies = set()
 
-        while True:
+        # Loop infinitely, but check the stop_thread flag at each iteration
+        while not self.stop_thread:
             print("Running the populate_movie_queue loop...")
+
+            # If the user is authenticated, update watched and watchlist movies
             if current_user and current_user.is_authenticated:
                 watched_movies, watchlist_movies = _get_user_data()
 
+            # Check if the queue size is less than 2 and populate accordingly
             if self.queue.qsize() < 2:
                 print("Fetching 25 movies from IMDb...")
                 self.load_movies_into_queue(watched_movies, watchlist_movies)
 
+            # Sleep for 1 second before the next iteration
             time.sleep(1)
+
+        # This print statement will execute when the thread is stopping.
+        print("Stopping the populate thread...")
 
     def is_thread_alive(self):
         return self.populate_thread.is_alive()
@@ -89,3 +106,38 @@ class MovieQueue:
                     print("Updated title basics if they were empty.")
                 else:
                     print("Movie does not pass the watched and watchlist check.")
+
+
+def main():
+    # Assuming db_config is a dictionary containing your DB settings
+
+    movie_queue = Queue()
+
+    # Initialize the MovieQueue object
+    movie_queue_manager = MovieQueue(db_config, movie_queue)
+
+    # Setting your specific criteria
+    criteria = {
+        "min_year": 1900,
+        "max_year": 2023,
+        "min_rating": 7.0,
+        "max_rating": 10,
+        "title_type": "movie",
+        "language": "en",
+        "genres": ["Action", "Drama"]
+    }
+    movie_queue_manager.set_criteria(criteria)
+
+    # Wait for a few seconds to let the populate method do its work
+    time.sleep(5)
+
+    # Stop the populate thread
+    movie_queue_manager.stop_populate_thread()
+
+    # Check if the thread is still alive
+    print(f"Is thread still alive? {movie_queue_manager.is_thread_alive()}")
+
+
+# This ensures the main function is only run when this script is executed, and not if it's imported as a module
+if __name__ == "__main__":
+    main()
