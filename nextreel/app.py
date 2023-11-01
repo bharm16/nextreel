@@ -14,6 +14,7 @@ from nextreel.scripts.get_user_account import get_user_by_id, get_all_watched_mo
     get_all_movies_in_watchlist
 from nextreel.scripts.log_movie_to_account import update_title_basics_if_empty
 from nextreel.scripts.movie import Movie
+from nextreel.scripts.movie_queue import MovieQueue
 from nextreel.scripts.person import Person
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
 from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_tmdb_id, get_backdrop_image_for_home
@@ -43,67 +44,50 @@ should_logout_on_home_load = True
 global_movie_fetcher = ImdbRandomMovieFetcher(db_config)
 global_criteria = {}  # Start with empty criteria; can be updated dynamically
 
-# Initialize a global queue to hold movie data
-movie_queue = Queue(maxsize=3)
 
-# Assuming ImdbRandomMovieFetcher is imported or defined above
 
 
 # Set your TMDb API key
 tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
 
-
-def populate_movie_queue():
-    global global_movie_fetcher, global_criteria  # Use global variables
-    watched_movies = set()
-    watchlist_movies = set()
-
-    while True:
-        if current_user and current_user.is_authenticated:
-            watched_movies = set([movie['tconst'] for movie in get_all_watched_movie_details_by_user(current_user.id)])
-            watchlist_movies = set([movie['tconst'] for movie in get_all_movies_in_watchlist(current_user.id)])
-
-        if movie_queue.qsize() < 2:
-            row = global_movie_fetcher.fetch_random_movie(global_criteria)  # Use global criteria
-            tconst = row['tconst'] if row else None
-
-            if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
-                movie = Movie(tconst, db_config)
-                movie_data_imdb = movie.get_movie_data()
-
-                # Fetch TMDb ID using IMDb tconst
-                tmdb_id = get_tmdb_id_by_tconst(tconst)  # Using the imported function here
-
-                movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
-                print(movie_data_tmdb)
-
-                # If a TMDb ID is found, you can fetch more data from TMDb or do whatever you need to do
-                if tmdb_id:
-                    movie_data_tmdb = get_movie_info_by_tmdb_id(
-                        tmdb_id)  # Replace with your actual TMDb fetching function
-                    backdrop_path = movie_data_tmdb.get('backdrop_path', '')  # Replace with your actual logic
-                    movie_data_imdb['backdrop_path'] = backdrop_path  # Add backdrop_path to the dictionary
-
-                movie_data = {
-                    'IMDb': movie_data_imdb,
-                    'TMDb': movie_data_tmdb
-                }
-
-            movie_queue.put(movie_data_imdb)
-            update_title_basics_if_empty(tconst, movie_data_imdb['plot'], movie_data_imdb['poster_url'],
-                                         movie_data_imdb['languages'], db_config)
-
-        time.sleep(1)
-
-
-# Don't forget to import other required modules and functions
-
+movie_queue = Queue(maxsize=25)  # Your existing queue
+movie_queue_manager = MovieQueue(db_config, movie_queue)  # Pass the queue to MovieQueue
 
 # Start a thread to populate the movie queue
-# Start a background thread to populate the movie queue
-populate_thread = threading.Thread(target=populate_movie_queue)
+populate_thread = threading.Thread(target=movie_queue_manager.populate)
 populate_thread.daemon = True  # Set the thread as a daemon
 populate_thread.start()
+
+# Check that the thread is alive
+print("Is populate_thread alive?", populate_thread.is_alive())
+
+
+@app.route('/movie')
+def movie():
+    global movie_queue  # make sure you're using the global movie_queue
+    global current_displayed_movie
+
+    # Check if the queue is empty
+    if movie_queue.empty():
+        print("The movie queue is empty.")
+        return "The movie queue is empty.", 404  # Return a 404 or some other message
+
+    # Fetch the next movie from the queue
+    current_movie_data = movie_queue.get()
+
+    print("Current movie data: ", current_movie_data)  # Print it out for debugging
+
+    # Update the global current_displayed_movie
+    current_displayed_movie = current_movie_data
+
+    # Append the current displayed movie to the previous_movies_stack
+    previous_movies_stack.append(current_movie_data)
+
+    # Render the movie template, also passing the length of previous_movies_stack for UI control
+    return render_template('movie.html',
+                           movie=current_movie_data,
+                           current_user=current_user,
+                           previous_count=len(previous_movies_stack))
 
 
 @app.route('/')
@@ -214,25 +198,6 @@ current_displayed_movie = None
 previous_movies_stack = []
 future_movies_stack = []
 current_displayed_movie = None
-
-
-@app.route('/movie')
-def movie():
-    global current_displayed_movie
-    # Fetch the next movie from the queue
-    current_movie_data = movie_queue.get()
-
-    # Update the global current_displayed_movie
-    current_displayed_movie = current_movie_data
-
-    # Append the current displayed movie to the previous_movies_stack
-    previous_movies_stack.append(current_movie_data)
-
-    # Render the movie template, also passing the length of previous_movies_stack for UI control
-    return render_template('movie.html',
-                           movie=current_movie_data,
-                           current_user=current_user,
-                           previous_count=len(previous_movies_stack))
 
 
 @app.route('/previous_movie', methods=['GET', 'POST'])
