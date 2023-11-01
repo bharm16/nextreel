@@ -75,6 +75,12 @@ class MovieQueue:
 
         if rows:
             for row in rows:
+                # Check the stop_thread flag before adding a movie to the queue
+                with self.lock:
+                    if self.stop_thread:
+                        print("Stopping populate_movie_queue because stop_thread is True.")
+                        break
+
                 tconst = row['tconst'] if row else None
                 print(f"Processing movie with tconst: {tconst}")
 
@@ -85,13 +91,11 @@ class MovieQueue:
 
                     tmdb_id = get_tmdb_id_by_tconst(tconst)
                     movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
-                    # print(f"Fetched additional info from TMDb for movie with tmdb_id: {tmdb_id}")
 
                     movie_data = {
                         'IMDb': movie_data_imdb,
                         'TMDb': movie_data_tmdb
                     }
-                    # print(f"Combined movie data: {movie_data}")
 
                     self.queue.put(movie_data_imdb)
                     print("Added movie to movie queue.")
@@ -106,6 +110,7 @@ class MovieQueue:
                     print("Updated title basics if they were empty.")
                 else:
                     print("Movie does not pass the watched and watchlist check.")
+
 
 
 def main():
