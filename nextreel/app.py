@@ -50,16 +50,13 @@ global_criteria = {}  # Start with empty criteria; can be updated dynamically
 # Set your TMDb API key
 tmdb.API_KEY = '1ce9398920594a5521f0d53e9b33c52f'
 
-movie_queue = Queue(maxsize=25)  # Your existing queue
-movie_queue_manager = MovieQueue(db_config, movie_queue)  # Pass the queue to MovieQueue
+# Initialize movie queue and its manager
+movie_queue = Queue(maxsize=25)
+movie_queue_manager = MovieQueue(db_config, movie_queue)
 
-# Start a thread to populate the movie queue
-populate_thread = threading.Thread(target=movie_queue_manager.populate)
-populate_thread.daemon = True  # Set the thread as a daemon
-populate_thread.start()
+# Optionally check that the thread is alive
+print("Is populate_thread alive?", movie_queue_manager.is_thread_alive())
 
-# Check that the thread is alive
-print("Is populate_thread alive?", populate_thread.is_alive())
 
 
 @app.route('/movie')

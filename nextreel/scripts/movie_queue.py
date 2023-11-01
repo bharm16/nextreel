@@ -1,3 +1,4 @@
+import threading
 from queue import Queue
 import time
 from flask_login import current_user
@@ -21,9 +22,14 @@ def _get_user_data():
 class MovieQueue:
     def __init__(self, db_config, queue):
         self.db_config = db_config
-        self.queue = queue  # Use the passed-in queue instance
+        self.queue = queue
         self.movie_fetcher = ImdbRandomMovieFetcher(self.db_config)
         self.criteria = {}
+
+        # Initialize the populate thread here
+        self.populate_thread = threading.Thread(target=self.populate)
+        self.populate_thread.daemon = True  # Set the thread as a daemon
+        self.populate_thread.start()
 
     def set_criteria(self, new_criteria):
         self.criteria = new_criteria
@@ -39,11 +45,14 @@ class MovieQueue:
 
             if self.queue.qsize() < 2:
                 print("Fetching 25 movies from IMDb...")
-                self._populate_movies_batch(watched_movies, watchlist_movies)
+                self.load_movies_into_queue(watched_movies, watchlist_movies)
 
             time.sleep(1)
 
-    def _populate_movies_batch(self, watched_movies, watchlist_movies):
+    def is_thread_alive(self):
+        return self.populate_thread.is_alive()
+
+    def load_movies_into_queue(self, watched_movies, watchlist_movies):
         rows = self.movie_fetcher.fetch_random_movies25(self.criteria)
         print(f"Fetched {len(rows)} movies.")
 
@@ -59,13 +68,13 @@ class MovieQueue:
 
                     tmdb_id = get_tmdb_id_by_tconst(tconst)
                     movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
-                    print(f"Fetched additional info from TMDb for movie with tmdb_id: {tmdb_id}")
+                    # print(f"Fetched additional info from TMDb for movie with tmdb_id: {tmdb_id}")
 
                     movie_data = {
                         'IMDb': movie_data_imdb,
                         'TMDb': movie_data_tmdb
                     }
-                    print(f"Combined movie data: {movie_data}")
+                    # print(f"Combined movie data: {movie_data}")
 
                     self.queue.put(movie_data_imdb)
                     print("Added movie to movie queue.")
