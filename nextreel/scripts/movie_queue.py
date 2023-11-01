@@ -1,3 +1,4 @@
+import queue
 import threading
 from queue import Queue
 import time
@@ -41,6 +42,16 @@ class MovieQueue:
         with self.lock:
             print("Stopping the populate thread...")
             self.stop_thread = True
+
+    def empty_queue(self):
+        """Empty the movie queue."""
+        with self.lock:  # Ensure thread safety
+            while not self.queue.empty():
+                try:
+                    self.queue.get_nowait()
+                except queue.Empty:
+                    break
+            print("Emptied the movie queue.")
 
     def populate(self):
         # Initialize sets for watched_movies and watchlist_movies
@@ -138,6 +149,9 @@ def main():
 
     # Stop the populate thread
     movie_queue_manager.stop_populate_thread()
+
+    movie_queue_manager.empty_queue()
+
 
     # Check if the thread is still alive
     print(f"Is thread still alive? {movie_queue_manager.is_thread_alive()}")
