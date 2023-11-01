@@ -321,6 +321,12 @@ def set_filters():
 
     print("entering setFilters")
     movie_queue_manager.stop_populate_thread()
+    movie_queue_manager.empty_queue()
+    movie_queue_manager.is_thread_alive()
+
+    print(f"Current size of the movie queue: {movie_queue_manager.queue.qsize()}")
+
+
 
     # Render the filter settings template
     return render_template('set_filters.html')
