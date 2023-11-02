@@ -1,27 +1,44 @@
-/*.main-content{*/
-/*	width: 50%;*/
-/*	border-radius: 20px;*/
-/*	margin: 5em auto;*/
-/*	display: flex;*/
-/*}*/
-
-
-
-.row > h2{
-	color: #0e0e0e;
+body {
+    font-size: 14px;
+    height: 100%;  /* Ensure the body takes at least the full height of the viewport */
+    margin: 0;  /* Remove default margin */
+    display: flex;  /* Implement a flexbox layout */
+    flex-direction: column;  /* Stack children vertically */
+    min-height: 100vh;  /* Ensure the body takes at least the full height of the viewport */
 }
-.login_form{
-	background-color: #fff;
-	border-radius: 20px;
-	border: 1px solid #ccc;
-	width: 50%;
-	border-radius: 20px;
-	margin: 5em auto;
-	display: flex;
 
+
+
+        /* Custom class to make the header span the entire width of the page */
+        .header-full-width {
+            width: 100%;           /* Full width */
+            padding: 0 !important; /* Override padding */
+            margin: 0 !important;  /* Override margin */
+            box-shadow: none;      /* Remove shadow */
+            border-radius: 0;      /* Remove rounded corners */
+        }
+
+.row > h2 {
+    color: #0e0e0e;
+    padding-bottom: 20px;
+    /*font-size: 11px;*/
 }
+
+.login_form {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 100%;
+    padding-top: 20px;
+    margin-bottom: 100px;
+    margin-top: 100px;
+    min-height: 500px;
+    horizontal-align: left;  /* This is not a valid CSS property */
+    margin-left: 0;
+}
+
+
 form{
-	padding: 0 2em;
+	/*padding: 0 2em;*/
 }
 .form__input{
 	width: 100%;
@@ -30,12 +47,12 @@ form{
 	border-bottom: 1px solid #aaa;
 	padding: 1em .5em .5em 2em;
 	outline:none;
-	margin:1.5em auto;
+	/*margin:1.5em auto;*/
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #3cd1d7;
-	box-shadow: 0 0 5px rgba(0,80,80,.4);
+	border-bottom-color: #19c20c;
+	box-shadow: 0 0 5px rgb(255, 255, 255);
 	border-radius: 4px;
 }
 .btn{
@@ -48,8 +65,53 @@ form{
 	border: 1px solid #3cd1d7;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
+
 }
 .btn:hover, .btn:focus{
 	background-color: #2d303e;
 	color:#fff;
 }
+
+.btn-custom{
+    font-size:14px
+}
+
+.submit-button{
+
+	/*size: 12px;*/
+	background-color: #19c20c;
+	color: white;
+	min-width: 10px;
+	max-width:80px;
+	margin: 5px;
+	padding: 5px;
+	border: none;
+	    border-radius: 2px;  /* Adjust the value as needed */
+}
+
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.container {
+    margin-top: 40px;
+    margin-bottom: 220px;  /* Added bottom margin to the container */
+}
+
+
+    .header-spacing {
+        margin-bottom: 20px;  /* Adjust as needed */
+    }
+

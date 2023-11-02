@@ -1,0 +1,80 @@
+        /* Custom button styles */
+        .btn-custom {
+            background-color: #19c20c !important;
+            color: #ffffff !important;
+            border: none;
+            margin-right: 15px;
+        }
+
+        /* Hover effect for custom buttons */
+        .btn-custom:hover {
+            background-color: #19c20c;
+        }
+
+        /* Custom logo button styles */
+
+    /* Styles for the anchor tag wrapping the image */
+    .btn-logo {
+        background: transparent !important;
+        border: none !important;
+        max-width: 200px;  /* Adjust as needed */
+        max-height: 100px;  /* Adjust as needed */
+        overflow: hidden;
+        display: block;
+        text-align: center;  /* Center image horizontally */
+        line-height: 100px;  /* Adjust to match height for vertical centering */
+        position: relative;  /* Ensure proper stacking context */
+
+        margin-top: -20px;
+    }
+
+    /* Styling for the logo image */
+    .navbar img {
+        max-height: 200px;  /* Adjust as needed */
+        max-width: 200px;  /* Adjust as needed */
+        display: block;  /* Ensure image is block-level */
+    }
+        /* Custom navbar styles */
+        .navbar {
+            position: sticky;
+            z-index: 1000;
+
+            max-height: 200px;
+
+            color: #343a40;  /* dark text color */
+            margin-top:-15px;
+            background-color: transparent;
+        }
+
+
+
+        /* Style for nav links */
+        .navbar a {
+            color: #343a40;  /* dark text color */
+        }
+
+        .all-navbar-buttons-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+
+
+        }
+
+        /* Wrapper for logo button */
+        .logo-wrapper {
+
+            vertical-align: top;
+            align-content: baseline;
+            max-height: 100px;
+            margin-left: -30px;
+        }
+
+        /* Wrapper for right-side buttons */
+        .button-wrapper {
+            display: flex;
+
+            vertical-align: bottom;
+        }

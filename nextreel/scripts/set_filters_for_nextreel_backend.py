@@ -69,12 +69,12 @@ class ImdbRandomMovieFetcher:
         # Execute the query and fetch the random rows
         random_rows = execute_query(self.db_config, full_query, parameters, fetch='all')
 
-        if random_rows:
-            print("Fetched 25 random movies:")
-            for i, row in enumerate(random_rows):
-                print(f"Row {i + 1}: {row}")
-        else:
-            print("No movies found based on the given criteria.")
+        # if random_rows:
+        #     print("Fetched 25 random movies:")
+        #     for i, row in enumerate(random_rows):
+        #         print(f"Row {i + 1}: {row}")
+        # else:
+        #     print("No movies found based on the given criteria.")
 
         return random_rows if random_rows else None
 

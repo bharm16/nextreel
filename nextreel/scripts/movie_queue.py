@@ -70,7 +70,7 @@ class MovieQueue:
 
             # Check if the queue size is less than 2 and populate accordingly
             if self.queue.qsize() < 2:
-                print("Fetching 25 movies from IMDb...")
+                # print("Fetching 25 movies from IMDb...")
                 self.load_movies_into_queue(watched_movies, watchlist_movies)
 
             # Sleep for 1 second before the next iteration
@@ -85,7 +85,7 @@ class MovieQueue:
     def load_movies_into_queue(self, watched_movies, watchlist_movies):
         # Fetch a batch of 25 movies based on the criteria
         rows = self.movie_fetcher.fetch_random_movies25(self.criteria)
-        print(f"Fetched {len(rows)} movies.")
+        # print(f"Fetched {len(rows)} movies.")
 
         # If there are rows to process
         if rows:
@@ -99,15 +99,15 @@ class MovieQueue:
 
                 # Get the tconst value from the row
                 tconst = row['tconst'] if row else None
-                print(f"Processing movie with tconst: {tconst}")
+                # print(f"Processing movie with tconst: {tconst}")
 
                 # Check if the movie is not in watched or watchlist sets
                 if tconst and (tconst not in watched_movies) and (tconst not in watchlist_movies):
-                    print("Movie passes the watched and watchlist check.")
+                    # print("Movie passes the watched and watchlist check.")
 
                     # Wait until the queue size drops below 10
                     while self.queue.qsize() >= 10:
-                        print("Queue size is 10 or more, waiting...")
+                        # print("Queue size is 10 or more, waiting...")
                         time.sleep(1)  # Wait for 1 second before re-checking
 
                     # Create a Movie object and fetch its IMDb data
@@ -126,7 +126,7 @@ class MovieQueue:
 
                     # Add the movie data to the queue
                     self.queue.put(movie_data_imdb)
-                    print("Added movie to movie queue.")
+                    # print("Added movie to movie queue.")
 
                     # Update the database if title basics are empty
                     update_title_basics_if_empty(
@@ -136,7 +136,7 @@ class MovieQueue:
                         movie_data_imdb['languages'],
                         self.db_config
                     )
-                    print("Updated title basics if they were empty.")
+                    # print("Updated title basics if they were empty.")
                 else:
                     print("Movie does not pass the watched and watchlist check.")
 

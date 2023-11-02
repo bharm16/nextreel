@@ -6,6 +6,10 @@ body{margin-top:20px;}
 webkit-box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
     box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
     padding:60px;
+    background-color: #02243FFF;
+    color: #fff;
+
+
 }
 .footer_area .row {
     margin-left: -25px;
@@ -124,7 +128,7 @@ webkit-box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
     text-align: center;
     width: 40px;
     display: inline-block;
-    background-color: #f5f5ff;
+    background-color: #02243f;
     line-height: 40px;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -135,7 +139,7 @@ webkit-box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
 }
 .footer_social_area a:hover,
 .footer_social_area a:focus {
-    color: #ffffff;
+    color: #02243f;
 }
 
 @-webkit-keyframes bi-cycle {
