@@ -1,26 +1,20 @@
 # Import required libraries
-import threading
 import time
-
-from queue import Queue, Empty
+from queue import Queue
 
 import tmdb
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user, user_logged_in
-from flask_security import Security, SQLAlchemyUserDatastore
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, redirect, url_for, jsonify
+from flask_login import login_required, user_logged_in
+from flask_security import hash_password
 
-from nextreel.flask_security import user_datastore, db, User, Role
+from nextreel import flask_security
+from nextreel.flask_security import db, setup_security
 from nextreel.scripts.account import Account
 from nextreel.scripts.db_config_scripts import db_config, user_db_config
-from nextreel.scripts.get_user_account import get_user_by_id, get_all_watched_movie_details_by_user, \
-    get_all_movies_in_watchlist
-from nextreel.scripts.log_movie_to_account import update_title_basics_if_empty
-from nextreel.scripts.movie import Movie
+from nextreel.scripts.get_user_account import get_all_movies_in_watchlist
 from nextreel.scripts.movie_queue import MovieQueue
-from nextreel.scripts.person import Person
 from nextreel.scripts.set_filters_for_nextreel_backend import ImdbRandomMovieFetcher, extract_movie_filter_criteria
-from nextreel.scripts.tmdb_data import get_tmdb_id_by_tconst, get_movie_info_by_tmdb_id, get_backdrop_image_for_home
+from nextreel.scripts.tmdb_data import get_backdrop_image_for_home
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -29,6 +23,46 @@ app.secret_key = 'some_random_secret_key'  # IMPORTANT: Change this in productio
 default_movie_tmdb_id = 62  # This is the TMDb ID for the movie "Fight Club"
 default_backdrop_url = get_backdrop_image_for_home(default_movie_tmdb_id)
 
+# Your existing database configuration
+user_db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'UserAccounts'
+}
+
+# Convert database configuration to SQLAlchemy database URI
+db_uri = f"mysql://{user_db_config['user']}:{user_db_config['password']}@{user_db_config['host']}/{user_db_config['database']}"
+
+# Configure your app to use MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'some_random_secret_key'
+app.config['SECURITY_PASSWORD_SALT'] = 'some_random_salt'
+app.config['SECURITY_REGISTERABLE'] = True
+app.config['SECURITY_RECOVERABLE'] = True
+
+# Initialize SQLAlchemy
+db.init_app(app)
+
+# # Setup Flask-Security
+# setup_security(app)
+user_datastore = setup_security(app)
+
+
+# Function to create a user and role
+def create_user():
+    with app.app_context():
+        # Create a user to test with
+        user_datastore.create_user(email="test@me.com", password=hash_password("password"))
+        db.session.commit()
+
+        # Create and assign the admin role to the admin user
+        admin_role = user_datastore.find_or_create_role(name="admin", description="Administrator")
+        admin_user = user_datastore.get_user("test@me.com")
+        user_datastore.add_role_to_user(admin_user, admin_role)
+        db.session.commit()
+
 
 # Set it as a global template variable
 @app.context_processor
@@ -36,9 +70,9 @@ def inject_default_backdrop_url():
     return dict(default_backdrop_url=default_backdrop_url)
 
 
-# Initialize Flask-Login
-login_manager = LoginManager()
-login_manager.init_app(app)
+# # Initialize Flask-Login
+# login_manager = LoginManager()
+# login_manager.init_app(app)
 
 # Variable to determine whether a user should be logged out when the home page loads
 should_logout_on_home_load = True
@@ -177,15 +211,15 @@ def watched_movies():
     return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    # Query to fetch user details from the database
-    # user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
-    user_data = get_user_by_id(user_id)
-    # If user data exists, return a User object
-    if user_data:
-        return Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
-    # Otherwise, return None
+# @login_manager.user_loader
+# def load_user(user_id):
+#     # Query to fetch user details from the database
+#     # user_data = execute_query(user_db_config, "SELECT * FROM users WHERE id=%s", (user_id,))
+#     user_data = get_user_by_id(user_id)
+#     # If user data exists, return a User object
+#     if user_data:
+#         return Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])  # Add email here
+#     # Otherwise, return None
 
 
 # Declare a global variable to store the last displayed movie
@@ -254,33 +288,6 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-# Your existing database configuration
-user_db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'caching_sha2_password',
-    'database': 'UserAccounts'
-}
-
-# Convert database configuration to SQLAlchemy database URI
-db_uri = f"mysql://{user_db_config['user']}:{user_db_config['password']}@{user_db_config['host']}/{user_db_config['database']}"
-
-# Configure your app to use MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'some_random_secret_key'
-app.config['SECURITY_PASSWORD_SALT'] = 'some_random_salt'
-app.config['SECURITY_REGISTERABLE'] = True
-app.config['SECURITY_RECOVERABLE'] = True
-
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
-
-# Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
-
-
 @user_logged_in.connect_via(app)
 def on_user_logged_in(sender, user):
     # username = request.form['username']
@@ -292,7 +299,7 @@ def on_user_logged_in(sender, user):
     #     # Create an Account instance for this user
     #     user = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
     #
-        pass
+    pass
 
 
 # @app.route('/login', methods=['GET', 'POST'])
@@ -318,38 +325,38 @@ def on_user_logged_in(sender, user):
 #     return render_template('security/login_user.html')
 
 
-# Route for logout
-@app.route('/logout')
-@login_required  # Require the user to be logged in to access this route
-def logout():
-    # Log the user out
-    logout_user()
-    # Redirect to the login page
-    return redirect(url_for('login'))
+# # Route for logout
+# @app.route('/logout')
+# @login_required  # Require the user to be logged in to access this route
+# def logout():
+#     # Log the user out
+#     logout_user()
+#     # Redirect to the login page
+#     return redirect(url_for('login'))
+#
 
-
-# Route for user registration
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-
-        result = Account.register_user(username, email, password, user_db_config)
-
-        if result == "Username already exists.":
-            flash("Username already exists.")
-            return render_template('create_account_form.html')
-
-        flash("ShowModal")
-        return redirect(url_for('login'))
-
-    return render_template('create_account_form.html')
-
+# # Route for user registration
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('home'))
+#
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         email = request.form['email']
+#
+#         result = Account.register_user(username, email, password, user_db_config)
+#
+#         if result == "Username already exists.":
+#             flash("Username already exists.")
+#             return render_template('create_account_form.html')
+#
+#         flash("ShowModal")
+#         return redirect(url_for('login'))
+#
+#     return render_template('create_account_form.html')
+#
 
 # Route for setting filters
 @app.route('/setFilters')
