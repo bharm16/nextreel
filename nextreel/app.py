@@ -6,8 +6,11 @@ from queue import Queue, Empty
 
 import tmdb
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, user_logged_in
+from flask_security import Security, SQLAlchemyUserDatastore
+from flask_sqlalchemy import SQLAlchemy
 
+from nextreel.flask_security import user_datastore, db, User, Role
 from nextreel.scripts.account import Account
 from nextreel.scripts.db_config_scripts import db_config, user_db_config
 from nextreel.scripts.get_user_account import get_user_by_id, get_all_watched_movie_details_by_user, \
@@ -251,27 +254,68 @@ def seen_it():
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
+# Your existing database configuration
+user_db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'caching_sha2_password',
+    'database': 'UserAccounts'
+}
 
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+# Convert database configuration to SQLAlchemy database URI
+db_uri = f"mysql://{user_db_config['user']}:{user_db_config['password']}@{user_db_config['host']}/{user_db_config['database']}"
 
-        # Call the class method, passing in db_config explicitly
-        user_data = Account.login_user(username, password, user_db_config)
+# Configure your app to use MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'some_random_secret_key'
+app.config['SECURITY_PASSWORD_SALT'] = 'some_random_salt'
+app.config['SECURITY_REGISTERABLE'] = True
+app.config['SECURITY_RECOVERABLE'] = True
 
-        if user_data:
-            # Create an Account instance for this user
-            user = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
-            login_user(user)
-            return redirect(url_for('home'))
-        else:
-            flash("Invalid username or password")
+# Initialize SQLAlchemy
+db = SQLAlchemy(app)
 
-    return render_template('user_login.html')
+# Setup Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
+
+
+@user_logged_in.connect_via(app)
+def on_user_logged_in(sender, user):
+    # username = request.form['username']
+    # password = request.form['password']
+    #
+    # user_data = Account.login_user(username, password, user_db_config)
+    #
+    # if user_data:
+    #     # Create an Account instance for this user
+    #     user = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
+    #
+        pass
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('home'))
+#
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#
+#         # Call the class method, passing in db_config explicitly
+#         user_data = Account.login_user(username, password, user_db_config)
+#
+#         if user_data:
+#             # Create an Account instance for this user
+#             user = Account(id=user_data['id'], username=user_data['username'], email=user_data['email'])
+#             login_user(user)
+#             return redirect(url_for('home'))
+#         else:
+#             flash("Invalid username or password")
+#
+#     return render_template('security/login_user.html')
 
 
 # Route for logout
