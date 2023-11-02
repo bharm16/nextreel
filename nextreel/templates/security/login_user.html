@@ -49,7 +49,7 @@
             <div class="info-above-login mb-4">
                <h2 class="header-spacing">Login to your account</h2>
                 <p>In order to use the logging abilities of nextreel, you will need to login to your account. If you do not have an account, registering for an account is free and simple.</p>
-                <p><a href="/register">Click here to get started.</a></p>
+                <p><a href="{{ url_for_security('register') }}" class="btn btn-success">Register</a></p>
                 <p>If you signed up but didn't get your verification email, <a href="/resend-verification">click here</a> to have it resent.</p>
             </div>
 
