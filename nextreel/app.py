@@ -188,10 +188,10 @@ from nextreel.scripts.sort_and_filter import sort_movies, get_filtered_watched_m
 @login_required
 def watched_movies():
     # Initialize Account object with current user's details
-    current_account = Account(id=current_user.id, username=current_user.username, email=current_user.email)
+    current_account = Account(current_user)
 
     # Fetch all watched movie details for the current user
-    watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
+    watched_movies_list = current_account.get_watched_movies_by_user()
 
     imdb_score_min = request.args.get('imdb_score_min', default=None, type=float)
     imdb_score_max = request.args.get('imdb_score_max', default=None, type=float)
@@ -222,7 +222,7 @@ def watched_movies():
     if watched_movie_details is None or len(watched_movie_details) == 0:
         flash("No watched movies found for this user.")
 
-    return render_template('watched_movies.html', watched_movie_details=watched_movie_details)
+    return render_template('watched_movies.html', watched_movie_details=watched_movies_list)
 
 
 # @login_manager.user_loader
@@ -288,17 +288,25 @@ def next_movie():
                            previous_count=len(previous_movies_stack))
 
 
-# Assuming current_user is an instance of Account
 @app.route('/seen_it', methods=['POST'])
 @login_required
 def seen_it():
     global current_displayed_movie
     if current_displayed_movie:
+        # Retrieve the movie identifier
         tconst = current_displayed_movie.get("imdb_id")
-        current_user.log_movie_to_user_account(current_user.id, current_user.username, tconst, current_displayed_movie,
+
+        # Get the user ID using Flask-Security-Too's get_id() method
+        user_id = current_user.get_id()
+
+        # Log the movie as seen for the current user, using the retrieved user ID
+        current_user.log_movie_to_user_account(user_id, current_user.username, tconst, current_displayed_movie,
                                                user_db_config)
+
+        # Redirect to the 'movie' route
         return redirect(url_for('movie'))
     else:
+        # Return a JSON response indicating failure if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
@@ -391,21 +399,33 @@ def set_filters():
 def add_to_watchlist():
     global current_displayed_movie  # Consider using a different state management approach
     if current_displayed_movie:
+        # Retrieve the movie identifier
         tconst = current_displayed_movie.get("imdb_id")
 
-        # Assuming current_user is an instance of Account
-        current_user.add_movie_to_watchlist(current_user.id, current_user.username, tconst, current_displayed_movie,
+        # Get the user ID using Flask-Security-Too's get_id() method
+        user_id = current_user.get_id()
+
+        # Add the movie to the watchlist for the current user, using the retrieved user ID
+        current_user.add_movie_to_watchlist(user_id, current_user.username, tconst, current_displayed_movie,
                                             user_db_config)
 
+        # Redirect to the 'movie' route
         return redirect(url_for('movie'))
     else:
+        # Return a JSON response indicating failure if no movies are in the queue
         return jsonify({'status': 'failure', 'message': 'No movies in the queue'}), 400
 
 
 @app.route('/user_watch_list')
 @login_required
 def user_watch_list():
-    watchlist_movies = get_all_movies_in_watchlist(current_user.id)
+    # Get the user ID using Flask-Security-Too's get_id() method
+    user_id = current_user.get_id()
+
+    # Fetch all movies in the watchlist for the current user using the retrieved user ID
+    watchlist_movies = get_all_movies_in_watchlist(user_id)
+
+    # Render the watchlist template with the fetched movies
     return render_template('user_watchlist.html', watchlist_movies=watchlist_movies)
 
 

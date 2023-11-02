@@ -1,115 +1,80 @@
 import imdb
 import pymysql
 
-from nextreel.scripts.db_config_scripts import user_db_config, db_config
-from nextreel.scripts.mysql_query_builder import execute_query, GET_USER_BY_USERNAME, GET_USER_BY_ID, GET_ALL_USERS, \
-    INSERT_NEW_USER, GET_WATCHED_MOVIES, GET_WATCHED_MOVIE_POSTERS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, \
-    GET_ALL_MOVIES_IN_WATCHLIST, GET_WATCHED_MOVIE_DETAILS
+from nextreel.models import User, WatchedMovies, UserWatchlist, Movie, db
 
 
-def get_user_login(username, password, db_config):
-    user_data = execute_query(db_config, GET_USER_BY_USERNAME, (username,))
-    if user_data and user_data['password'] == password:
-        return user_data
+def get_user_login(username, password, user_datastore):
+    user = user_datastore.find_user(username=username)
+    if user and user_datastore.verify_password(password, user.password):
+        return user
     else:
         return None
 
 
+# The other functions would need to be modified similarly, replacing raw SQL queries with ORM operations.
+
+
 def get_user_by_id(user_id):
-    return execute_query(user_db_config, GET_USER_BY_ID, (user_id,))
+    # Use the SQLAlchemy query API to get the user by ID
+    return User.query.get(user_id)
 
 
 def get_user_by_username(username):
-    return execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
+    # Use the SQLAlchemy query API to get the user by username
+    return User.query.filter_by(username=username).first()
 
 
 def get_all_users():
-    return execute_query(user_db_config, GET_ALL_USERS, fetch='all')
+    # Use the SQLAlchemy query API to get all users
+    return User.query.all()
 
 
-def insert_new_user(username, email, password):
-    existing_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
-    if existing_user:
-        return "Username already exists."
-    execute_query(user_db_config, INSERT_NEW_USER, (username, email, password), fetch='none')
-    new_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
-    return {"message": f"User created successfully with ID {new_user['id']}.", "id": new_user['id']}
+def get_watched_movie_posters(user_id):
+    # Query WatchedMovie and join with Movie to get the poster URLs
+    watched_movies = WatchedMovies.query.filter_by(user_id=user_id).join(Movie).all()
+    return [{'url': wm.movie.poster_url, 'tconst': wm.tconst} for wm in watched_movies]
 
 
-def transform_poster_data(row):
-    return {'url': row['poster_url'], 'tconst': row['tconst']}
-
-
-# Helper function to transform watched movies data
-def transform_watched_movies(row):
-    return row['tconst']
-
-
-def get_watched_movie_posters(user_id, db_config):
-    print("Entered get_watched_movie_posters function.")
-    rows = execute_query(db_config, GET_WATCHED_MOVIE_POSTERS, params=(user_id,), fetch='all')
-    return [transform_poster_data(row) for row in rows]
-
-
-def get_watched_movies(user_id, db_config):
-    print("Entered get_watched_movies function.")
-    rows = execute_query(db_config, GET_WATCHED_MOVIES, params=(user_id,), fetch='all')
-    return [transform_watched_movies(row) for row in rows]
-
-
-def transform_movie_details(row):
-    """
-    Helper function to transform a SQL row into a dictionary
-    """
-    return {
-        'tconst': row['tconst'],
-        'title': row['title'],
-        'genres': row['genres'],
-        'directors': row['directors'],
-        'writers': row['writers'],
-        'runtimes': row['runtimes'],
-        'rating': row['rating'],
-        'votes': row['votes'],
-        'poster_url': row['poster_url']
-    }
+def get_watched_movies(user_id):
+    # Query WatchedMovie to get the watched movies for a user
+    watched_movies = WatchedMovies.query.filter_by(user_id=user_id).all()
+    return [wm.tconst for wm in watched_movies]
 
 
 def get_all_watched_movie_details_by_user(user_id):
-    all_movie_details = []
-    rows = execute_query(user_db_config, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, (user_id,), fetch='all')
-    for row in rows:
-        all_movie_details.append(transform_movie_details(row))
-    return all_movie_details  # Make sure to return the list
-
-
-
+    watched_movies = (
+        db.session.query(WatchedMovies)
+        .join(Movie, WatchedMovies.tconst == Movie.tconst)  # Explicit ON clause
+        .filter(WatchedMovies.user_id == user_id)
+        .all()
+    )
+    return watched_movies
 
 def get_watched_movie_details(tconst):
-    imdb_data = execute_query(db_config, GET_WATCHED_MOVIE_DETAILS, (tconst,), fetch='all')
-    return imdb_data  # Consider further transformation if necessary
+    # Query Movie to get details of a movie by tconst
+    return Movie.query.get(tconst)
 
 
 def get_all_movies_in_watchlist(user_id):
-    print("Entered get_all_movies_in_watchlist function.")  # Debugging line
-
-    # Execute the query
-    rows = execute_query(user_db_config, GET_ALL_MOVIES_IN_WATCHLIST, params=(user_id,), fetch='all')
-
-    # Transform the fetched rows using the helper function
-    return [transform_movie_details(row) for row in rows]
+    # Assuming you have a Watchlist model defined
+    watchlist_movies = UserWatchlist.query.filter_by(user_id=user_id).join(Movie).all()
+    return [transform_movie_details(wm.movie) for wm in watchlist_movies]
 
 
-# Example usage
-if __name__ == "__main__":
-    print("Script started.")  # Debugging line
-
-    user_by_id = get_user_by_id(17)
-    print(f"User with ID 1: {user_by_id}")  # Debugging line
-
-    user_by_username = get_user_by_username('john_doe')
-    print(f"User with username 'john_doe': {user_by_username}")  # Debugging line
-
-    all_users = get_all_users()
-    print("All users:")  # Debugging line
-    for user in all_users:
-        print(user)
+# Now, the transform_movie_details function will operate on Movie model instances
+def transform_movie_details(movie):
+    """
+    Helper function to transform a Movie model instance into a dictionary
+    """
+    return {
+        'tconst': movie.tconst,
+        'title': movie.title,
+        'genres': movie.genres,
+        'directors': movie.directors,
+        'writers': movie.writers,
+        'runtimes': movie.runtimes,
+        'rating': movie.rating,
+        'votes': movie.votes,
+        'poster_url': movie.poster_url
+    }
