@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title block for dynamic page titles -->
+    <title>{% block title %}Welcome{% endblock %}</title>
+    <!-- Using Bootstrap 5 CSS from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Add any additional styles here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+    <!-- Block for additional head content -->
+    {% block head %}{% endblock %}
+    <style>
+        h2 {
+            font-size: 24px; /* Adjust as needed */
+        }
+        /* Additional custom styles can go here */
+        {% block styles %}{% endblock %}
+    </style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<div class="container">
+    <div class="row text-left mb-12">
+        <div class="col-lg-12 col-md-8 col-sm-10 mx-auto">
+            <!-- Content block for page specific content -->
+            {% block content %}
+            <!-- Default content goes here if not overridden -->
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+
+<!-- Block for additional scripts -->
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

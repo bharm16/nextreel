@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Send Confirmation Email
+{% endblock %}
+
+{% block content %}
+<div class="info-above-login mb-4">
+    <h2 class="header-spacing">Resend Confirmation Email</h2>
+    <p>If you haven't received your confirmation email, you can resend it using the form below.</p>
+</div>
+<form action="{{ url_for_security('send_confirmation') }}" method="POST" name="send_confirmation_form">
+    {{ send_confirmation_form.hidden_tag() }}
+    <div class="form-group">
+        {{ send_confirmation_form.email.label(class="form-label") }}
+        {{ send_confirmation_form.email(class="form-control") }}
+        {% for error in send_confirmation_form.email.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Resend Confirmation Email</button>
+    </div>
+</form>
+{% endblock %}
