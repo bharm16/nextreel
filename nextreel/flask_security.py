@@ -1,6 +1,6 @@
 import uuid
 
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, url_for, flash, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, auth_required, hash_password, RoleMixin, UserMixin
 from flask_security.models import fsqla_v3 as fsqla
@@ -24,6 +24,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'some_random_secret_key'
 app.config['SECURITY_PASSWORD_SALT'] = 'some_random_salt'
 app.config['SECURITY_REGISTERABLE'] = True
+app.config['SECURITY_RECOVERABLE'] = True
+
+
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
@@ -85,6 +88,11 @@ def create_user():
     admin_role = user_datastore.find_role("admin")
     user_datastore.add_role_to_user(admin_user, admin_role)
     db.session.commit()
+
+
+
+
+
 
 
 # Other imports and Flask app setup
