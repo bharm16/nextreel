@@ -5,6 +5,7 @@ from queue import Queue
 import tmdb
 from flask import Flask, redirect, url_for, jsonify
 from flask_login import login_required, user_logged_in
+from flask_mailman import Mail
 from flask_security import hash_password
 
 from nextreel import flask_security
@@ -41,6 +42,19 @@ app.config['SECRET_KEY'] = 'some_random_secret_key'
 app.config['SECURITY_PASSWORD_SALT'] = 'some_random_salt'
 app.config['SECURITY_REGISTERABLE'] = True
 app.config['SECURITY_RECOVERABLE'] = True
+
+# Assuming you've already configured your app with MAIL settings
+# Example configuration (you'd replace these with your actual settings):
+app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'username'
+app.config['MAIL_PASSWORD'] = 'password'
+app.config['MAIL_DEFAULT_SENDER'] = 'noreply@example.com'  # Optional: Default sender
+
+# Step 4: Initialize the Mail object
+mail = Mail(app)
+
 
 # Initialize SQLAlchemy
 db.init_app(app)
