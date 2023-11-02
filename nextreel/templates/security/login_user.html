@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+    <!-- Using Bootstrap 5 CSS from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Add any additional styles here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login_form.css') }}">
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+
+     <!-- Other head content -->
+    <style>
+        h2 {
+            font-size: 24px;  /* Adjust as needed */
+        }
+    </style>
+
+
+
+
+</head>
+
+{% include 'navbar.html' %}
+<body>
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<!-- Removed main-content class -->
+<div class="container">
+    <div class="row text-left mb-12">
+        <!-- Modified column classes for a more responsive design -->
+        <div class="col-lg-12 col-md-8 col-sm-10 mx-auto">
+
+
+            <!-- New div for information above the login form -->
+            <div class="info-above-login mb-4">
+               <h2 class="header-spacing">Login to your account</h2>
+                <p>In order to use the logging abilities of nextreel, you will need to login to your account. If you do not have an account, registering for an account is free and simple.</p>
+                <p><a href="/register">Click here to get started.</a></p>
+                <p>If you signed up but didn't get your verification email, <a href="/resend-verification">click here</a> to have it resent.</p>
+            </div>
+
+
+
+<form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+    {{ login_user_form.hidden_tag() }}
+    {{ login_user_form.csrf_token }}
+    <p>
+        {{ login_user_form.email.label }}<br>
+        {{ login_user_form.email(size=32) }}<br>
+        {% for error in login_user_form.email.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ login_user_form.password.label }}<br>
+        {{ login_user_form.password(size=32) }}<br>
+        {% for error in login_user_form.password.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>{{ login_user_form.submit() }}</p>
+</form>
+
+
+        </div>
+    </div>
+</div>
+
+
+{% include 'footer.html' %}
+
+</body>
+
+
+</html>
