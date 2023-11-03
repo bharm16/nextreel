@@ -1,7 +1,8 @@
 import imdb
 import pymysql
 
-from nextreel.models import User, WatchedMovies, UserWatchlist, Movie, db
+from nextreel.models import User, WatchedMovies, UserWatchlist, db
+from nextreel.scripts.movie import Movie
 
 
 def get_user_login(username, password, user_datastore):

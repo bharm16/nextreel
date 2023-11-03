@@ -91,4 +91,4 @@ def show_create_statements_for_all_tables_in_user_accounts(db_config):
 # Example usage
 
 # Fetch and display the CREATE TABLE statements
-# show_create_statements_for_all_tables_in_user_accounts(user_db_config)
+show_create_statements_for_all_tables_in_user_accounts(user_db_config)
