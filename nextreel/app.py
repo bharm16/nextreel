@@ -192,10 +192,10 @@ from nextreel.scripts.sort_and_filter import sort_movies, get_filtered_watched_m
 @login_required
 def watched_movies():
     # Initialize Account object with current user's details
-    current_account = Account(id=current_user.id, username=current_user.username, email=current_user.email)
+    current_account = Account()
 
     # Fetch all watched movie details for the current user
-    watched_movie_details = current_account.get_watched_movies_by_user(current_account.id)
+    watched_movie_details = current_account.get_watched_movies_by_user()
 
     imdb_score_min = request.args.get('imdb_score_min', default=None, type=float)
     imdb_score_max = request.args.get('imdb_score_max', default=None, type=float)

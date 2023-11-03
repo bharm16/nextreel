@@ -1,18 +1,19 @@
-import imdb
-import pymysql
-
+from nextreel.models import User
 from nextreel.scripts.db_config_scripts import user_db_config, db_config
 from nextreel.scripts.mysql_query_builder import execute_query, GET_USER_BY_USERNAME, GET_USER_BY_ID, GET_ALL_USERS, \
-    INSERT_NEW_USER, GET_WATCHED_MOVIES, GET_WATCHED_MOVIE_POSTERS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, \
+    GET_WATCHED_MOVIES, GET_WATCHED_MOVIE_POSTERS, GET_ALL_WATCHED_MOVIE_DETAILS_BY_USER, \
     GET_ALL_MOVIES_IN_WATCHLIST, GET_WATCHED_MOVIE_DETAILS
 
 
-def get_user_login(username, password, db_config):
-    user_data = execute_query(db_config, GET_USER_BY_USERNAME, (username,))
-    if user_data and user_data['password'] == password:
-        return user_data
-    else:
-        return None
+def get_user_login(username, password):
+    # Query for the user by username
+    user = User.query.filter_by(username=username).first()
+
+    # If a user is found and the password matches
+    if user and user.password == password:
+        return user
+
+    return None
 
 
 def get_user_by_id(user_id):
@@ -27,13 +28,13 @@ def get_all_users():
     return execute_query(user_db_config, GET_ALL_USERS, fetch='all')
 
 
-def insert_new_user(username, email, password):
-    existing_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
-    if existing_user:
-        return "Username already exists."
-    execute_query(user_db_config, INSERT_NEW_USER, (username, email, password), fetch='none')
-    new_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
-    return {"message": f"User created successfully with ID {new_user['id']}.", "id": new_user['id']}
+# def insert_new_user(username, email, password):
+#     existing_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
+#     if existing_user:
+#         return "Username already exists."
+#     execute_query(user_db_config, INSERT_NEW_USER, (username, email, password), fetch='none')
+#     new_user = execute_query(user_db_config, GET_USER_BY_USERNAME, (username,))
+#     return {"message": f"User created successfully with ID {new_user['id']}.", "id": new_user['id']}
 
 
 def transform_poster_data(row):

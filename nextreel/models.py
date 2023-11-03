@@ -10,6 +10,7 @@ roles_users = db.Table('roles_users',
                        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
+
 # Define User model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +25,7 @@ class User(db.Model, UserMixin):
     #     super(User, self).__init__(**kwargs)
     #     if not self.fs_uniquifier:
     #         self.fs_uniquifier = str(uuid.uuid4())  # Ensure uniquifier is set
+
 
 # Define Role model
 class Role(db.Model, RoleMixin):
