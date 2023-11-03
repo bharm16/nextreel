@@ -6,9 +6,7 @@ import logging
 # Initialize Flask app
 app = Flask(__name__)
 
-# Configure a mock email server
-app.config['MAIL_BACKEND'] = 'console'  # Use the console backend
-app.config['MAIL_SUPPRESS_SEND'] = True  # Suppress sending emails for testing
+
 
 # Initialize Flask-Mailman
 mail = Mail(app)

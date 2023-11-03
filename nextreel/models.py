@@ -20,10 +20,10 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if not self.fs_uniquifier:
-            self.fs_uniquifier = str(uuid.uuid4())  # Ensure uniquifier is set
+    # def __init__(self, **kwargs):
+    #     super(User, self).__init__(**kwargs)
+    #     if not self.fs_uniquifier:
+    #         self.fs_uniquifier = str(uuid.uuid4())  # Ensure uniquifier is set
 
 # Define Role model
 class Role(db.Model, RoleMixin):

@@ -52,6 +52,10 @@ app.config['MAIL_USERNAME'] = 'username'
 app.config['MAIL_PASSWORD'] = 'password'
 app.config['MAIL_DEFAULT_SENDER'] = 'noreply@example.com'  # Optional: Default sender
 
+# Configure a mock email server
+app.config['MAIL_BACKEND'] = 'console'  # Use the console backend
+app.config['MAIL_SUPPRESS_SEND'] = True  # Suppress sending emails for testing
+
 # Step 4: Initialize the Mail object
 mail = Mail(app)
 
