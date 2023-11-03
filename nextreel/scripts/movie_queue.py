@@ -118,11 +118,15 @@ class MovieQueue:
                     tmdb_id = get_tmdb_id_by_tconst(tconst)
                     movie_data_tmdb = get_movie_info_by_tmdb_id(tmdb_id)
 
+
+
                     # Combine the IMDb and TMDb data
                     movie_data = {
                         'IMDb': movie_data_imdb,
                         'TMDb': movie_data_tmdb
                     }
+                    movie_data_imdb['backdrop_path'] = movie_data_tmdb.get('backdrop_path', None)
+
 
                     # Add the movie data to the queue
                     self.queue.put(movie_data_imdb)

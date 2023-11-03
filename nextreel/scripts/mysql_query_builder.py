@@ -5,13 +5,13 @@ import pymysql
 
 
 # Query to fetch user details based on the username
-GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username=%s"
+GET_USER_BY_USERNAME = "SELECT * FROM user WHERE username=%s"
 
 # Query to fetch user details by ID
-GET_USER_BY_ID = "SELECT * FROM users WHERE id=%s"
+GET_USER_BY_ID = "SELECT * FROM user WHERE id=%s"
 
 # Query to fetch all users
-GET_ALL_USERS = "SELECT * FROM users"
+GET_ALL_USERS = "SELECT * FROM user"
 
 # Query to insert a new user
 INSERT_NEW_USER = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"

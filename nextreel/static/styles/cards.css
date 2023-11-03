@@ -8,43 +8,15 @@ main {
 }
 
 .card {
-  width: 16rem;
-  height: 26rem;
+  width: 24rem;
+  height: 36rem;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  color: #f0f0f0;
+  color: rgb(240, 240, 240);
   box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
 }
-
-/* Ensure these elements are above the overlay */
-.card h2, .card p, .card a, .card-content {
-    z-index: 2;
-    position: relative;
-}
-
-
-/* New overlay styles */
-.overlay {
-    position: absolute; /* Position it over the image */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-    z-index: 1; /* Make sure it's above the image */
-            text-align: center;
-
-}
-
-/* Modified existing styles */
-.card-content, .card a, .card p {
-    /* ... other styles ... */
-    z-index: 2; /* Make sure text and content are above the overlay */
-    position: relative; /* This is needed to make z-index work */
-}
-
 .card img {
   position: absolute;
   object-fit: cover;
@@ -54,12 +26,10 @@ main {
   left: 0;
   opacity: 0.9;
   transition: opacity 0.2s ease-out;
-        z-index: 0; /* Make sure it's below the overlay */
-
 }
 .card h2 {
   position: absolute;
-  /*inset: auto auto 30px 30px;*/
+  inset: auto auto 30px 30px;
   margin: 0;
   transition: inset 0.3s 0.3s ease-out;
   font-family: "Roboto Condensed", sans-serif;
@@ -69,71 +39,32 @@ main {
 .card p, .card a {
   position: absolute;
   opacity: 0;
-  max-width: 90%;
+  max-width: 80%;
   transition: opacity 0.3s ease-out;
-    text-align: center;
 }
 .card p {
-  position: absolute;  /* Required for 'inset' to work */
-  inset: 50% auto auto 50%;  /* Center top-left corner of the element to the center of its parent */
-  transform: translate(-50%, -50%);  /* Move back by half of its own width and height */
-  text-align: center;  /* Center the text within the element */
+  inset: auto auto 80px 30px;
 }
-/* Updated styles for .card a */
-/* Updated styles for .card a */
 .card a {
-  position: absolute;
-  inset: auto auto 40px 50%; /* Adjust the last value (50%) to control horizontal position */
-  transform: translateX(-50%);  /* Center horizontally */
+  inset: auto auto 40px 30px;
   color: inherit;
-  text-align: center;
-  display: flex;  /* NEW: Change display to flex */
-  justify-content: center;  /* NEW: Center children horizontally */
+  text-decoration: none;
 }
-
-
 .card:hover h2 {
   inset: auto auto 220px 30px;
   transition: inset 0.3s ease-out;
-        text-align: center;
-
 }
 .card:hover p, .card:hover a {
   opacity: 1;
   transition: opacity 0.5s 0.1s ease-in;
-        text-align: center;
-
 }
 .card:hover img {
-  transition: opacity 0.8s ease-in;
-  opacity: 1;  /* Lower value to make darker */
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
 }
 
 .material-symbols-outlined {
   vertical-align: middle;
 }
 
-
-
-.card-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-}
-
-/* ... existing styles ... */
-
-.card-content {
-    /* ... existing styles ... */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-
-.button i {
-    margin-right: 30px;  /* Add some space to the right of each icon */
-}
+/*# sourceMappingURL=cards.css.map */
